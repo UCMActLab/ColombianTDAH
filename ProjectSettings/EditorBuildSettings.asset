@@ -12,7 +12,10 @@ EditorBuildSettings:
     path: Assets/Scenes/Worlds.unity
     guid: 889e2affc709d6c4393ce30709d5656a
   - enabled: 1
-    path: Assets/Scenes/Minigames/Minigame_1.unity
+    path: Assets/Scenes/River.unity
+    guid: 50c99bfcce650f143b3340773fc382cf
+  - enabled: 1
+    path: Assets/Scenes/Minigames/Atencion.unity
     guid: f3f7e9db5353ff9429bd2dd90eb27546
   - enabled: 1
     path: Assets/Scenes/Minigames/Minigame_2.unity
