@@ -14,18 +14,21 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/River.unity
     guid: 50c99bfcce650f143b3340773fc382cf
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Minigames/Atencion.unity
-    guid: f3f7e9db5353ff9429bd2dd90eb27546
-  - enabled: 1
+    guid: ea80e3b0eaa7a904fac923e1d2e59bc2
+  - enabled: 0
     path: Assets/Scenes/Minigames/Minigame_2.unity
     guid: 6e7cd34a921a06c42ada57d1bd2d2871
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Minigames/Minigame_3.unity
     guid: ee998f89e45232844a22cdc47453dccc
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Minigames/Minigame_4.unity
     guid: 7060bf8f70928db488f174f66d21558a
+  - enabled: 1
+    path: Assets/Scenes/Atencion.unity
+    guid: f7c724d599de57d45acf6c49dd82a120
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   m_UseUCBPForAssetBundles: 0

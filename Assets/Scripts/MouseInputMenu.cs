@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Drawing;
 using UnityEngine;
 
@@ -7,20 +8,36 @@ public class MouseInputMenu : MonoBehaviour
     LayerMask _layerMask;
 
     [SerializeField]
+    float _hoveringTickRate = 0.05f;
+
+    [SerializeField]
     float _raycastDistance = 10.0f;
+
+    enum MouseInteraction { HOVER, CLICK };
+
+    IEnumerator _HoveringCorroutine()
+    {
+        while(true)
+        {
+            yield return new WaitForSeconds(_hoveringTickRate);
+            TryHitBuilding(MouseInteraction.HOVER);
+        }
+    }
+    private void Start()
+    {
+        StartCoroutine(_HoveringCorroutine());
+    }
 
     // Lanzamos un Raycast para ver si colisionamos con algo :p
     private void Update()
     {
         if (Input.GetMouseButtonUp(0))
         {
-            TryHitBuilding();
+            TryHitBuilding(MouseInteraction.CLICK);
         } 
-        
-        
     }
 
-    private void TryHitBuilding()
+    private bool TryHitBuilding(MouseInteraction interaction)
     {
         Camera cam = Camera.main;
         Vector2 mousePos = new Vector2();
@@ -36,8 +53,20 @@ public class MouseInputMenu : MonoBehaviour
         
         if (hasHit)
         {
-            hit.rigidbody.gameObject.GetComponent<OnMouseInputRecieved>().onInputRecieved.Invoke();
+            OnMouseInputRecieved _input = hit.rigidbody.gameObject.GetComponent<OnMouseInputRecieved>();
+            
+            if (interaction == MouseInteraction.HOVER)
+            {
+                _input.onHoverStart.Invoke();
+                _input.SetHover(true, _hoveringTickRate);
+            }
+            else if (interaction == MouseInteraction.CLICK) 
+            {
+                _input.onClickRecieved.Invoke();
+            }
         }
+
+        return hasHit;
     }
 
     //private void OnDrawGizmos()
