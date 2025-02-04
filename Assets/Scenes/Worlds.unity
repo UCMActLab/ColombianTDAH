@@ -349,7 +349,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4546364097833488188, guid: 3585aa15d5133f04382ec41699f9172f, type: 3}
       propertyPath: m_text
-      value: Minijuego 4
+      value: "Planificaci\xF3n"
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -510,7 +510,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4546364097833488188, guid: 3585aa15d5133f04382ec41699f9172f, type: 3}
       propertyPath: m_text
-      value: Minijuego 3
+      value: "Inhibici\xF3n"
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -572,6 +572,14 @@ PrefabInstance:
       propertyPath: onInputRecieved.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_StringArgument
       value: Minigame_2
       objectReference: {fileID: 0}
+    - target: {fileID: 2732966339920686101, guid: 3585aa15d5133f04382ec41699f9172f, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2732966339920686101, guid: 3585aa15d5133f04382ec41699f9172f, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -1.44
+      objectReference: {fileID: 0}
     - target: {fileID: 3455972171604025984, guid: 3585aa15d5133f04382ec41699f9172f, type: 3}
       propertyPath: m_LocalPosition.x
       value: 3.84287
@@ -618,7 +626,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4546364097833488188, guid: 3585aa15d5133f04382ec41699f9172f, type: 3}
       propertyPath: m_text
-      value: Minijuego 2
+      value: Memoria de Trabajo
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
