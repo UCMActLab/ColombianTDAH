@@ -42,6 +42,9 @@ public class Drag : MonoBehaviour
                 _isDragging = false;
             }
         }
+        if (_isDragging) {
+            _clickedObjectDrop.PreparingToDrop(_index);
+        }
     }
 
     private bool DragObject()
@@ -59,10 +62,9 @@ public class Drag : MonoBehaviour
         // Si hay Objeto que se pueda mover
         if (hasHit && (hit.collider.GetComponent<Drag>().GetIndex() == _index))
         {
-            _isDragging = true;
-
             _clickedObjectDrop = hit.collider.gameObject.GetComponent<Drop>();
             _clickedObjectDrop.ObjectClick(_myTransform.position.y);
+            _isDragging = true;
         }
 
         return hasHit;
