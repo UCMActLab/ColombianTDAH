@@ -27,8 +27,11 @@ EditorBuildSettings:
     path: Assets/Scenes/Minigames/Minigame_4.unity
     guid: 7060bf8f70928db488f174f66d21558a
   - enabled: 1
-    path: Assets/Scenes/Atencion.unity
+    path: Assets/Scenes/Minigames/Dolphin/DolphinLevelSelector.unity
     guid: f7c724d599de57d45acf6c49dd82a120
+  - enabled: 1
+    path: Assets/Scenes/Worlds/Atencion.unity
+    guid: 030af5fe8d79000488afc5fd6e6932c4
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   m_UseUCBPForAssetBundles: 0

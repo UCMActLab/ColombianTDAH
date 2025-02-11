@@ -3,7 +3,32 @@ guid: afb295ad41699f84faef3a8acc4c3d89
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MapleTree_Bark
+    second: {fileID: 2100000, guid: 453d1fc8d5432544e96f5427cbda1361, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MapleTree_Leaves
+    second: {fileID: 2100000, guid: 1df5d1666952416469aae7e1f521e306, type: 2}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: MapleTree_Bark
+    second: {fileID: 2800000, guid: 36ce314db8fb81340872ef023a9bfd2e, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: MapleTree_Bark_Normal
+    second: {fileID: 2800000, guid: 8a048da1202e2614a8047a84ad2acebf, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: MapleTree_Leaves
+    second: {fileID: 2800000, guid: a1ec970c679819d4481b3fb23bdc45a3, type: 3}
   materials:
     materialImportMode: 2
     materialName: 0

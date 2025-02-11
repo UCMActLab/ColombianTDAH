@@ -3150,7 +3150,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 357307807867760335, guid: 3585aa15d5133f04382ec41699f9172f, type: 3}
       propertyPath: onClickRecieved.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_StringArgument
-      value: River
+      value: DolphinLevelSelector
       objectReference: {fileID: 0}
     - target: {fileID: 2732966339920686101, guid: 3585aa15d5133f04382ec41699f9172f, type: 3}
       propertyPath: m_SizeDelta.x
