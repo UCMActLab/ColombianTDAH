@@ -577,6 +577,8 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   _raycastDistance: 10
+  _pointsTextPrefab: {fileID: 6457591151725144053, guid: 3255ca04c91eda6489b3536f3c801c2e, type: 3}
+  _pointsTextLifeTime: 2
 --- !u!1 &5206078950054429161
 GameObject:
   m_ObjectHideFlags: 0

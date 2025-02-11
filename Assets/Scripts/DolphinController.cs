@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 
 public class DolphinController : MonoBehaviour
@@ -6,6 +7,9 @@ public class DolphinController : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     bool isJumping;
     bool isPirueting;
+    bool hasBeenHit;
+
+    
 
     [SerializeField, Tooltip("Capa con la que querremos que colisione (delfines)")]
     LayerMask _layerMask;
@@ -13,9 +17,15 @@ public class DolphinController : MonoBehaviour
     [SerializeField]
     float _raycastDistance = 10.0f;
 
+    [SerializeField]
+    GameObject _pointsTextPrefab;
+    [SerializeField]
+    float _pointsTextLifeTime;
+
     void Start()
     {
         animator = GetComponent<Animator>();
+        hasBeenHit = false;
     }
 
     public void Jump()
@@ -37,9 +47,10 @@ public class DolphinController : MonoBehaviour
                 isJumping = false; //no tenemos en cuenta tiempo de fade
                 break;
             case "Roll":
-                isPirueting = false;
+                isPirueting = false; hasBeenHit = false;
                 break;
         }
+        
     }
 
 
@@ -59,10 +70,16 @@ public class DolphinController : MonoBehaviour
 
             if (hasHit && (hit.transform.gameObject ==this.gameObject))
             {
-                if (isPirueting)
+                if (isPirueting&&!hasBeenHit)
                 {
+                    hasBeenHit = true;
                     Debug.Log("HIT 30000000 POINTS");
-                }
+                    Vector3 offsetHeight = new Vector3(0.0f, 2.0f, 0.0f);
+                    //texto provisional de puntos (que pasaría si hay mas de un texto?) (estan contenidos en un mismo canvas que se instancia? o varios?)
+                    GameObject pointsTetx = Instantiate(_pointsTextPrefab, this.GetComponent<Transform>().transform.position + offsetHeight, Quaternion.identity, this.GetComponent<Transform>().transform);
+                    Destroy(pointsTetx, _pointsTextLifeTime);
+                    pointsTetx.GetComponentInChildren<Rigidbody2D>().linearVelocityY = 0.5f;
+            }
                 else
                 {   
                     //haptic info, pirueta
