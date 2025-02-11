@@ -458,6 +458,8 @@ GameObject:
   - component: {fileID: 5206078949442079777}
   - component: {fileID: 5206078949442079776}
   - component: {fileID: 4139290770834608594}
+  - component: {fileID: 7986460126324560168}
+  - component: {fileID: 1915240696792901405}
   m_Layer: 6
   m_Name: Dolphin
   m_TagString: Untagged
@@ -579,6 +581,37 @@ MonoBehaviour:
   _raycastDistance: 10
   _pointsTextPrefab: {fileID: 6457591151725144053, guid: 3255ca04c91eda6489b3536f3c801c2e, type: 3}
   _pointsTextLifeTime: 2
+--- !u!114 &7986460126324560168
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5206078949442079778}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e92e5abfaf4bb54e8ab8c6f1b423e87, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _layerMask:
+    serializedVersion: 2
+    m_Bits: 64
+  _index: 0
+  _raycastDistance: 30
+--- !u!114 &1915240696792901405
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5206078949442079778}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 25f2e9498624e58439bc5881068c4574, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _raycastDistance: 30
+  _index: 0
 --- !u!1 &5206078950054429161
 GameObject:
   m_ObjectHideFlags: 0

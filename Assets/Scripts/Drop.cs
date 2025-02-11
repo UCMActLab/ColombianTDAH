@@ -26,7 +26,7 @@ public class Drop : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        _material = GetComponent<MeshRenderer>().material;
+        //_material = GetComponent<MeshRenderer>().material;
         _myTransform = transform;
         _camera = Camera.main;
         _dragComponent = GetComponent<Drag>();
@@ -42,13 +42,11 @@ public class Drop : MonoBehaviour
         _dropPlane.name = _index.ToString();
         _dropPlane.GetComponent<MeshRenderer>().enabled = false; // Invisible
         _dropPlane.GetComponent<Collider>().isTrigger = true;
-        _initialColor = _material.color;
         _initialScale = _myTransform.localScale;
     }
 
     public void DropObject(int ind)
     {
-        _material.color = _initialColor;
         _myTransform.localScale = _initialScale;
     }
 
@@ -84,8 +82,5 @@ public class Drop : MonoBehaviour
         // Cambio alttura del plano a la altura del delfin
         Vector3 planePos = _dropPlane.transform.position;
         _dropPlane.transform.position = new Vector3(planePos.x, _myTransform.position.y, planePos.z);
-
-        _material.color = Color.blue; // Color
-        _myTransform.localScale = _myTransform.localScale * 1.1f; // Escala
     }
 }

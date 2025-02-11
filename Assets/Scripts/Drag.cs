@@ -20,6 +20,9 @@ public class Drag : MonoBehaviour
     bool _draggedDolphin;
     Drop _clickedObjectDrop = null;
 
+
+    float scalerFactor = 1.3f;
+
     void Start()
     {
         cam = Camera.main;
@@ -64,6 +67,7 @@ public class Drag : MonoBehaviour
         {
             _clickedObjectDrop = hit.collider.gameObject.GetComponent<Drop>();
             _clickedObjectDrop.ObjectClick(_myTransform.position.y);
+            _myTransform.localScale = _myTransform.localScale *scalerFactor; // Escala
             _isDragging = true;
         }
 
