@@ -11422,7 +11422,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   railNumber: 3
-  colsNumber: 8
+  colsNumber: 7
 --- !u!1 &1951476797
 GameObject:
   m_ObjectHideFlags: 0

@@ -21,7 +21,7 @@ public class Drop : MonoBehaviour
 
     // Sizes
     Vector3 _initialScale;
-    Vector3 riverSize;
+    Vector3 riverDropSize;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -39,8 +39,8 @@ public class Drop : MonoBehaviour
         //Plano
         _dropPlane = GameObject.CreatePrimitive(PrimitiveType.Cube);
         _dropPlane.transform.position = new Vector3(0.0f, 0.0f, 2);
-        riverSize = new Vector3(50.0f, 0.5f, 12.0f);
-        _dropPlane.transform.localScale = riverSize;
+        riverDropSize = new Vector3(50.0f, 0.5f, 10.0f);
+        _dropPlane.transform.localScale = riverDropSize;
         _dropPlane.layer = 7; // Layer de drop
         _dropPlane.name = _index.ToString();
         _dropPlane.GetComponent<MeshRenderer>().enabled = false; // Invisible
@@ -53,13 +53,7 @@ public class Drop : MonoBehaviour
         _myTransform.localScale = _initialScale;
 
         // Centra posicion
-        Vector2 mousePos = new Vector2();
-
-        mousePos.x = Input.mousePosition.x;
-        mousePos.y = Input.mousePosition.y;
-
-        Vector3 point = _camera.ScreenToWorldPoint(new Vector3(mousePos.x, mousePos.y, _raycastDistance));
-        Vector3 dir = point - _camera.transform.position;
+        Vector3 dir = _myTransform.position - _camera.transform.position;
         bool hasHit = Physics.Raycast(_camera.transform.position, dir, out RaycastHit hit, Mathf.Infinity, _matrixLayer);
 
         if (hasHit) {
