@@ -61,7 +61,7 @@ public class Drag : MonoBehaviour
         Vector3 dir = point - cam.transform.position;
         bool hasHit = Physics.Raycast(cam.transform.position, dir, out RaycastHit hit, Mathf.Infinity, _layerMask);
 
-        Debug.DrawRay(cam.transform.position, dir, UnityEngine.Color.yellow);
+
         // Si hay Objeto que se pueda mover
         if (hasHit && (hit.collider.GetComponent<Drag>().GetIndex() == _index))
         {

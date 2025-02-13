@@ -10,17 +10,17 @@ public class Drop : MonoBehaviour
     [SerializeField]
     float _raycastDistance = 10.0f;
 
-    [SerializeField]
+    // Drop
+    GameObject _dropPlane = null;
+    LayerMask _dropLayer;
+    LayerMask _matrixLayer;
+
+    // DragComp
+    Drag _dragComponent = null;
     int _index;
 
-    LayerMask _dropLayer;
-    GameObject _dropPlane = null;
-
+    // Sizes
     Vector3 _initialScale;
-    Color _initialColor;
-
-    Drag _dragComponent = null;
-
     Vector3 riverSize;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -30,8 +30,11 @@ public class Drop : MonoBehaviour
         _myTransform = transform;
         _camera = Camera.main;
         _dragComponent = GetComponent<Drag>();
+        _index = _dragComponent.GetIndex();
 
+        // Layers
         _dropLayer = LayerMask.GetMask("Drop");
+        _matrixLayer = LayerMask.GetMask("Matrix");
 
         //Plano
         _dropPlane = GameObject.CreatePrimitive(PrimitiveType.Cube);
@@ -48,6 +51,20 @@ public class Drop : MonoBehaviour
     public void DropObject(int ind)
     {
         _myTransform.localScale = _initialScale;
+
+        // Centra posicion
+        Vector2 mousePos = new Vector2();
+
+        mousePos.x = Input.mousePosition.x;
+        mousePos.y = Input.mousePosition.y;
+
+        Vector3 point = _camera.ScreenToWorldPoint(new Vector3(mousePos.x, mousePos.y, _raycastDistance));
+        Vector3 dir = point - _camera.transform.position;
+        bool hasHit = Physics.Raycast(_camera.transform.position, dir, out RaycastHit hit, Mathf.Infinity, _matrixLayer);
+
+        if (hasHit) {
+            _myTransform.position = new Vector3(hit.transform.position.x, _dropPlane.transform.position.y, hit.transform.position.z);
+        }
     }
 
     public void PreparingToDrop(int ind)
