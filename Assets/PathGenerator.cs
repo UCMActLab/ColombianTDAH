@@ -1,0 +1,48 @@
+using UnityEngine;
+using UnityEngine.Splines;
+using Unity.Mathematics;
+
+public class PathGenerator : MonoBehaviour
+{
+
+    [SerializeField]
+    public float3 limitMin;
+    [SerializeField]
+    public float3 limitMax;
+    [SerializeField]
+    public int pathPointMin;
+    [SerializeField]
+    public int pathPointMax;
+
+
+    public SplineContainer GeneratePath(float3 initPos) {
+        int length = UnityEngine.Random.Range(pathPointMin, pathPointMax);            
+        float3[] pathPoints = new float3[length];
+
+        pathPoints[0] = initPos;
+        for (int i = 1; i < length; i++) {
+            pathPoints[i] = new float3(UnityEngine.Random.Range(limitMin.x, limitMax.x), UnityEngine.Random.Range(limitMin.y, limitMax.y), UnityEngine.Random.Range(limitMin.z, limitMax.z));
+        }
+        
+        return CreatePath(pathPoints);
+    }
+
+    SplineContainer CreatePath( float3[] pathPoints) {
+        GameObject BuceoPath = new GameObject("BuceoPath");
+        
+        var container = BuceoPath.AddComponent<SplineContainer>();
+        var spline = container.AddSpline();
+        var knots = new BezierKnot[pathPoints.Length];
+        
+        for (int i = 0; i < pathPoints.Length; i++) { //MODIFICAL PALITO PALANTE PALITO PATRAS
+            knots[i] = new BezierKnot(
+                pathPoints[i], 
+                -30 * Vector3.forward, 
+                30 * Vector3.forward);
+        }
+        
+        spline.Knots = knots;
+        
+        return container;
+    }
+}
