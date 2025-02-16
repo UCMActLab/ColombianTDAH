@@ -14,7 +14,7 @@ public class Drag : MonoBehaviour
     [SerializeField]
     float _raycastDistance = 10.0f;
     [SerializeField]
-    float _delayDragTime = 0.1f;
+    float _delayDragTime = 0.6f;
     float clickTime = 0.0f;
 
     bool _isDragging = false;
