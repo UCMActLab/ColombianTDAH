@@ -5,13 +5,14 @@ public class DolphinController : MonoBehaviour
 {
     protected Animator animator;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    bool isJumping;
-    bool isPirueting;
+
     bool hasBeenHit;
 
-    
+    public enum DolphinStates { FLOATING, DIVING, JUMPING, SPECIALJUMPING };
+    DolphinStates currentState;
 
-    [SerializeField, Tooltip("Capa con la que querremos que colisione (delfines)")]
+
+    [SerializeField, Tooltip("Capa con la que querremos clicar la vuelta especial (delfines)")]
     LayerMask _layerMask;
 
     [SerializeField]
@@ -22,21 +23,44 @@ public class DolphinController : MonoBehaviour
     [SerializeField]
     float _pointsTextLifeTime;
 
+    [SerializeField, Tooltip("Área que detecta click delfín")]
+    GameObject _colliderClickDolphin;
+
+
     void Start()
     {
         animator = GetComponent<Animator>();
         hasBeenHit = false;
+        _colliderClickDolphin.SetActive(false);
+        currentState = DolphinStates.FLOATING; //default, ajustar para que detecte si está arriba o no (por posición o diseño de nivel)
     }
 
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+        if(_colliderClickDolphin.activeSelf)
+        {
+            BoxCollider boxCollider = _colliderClickDolphin.GetComponent<BoxCollider>();
+            Gizmos.DrawWireCube(boxCollider.bounds.center, boxCollider.bounds.size);
+        }
+    }
     public void Jump()
     {
-        isJumping = true;
-        animator.SetTrigger("Jump");
+        if(currentState==DolphinStates.FLOATING || currentState == DolphinStates.DIVING)
+        {
+           currentState = DolphinStates.JUMPING;
+            animator.SetTrigger("Jump");
+            _colliderClickDolphin.SetActive(true);
+        }
     }
     public void SpecialJump()
     {
-        isPirueting = true;
-        animator.SetTrigger("SpecialJump");
+        if (currentState == DolphinStates.FLOATING || currentState == DolphinStates.DIVING)
+        {
+            currentState = DolphinStates.SPECIALJUMPING;
+            animator.SetTrigger("SpecialJump");
+            _colliderClickDolphin.SetActive(true);
+        }
     }
 
     public void OnAnimationEnded(string action) //función que se llama en evento de fin de animación 
@@ -44,13 +68,17 @@ public class DolphinController : MonoBehaviour
         switch(action)
         {
             case "Jump":
-                isJumping = false; //no tenemos en cuenta tiempo de fade
+                Debug.Log("ive ended jumping");
+                currentState = DolphinStates.FLOATING;
                 break;
             case "Roll":
-                isPirueting = false; hasBeenHit = false;
+                hasBeenHit = false;
+                Debug.Log("Ive ended rolling");
+                currentState = DolphinStates.FLOATING;
                 break;
         }
-        
+        _colliderClickDolphin.SetActive(false);
+
     }
 
 
@@ -68,17 +96,20 @@ public class DolphinController : MonoBehaviour
 
             Debug.DrawRay(cam.transform.position, dir, UnityEngine.Color.yellow);
 
-            if (hasHit && (hit.transform.gameObject ==this.gameObject))
+            if (hasHit && (hit.transform.gameObject == _colliderClickDolphin))
             {
-                if (isPirueting&&!hasBeenHit)
+            Debug.Log("I clicked the collider (jumping o rolling)");
+                if (currentState == DolphinStates.SPECIALJUMPING && !hasBeenHit)
                 {
-                    hasBeenHit = true;
                     Debug.Log("HIT 30000000 POINTS");
-                    Vector3 offsetHeight = new Vector3(0.0f, 2.0f, 0.0f);
+
+                    hasBeenHit = true;
+                    _colliderClickDolphin.SetActive(false); //esto hace que hasbeenhit no sea necesario
+
                     //texto provisional de puntos (que pasaría si hay mas de un texto?) (estan contenidos en un mismo canvas que se instancia? o varios?)
+                    Vector3 offsetHeight = new Vector3(0.0f, 2.0f, 0.0f);
                     GameObject pointsTetx = Instantiate(_pointsTextPrefab, this.GetComponent<Transform>().transform.position + offsetHeight, Quaternion.identity, this.GetComponent<Transform>().transform);
                     Destroy(pointsTetx, _pointsTextLifeTime);
-                    pointsTetx.GetComponentInChildren<Rigidbody2D>().linearVelocityY = 0.5f;
             }
                 else
                 {   

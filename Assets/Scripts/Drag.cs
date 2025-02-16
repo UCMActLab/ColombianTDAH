@@ -13,6 +13,9 @@ public class Drag : MonoBehaviour
 
     [SerializeField]
     float _raycastDistance = 10.0f;
+    [SerializeField]
+    float _delayDragTime = 0.1f;
+    float clickTime = 0.0f;
 
     bool _isDragging = false;
     Camera cam = null;
@@ -35,7 +38,14 @@ public class Drag : MonoBehaviour
         // Click izquierdo
         if (Input.GetMouseButtonDown(0))
         {
-            _draggedDolphin = DragObject();
+            clickTime = Time.time; 
+        }
+        if (Input.GetMouseButton(0) && !_isDragging)
+        {
+            if (Time.time - clickTime > _delayDragTime)
+            {
+                _draggedDolphin = DragObject();
+            }
         }
         if (Input.GetMouseButtonUp(0) && _isDragging)
         {

@@ -30,7 +30,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 730751110022670534}
-  m_LocalEulerAnglesHint: {x: -22.585709, y: -0.000042035907, z: 0.0000052995656}
+  m_LocalEulerAnglesHint: {x: -4.4810476, y: -0.000040384013, z: 0.000004908109}
 --- !u!1 &730751110022182118
 GameObject:
   m_ObjectHideFlags: 0
@@ -62,7 +62,7 @@ Transform:
   m_Children:
   - {fileID: 730751110022670532}
   m_Father: {fileID: 730751110022670550}
-  m_LocalEulerAnglesHint: {x: 75.41596, y: -179.99971, z: 0.0003029944}
+  m_LocalEulerAnglesHint: {x: 81.351425, y: -0.0005186599, z: 179.99948}
 --- !u!1 &730751110022182128
 GameObject:
   m_ObjectHideFlags: 0
@@ -93,7 +93,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 730751110022670550}
-  m_LocalEulerAnglesHint: {x: 15.593937, y: -8.948216, z: 149.64067}
+  m_LocalEulerAnglesHint: {x: 15.671913, y: -9.828428, z: 149.25113}
 --- !u!1 &730751110022182130
 GameObject:
   m_ObjectHideFlags: 0
@@ -124,7 +124,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 730751110022670550}
-  m_LocalEulerAnglesHint: {x: -68.62424, y: -0.000051019517, z: 0.00006146352}
+  m_LocalEulerAnglesHint: {x: -68.62424, y: -0.000015576972, z: 0.000015407657}
 --- !u!1 &730751110022182134
 GameObject:
   m_ObjectHideFlags: 0
@@ -159,7 +159,7 @@ Transform:
   - {fileID: 730751110022670558}
   - {fileID: 730751110022670534}
   m_Father: {fileID: 730751110022670552}
-  m_LocalEulerAnglesHint: {x: 2.058075, y: -179.99998, z: 179.99998}
+  m_LocalEulerAnglesHint: {x: -61.232758, y: -0.000010336724, z: 0.000027365713}
 --- !u!1 &730751110022182136
 GameObject:
   m_ObjectHideFlags: 0
@@ -254,7 +254,60 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 730751110022670550}
-  m_LocalEulerAnglesHint: {x: 15.593935, y: 8.948216, z: -149.64067}
+  m_LocalEulerAnglesHint: {x: 15.671914, y: 9.828427, z: -149.25113}
+--- !u!1 &2097487205444919827
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1739279780352811754}
+  - component: {fileID: 5275093690477559083}
+  m_Layer: 8
+  m_Name: SpecialJumpCollider
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1739279780352811754
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2097487205444919827}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.423, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1.5243}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5206078949442079779}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &5275093690477559083
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2097487205444919827}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 1.8035914, z: 1.0646279}
+  m_Center: {x: 0, y: 0.4017946, z: -0.032314025}
 --- !u!1 &5206078948654113443
 GameObject:
   m_ObjectHideFlags: 0
@@ -485,6 +538,7 @@ Transform:
   - {fileID: 5206078950054429166}
   - {fileID: 5206078949425501248}
   - {fileID: 5206078950212326198}
+  - {fileID: 1739279780352811754}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!205 &5206078949442079782
@@ -581,6 +635,7 @@ MonoBehaviour:
   _raycastDistance: 10
   _pointsTextPrefab: {fileID: 6457591151725144053, guid: 3255ca04c91eda6489b3536f3c801c2e, type: 3}
   _pointsTextLifeTime: 2
+  _colliderClickDolphin: {fileID: 2097487205444919827}
 --- !u!114 &7986460126324560168
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -595,7 +650,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _layerMask:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 256
   _index: 0
   _raycastDistance: 30
 --- !u!114 &1915240696792901405

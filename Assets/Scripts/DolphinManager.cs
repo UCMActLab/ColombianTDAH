@@ -66,7 +66,7 @@ public class DolphinManager : MonoBehaviour
     void Update()
     {
         currTime += Time.deltaTime;
-        if (currTime > jumpTime)
+        if (currTime >= jumpTime)
         {
             currTime = 0;
             Jump();
