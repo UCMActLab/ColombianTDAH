@@ -21,6 +21,24 @@ public class DolphinLevelManager : MonoBehaviour
     // Offset
     Vector3 _offset;
 
+    //GAME VARIABLES
+    [Header("Level variables")]
+    [SerializeField, Tooltip("Necessary points to end level")]
+    int _winPoints ;
+    int _currentPoints;
+    [SerializeField, Tooltip("Points per right special jump guess")]
+    int _specialJumpPoints;
+
+    [SerializeField]
+    DolphinUIManager _UIManager; //quizá mejor con un find o singleton, o con un prefab de ui de nivel a instanciar
+   
+    public int rightGuess()
+    {
+        _currentPoints += _specialJumpPoints;
+        _UIManager.updatePoints(_currentPoints);
+        return _specialJumpPoints;
+    }
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -43,6 +61,8 @@ public class DolphinLevelManager : MonoBehaviour
                 cubesMatrix[j, i] = CreateCube(j, i);
             }
         }
+
+        _UIManager.startLevelStats(0,0);
     }
 
     // Update is called once per frame

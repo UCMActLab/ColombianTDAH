@@ -1,11 +1,13 @@
 using TMPro;
+using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.Rendering;
 
 public class DolphinController : MonoBehaviour
 {
     protected Animator animator;
-    Buceo buceoComponent;
+    protected Buceo buceoComponent;
+    protected DolphinManager dolphinMngr;
     public enum DolphinStates { FLOATING, DIVING, JUMPING, SPECIALJUMPING };
     DolphinStates currentState;
 
@@ -34,6 +36,11 @@ public class DolphinController : MonoBehaviour
         hasBeenHit = false;
         _colliderClickDolphin.SetActive(false);
         currentState = DolphinStates.FLOATING; //default, ajustar para que detecte si está arriba o no (por posición o diseño de nivel)
+    }
+
+    public void registerDolphinManager(DolphinManager mngr)
+    {
+        dolphinMngr = mngr;
     }
 
     private void OnDrawGizmos()
@@ -80,6 +87,12 @@ public class DolphinController : MonoBehaviour
         buceoComponent.SetPath();
         currentState = DolphinStates.DIVING;
     }
+
+    public void Float() //-------------------------------
+    {
+        //float3 pos = new float3(0, 0, 0);
+        //buceoComponent.SetPath(pos);
+    }
     public void OnAnimationEnded(string action) //función que se llama en evento de fin de animación 
     {
         switch(action)
@@ -115,19 +128,22 @@ public class DolphinController : MonoBehaviour
 
             if (hasHit && (hit.transform.gameObject == _colliderClickDolphin))
             {
-            Debug.Log("I clicked the collider (jumping o rolling)");
+                Debug.Log("I clicked the collider (jumping o rolling)");
+
                 if (currentState == DolphinStates.SPECIALJUMPING && !hasBeenHit)
                 {
                     Debug.Log("HIT 30000000 POINTS");
 
                     hasBeenHit = true;
                     _colliderClickDolphin.SetActive(false); //esto hace que hasbeenhit no sea necesario
-
-                    //texto provisional de puntos (que pasaría si hay mas de un texto?) (estan contenidos en un mismo canvas que se instancia? o varios?)
+                    
+                    //creacion texto in world con puntos por la acción
+                    int plusPoints = dolphinMngr.rightGuess();
                     Vector3 offsetHeight = new Vector3(0.0f, 2.0f, 0.0f);
-                    GameObject pointsTetx = Instantiate(_pointsTextPrefab, this.GetComponent<Transform>().transform.position + offsetHeight, Quaternion.identity, this.GetComponent<Transform>().transform);
+                    GameObject pointsTetx = Instantiate(_pointsTextPrefab, transform.position + offsetHeight, Quaternion.identity, transform);
+                    pointsTetx.GetComponentInChildren<TextMeshProUGUI>().SetText(plusPoints.ToString());
                     Destroy(pointsTetx, _pointsTextLifeTime);
-            }
+                }
                 else
                 {   
                     //haptic info, pirueta

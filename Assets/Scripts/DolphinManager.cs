@@ -9,7 +9,9 @@ public class DolphinManager : MonoBehaviour
     [SerializeField]
     protected GameObject defaultSpawnPos;
     [SerializeField]
-    protected List<GameObject> dolphins; //Deberia ser una lista de controllers? 
+    protected List<GameObject> dolphins; //Deberia ser una lista de controllers? (probablemente)
+    [SerializeField]
+    DolphinLevelManager levelManager; //Esto a revisar
 
     //times
     [SerializeField]
@@ -22,7 +24,7 @@ public class DolphinManager : MonoBehaviour
     int jumpCont;
 
     //methods
-    public bool Jump()
+    private bool Jump()
     {
         int jumpingDolphin = Random.Range(0, dolphins.Count); //idea de siguiente delfin disp: copiar lista y quitar no disponible para sig random 
         DolphinController dolphinCont = dolphins[jumpingDolphin].GetComponent<DolphinController>();
@@ -48,6 +50,15 @@ public class DolphinManager : MonoBehaviour
         return success;
     }
 
+    //que llama el delfín para avisar de cosas
+    public  int rightGuess()
+    {
+        int plusPoints = levelManager.rightGuess();
+        return plusPoints; 
+    }
+    //wrong guess si quisieramos o juntarlo 
+
+    //DEMO
     public void startDemo()
     {
         for(int i = 0; i < 3; i++)
@@ -65,6 +76,12 @@ public class DolphinManager : MonoBehaviour
             dolphins = new List<GameObject>();
             GameObject defaultDolphin = GameObject.Instantiate(dolphinPrefab, defaultSpawnPos.GetComponent<Transform>().position , Quaternion.identity);
             dolphins.Add(defaultDolphin);   
+        }
+
+        //registramos el manager para los delfines para que me puedan avisar de cosas/eventos
+        for(int i = 0; i<dolphins.Count; i++)
+        {
+            dolphins[i].GetComponent<DolphinController>().registerDolphinManager(this);
         }
 
         currTime = 0;
