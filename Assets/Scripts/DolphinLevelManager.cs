@@ -15,19 +15,20 @@ public class DolphinLevelManager : MonoBehaviour
     GameObject[,] cubesMatrix;
 
     // Sizes
-    Vector3 _cubeSize;
+    [SerializeField]
     Vector3 _riverSize;
+    Vector3 _cubeSize;
 
     // Offset
+    [SerializeField]
     Vector3 _offset;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         // Calculo tamanyos
-        _riverSize = new Vector3(40.0f, 0.5f, 20.0f); // river size
         _cubeSize = new Vector3(_riverSize.x / colsNumber, 0.5f, _riverSize.z / railNumber); // cube size
-        _offset = new Vector3(-_riverSize.x / 2, 0.0f, 7.7f); // coloca centrado;
+        _offset = _offset + new Vector3(-_riverSize.x / 2, 0.0f, _riverSize.z /2); // coloca centrado;
 
         // Inicializo matrices
         occupationMatrix = new Box[colsNumber, railNumber];
@@ -60,7 +61,7 @@ public class DolphinLevelManager : MonoBehaviour
         _cubeObject.transform.position = new Vector3(x * _cubeSize.x + _cubeSize.x/2, 0.0f, -y * _cubeSize.z - _cubeSize.z/2) + _offset; // position
 
 
-        //_cubeObject.GetComponent<MeshRenderer>().enabled = false; // Invisible
+        _cubeObject.GetComponent<MeshRenderer>().enabled = false; // Invisible
         _cubeObject.GetComponent<Collider>().isTrigger = true;
         _cubeObject.layer = 8;
 
