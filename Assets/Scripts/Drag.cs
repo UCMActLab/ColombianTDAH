@@ -17,7 +17,8 @@ public class Drag : MonoBehaviour
     float _delayDragTime = 0.6f;
     float clickTime = 0.0f;
 
-    bool _isDragging = false;
+    static bool _isDragging = false;
+    bool imDragging = false;
     Camera cam = null;
     Transform _myTransform;
     bool _draggedDolphin;
@@ -38,7 +39,7 @@ public class Drag : MonoBehaviour
         // Click izquierdo
         if (Input.GetMouseButtonDown(0))
         {
-            clickTime = Time.time; 
+            clickTime = Time.time;
         }
         if (Input.GetMouseButton(0) && !_isDragging)
         {
@@ -47,16 +48,20 @@ public class Drag : MonoBehaviour
                 _draggedDolphin = DragObject();
             }
         }
-        if (Input.GetMouseButtonUp(0) && _isDragging)
+        if (Input.GetMouseButtonUp(0) && _isDragging && imDragging)
         {
             if (_draggedDolphin)
             {
-                _clickedObjectDrop.DropObject(_index);
+                if (_clickedObjectDrop != null)
+                    _clickedObjectDrop.DropObject(_index);
                 _isDragging = false;
+                imDragging = false;
             }
         }
-        if (_isDragging) {
-            _clickedObjectDrop.PreparingToDrop(_index);
+        if (imDragging)
+        {
+            if (_clickedObjectDrop != null)
+                _clickedObjectDrop.PreparingToDrop(_index);
         }
     }
 
@@ -77,8 +82,9 @@ public class Drag : MonoBehaviour
         {
             _clickedObjectDrop = hit.collider.gameObject.GetComponent<Drop>();
             _clickedObjectDrop.ObjectClick(_myTransform.position.y);
-            _myTransform.localScale = _myTransform.localScale *scalerFactor; // Escala
+            _myTransform.localScale = _myTransform.localScale * scalerFactor; // Escala
             _isDragging = true;
+            imDragging = true;
         }
 
         return hasHit;

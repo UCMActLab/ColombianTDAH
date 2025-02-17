@@ -2,6 +2,7 @@ using System;
 using UnityEngine;
 using UnityEngine.Splines;
 using UnityEngine.XR;
+using Unity.Mathematics;
 
 public class Buceo : MonoBehaviour
 {
@@ -22,7 +23,7 @@ public class Buceo : MonoBehaviour
     void Update() {
         if (splineAnimate.Container != null){
             if (splineAnimate != null && splineAnimate.ElapsedTime >= splineAnimate.Duration) {
-                SetPath();
+                SetPath(float3.zero);
             }
         }
     }
@@ -33,8 +34,9 @@ public class Buceo : MonoBehaviour
         }
     }
 
-    public void SetPath(){
-        SplineContainer sp = pathGen.GeneratePath(transform.position);
+    public void SetPath( float3 destination)
+    {
+        SplineContainer sp = pathGen.GeneratePath(transform.position, destination);
         SplineContainer aux = splineAnimate.Container;
         splineAnimate.Container = sp;
         if (aux != null)

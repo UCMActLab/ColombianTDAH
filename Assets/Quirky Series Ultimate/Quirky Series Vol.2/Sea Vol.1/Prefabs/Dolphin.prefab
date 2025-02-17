@@ -668,7 +668,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25f2e9498624e58439bc5881068c4574, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _raycastDistance: 30
+  _raycastDistance: 10
+  riverDropSize: {x: 38, y: 0.5, z: 18}
+  riverDropOffset: {x: 0, y: 0, z: -2}
 --- !u!114 &5129084848932951828
 MonoBehaviour:
   m_ObjectHideFlags: 0

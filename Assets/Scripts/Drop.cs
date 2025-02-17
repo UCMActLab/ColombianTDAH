@@ -21,12 +21,15 @@ public class Drop : MonoBehaviour
 
     // Sizes
     Vector3 _initialScale;
+    [SerializeField]
     Vector3 riverDropSize;
+    [SerializeField]
+    Vector3 riverDropOffset;
+
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        //_material = GetComponent<MeshRenderer>().material;
         _myTransform = transform;
         _camera = Camera.main;
         _dragComponent = GetComponent<Drag>();
@@ -38,8 +41,7 @@ public class Drop : MonoBehaviour
 
         //Plano
         _dropPlane = GameObject.CreatePrimitive(PrimitiveType.Cube);
-        _dropPlane.transform.position = new Vector3(0.0f, 0.0f, 2);
-        riverDropSize = new Vector3(50.0f, 0.5f, 10.0f);
+        _dropPlane.transform.position = riverDropOffset;
         _dropPlane.transform.localScale = riverDropSize;
         _dropPlane.layer = 7; // Layer de drop
         _dropPlane.name = _index.ToString();
@@ -84,8 +86,10 @@ public class Drop : MonoBehaviour
         }
 
         if (name == ind.ToString())
+        {
             //  Coloco delfin en la posicion a la del plano
             _myTransform.position = new Vector3(hit.point.x, _dropPlane.transform.position.y, hit.point.z);
+        }
     }
 
     public void ObjectClick(float dropHigh)
