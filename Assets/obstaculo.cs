@@ -3,7 +3,7 @@ using UnityEngine;
 public class Obstaculo : MonoBehaviour
 {
     Rigidbody m_Rigidbody;
-    public float m_Vel = 20f;
+    public float m_Vel = 10f;
 
     void Start()
     {

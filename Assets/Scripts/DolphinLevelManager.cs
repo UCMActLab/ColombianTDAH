@@ -23,9 +23,17 @@ public class DolphinLevelManager : MonoBehaviour
     [SerializeField]
     Vector3 _offset;
 
+    // Para obstaculos
+    RandomObjectSpawner randomObjectSpawner;
+    [SerializeField]
+    float spawnTime;
+    float currTime;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        randomObjectSpawner = GetComponent<RandomObjectSpawner>();
+
         // Calculo tamanyos
         _cubeSize = new Vector3(_riverSize.x / colsNumber, 0.5f, _riverSize.z / railNumber); // cube size
         _offset = _offset + new Vector3(-_riverSize.x / 2, 0.0f, _riverSize.z /2); // coloca centrado;
@@ -33,6 +41,8 @@ public class DolphinLevelManager : MonoBehaviour
         // Inicializo matrices
         occupationMatrix = new Box[colsNumber, railNumber];
         cubesMatrix = new GameObject[colsNumber, railNumber];
+
+        randomObjectSpawner.carrilCenetrs = new float[railNumber];
 
         // Creacion de casillas en la escena
         for (int i = 0; i < railNumber; i++) // i -> y
@@ -49,6 +59,12 @@ public class DolphinLevelManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        currTime += Time.deltaTime;
+        if (currTime >= spawnTime)
+        {
+            currTime = 0;
+            randomObjectSpawner.Spawn();
+        }
     }
 
     // Crea una casilla en la posicion indicada x,y
@@ -60,6 +76,11 @@ public class DolphinLevelManager : MonoBehaviour
         _cubeObject.transform.localScale = _cubeSize; // escala
         _cubeObject.transform.position = new Vector3(x * _cubeSize.x + _cubeSize.x/2, 0.0f, -y * _cubeSize.z - _cubeSize.z/2) + _offset; // position
 
+        if (x == 0)
+        { //en la primera casilla registra el carril en el spawner
+            randomObjectSpawner.carrilCenetrs[y] = _cubeObject.transform.position.z;
+            Debug.Log(randomObjectSpawner.carrilCenetrs[y]);
+        }
 
         _cubeObject.GetComponent<MeshRenderer>().enabled = false; // Invisible
         _cubeObject.GetComponent<Collider>().isTrigger = true;
