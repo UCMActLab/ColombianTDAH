@@ -1,19 +1,18 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 public class DolphinController : MonoBehaviour
 {
     protected Animator animator;
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-
-    bool hasBeenHit;
-
+    Buceo buceoComponent;
     public enum DolphinStates { FLOATING, DIVING, JUMPING, SPECIALJUMPING };
     DolphinStates currentState;
 
 
     [SerializeField, Tooltip("Capa con la que querremos clicar la vuelta especial (delfines)")]
     LayerMask _layerMask;
+    bool hasBeenHit;
 
     [SerializeField]
     float _raycastDistance = 10.0f;
@@ -27,9 +26,11 @@ public class DolphinController : MonoBehaviour
     GameObject _colliderClickDolphin;
 
 
+    // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         animator = GetComponent<Animator>();
+        buceoComponent = GetComponent<Buceo>();
         hasBeenHit = false;
         _colliderClickDolphin.SetActive(false);
         currentState = DolphinStates.FLOATING; //default, ajustar para que detecte si está arriba o no (por posición o diseño de nivel)
@@ -44,25 +45,41 @@ public class DolphinController : MonoBehaviour
             Gizmos.DrawWireCube(boxCollider.bounds.center, boxCollider.bounds.size);
         }
     }
-    public void Jump()
+
+    public DolphinStates getDolphinState()
     {
-        if(currentState==DolphinStates.FLOATING || currentState == DolphinStates.DIVING)
+        return currentState;
+    }
+    public bool Jump()
+    {
+        if(currentState==DolphinStates.FLOATING)
         {
            currentState = DolphinStates.JUMPING;
             animator.SetTrigger("Jump");
             _colliderClickDolphin.SetActive(true);
+            return true;
         }
+        return false;
     }
-    public void SpecialJump()
+    public bool SpecialJump()
     {
-        if (currentState == DolphinStates.FLOATING || currentState == DolphinStates.DIVING)
+        if (currentState == DolphinStates.FLOATING)
         {
             currentState = DolphinStates.SPECIALJUMPING;
             animator.SetTrigger("SpecialJump");
             _colliderClickDolphin.SetActive(true);
+            return true;
         }
+        return false;
     }
 
+    public void Dive()
+    {
+        buceoComponent.enabled = true;
+        this.GetComponent<Drag>().enabled = false; //esto dependerá de cómo juntemos input, falta que se enabelee
+        buceoComponent.SetPath();
+        currentState = DolphinStates.DIVING;
+    }
     public void OnAnimationEnded(string action) //función que se llama en evento de fin de animación 
     {
         switch(action)

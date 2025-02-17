@@ -513,6 +513,8 @@ GameObject:
   - component: {fileID: 4139290770834608594}
   - component: {fileID: 7986460126324560168}
   - component: {fileID: 1915240696792901405}
+  - component: {fileID: 5129084848932951828}
+  - component: {fileID: 8038378355741705930}
   m_Layer: 6
   m_Name: Dolphin
   m_TagString: Untagged
@@ -653,6 +655,7 @@ MonoBehaviour:
     m_Bits: 256
   _index: 0
   _raycastDistance: 30
+  _delayDragTime: 0.2
 --- !u!114 &1915240696792901405
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -666,7 +669,42 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _raycastDistance: 30
-  _index: 0
+--- !u!114 &5129084848932951828
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5206078949442079778}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea617f17715cdcd4abeb7178b1419256, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pathGen: {fileID: 0}
+--- !u!114 &8038378355741705930
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5206078949442079778}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 29a074d529cf945029ef7cf40540c9df, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Target: {fileID: 0}
+  m_PlayOnAwake: 1
+  m_LoopMode: 0
+  m_Method: 1
+  m_Duration: 1
+  m_MaxSpeed: 5
+  m_EasingMode: 0
+  m_AlignmentMode: 1
+  m_ObjectForwardAxis: 2
+  m_ObjectUpAxis: 1
+  m_StartOffset: 0
 --- !u!1 &5206078950054429161
 GameObject:
   m_ObjectHideFlags: 0

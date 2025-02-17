@@ -1,26 +1,28 @@
 using System;
 using UnityEngine;
 using UnityEngine.Splines;
+using UnityEngine.XR;
 
-public class buceo : MonoBehaviour
+public class Buceo : MonoBehaviour
 {
     SplineAnimate splineAnimate;
     [SerializeField]
     PathGenerator pathGen;
-
-    void Start( )
+    void Start()
 	{
-		splineAnimate = GetComponent<SplineAnimate>();
-        //por ahora empiezan buceando
-        SetPath(pathGen.GeneratePath(transform.position));
+        pathGen= GameObject.Find("PathGenerator").GetComponent<PathGenerator>();
+        //if(pathGen != null )
+        //{
+        //    this.enabled = false;
+        //}
+        splineAnimate = GetComponent<SplineAnimate>();
+        this.enabled = false;
     }
 
     void Update() {
         if (splineAnimate.Container != null){
             if (splineAnimate != null && splineAnimate.ElapsedTime >= splineAnimate.Duration) {
-                //AQUÍ PREGUNTARÍA AL MANAGER POR SIGUIENTE PASO
-                //segun respuesta blabla pero ahora sigue buceando
-                SetPath(pathGen.GeneratePath(transform.position));
+                SetPath();
             }
         }
     }
@@ -31,7 +33,8 @@ public class buceo : MonoBehaviour
         }
     }
 
-    public void SetPath(SplineContainer sp){
+    public void SetPath(){
+        SplineContainer sp = pathGen.GeneratePath(transform.position);
         SplineContainer aux = splineAnimate.Container;
         splineAnimate.Container = sp;
         if (aux != null)

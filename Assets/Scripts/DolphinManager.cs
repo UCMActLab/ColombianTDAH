@@ -9,7 +9,7 @@ public class DolphinManager : MonoBehaviour
     [SerializeField]
     protected GameObject defaultSpawnPos;
     [SerializeField]
-    protected List<GameObject> dolphins;
+    protected List<GameObject> dolphins; //Deberia ser una lista de controllers? 
 
     //times
     [SerializeField]
@@ -22,17 +22,19 @@ public class DolphinManager : MonoBehaviour
     int jumpCont;
 
     //methods
-    public void Jump()
+    public bool Jump()
     {
-        int jumpingDolphin = Random.Range(0, dolphins.Count);
+        int jumpingDolphin = Random.Range(0, dolphins.Count); //idea de siguiente delfin disp: copiar lista y quitar no disponible para sig random 
+        DolphinController dolphinCont = dolphins[jumpingDolphin].GetComponent<DolphinController>();
+        bool success = false;
 
         if (jumpCont == nextPirueta)
         {
-            dolphins[jumpingDolphin].GetComponent<DolphinController>().SpecialJump();
+           success = dolphinCont.SpecialJump();
         }
         else
         {
-            dolphins[jumpingDolphin].GetComponent<DolphinController>().Jump();
+            success = dolphinCont.Jump();
         }
 
         jumpCont++;
@@ -42,8 +44,17 @@ public class DolphinManager : MonoBehaviour
             jumpCont = 0;
             nextPirueta = Random.Range(0, dolphins.Count);
         }
+
+        return success;
     }
 
+    public void startDemo()
+    {
+        for(int i = 0; i < 3; i++)
+        {
+            dolphins[i].GetComponent<DolphinController>().Dive();
+        }
+    }
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -60,6 +71,8 @@ public class DolphinManager : MonoBehaviour
 
         jumpCont = 0;
         nextPirueta = Random.Range(0, dolphins.Count);
+
+        Invoke("startDemo", 4);
     }
 
     // Update is called once per frame
@@ -69,7 +82,7 @@ public class DolphinManager : MonoBehaviour
         if (currTime >= jumpTime)
         {
             currTime = 0;
-            Jump();
+            while(!Jump());
         }
     }
 }
