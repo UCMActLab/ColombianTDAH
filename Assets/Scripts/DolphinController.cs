@@ -1,6 +1,7 @@
 using TMPro;
 using UnityEngine;
 using UnityEngine.Rendering;
+using Unity.Mathematics;
 
 public class DolphinController : MonoBehaviour
 {
@@ -77,7 +78,7 @@ public class DolphinController : MonoBehaviour
     {
         buceoComponent.enabled = true;
         this.GetComponent<Drag>().enabled = false; //esto dependerá de cómo juntemos input, falta que se enabelee
-        buceoComponent.SetPath();
+        buceoComponent.SetPath(float3.zero);
         currentState = DolphinStates.DIVING;
     }
     public void OnAnimationEnded(string action) //función que se llama en evento de fin de animación 
