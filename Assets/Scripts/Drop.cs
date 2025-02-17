@@ -86,8 +86,10 @@ public class Drop : MonoBehaviour
         }
 
         if (name == ind.ToString())
+        {
             //  Coloco delfin en la posicion a la del plano
             _myTransform.position = new Vector3(hit.point.x, _dropPlane.transform.position.y, hit.point.z);
+        }
     }
 
     public void ObjectClick(float dropHigh)
