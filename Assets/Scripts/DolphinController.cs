@@ -91,7 +91,9 @@ public class DolphinController : MonoBehaviour
     public void Dive()
     {
         buceoComponent.enabled = true;
-        this.GetComponent<Drag>().enabled = false; //esto dependerá de cómo juntemos input, falta que se enabelee
+        Drag drag = this.GetComponent<Drag>();
+        drag.DeactivateDrag();
+        drag.enabled = false; //esto dependerá de cómo juntemos input, falta que se enabelee
         buceoComponent.SetPath(float3.zero);
         currentState = DolphinStates.DIVING;
     }
