@@ -60,7 +60,7 @@ public class DolphinController : MonoBehaviour
     void OnCollisionEnter(Collision collision)
     {
         Debug.Log("AUTX!");
-        //Dive();
+        Dive();
     }
 
     public DolphinStates getDolphinState()

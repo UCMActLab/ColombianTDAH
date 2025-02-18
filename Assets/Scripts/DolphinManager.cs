@@ -11,6 +11,8 @@ public class DolphinManager : MonoBehaviour
     [SerializeField]
     protected List<GameObject> dolphins; //Deberia ser una lista de controllers? (probablemente)
     protected List<GameObject> dolphinsToCheck;
+    protected List<GameObject> dolphinsToFloatCheck;
+
     [SerializeField]
     DolphinLevelManager levelManager; //Esto a revisar
 
@@ -18,6 +20,9 @@ public class DolphinManager : MonoBehaviour
     [SerializeField]
     protected float jumpTime;
     protected float currTime;
+    [SerializeField]
+    protected float floatTime;
+    protected float currFloatTime;
 
     [SerializeField]
     protected bool singlePirueta; //realmente esto dependera mucho de nivel 
@@ -57,6 +62,23 @@ public class DolphinManager : MonoBehaviour
 
     }
 
+    private bool Float()
+    {
+        int toFloatDolphin = Random.Range(0, dolphinsToFloatCheck.Count); //idea de siguiente delfin disp: copiar lista y quitar no disponible para sig random 
+        DolphinController dolphinCont = dolphinsToFloatCheck[toFloatDolphin].GetComponent<DolphinController>();
+        bool success = false;
+
+        success = dolphinCont.Float();
+
+        if (!success)
+        {
+            dolphinsToFloatCheck.Remove(dolphinsToFloatCheck[toFloatDolphin]);
+            return false;
+        }
+
+        return true;
+    }
+
 
     //que llama el delfín para avisar de cosas
     public  int rightGuess()
@@ -93,11 +115,12 @@ public class DolphinManager : MonoBehaviour
         }
 
         currTime = 0;
+        currFloatTime = 0;
 
         jumpCont = 0;
         nextPirueta = Random.Range(0, dolphins.Count);
 
-        Invoke("startDemo", 4);
+        //Invoke("startDemo", 4);
     }
 
     // Update is called once per frame
@@ -109,6 +132,14 @@ public class DolphinManager : MonoBehaviour
             currTime = 0;
             dolphinsToCheck = new List<GameObject>(dolphins);
             while (dolphinsToCheck.Count!=0&&!Jump());
+        }
+
+        currFloatTime += Time.deltaTime;
+        if (currFloatTime >= floatTime)
+        {
+            currFloatTime = 0;
+            dolphinsToFloatCheck = new List<GameObject>(dolphins);
+            while (dolphinsToFloatCheck.Count != 0 && !Float());
         }
     }
 }
