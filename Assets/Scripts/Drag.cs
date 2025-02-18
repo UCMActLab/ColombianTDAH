@@ -54,7 +54,8 @@ public class Drag : MonoBehaviour
             {
                 if (_clickedObjectDrop != null)
                     _clickedObjectDrop.DropObject(_index);
-                DeactivateDrag();
+                _isDragging = false;
+                imDragging = false;
             }
         }
         if (imDragging)
@@ -98,5 +99,6 @@ public class Drag : MonoBehaviour
     {
         _isDragging = false;
         imDragging = false;
+        GetComponent<Drop>().Belittle();
     }
 }

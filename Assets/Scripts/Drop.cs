@@ -52,7 +52,7 @@ public class Drop : MonoBehaviour
 
     public void DropObject(int ind)
     {
-        _myTransform.localScale = _initialScale;
+        Belittle();
 
         // Centra posicion
         Vector3 dir = _myTransform.position - _camera.transform.position;
@@ -97,5 +97,10 @@ public class Drop : MonoBehaviour
         // Cambio alttura del plano a la altura del delfin
         Vector3 planePos = _dropPlane.transform.position;
         _dropPlane.transform.position = new Vector3(planePos.x, _myTransform.position.y, planePos.z);
+    }
+
+    public void Belittle()
+    {
+        _myTransform.localScale = _initialScale;
     }
 }
