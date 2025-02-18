@@ -37,12 +37,17 @@ public class PathGenerator : MonoBehaviour
         var container = BuceoPath.AddComponent<SplineContainer>();
         var spline = container.AddSpline();
         var knots = new BezierKnot[pathPoints.Length];
-        
-        for (int i = 0; i < pathPoints.Length; i++) { //MODIFICAL PALITO PALANTE PALITO PATRAS
+
+        knots[0] = new BezierKnot(
+                pathPoints[0],
+                -10 * Vector3.right,
+                10 * Vector3.right);
+
+        for (int i = 1; i < pathPoints.Length; i++) {
             knots[i] = new BezierKnot(
                 pathPoints[i], 
-                -30 * Vector3.forward, 
-                30 * Vector3.forward);
+                -30 * Vector3.right, 
+                30 * Vector3.right);
         }
         
         spline.Knots = knots;
