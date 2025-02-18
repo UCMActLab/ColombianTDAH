@@ -91,8 +91,9 @@ public class DolphinController : MonoBehaviour
 
     public void Float() //-------------------------------
     {
-        //float3 pos = new float3(0, 0, 0);
-        //buceoComponent.SetPath(pos);
+        float3 pos = new float3(0, 0, 4);
+        buceoComponent.SetPath(pos);
+        currentState=DolphinStates.FLOATING;
     }
     public void OnAnimationEnded(string action) //función que se llama en evento de fin de animación 
     {

@@ -10,6 +10,7 @@ public class DolphinManager : MonoBehaviour
     protected GameObject defaultSpawnPos;
     [SerializeField]
     protected List<GameObject> dolphins; //Deberia ser una lista de controllers? (probablemente)
+    protected List<GameObject> dolphinsToCheck;
     [SerializeField]
     DolphinLevelManager levelManager; //Esto a revisar
 
@@ -26,8 +27,8 @@ public class DolphinManager : MonoBehaviour
     //methods
     private bool Jump()
     {
-        int jumpingDolphin = Random.Range(0, dolphins.Count); //idea de siguiente delfin disp: copiar lista y quitar no disponible para sig random 
-        DolphinController dolphinCont = dolphins[jumpingDolphin].GetComponent<DolphinController>();
+        int jumpingDolphin = Random.Range(0, dolphinsToCheck.Count); //idea de siguiente delfin disp: copiar lista y quitar no disponible para sig random 
+        DolphinController dolphinCont = dolphinsToCheck[jumpingDolphin].GetComponent<DolphinController>();
         bool success = false;
 
         if (jumpCont == nextPirueta)
@@ -39,6 +40,12 @@ public class DolphinManager : MonoBehaviour
             success = dolphinCont.Jump();
         }
 
+        if (!success)
+        {
+            dolphinsToCheck.Remove(dolphinsToCheck[jumpingDolphin]);
+            return false;
+        }
+
         jumpCont++;
 
         if(jumpCont == dolphins.Count - 1)
@@ -46,9 +53,10 @@ public class DolphinManager : MonoBehaviour
             jumpCont = 0;
             nextPirueta = Random.Range(0, dolphins.Count);
         }
+        return true;
 
-        return success;
     }
+
 
     //que llama el delfín para avisar de cosas
     public  int rightGuess()
@@ -61,7 +69,7 @@ public class DolphinManager : MonoBehaviour
     //DEMO
     public void startDemo()
     {
-        for(int i = 0; i < 3; i++)
+        for(int i = 0; i < 5; i++)
         {
             dolphins[i].GetComponent<DolphinController>().Dive();
         }
@@ -99,7 +107,8 @@ public class DolphinManager : MonoBehaviour
         if (currTime >= jumpTime)
         {
             currTime = 0;
-            while(!Jump());
+            dolphinsToCheck = new List<GameObject>(dolphins);
+            while (dolphinsToCheck.Count!=0&&!Jump());
         }
     }
 }
