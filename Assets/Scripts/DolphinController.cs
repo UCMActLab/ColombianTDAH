@@ -3,6 +3,7 @@ using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.Rendering;
 using Unity.Mathematics;
+using System.Collections;
 
 public class DolphinController : MonoBehaviour
 {
@@ -54,6 +55,12 @@ public class DolphinController : MonoBehaviour
         }
     }
 
+    void OnCollisionEnter(Collision collision)
+    {
+        Debug.Log("AUTX!");
+        //Dive();
+    }
+
     public DolphinStates getDolphinState()
     {
         return currentState;
@@ -100,12 +107,12 @@ public class DolphinController : MonoBehaviour
         switch(action)
         {
             case "Jump":
-                Debug.Log("ive ended jumping");
+                //Debug.Log("ive ended jumping");
                 currentState = DolphinStates.FLOATING;
                 break;
             case "Roll":
                 hasBeenHit = false;
-                Debug.Log("Ive ended rolling");
+                //Debug.Log("Ive ended rolling");
                 currentState = DolphinStates.FLOATING;
                 break;
         }
