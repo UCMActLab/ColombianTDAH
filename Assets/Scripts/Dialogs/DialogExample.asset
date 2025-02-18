@@ -26,7 +26,7 @@ MonoBehaviour:
     colombiano. "
   - "Ellos cuidan la selva y tienen tradiciones \xFAnicas que se transmiten de generaci\xF3n
     en generaci\xF3n."
-  speed: 0.025
+  speed: 0
   onStartDialog:
     m_PersistentCalls:
       m_Calls: []
