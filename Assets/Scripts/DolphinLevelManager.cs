@@ -31,22 +31,27 @@ public class DolphinLevelManager : MonoBehaviour
     [SerializeField, Tooltip("Points per right special jump guess")]
     int _specialJumpPoints;
 
+
     [SerializeField]
     DolphinUIManager _UIManager; //quizá mejor con un find o singleton, o con un prefab de ui de nivel a instanciar
    
-    public int rightGuess()
-    {
-        _currentPoints += _specialJumpPoints;
-        _UIManager.updatePoints(_currentPoints);
-        return _specialJumpPoints;
-    }
-
     // Para obstaculos
     RandomObjectSpawner randomObjectSpawner;
     [SerializeField]
     float spawnTime;
     float currTime;
+    public int rightGuess()
+    {
+        _currentPoints += _specialJumpPoints;
+        _UIManager.updatePoints(_currentPoints);
+        if (_currentPoints >= _winPoints) endGame();
+        return _specialJumpPoints;
+    }
 
+    private void endGame()
+    {
+        _UIManager.showWin();
+    }
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
