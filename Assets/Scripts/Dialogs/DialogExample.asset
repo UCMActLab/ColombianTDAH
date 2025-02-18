@@ -1,0 +1,47 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 102e424747460d8439ec950a69044bbc, type: 3}
+  m_Name: DialogExample
+  m_EditorClassIdentifier: 
+  texts:
+  - "El Amazonas colombiano es parte de la selva amaz\xF3nica, el bosque tropical
+    m\xE1s grande del mundo."
+  - "\xA1Tiene tantas plantas y animales que algunos a\xFAn no han sido descubiertos!"
+  - "En sus r\xEDos vive un delf\xEDn especial llamado \"delf\xEDn rosado\". Su color
+    puede variar entre gris y rosa seg\xFAn su edad y emoci\xF3n."
+  - "El Amazonas produce gran parte del ox\xEDgeno que respiramos. Por eso, lo llaman
+    \"el pulm\xF3n del planeta\"."
+  - "Aqu\xED crecen \xE1rboles gigantes que pueden alcanzar hasta 70 metros de altura,
+    \xA1m\xE1s altos que un edificio de 20 pisos!"
+  - "Muchas comunidades ind\xEDgenas, como los Tikuna y Huitoto, viven en el Amazonas
+    colombiano. "
+  - "Ellos cuidan la selva y tienen tradiciones \xFAnicas que se transmiten de generaci\xF3n
+    en generaci\xF3n."
+  speed: 0
+  onStartDialog:
+    m_PersistentCalls:
+      m_Calls: []
+  onFinishDialog:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 3943387981955276583, guid: 1366887b1065e6745991118e67354de4, type: 3}
+        m_TargetAssemblyTypeName: SceneLoader, Assembly-CSharp
+        m_MethodName: LoadScene
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: DolphinLevel_1
+          m_BoolArgument: 0
+        m_CallState: 2
