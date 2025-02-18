@@ -15,4 +15,12 @@ public class Obstaculo : MonoBehaviour
     {
         m_Rigidbody.linearVelocity = Vector3.left * m_Vel;
     }
+
+    void OnCollisionEnter(Collision collision)
+    {
+        Vector3 aux = Vector3.zero;
+        aux.x = m_Vel / 10;
+        aux.y = -m_Vel;
+        m_Rigidbody.linearVelocity = aux;
+    }
 }

@@ -23,12 +23,12 @@ public class DolphinUIManager : MonoBehaviour
     }
     public void startLevelStats(int level, int points)
     {
-        pointsText.SetText(level.ToString());
-        levelText.SetText(points.ToString());
+        pointsText.SetText("Level: " + level.ToString());
+        levelText.SetText("Points: " + points.ToString());
     }
     public void updatePoints(int points)
     {
-        pointsText.SetText(points.ToString());
+        pointsText.SetText("Points: " + points.ToString());
     }
 
     public void updateLevel(int level)

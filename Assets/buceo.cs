@@ -9,6 +9,8 @@ public class Buceo : MonoBehaviour
     SplineAnimate splineAnimate;
     [SerializeField]
     PathGenerator pathGen;
+    bool lastSpline;
+
     void Start()
 	{
         pathGen= GameObject.Find("PathGenerator").GetComponent<PathGenerator>();
@@ -17,14 +19,17 @@ public class Buceo : MonoBehaviour
         //    this.enabled = false;
         //}
         splineAnimate = GetComponent<SplineAnimate>();
+        lastSpline = false;
         this.enabled = false;
     }
 
     void Update() {
         if (splineAnimate.Container != null){
-            if (splineAnimate != null && splineAnimate.ElapsedTime >= splineAnimate.Duration) {
+            if (splineAnimate != null && splineAnimate.ElapsedTime >= splineAnimate.Duration && !lastSpline) {
                 SetPath(float3.zero);
             }
+            //else
+                //this.enabled = false;
         }
     }
 
@@ -36,6 +41,12 @@ public class Buceo : MonoBehaviour
 
     public void SetPath( float3 destination)
     {
+        if (!destination.Equals(new(float3.zero)))
+        {
+            Debug.Log("lastSpline");
+            //lastSpline = true;
+        }
+
         SplineContainer sp = pathGen.GeneratePath(transform.position, destination);
         SplineContainer aux = splineAnimate.Container;
         splineAnimate.Container = sp;
