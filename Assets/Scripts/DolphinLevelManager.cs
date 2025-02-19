@@ -106,7 +106,7 @@ public class DolphinLevelManager : MonoBehaviour
         if (currTime >= spawnTime)
         {
             currTime = 0;
-//            randomObjectSpawner.Spawn();
+            randomObjectSpawner.Spawn();
         }
     }
 
