@@ -21,7 +21,7 @@ public class Drag : MonoBehaviour
     bool imDragging = false;
     Camera cam = null;
     Transform _myTransform;
-    bool _draggedDolphin;
+    bool _dolphinClicked = false;
     Drop _clickedObjectDrop = null;
 
 
@@ -39,24 +39,37 @@ public class Drag : MonoBehaviour
         // Click izquierdo
         if (Input.GetMouseButtonDown(0))
         {
-            clickTime = Time.time;
-        }
-        if (Input.GetMouseButton(0) && !_isDragging)
-        {
-            if (Time.time - clickTime > _delayDragTime)
+            // Si hay Objeto que se pueda mover
+            if (IsDolphinHit())
             {
-                _draggedDolphin = DragObject();
+                clickTime = Time.time;
+                _dolphinClicked = true;
             }
+        }
+        if (Input.GetMouseButton(0) && !_isDragging && _dolphinClicked)
+        {
+            // Si mantiene pulsado encima del delfin
+            if (IsDolphinHit())
+            {
+                // Si pasa el tiempo del delay arrastra
+                if (Time.time - clickTime > _delayDragTime)
+                {
+                    DragObject();
+                }
+            }
+            // Si no mantiene pulsado sobre el delfin el contador se reinicia
+            else
+                _dolphinClicked = false;
+
         }
         if (Input.GetMouseButtonUp(0) && _isDragging && imDragging)
         {
-            if (_draggedDolphin)
-            {
-                if (_clickedObjectDrop != null)
-                    _clickedObjectDrop.DropObject(_index);
-                _isDragging = false;
-                imDragging = false;
-            }
+
+            if (_clickedObjectDrop != null)
+                _clickedObjectDrop.DropObject(_index);
+            _isDragging = false;
+            imDragging = false;
+            _dolphinClicked = false;
         }
         if (imDragging)
         {
@@ -65,7 +78,15 @@ public class Drag : MonoBehaviour
         }
     }
 
-    private bool DragObject()
+    private void DragObject()
+    {
+        _clickedObjectDrop.ObjectClick(_myTransform.position.y);
+        _myTransform.localScale = _myTransform.localScale * scalerFactor; // Escala
+        _isDragging = true;
+        imDragging = true;
+    }
+
+    private bool IsDolphinHit()
     {
         Vector2 mousePos = new Vector2();
 
@@ -76,18 +97,11 @@ public class Drag : MonoBehaviour
         Vector3 dir = point - cam.transform.position;
         bool hasHit = Physics.Raycast(cam.transform.position, dir, out RaycastHit hit, Mathf.Infinity, _layerMask);
 
+        if (hasHit)
+            _clickedObjectDrop = hit.collider.gameObject.GetComponent<Drop>();
 
         // Si hay Objeto que se pueda mover
-        if (hasHit && (hit.collider.GetComponent<Drag>().GetIndex() == _index))
-        {
-            _clickedObjectDrop = hit.collider.gameObject.GetComponent<Drop>();
-            _clickedObjectDrop.ObjectClick(_myTransform.position.y);
-            _myTransform.localScale = _myTransform.localScale * scalerFactor; // Escala
-            _isDragging = true;
-            imDragging = true;
-        }
-
-        return hasHit;
+        return (hasHit && (hit.collider.GetComponent<Drag>().GetIndex() == _index));
     }
 
     public int GetIndex()
@@ -97,8 +111,13 @@ public class Drag : MonoBehaviour
 
     public void DeactivateDrag()
     {
-        _isDragging = false;
-        imDragging = false;
-        GetComponent<Drop>().Belittle();
+        // Si el delfin que estaba arrastrando va a bucear lo suelto
+        if (imDragging)
+        {
+            _isDragging = false;
+            imDragging = false;
+            _dolphinClicked = false;
+            GetComponent<Drop>().Belittle();
+        }
     }
 }

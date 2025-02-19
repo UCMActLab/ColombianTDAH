@@ -110,6 +110,7 @@ public class DolphinController : MonoBehaviour
             buceoComponent.SetPath(pos);
             currentState=DolphinStates.FLOATING;
             isAboutToDive = false;
+            this.GetComponent<Drag>().enabled = true;
             return true;
         }
         else return false;
