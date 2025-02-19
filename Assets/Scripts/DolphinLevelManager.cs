@@ -4,6 +4,11 @@ public enum Box { Empty, Dolphin, Obstacle }
 
 public class DolphinLevelManager : MonoBehaviour
 {
+    // Singleton
+    static private DolphinLevelManager _instance;
+    public static DolphinLevelManager Instance { get { return _instance; } }
+
+
     [SerializeField]
     int railNumber = 3;
 
@@ -26,7 +31,7 @@ public class DolphinLevelManager : MonoBehaviour
     //GAME VARIABLES
     [Header("Level variables")]
     [SerializeField, Tooltip("Necessary points to end level")]
-    int _winPoints ;
+    int _winPoints;
     int _currentPoints;
     [SerializeField, Tooltip("Points per right special jump guess")]
     int _specialJumpPoints;
@@ -34,12 +39,13 @@ public class DolphinLevelManager : MonoBehaviour
 
     [SerializeField]
     DolphinUIManager _UIManager; //quizá mejor con un find o singleton, o con un prefab de ui de nivel a instanciar
-   
+
     // Para obstaculos
     RandomObjectSpawner randomObjectSpawner;
     [SerializeField]
     float spawnTime;
     float currTime;
+
     public int rightGuess()
     {
         _currentPoints += _specialJumpPoints;
@@ -52,6 +58,17 @@ public class DolphinLevelManager : MonoBehaviour
     {
         _UIManager.showWin();
     }
+
+    private void Awake()
+    {
+        // Si no hay instancia de esta clase ya creada se almacena
+        if (_instance == null)
+            _instance = this;
+        // Si está creada se destruyee porque no necesitamos una mas
+        else
+            Destroy(this.gameObject);
+    }
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -59,7 +76,7 @@ public class DolphinLevelManager : MonoBehaviour
 
         // Calculo tamanyos
         _cubeSize = new Vector3(_riverSize.x / colsNumber, 0.5f, _riverSize.z / railNumber); // cube size
-        _offset = _offset + new Vector3(-_riverSize.x / 2, 0.0f, _riverSize.z /2); // coloca centrado;
+        _offset = _offset + new Vector3(-_riverSize.x / 2, 0.0f, _riverSize.z / 2); // coloca centrado;
 
         // Inicializo matrices
         occupationMatrix = new Box[colsNumber, railNumber];
@@ -78,7 +95,8 @@ public class DolphinLevelManager : MonoBehaviour
             }
         }
 
-        _UIManager.startLevelStats(0,0);
+        _offset = _offset - new Vector3(-_riverSize.x / 2, 0.0f, _riverSize.z / 2);
+        _UIManager.startLevelStats(0, 0);
     }
 
     // Update is called once per frame
@@ -88,7 +106,7 @@ public class DolphinLevelManager : MonoBehaviour
         if (currTime >= spawnTime)
         {
             currTime = 0;
-            randomObjectSpawner.Spawn();
+//            randomObjectSpawner.Spawn();
         }
     }
 
@@ -99,7 +117,7 @@ public class DolphinLevelManager : MonoBehaviour
         GameObject _cubeObject = GameObject.CreatePrimitive(PrimitiveType.Cube);
 
         _cubeObject.transform.localScale = _cubeSize; // escala
-        _cubeObject.transform.position = new Vector3(x * _cubeSize.x + _cubeSize.x/2, 0.0f, -y * _cubeSize.z - _cubeSize.z/2) + _offset; // position
+        _cubeObject.transform.position = new Vector3(x * _cubeSize.x + _cubeSize.x / 2, 0.0f, -y * _cubeSize.z - _cubeSize.z / 2) + _offset; // position
 
         if (x == 0)
         { //en la primera casilla registra el carril en el spawner
@@ -109,6 +127,8 @@ public class DolphinLevelManager : MonoBehaviour
 
         _cubeObject.GetComponent<MeshRenderer>().enabled = false; // Invisible
         _cubeObject.GetComponent<Collider>().isTrigger = true;
+        MatrixCubeInfo cubeMatrixInfo = _cubeObject.AddComponent<MatrixCubeInfo>();
+        cubeMatrixInfo.SetXY(x, y);
         _cubeObject.layer = 8;
 
         return _cubeObject;
@@ -124,5 +144,25 @@ public class DolphinLevelManager : MonoBehaviour
     public Box GetOccupationFromMatrix(int x, int y)
     {
         return occupationMatrix[x, y];
+    }
+
+    public void SetOccupation(int x, int y, Box occupation)
+    {
+        occupationMatrix[x, y] = occupation;
+        /*Debug.Log("{ " + occupationMatrix[0,0] + " " + occupationMatrix[1, 0] + " " + occupationMatrix[2, 0] + " " + occupationMatrix[3, 0] + " " + occupationMatrix[4, 0] + " " + occupationMatrix[5, 0] + " " +occupationMatrix[6, 0] + "\n " +
+             occupationMatrix[0, 1] + " " + occupationMatrix[1, 1] + " " + occupationMatrix[2, 1] + " " + occupationMatrix[3, 1] + " " + occupationMatrix[4, 1] + " " + occupationMatrix[5, 1] + " " + occupationMatrix[6, 1] + "\n " +
+              occupationMatrix[0, 2] + " " + occupationMatrix[1, 2] + " " + occupationMatrix[2, 2] + " " + occupationMatrix[3, 2] + " " + occupationMatrix[4, 2] + " " + occupationMatrix[5, 2] + " " + occupationMatrix[6, 2] + "\n " +
+               occupationMatrix[0, 3] + " " + occupationMatrix[1, 3] + " " + occupationMatrix[2, 3] + " " + occupationMatrix[3, 3] + " " + occupationMatrix[4, 3] + " " + occupationMatrix[5, 3] + " " + occupationMatrix[6, 3] + "\n " +
+                occupationMatrix[0, 4] + " " + occupationMatrix[1, 4] + " " + occupationMatrix[2, 4] + " " + occupationMatrix[3, 4] + " " + occupationMatrix[4, 4] + " " + occupationMatrix[5, 4] + " " + occupationMatrix[6, 4] + " }");*/
+    }
+
+    public Vector3 GetRiverSize()
+    {
+        return _riverSize;
+    }
+
+    public Vector3 GetRiverOffset()
+    {
+        return _offset;
     }
 }

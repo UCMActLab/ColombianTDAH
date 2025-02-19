@@ -13,9 +13,6 @@ public class DolphinManager : MonoBehaviour
     protected List<GameObject> dolphinsToCheck;
     protected List<GameObject> dolphinsToFloatCheck;
 
-    [SerializeField]
-    DolphinLevelManager levelManager; //Esto a revisar
-
     //times
     [SerializeField]
     protected float jumpTime;
@@ -83,7 +80,7 @@ public class DolphinManager : MonoBehaviour
     //que llama el delfín para avisar de cosas
     public  int rightGuess()
     {
-        int plusPoints = levelManager.rightGuess();
+        int plusPoints = DolphinLevelManager.Instance.rightGuess();
         return plusPoints; 
     }
     //wrong guess si quisieramos o juntarlo 

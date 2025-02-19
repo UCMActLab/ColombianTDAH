@@ -6,6 +6,8 @@ public class Drop : MonoBehaviour
     Material _material;
     Transform _myTransform;
     Camera _camera;
+    Vector3 _initialPosition;
+    MatrixCubeInfo _matrixCubeInfo;
 
     [SerializeField]
     float _raycastDistance = 10.0f;
@@ -20,10 +22,10 @@ public class Drop : MonoBehaviour
     int _index;
 
     // Sizes
+    [SerializeField]
+    Vector2 margin;
     Vector3 _initialScale;
-    [SerializeField]
     Vector3 riverDropSize;
-    [SerializeField]
     Vector3 riverDropOffset;
 
 
@@ -31,9 +33,13 @@ public class Drop : MonoBehaviour
     void Start()
     {
         _myTransform = transform;
+        _initialPosition = transform.position;
         _camera = Camera.main;
         _dragComponent = GetComponent<Drag>();
         _index = _dragComponent.GetIndex();
+        _matrixCubeInfo = GetComponent<MatrixCubeInfo>();
+        riverDropSize = DolphinLevelManager.Instance.GetRiverSize() - new Vector3(margin.x, 0, margin.y);
+        riverDropOffset = DolphinLevelManager.Instance.GetRiverOffset();
 
         // Layers
         _dropLayer = LayerMask.GetMask("Drop");
@@ -58,8 +64,28 @@ public class Drop : MonoBehaviour
         Vector3 dir = _myTransform.position - _camera.transform.position;
         bool hasHit = Physics.Raycast(_camera.transform.position, dir, out RaycastHit hit, Mathf.Infinity, _matrixLayer);
 
-        if (hasHit) {
-            _myTransform.position = new Vector3(hit.transform.position.x, _dropPlane.transform.position.y, hit.transform.position.z);
+        if (hasHit)
+        {
+            // Si esta vacia la casilla cambio posicion y ocupo casilla
+            Vector2 cubePosInMatrix = hit.collider.GetComponent<MatrixCubeInfo>().GetXY();
+            if (DolphinLevelManager.Instance.GetOccupationFromMatrix((int)cubePosInMatrix.x, (int)cubePosInMatrix.y) == Box.Empty) {
+      
+                // Desocupo antigua casilla
+                Vector2 dolphinMatrixPos = _matrixCubeInfo.GetXY();
+                DolphinLevelManager.Instance.SetOccupation((int)dolphinMatrixPos.x, (int)dolphinMatrixPos.y, Box.Empty);
+
+                // Ocupo nueva casilla
+                DolphinLevelManager.Instance.SetOccupation((int)cubePosInMatrix.x, (int)cubePosInMatrix.y, Box.Dolphin);
+                _myTransform.position = new Vector3(hit.transform.position.x, _dropPlane.transform.position.y, hit.transform.position.z);
+                _matrixCubeInfo.SetXY((int)cubePosInMatrix.x, (int)cubePosInMatrix.y);
+
+                // Guardo nueva posicion
+                _initialPosition = _myTransform.position;
+            }
+
+            // Si no vuelvo a posicion inicial
+            else
+                _myTransform.position = _initialPosition;
         }
     }
 

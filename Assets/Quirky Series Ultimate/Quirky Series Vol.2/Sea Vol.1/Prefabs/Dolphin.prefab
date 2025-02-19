@@ -515,6 +515,7 @@ GameObject:
   - component: {fileID: 1915240696792901405}
   - component: {fileID: 5129084848932951828}
   - component: {fileID: 8038378355741705930}
+  - component: {fileID: 5579826418193593794}
   m_Layer: 6
   m_Name: Dolphin
   m_TagString: Untagged
@@ -631,6 +632,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 54eae2f77e073d44a996a9d8bc433555, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  currentState: 0
   _layerMask:
     serializedVersion: 2
     m_Bits: 64
@@ -669,8 +671,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _raycastDistance: 10
-  riverDropSize: {x: 38, y: 0.5, z: 18}
-  riverDropOffset: {x: 0, y: 0, z: -2}
+  margin: {x: 2, y: 2}
 --- !u!114 &5129084848932951828
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -707,6 +708,18 @@ MonoBehaviour:
   m_ObjectForwardAxis: 2
   m_ObjectUpAxis: 1
   m_StartOffset: 0
+--- !u!114 &5579826418193593794
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5206078949442079778}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7cc027e2d50b6674e93ccf59449b0485, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5206078950054429161
 GameObject:
   m_ObjectHideFlags: 0

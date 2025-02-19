@@ -2,7 +2,6 @@ using TMPro;
 using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.Rendering;
-using Unity.Mathematics;
 using System.Collections;
 using Unity.VisualScripting;
 
