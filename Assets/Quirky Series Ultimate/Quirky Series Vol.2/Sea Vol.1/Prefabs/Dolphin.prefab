@@ -265,7 +265,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1739279780352811754}
   - component: {fileID: 5275093690477559083}
-  m_Layer: 8
+  m_Layer: 9
   m_Name: SpecialJumpCollider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -635,7 +635,7 @@ MonoBehaviour:
   currentState: 0
   _layerMask:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 512
   _raycastDistance: 10
   _pointsTextPrefab: {fileID: 6457591151725144053, guid: 3255ca04c91eda6489b3536f3c801c2e, type: 3}
   _pointsTextLifeTime: 2

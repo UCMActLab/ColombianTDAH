@@ -122,7 +122,6 @@ public class DolphinLevelManager : MonoBehaviour
         if (x == 0)
         { //en la primera casilla registra el carril en el spawner
             randomObjectSpawner.carrilCenetrs[y] = _cubeObject.transform.position.z;
-            Debug.Log(randomObjectSpawner.carrilCenetrs[y]);
         }
 
         _cubeObject.GetComponent<MeshRenderer>().enabled = false; // Invisible
@@ -149,11 +148,6 @@ public class DolphinLevelManager : MonoBehaviour
     public void SetOccupation(int x, int y, Box occupation)
     {
         occupationMatrix[x, y] = occupation;
-        /*Debug.Log("{ " + occupationMatrix[0,0] + " " + occupationMatrix[1, 0] + " " + occupationMatrix[2, 0] + " " + occupationMatrix[3, 0] + " " + occupationMatrix[4, 0] + " " + occupationMatrix[5, 0] + " " +occupationMatrix[6, 0] + "\n " +
-             occupationMatrix[0, 1] + " " + occupationMatrix[1, 1] + " " + occupationMatrix[2, 1] + " " + occupationMatrix[3, 1] + " " + occupationMatrix[4, 1] + " " + occupationMatrix[5, 1] + " " + occupationMatrix[6, 1] + "\n " +
-              occupationMatrix[0, 2] + " " + occupationMatrix[1, 2] + " " + occupationMatrix[2, 2] + " " + occupationMatrix[3, 2] + " " + occupationMatrix[4, 2] + " " + occupationMatrix[5, 2] + " " + occupationMatrix[6, 2] + "\n " +
-               occupationMatrix[0, 3] + " " + occupationMatrix[1, 3] + " " + occupationMatrix[2, 3] + " " + occupationMatrix[3, 3] + " " + occupationMatrix[4, 3] + " " + occupationMatrix[5, 3] + " " + occupationMatrix[6, 3] + "\n " +
-                occupationMatrix[0, 4] + " " + occupationMatrix[1, 4] + " " + occupationMatrix[2, 4] + " " + occupationMatrix[3, 4] + " " + occupationMatrix[4, 4] + " " + occupationMatrix[5, 4] + " " + occupationMatrix[6, 4] + " }");*/
     }
 
     public Vector3 GetRiverSize()
