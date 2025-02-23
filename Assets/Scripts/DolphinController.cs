@@ -90,7 +90,7 @@ public class DolphinController : MonoBehaviour
         return false;
     }
 
-    public void Dive()
+    public void Dive() //+ probablemente haya que settear la ocupacion del cubo en la matriz (que ahora solo sabe el drop) a 0
     {
         isAboutToDive = true;
         buceoComponent.enabled = true;
@@ -105,7 +105,8 @@ public class DolphinController : MonoBehaviour
     {
         if(currentState == DolphinStates.DIVING)
         {
-            float3 pos = new float3(0, 0, 4);
+            //transform.position.x, 0, transform.position.z
+            float3 pos = (float3)DolphinLevelManager.Instance.GetNextAvailableMatrixSpot(this.transform.position);
             buceoComponent.SetPath(pos);
             currentState=DolphinStates.FLOATING;
             isAboutToDive = false;
@@ -158,10 +159,11 @@ public class DolphinController : MonoBehaviour
                     _colliderClickDolphin.SetActive(false); //esto hace que hasbeenhit no sea necesario
                     
                     //creacion texto in world con puntos por la acción
-                    int plusPoints = dolphinMngr.rightGuess();
+                    int plusPoints = dolphinMngr.RightGuess();
                     Vector3 offsetHeight = new Vector3(0.0f, 2.0f, 0.0f);
-                    GameObject pointsTetx = Instantiate(_pointsTextPrefab, transform.position + offsetHeight, Quaternion.identity, transform);
+                    GameObject pointsTetx = Instantiate(_pointsTextPrefab, transform.position + offsetHeight, Quaternion.identity); //transform
                     pointsTetx.GetComponentInChildren<TextMeshProUGUI>().SetText(plusPoints.ToString());
+               
                     Destroy(pointsTetx, _pointsTextLifeTime);
                 }
                 else

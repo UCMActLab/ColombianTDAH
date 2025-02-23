@@ -1,4 +1,10 @@
+using JetBrains.Annotations;
+using NUnit.Framework;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
+using static UnityEditor.PlayerSettings;
 
 public enum Box { Empty, Dolphin, Obstacle }
 
@@ -18,6 +24,7 @@ public class DolphinLevelManager : MonoBehaviour
     // Matrices
     Box[,] occupationMatrix;
     GameObject[,] cubesMatrix;
+    int floatingPlaneY = 0; //esto lo sabe el drop también
 
     // Sizes
     [SerializeField]
@@ -33,8 +40,10 @@ public class DolphinLevelManager : MonoBehaviour
     [SerializeField, Tooltip("Necessary points to end level")]
     int _winPoints;
     int _currentPoints;
-    [SerializeField, Tooltip("Points per right special jump guess")]
+    [SerializeField, Tooltip("Points to add per right special jump guess")]
     int _specialJumpPoints;
+    [SerializeField, Tooltip("Points to substact per collision with obstacle")] //al final quitábamos puntos? o solo los mandábamos abajo
+    int _hitObstaclePoints;
 
 
     [SerializeField]
@@ -46,15 +55,15 @@ public class DolphinLevelManager : MonoBehaviour
     float spawnTime;
     float currTime;
 
-    public int rightGuess()
+    public int RightGuess()
     {
         _currentPoints += _specialJumpPoints;
         _UIManager.updatePoints(_currentPoints);
-        if (_currentPoints >= _winPoints) endGame();
+        if (_currentPoints >= _winPoints) EndGame();
         return _specialJumpPoints;
     }
 
-    private void endGame()
+    private void EndGame()
     {
         _UIManager.showWin();
     }
@@ -158,5 +167,88 @@ public class DolphinLevelManager : MonoBehaviour
     public Vector3 GetRiverOffset()
     {
         return _offset;
+    }
+
+    //public int XLaneOccupancyDistance(int xLargo, int yCarril) //distance between pos xLargo and next obj in line alongside the axis x of river
+    //{
+    //    int i = xLargo;
+    //    int dist = 0;
+    //    bool found = false;
+    //    int nObstacules = 0;
+    //    int nDolphins = 0;
+    //    while (i < cubesMatrix.GetLength(0))
+    //    {
+    //        Box ocup = GetOccupationFromMatrix(i, yCarril);
+
+    //        if (ocup == Box.Obstacle)
+    //        {
+    //            found = true; nObstacules++;
+    //        }
+    //        else if (ocup == Box.Dolphin) { nDolphins++; }
+    //        if (!found) dist++;
+    //        i++;
+    //    }
+    //    if (!found) return 100;
+    //    return dist;
+    //}
+
+    //cogemos el punto en la matriz más libre (respecto a un punto hacia su derecha, por donde aparecen los obstáculos(?))
+    public Vector3 GetNextAvailableMatrixSpot(Vector3 pos)
+    {
+        Vector3 nextPos = new Vector3(0,0,1);
+        Vector2 dolphinMatrixPos = getUpperCubeXYfromDivePos(pos);
+        Debug.Log(dolphinMatrixPos.x + " " + dolphinMatrixPos.y);
+        
+        bool success = false;
+        int x = (int)dolphinMatrixPos.x; 
+        int y = (int)dolphinMatrixPos.y;
+
+        while (!success)
+        {
+            if (GetOccupationFromMatrix(x, y) == Box.Empty)
+            {
+                nextPos = new Vector3(x, floatingPlaneY, y);
+                success = true; 
+            }
+            else
+            {
+                x++;
+            }
+        }
+
+        //cosas en las que estoy cookeando las prioridades xd
+        ////neccessary space to spawn = algo //distance, lane
+        //int currentYLane = (int)dolphinMatrixPos.y;
+
+        //var distancesList = new List<Tuple<int, int>>();
+
+
+        //int dist = XLaneOccupancyDistance((int)pos.x, (int)pos.y);
+        //distancesList.Add(new Tuple<int, int>(dist, (int)pos.y));
+
+        //distancesList.Sort((x, y) => y.Item1.CompareTo(x.Item1));
+
+
+        ////tambien puede ponerse despues de un obstaculo, antes quiza sea problematico
+        //nextPos = new Vector3(pos.x, distancesList[0].Item2, pos.y);
+
+        //return nextPos;
+        Debug.Log("New position: " + nextPos);
+        return nextPos;
+    }
+
+    //metodo para traducir posicion de diving a posicion en matriz (en cuanto a x, z)
+    public Vector2 getUpperCubeXYfromDivePos(Vector3 pos)
+    {
+        int layer_mask = LayerMask.GetMask("Matrix");
+        bool hasHit = Physics.Raycast(pos, Vector3.up, out RaycastHit hit, Mathf.Infinity, layer_mask);
+        Debug.DrawRay(pos,Vector3.up, Color.green, 4.0f); 
+
+        if (hasHit)
+        {
+            return hit.collider.GetComponent<MatrixCubeInfo>().GetXY();
+        }
+
+        else return new Vector2(0, 1);
     }
 }

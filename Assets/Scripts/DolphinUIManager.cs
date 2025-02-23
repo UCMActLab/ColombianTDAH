@@ -3,48 +3,41 @@ using TMPro;
 public class DolphinUIManager : MonoBehaviour
 {
     [SerializeField]
-    private TMP_Text pointsText;
-    //private GameObject points;
+    private TMP_Text _pointsText;
     [SerializeField]
-    private TMP_Text levelText;
-    //private GameObject level;
-
-
+    private TMP_Text _levelText;
     [SerializeField]
-    GameObject win;
+    GameObject _endLevel;
     [SerializeField]
-    GameObject nextLevelButton;
+    GameObject _options;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        //pointsText = points.GetComponent<TMP_Text>();
-        //levelText = level.GetComponent<TMP_Text>();
+
     }
     public void startLevelStats(int level, int points)
     {
-        pointsText.SetText("Level: " + level.ToString());
-        levelText.SetText("Points: " + points.ToString());
+        _pointsText.SetText("Points: " + level.ToString());
+        _levelText.SetText("Level: "+ points.ToString());
     }
     public void updatePoints(int points)
     {
-        pointsText.SetText("Points: " + points.ToString());
+        _pointsText.SetText("Points: " + points.ToString());
     }
 
     public void updateLevel(int level)
     {
-        pointsText.SetText(level.ToString());
+        _pointsText.SetText(level.ToString());
     }
 
     public void showWin()
     {
-        // points.SetActive(false);
-        //level.SetActive(false);
-        pointsText.enabled = false;
-        levelText.enabled = false;
+        _pointsText.enabled = false;
+        _levelText.enabled = false;
 
-        win.SetActive(true);
-        nextLevelButton.SetActive(true);
+        _options.SetActive(false);
+        _endLevel.SetActive(true);
     }
     // Update is called once per frame
     void Update()

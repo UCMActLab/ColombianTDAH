@@ -138,4 +138,10 @@ public class Drop : MonoBehaviour
     {
         _myTransform.localScale = _initialScale;
     }
+
+    public void ClearMatrixOccupation()
+    {
+        Vector2 dolphinMatrixPos = _matrixCubeInfo.GetXY();
+        DolphinLevelManager.Instance.SetOccupation((int)dolphinMatrixPos.x, (int)dolphinMatrixPos.y, Box.Empty);
+    }
 }

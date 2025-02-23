@@ -1,5 +1,8 @@
 using UnityEngine;
 using System.Collections.Generic;
+using Unity.Mathematics;
+using Random = UnityEngine.Random;
+using UnityEditor.DeviceSimulation;
 
 public class DolphinManager : MonoBehaviour
 {
@@ -78,13 +81,12 @@ public class DolphinManager : MonoBehaviour
 
 
     //que llama el delfín para avisar de cosas
-    public  int rightGuess()
+    public  int RightGuess()
     {
-        int plusPoints = DolphinLevelManager.Instance.rightGuess();
+        int plusPoints = DolphinLevelManager.Instance.RightGuess();
         return plusPoints; 
     }
     //wrong guess si quisieramos o juntarlo 
-
     //DEMO
     public void startDemo()
     {

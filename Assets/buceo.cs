@@ -28,8 +28,10 @@ public class Buceo : MonoBehaviour
             if (splineAnimate != null && splineAnimate.ElapsedTime >= splineAnimate.Duration && !lastSpline) {
                 SetPath(float3.zero);
             }
-            //else
-                //this.enabled = false;
+            else if (lastSpline)
+            {
+                this.enabled = false;
+            }
         }
     }
 
@@ -39,12 +41,12 @@ public class Buceo : MonoBehaviour
         }
     }
 
-    public void SetPath( float3 destination)
+    public void SetPath(float3 destination)
     {
         if (!destination.Equals(new(float3.zero)))
         {
             Debug.Log("lastSpline");
-            //lastSpline = true;
+            lastSpline = true;
         }
 
         SplineContainer sp = pathGen.GeneratePath(transform.position, destination);
