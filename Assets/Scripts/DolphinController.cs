@@ -14,6 +14,8 @@ public class DolphinController : MonoBehaviour
     public DolphinStates currentState;
     bool isAboutToDive;
 
+    AudioSource _myAudioSource;
+
     [SerializeField, Tooltip("Capa con la que querremos clicar la vuelta especial (delfines)")]
     LayerMask _layerMask;
     bool hasBeenHit;
@@ -35,6 +37,7 @@ public class DolphinController : MonoBehaviour
     {
         animator = GetComponent<Animator>();
         buceoComponent = GetComponent<Buceo>();
+        _myAudioSource = GetComponent<AudioSource>();
         hasBeenHit = false;
         _colliderClickDolphin.SetActive(false);
         currentState = DolphinStates.FLOATING; //default, ajustar para que detecte si está arriba o no (por posición o diseño de nivel)
@@ -154,6 +157,9 @@ public class DolphinController : MonoBehaviour
                 if (currentState == DolphinStates.SPECIALJUMPING && !hasBeenHit)
                 {
                     Debug.Log("HIT 30000000 POINTS");
+
+                    // Dolphin sound
+                    _myAudioSource.Play();
 
                     hasBeenHit = true;
                     _colliderClickDolphin.SetActive(false); //esto hace que hasbeenhit no sea necesario

@@ -55,11 +55,20 @@ public class DolphinLevelManager : MonoBehaviour
     float spawnTime;
     float currTime;
 
+    [SerializeField]
+    GameObject _whale;
+
     public int RightGuess()
     {
         _currentPoints += _specialJumpPoints;
         _UIManager.updatePoints(_currentPoints);
-        if (_currentPoints >= _winPoints) EndGame();
+        if (_currentPoints >= _winPoints)
+        {
+            // Animacion ballena
+            _whale.SetActive(true);
+
+            EndGame();
+        }
         return _specialJumpPoints;
     }
 
@@ -195,12 +204,12 @@ public class DolphinLevelManager : MonoBehaviour
     //cogemos el punto en la matriz más libre (respecto a un punto hacia su derecha, por donde aparecen los obstáculos(?))
     public Vector3 GetNextAvailableMatrixSpot(Vector3 pos)
     {
-        Vector3 nextPos = new Vector3(0,0,1);
+        Vector3 nextPos = new Vector3(0, 0, 1);
         Vector2 dolphinMatrixPos = getUpperCubeXYfromDivePos(pos);
         Debug.Log(dolphinMatrixPos.x + " " + dolphinMatrixPos.y);
-        
+
         bool success = false;
-        int x = (int)dolphinMatrixPos.x; 
+        int x = (int)dolphinMatrixPos.x;
         int y = (int)dolphinMatrixPos.y;
 
         while (!success)
@@ -208,7 +217,7 @@ public class DolphinLevelManager : MonoBehaviour
             if (GetOccupationFromMatrix(x, y) == Box.Empty)
             {
                 nextPos = new Vector3(x, floatingPlaneY, y);
-                success = true; 
+                success = true;
             }
             else
             {
@@ -242,7 +251,7 @@ public class DolphinLevelManager : MonoBehaviour
     {
         int layer_mask = LayerMask.GetMask("Matrix");
         bool hasHit = Physics.Raycast(pos, Vector3.up, out RaycastHit hit, Mathf.Infinity, layer_mask);
-        Debug.DrawRay(pos,Vector3.up, Color.green, 4.0f); 
+        Debug.DrawRay(pos, Vector3.up, Color.green, 4.0f);
 
         if (hasHit)
         {
