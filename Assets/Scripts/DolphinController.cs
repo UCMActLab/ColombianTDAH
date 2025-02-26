@@ -10,6 +10,7 @@ public class DolphinController : MonoBehaviour
     protected Animator animator;
     protected Buceo buceoComponent;
     protected DolphinManager dolphinMngr;
+    protected Drag dragComponent;
     public enum DolphinStates { FLOATING, DIVING, JUMPING, SPECIALJUMPING };
     public DolphinStates currentState;
     bool isAboutToDive;
@@ -30,6 +31,7 @@ public class DolphinController : MonoBehaviour
 
     [SerializeField, Tooltip("Área que detecta click delfín")]
     GameObject _colliderClickDolphin;
+    float riverFloatingHeight;
 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -37,6 +39,7 @@ public class DolphinController : MonoBehaviour
     {
         animator = GetComponent<Animator>();
         buceoComponent = GetComponent<Buceo>();
+        dragComponent = GetComponent<Drag>();
         _myAudioSource = GetComponent<AudioSource>();
         hasBeenHit = false;
         _colliderClickDolphin.SetActive(false);
@@ -44,6 +47,7 @@ public class DolphinController : MonoBehaviour
         isAboutToDive = false;
 
         transform.Rotate(new Vector3(0, 90, 0));
+        riverFloatingHeight = DolphinLevelManager.Instance.GetRiverFloatingHeight();
     }
 
     public void registerDolphinManager(DolphinManager mngr)
@@ -99,9 +103,8 @@ public class DolphinController : MonoBehaviour
     {
         isAboutToDive = true;
         buceoComponent.enabled = true;
-        Drag drag = this.GetComponent<Drag>();
-        drag.DeactivateDrag();
-        drag.enabled = false; //esto dependerá de cómo juntemos input, falta que se enabelee
+        dragComponent.DeactivateDrag();
+        dragComponent.enabled = false; //esto dependerá de cómo juntemos input, falta que se enabelee
         buceoComponent.SetPath(float3.zero);
         currentState = DolphinStates.DIVING;
     }
@@ -113,7 +116,7 @@ public class DolphinController : MonoBehaviour
             //transform.position.x, 0, transform.position.z
             Vector2 matrixPos = DolphinLevelManager.Instance.GetNextAvailableMatrixSpot(this.transform.position);
             float3 pos = (float3)DolphinLevelManager.Instance.GetWorldPositionFromCube((int)matrixPos.x, (int)matrixPos.y);
-            pos = new float3(pos.x,0.5f, pos.z);           
+            pos = new float3(pos.x, riverFloatingHeight, pos.z);           
             buceoComponent.SetPath(pos);
             GetComponent<MatrixCubeInfo>().SetXY((int)matrixPos.x, (int)matrixPos.y);
             currentState=DolphinStates.FLOATING;
@@ -159,27 +162,36 @@ public class DolphinController : MonoBehaviour
             {
                 Debug.Log("I clicked the collider (jumping o rolling)");
 
-                if (currentState == DolphinStates.SPECIALJUMPING && !hasBeenHit)
+                if (currentState == DolphinStates.SPECIALJUMPING && !hasBeenHit) //RIGHT GUESS SPECIAL JUMP
                 {
-                    Debug.Log("HIT 30000000 POINTS");
-
-                    // Dolphin sound
-                    _myAudioSource.Play();
+                    //Debug.Log("HIT 30000000 POINTS");
 
                     hasBeenHit = true;
-                    _colliderClickDolphin.SetActive(false); //esto hace que hasbeenhit no sea necesario
+                    _colliderClickDolphin.SetActive(false);
                     
-                    //creacion texto in world con puntos por la acción
+                    // Dolphin sound
+                    _myAudioSource.Play();
+                    
+                    //In world points text
                     int plusPoints = dolphinMngr.RightGuess();
                     Vector3 offsetHeight = new Vector3(0.0f, 2.0f, 0.0f);
-                    GameObject pointsTetx = Instantiate(_pointsTextPrefab, transform.position + offsetHeight, Quaternion.identity); //transform
+                    GameObject pointsTetx = Instantiate(_pointsTextPrefab, transform.position + offsetHeight, Quaternion.identity); 
                     pointsTetx.GetComponentInChildren<TextMeshProUGUI>().SetText(plusPoints.ToString());
                
                     Destroy(pointsTetx, _pointsTextLifeTime);
                 }
-                else
-                {   
-                    //haptic info, pirueta
+                else if (currentState == DolphinStates.JUMPING && !dragComponent.AmIBeingDragged()) //WRONG GUESS SPECIAL JUMP
+                {
+                /*
+                    //In world points text
+                    int lessPoints = dolphinMngr.WrongGuess();
+                    Vector3 offsetHeight = new Vector3(0.0f, 2.0f, 0.0f);
+                    GameObject pointsTetx = Instantiate(_pointsTextPrefab, transform.position + offsetHeight, Quaternion.identity); 
+                    pointsTetx.GetComponentInChildren<TextMeshProUGUI>().SetText(lessPoints.ToString());
+                    pointsTetx.GetComponentInChildren<TextMeshProUGUI>().color = Color.red;
+
+                    Destroy(pointsTetx, _pointsTextLifeTime);
+                */ //esto requiere de algun tipo de delay para saber que no estamos draggeando el delfin 
                 }
             }
     }
