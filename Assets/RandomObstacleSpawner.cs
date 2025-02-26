@@ -19,6 +19,6 @@ public class RandomObjectSpawner : MonoBehaviour
         int randomIdPos = Random.Range(0, carrilCenetrs.Length);
         Vector3 randomSpawnPosition = new Vector3(20.0f, 0.0f, carrilCenetrs[randomIdPos]);
         GameObject instantiated = Instantiate(myObjects[randomIndex], randomSpawnPosition, Quaternion.identity);
-        Destroy(instantiated, 3.0f);
+        Destroy(instantiated, 10.0f);
     }
 }

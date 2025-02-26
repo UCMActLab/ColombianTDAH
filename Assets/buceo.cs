@@ -35,6 +35,10 @@ public class Buceo : MonoBehaviour
         }
     }
 
+    private void OnEnable()
+    {
+        lastSpline = false;
+    }
     void OnDestroy() {
         if (splineAnimate.Container != null) {
             Destroy(splineAnimate.Container.gameObject);

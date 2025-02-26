@@ -3,7 +3,8 @@ using UnityEngine;
 public class MatrixCubeInfo : MonoBehaviour
 {
     // Position in the matrix
-    int _x, _y;
+    public int _x, _y; //-------------------------------------
+   
 
     public void SetXY(int x, int y)
     {

@@ -12181,7 +12181,7 @@ MonoBehaviour:
   _specialJumpPoints: 20
   _hitObstaclePoints: 0
   _UIManager: {fileID: 1248144298}
-  spawnTime: 1
+  spawnTime: 3
   _whale: {fileID: 1351410519}
 --- !u!114 &1741476708
 MonoBehaviour:
@@ -12211,6 +12211,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7cc027e2d50b6674e93ccf59449b0485, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _x: 0
+  _y: 0
 --- !u!1001 &1755331234
 PrefabInstance:
   m_ObjectHideFlags: 0

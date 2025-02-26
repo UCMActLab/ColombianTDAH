@@ -202,11 +202,11 @@ public class DolphinLevelManager : MonoBehaviour
     //}
 
     //cogemos el punto en la matriz más libre (respecto a un punto hacia su derecha, por donde aparecen los obstáculos(?))
-    public Vector3 GetNextAvailableMatrixSpot(Vector3 pos)
+    public Vector2 GetNextAvailableMatrixSpot(Vector3 pos, bool setOcuppation = true, Box type = Box.Dolphin) 
     {
-        Vector3 nextPos = new Vector3(0, 0, 1);
-        Vector2 dolphinMatrixPos = getUpperCubeXYfromDivePos(pos);
-        Debug.Log(dolphinMatrixPos.x + " " + dolphinMatrixPos.y);
+        Vector2 nextPos = new Vector3(0, 1);
+        Vector2 dolphinMatrixPos = GetUpperCubeXYfromDivePos(pos);
+        //Debug.Log(dolphinMatrixPos.x + " " + dolphinMatrixPos.y);
 
         bool success = false;
         int x = (int)dolphinMatrixPos.x;
@@ -216,8 +216,9 @@ public class DolphinLevelManager : MonoBehaviour
         {
             if (GetOccupationFromMatrix(x, y) == Box.Empty)
             {
-                nextPos = new Vector3(x, floatingPlaneY, y);
+                nextPos = new Vector2(x, y);
                 success = true;
+                if(setOcuppation) SetOccupation(x, y, type);
             }
             else
             {
@@ -242,12 +243,16 @@ public class DolphinLevelManager : MonoBehaviour
         //nextPos = new Vector3(pos.x, distancesList[0].Item2, pos.y);
 
         //return nextPos;
-        Debug.Log("New position: " + nextPos);
+        //Debug.Log("New position: " + nextPos);
         return nextPos;
+    }
+    public Vector3 GetWorldPositionFromCube(int x, int y)
+    {
+        return GetCubeFromMatrix(x, y).GetComponent<Transform>().position;  
     }
 
     //metodo para traducir posicion de diving a posicion en matriz (en cuanto a x, z)
-    public Vector2 getUpperCubeXYfromDivePos(Vector3 pos)
+    public Vector2 GetUpperCubeXYfromDivePos(Vector3 pos) //generalizar a dir 
     {
         int layer_mask = LayerMask.GetMask("Matrix");
         bool hasHit = Physics.Raycast(pos, Vector3.up, out RaycastHit hit, Mathf.Infinity, layer_mask);

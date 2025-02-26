@@ -109,8 +109,11 @@ public class DolphinController : MonoBehaviour
         if(currentState == DolphinStates.DIVING)
         {
             //transform.position.x, 0, transform.position.z
-            float3 pos = (float3)DolphinLevelManager.Instance.GetNextAvailableMatrixSpot(this.transform.position);
+            Vector2 matrixPos = DolphinLevelManager.Instance.GetNextAvailableMatrixSpot(this.transform.position);
+            float3 pos = (float3)DolphinLevelManager.Instance.GetWorldPositionFromCube((int)matrixPos.x, (int)matrixPos.y);
+            pos = new float3(pos.x,0.5f, pos.z);           
             buceoComponent.SetPath(pos);
+            GetComponent<MatrixCubeInfo>().SetXY((int)matrixPos.x, (int)matrixPos.y);
             currentState=DolphinStates.FLOATING;
             isAboutToDive = false;
             this.GetComponent<Drag>().enabled = true;

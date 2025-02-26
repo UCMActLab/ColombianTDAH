@@ -14,7 +14,11 @@ public class PathGenerator : MonoBehaviour
     [SerializeField]
     public int pathPointMax;
 
-
+    private void Start()
+    {
+        Vector3 riverSize = DolphinLevelManager.Instance.GetRiverSize();
+        //limit min = centro -+ size/2
+    }
     public SplineContainer GeneratePath(float3 initPos, float3 lastPos) {
         int length = UnityEngine.Random.Range(pathPointMin, pathPointMax);            
         float3[] pathPoints = new float3[length];
