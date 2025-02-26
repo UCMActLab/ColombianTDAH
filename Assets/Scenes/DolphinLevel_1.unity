@@ -332,11 +332,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 5206078949442079779, guid: 1b7b6463f4ce49d48b51d8b787e09980, type: 3}
   m_PrefabInstance: {fileID: 30960393}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &30960395 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5206078949442079778, guid: 1b7b6463f4ce49d48b51d8b787e09980, type: 3}
-  m_PrefabInstance: {fileID: 30960393}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &44315488 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: e2de65c05b0bb644b8b450799389de34, type: 3}
@@ -561,7 +556,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &198225702
 Transform:
   m_ObjectHideFlags: 0
@@ -730,11 +725,6 @@ PrefabInstance:
 --- !u!4 &202861199 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5206078949442079779, guid: 1b7b6463f4ce49d48b51d8b787e09980, type: 3}
-  m_PrefabInstance: {fileID: 202861198}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &202861200 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5206078949442079778, guid: 1b7b6463f4ce49d48b51d8b787e09980, type: 3}
   m_PrefabInstance: {fileID: 202861198}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &205169870
@@ -1978,16 +1968,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 04c0580c2e684e945ad0c233b216df5f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dolphinPrefab: {fileID: 0}
+  dolphinPrefab: {fileID: 5206078949442079778, guid: 1b7b6463f4ce49d48b51d8b787e09980, type: 3}
   defaultSpawnPos: {fileID: 357349833}
-  dolphins:
-  - {fileID: 202861200}
-  - {fileID: 1755331236}
-  - {fileID: 1703623097}
-  - {fileID: 30960395}
-  - {fileID: 967249338}
-  jumpTime: 1.5
-  floatTime: 10
+  dolphins: []
   singlePirueta: 0
 --- !u!114 &854010017 stripped
 MonoBehaviour:
@@ -2146,11 +2129,6 @@ PrefabInstance:
 --- !u!4 &967249337 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5206078949442079779, guid: 1b7b6463f4ce49d48b51d8b787e09980, type: 3}
-  m_PrefabInstance: {fileID: 967249336}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &967249338 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5206078949442079778, guid: 1b7b6463f4ce49d48b51d8b787e09980, type: 3}
   m_PrefabInstance: {fileID: 967249336}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &1068009146
@@ -3188,11 +3166,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 5206078949442079779, guid: 1b7b6463f4ce49d48b51d8b787e09980, type: 3}
   m_PrefabInstance: {fileID: 1703623095}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1703623097 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5206078949442079778, guid: 1b7b6463f4ce49d48b51d8b787e09980, type: 3}
-  m_PrefabInstance: {fileID: 1703623095}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1737488662
 GameObject:
   m_ObjectHideFlags: 0
@@ -3278,9 +3251,11 @@ MonoBehaviour:
   _winPoints: 40
   _specialJumpPoints: 20
   _hitObstaclePoints: 0
-  _UIManager: {fileID: 1248144298}
+  currTime: 0
   randomObjectSpawner: {fileID: 4826972}
   spawnTime: 3
+  _UIManager: {fileID: 1248144298}
+  _dolphinManager: {fileID: 811574443}
   _whale: {fileID: 1351410519}
 --- !u!1001 &1755331234
 PrefabInstance:
@@ -3374,11 +3349,6 @@ PrefabInstance:
 --- !u!4 &1755331235 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5206078949442079779, guid: 1b7b6463f4ce49d48b51d8b787e09980, type: 3}
-  m_PrefabInstance: {fileID: 1755331234}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &1755331236 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5206078949442079778, guid: 1b7b6463f4ce49d48b51d8b787e09980, type: 3}
   m_PrefabInstance: {fileID: 1755331234}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1784765773

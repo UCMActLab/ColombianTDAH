@@ -42,6 +42,8 @@ public class DolphinController : MonoBehaviour
         _colliderClickDolphin.SetActive(false);
         currentState = DolphinStates.FLOATING; //default, ajustar para que detecte si está arriba o no (por posición o diseño de nivel)
         isAboutToDive = false;
+
+        transform.Rotate(new Vector3(0, 90, 0));
     }
 
     public void registerDolphinManager(DolphinManager mngr)
