@@ -17,10 +17,8 @@ public class DolphinManager : MonoBehaviour
     protected List<GameObject> dolphinsToFloatCheck;
 
     //times
-    [SerializeField]
     protected float jumpTime;
     protected float currTime;
-    [SerializeField]
     protected float floatTime;
     protected float currFloatTime;
 
@@ -81,20 +79,24 @@ public class DolphinManager : MonoBehaviour
 
 
     //que llama el delfín para avisar de cosas
-    public  int RightGuess()
+    public int RightGuess()
     {
         int plusPoints = DolphinLevelManager.Instance.RightGuess();
         return plusPoints; 
     }
-    //wrong guess si quisieramos o juntarlo 
-    //DEMO
-    public void startDemo()
+
+    public void Init(int numberDolphins, List<Vector3> dolphinPositions, float jumpingTime, float floatingTime)
     {
-        for(int i = 0; i < 5; i++)
+        for (int i = 0; i<numberDolphins; i++) //pos (?)
         {
-            dolphins[i].GetComponent<DolphinController>().Dive();
+            GameObject defaultDolphin = GameObject.Instantiate(dolphinPrefab, dolphinPositions[i], Quaternion.identity);
+            dolphins.Add(defaultDolphin);
         }
+
+        jumpTime = jumpingTime;
+        floatTime = floatingTime;
     }
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -103,8 +105,6 @@ public class DolphinManager : MonoBehaviour
         if(dolphins.Count == 0)
         {
             dolphins = new List<GameObject>();
-            GameObject defaultDolphin = GameObject.Instantiate(dolphinPrefab, defaultSpawnPos.GetComponent<Transform>().position , Quaternion.identity);
-            dolphins.Add(defaultDolphin);   
         }
 
         //registramos el manager para los delfines para que me puedan avisar de cosas/eventos
