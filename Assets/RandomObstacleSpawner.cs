@@ -1,34 +1,54 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class RandomObjectSpawner : MonoBehaviour
 {
 
-    public GameObject[] myObjects;
-    float[] carrilCenetrs;
-
-    void Start()
+    struct CarrilInfo
     {
-
+        public bool active;
+        public float CenterPosZ;
     }
+
+    [SerializeField]
+    float _posX = 20.0f;
+
+    [SerializeField]
+    float _destroyTime = 10.0f;
+
+    [SerializeField]
+    GameObject[] _obstacles;
+    CarrilInfo[] _carrilCenetrs;
+
 
     public void Init(int nRail)
     {
-        carrilCenetrs = new float[nRail];
+        _carrilCenetrs = new CarrilInfo[nRail];
     }
 
     public void SetCenterPos(int index, float zCenter)
     {
-        carrilCenetrs[index] = zCenter;
+        CarrilInfo carrilAux;
+        carrilAux.active = true;
+        carrilAux.CenterPosZ = zCenter;
+        _carrilCenetrs[index] = carrilAux;
     }
 
     public void Spawn()
     {
-        int randomIndex = Random.Range(0, myObjects.Length);
-        int randomIdPos = Random.Range(0, carrilCenetrs.Length);
-        Vector3 randomSpawnPosition = new Vector3(20.0f, 0.0f, carrilCenetrs[randomIdPos]);
-        GameObject instantiated = Instantiate(myObjects[randomIndex], randomSpawnPosition, Quaternion.identity);
-        Destroy(instantiated, 10.0f);
+        int randomIdPos = Random.Range(0, _carrilCenetrs.Length);
+
+        if (_carrilCenetrs[randomIdPos].active)
+        {
+            Vector3 randomSpawnPosition = new Vector3(_posX, 0.0f, _carrilCenetrs[randomIdPos].CenterPosZ);
+
+            randomIdPos = Random.Range(0, _obstacles.Length);
+            GameObject instantiated = Instantiate(_obstacles[randomIdPos], randomSpawnPosition, Quaternion.identity);
+            Destroy(instantiated, _destroyTime);
+        }
+    }
+
+    public void SetRailObstacleSpawner(int railNum, bool enabled)
+    {
+        _carrilCenetrs[railNum].active = enabled;
     }
 }

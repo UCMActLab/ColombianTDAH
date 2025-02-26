@@ -163,9 +163,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e347f5a22744dae4cb248b4f511ffce5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  myObjects:
-  - {fileID: 1312764455652827133, guid: 69f1af89065d2b24484b8904aa20abd0, type: 3}
-  - {fileID: 1312764455652827133, guid: a6a4fc70bfd6dc64d9485e455c3cf5a8, type: 3}
+  _posX: 20
+  _destroyTime: 10
+  _obstacles:
+  - {fileID: 6523833133376997576, guid: 7f26c9e5ec82c404d84320a435da9ca0, type: 3}
+  - {fileID: 3204323081885684925, guid: 010a71288279b4b439302c3ce992b577, type: 3}
 --- !u!1001 &30960393
 PrefabInstance:
   m_ObjectHideFlags: 0
