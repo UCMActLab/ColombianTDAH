@@ -227,6 +227,54 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1607503232}
   m_LocalEulerAnglesHint: {x: 29.955, y: 15.152, z: 0}
+--- !u!1 &4826970
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4826971}
+  - component: {fileID: 4826972}
+  m_Layer: 0
+  m_Name: RandomObstacleSpawner
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4826971
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4826970}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 205169871}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4826972
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4826970}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e347f5a22744dae4cb248b4f511ffce5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  myObjects:
+  - {fileID: 1312764455652827133, guid: 69f1af89065d2b24484b8904aa20abd0, type: 3}
+  - {fileID: 1312764455652827133, guid: a6a4fc70bfd6dc64d9485e455c3cf5a8, type: 3}
+  carrilCenetrs: []
 --- !u!1 &7736592
 GameObject:
   m_ObjectHideFlags: 0
@@ -1910,6 +1958,7 @@ Transform:
   - {fileID: 811574442}
   - {fileID: 1741476706}
   - {fileID: 1248144297}
+  - {fileID: 4826971}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &240493687
@@ -12137,8 +12186,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1741476706}
   - component: {fileID: 1741476707}
-  - component: {fileID: 1741476708}
-  - component: {fileID: 1741476709}
   m_Layer: 0
   m_Name: DolphinLevelManager
   m_TagString: Untagged
@@ -12181,38 +12228,9 @@ MonoBehaviour:
   _specialJumpPoints: 20
   _hitObstaclePoints: 0
   _UIManager: {fileID: 1248144298}
+  randomObjectSpawner: {fileID: 4826972}
   spawnTime: 3
   _whale: {fileID: 1351410519}
---- !u!114 &1741476708
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1741476705}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e347f5a22744dae4cb248b4f511ffce5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  myObjects:
-  - {fileID: 1312764455652827133, guid: 69f1af89065d2b24484b8904aa20abd0, type: 3}
-  - {fileID: 1312764455652827133, guid: a6a4fc70bfd6dc64d9485e455c3cf5a8, type: 3}
-  carrilCenetrs: []
---- !u!114 &1741476709
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1741476705}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7cc027e2d50b6674e93ccf59449b0485, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _x: 0
-  _y: 0
 --- !u!1001 &1755331234
 PrefabInstance:
   m_ObjectHideFlags: 0

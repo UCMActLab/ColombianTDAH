@@ -6,13 +6,17 @@ public class RandomObjectSpawner : MonoBehaviour
 {
 
     public GameObject[] myObjects;
-    public float[] carrilCenetrs;
+    float[] carrilCenetrs;
 
     void Start()
     {
 
     }
 
+    //public void Init(int nRail, )
+    //{
+        
+    //}
     public void Spawn()
     {
         int randomIndex = Random.Range(0, myObjects.Length);

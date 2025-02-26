@@ -50,6 +50,7 @@ public class DolphinLevelManager : MonoBehaviour
     DolphinUIManager _UIManager; //quizá mejor con un find o singleton, o con un prefab de ui de nivel a instanciar
 
     // Para obstaculos
+    [SerializeField]
     RandomObjectSpawner randomObjectSpawner;
     [SerializeField]
     float spawnTime;
@@ -90,8 +91,6 @@ public class DolphinLevelManager : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        randomObjectSpawner = GetComponent<RandomObjectSpawner>();
-
         // Calculo tamanyos
         _cubeSize = new Vector3(_riverSize.x / colsNumber, 0.5f, _riverSize.z / railNumber); // cube size
         _offset = _offset + new Vector3(-_riverSize.x / 2, 0.0f, _riverSize.z / 2); // coloca centrado;
@@ -100,7 +99,7 @@ public class DolphinLevelManager : MonoBehaviour
         occupationMatrix = new Box[colsNumber, railNumber];
         cubesMatrix = new GameObject[colsNumber, railNumber];
 
-        randomObjectSpawner.carrilCenetrs = new float[railNumber];
+        //randomObjectSpawner.carrilCenetrs = new float[railNumber];
 
         // Creacion de casillas en la escena
         for (int i = 0; i < railNumber; i++) // i -> y
@@ -137,10 +136,10 @@ public class DolphinLevelManager : MonoBehaviour
         _cubeObject.transform.localScale = _cubeSize; // escala
         _cubeObject.transform.position = new Vector3(x * _cubeSize.x + _cubeSize.x / 2, 0.0f, -y * _cubeSize.z - _cubeSize.z / 2) + _offset; // position
 
-        if (x == 0)
-        { //en la primera casilla registra el carril en el spawner
-            randomObjectSpawner.carrilCenetrs[y] = _cubeObject.transform.position.z;
-        }
+        //if (x == 0)
+        //{ //en la primera casilla registra el carril en el spawner
+        //    randomObjectSpawner.carrilCenetrs[y] = _cubeObject.transform.position.z;
+        //}
 
         _cubeObject.GetComponent<MeshRenderer>().enabled = false; // Invisible
         _cubeObject.GetComponent<Collider>().isTrigger = true;
