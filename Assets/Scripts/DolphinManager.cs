@@ -89,8 +89,11 @@ public class DolphinManager : MonoBehaviour
     {
         for (int i = 0; i<numberDolphins; i++) //pos (?)
         {
-            GameObject defaultDolphin = GameObject.Instantiate(dolphinPrefab, dolphinPositions[i], Quaternion.identity);
-            dolphins.Add(defaultDolphin);
+            GameObject dolphin = GameObject.Instantiate(dolphinPrefab, dolphinPositions[i], Quaternion.identity);
+            dolphins.Add(dolphin);
+            dolphin.GetComponent<Drag>().SetIndex(i);
+            dolphins[i].GetComponent<DolphinController>().registerDolphinManager(this);
+
         }
 
         jumpTime = jumpingTime;
@@ -100,17 +103,9 @@ public class DolphinManager : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-
-        //si no hemos colocado ninguno en el editor que se genere uno para hacer pruebas (lo ideal sería que los niveles fueran serializables/scrìptables  y se leyeran/gestonaran desde game por ej
         if(dolphins.Count == 0)
         {
             dolphins = new List<GameObject>();
-        }
-
-        //registramos el manager para los delfines para que me puedan avisar de cosas/eventos
-        for(int i = 0; i<dolphins.Count; i++)
-        {
-            dolphins[i].GetComponent<DolphinController>().registerDolphinManager(this);
         }
 
         currTime = 0;
@@ -118,8 +113,6 @@ public class DolphinManager : MonoBehaviour
 
         jumpCont = 0;
         nextPirueta = Random.Range(0, dolphins.Count);
-
-        //Invoke("startDemo", 4);
     }
 
     // Update is called once per frame

@@ -5,10 +5,8 @@ using UnityEngine.UI;
 // El GameObject que tenga este componente puede ser arrastrado
 public class Drag : MonoBehaviour
 {
-    [SerializeField]
     LayerMask _layerMask;
 
-    [SerializeField]
     int _index;
 
     [SerializeField]
@@ -31,6 +29,7 @@ public class Drag : MonoBehaviour
     {
         cam = Camera.main;
         _myTransform = transform;
+        _layerMask = LayerMask.GetMask("Dolphins");
     }
 
     // Update is called once per frame
@@ -107,6 +106,10 @@ public class Drag : MonoBehaviour
     public int GetIndex()
     {
         return _index;
+    }
+    public void SetIndex(int index)
+    {
+        _index = index;
     }
 
     public void DeactivateDrag()
