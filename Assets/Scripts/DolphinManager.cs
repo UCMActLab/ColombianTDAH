@@ -82,8 +82,13 @@ public class DolphinManager : MonoBehaviour
         int plusPoints = DolphinLevelManager.Instance.RightGuess();
         return plusPoints; 
     }
+    public int WrongGuess()
+    {
+        int lessPoints = DolphinLevelManager.Instance.WrongGuess();
+        return lessPoints;
+    }
 
-    public void Init(int numberDolphins, List<Vector3> dolphinPositions, float jumpingTime, float floatingTime)
+    public void Init(int numberDolphins, List<Vector3> dolphinPositions, List<Vector2> dolphinXYPositions, float jumpingTime, float floatingTime)
     {
         for (int i = 0; i<numberDolphins; i++) //pos (?)
         {
@@ -91,6 +96,7 @@ public class DolphinManager : MonoBehaviour
             dolphins.Add(dolphin);
             dolphin.GetComponent<Drag>().SetIndex(i);
             dolphins[i].GetComponent<DolphinController>().registerDolphinManager(this);
+            dolphin.GetComponent<MatrixCubeInfo>().SetXY((int)dolphinXYPositions[i].x, (int)dolphinXYPositions[i].y);
 
         }
 
