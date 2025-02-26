@@ -56,6 +56,7 @@ public class DolphinLevelManager : MonoBehaviour
     RandomObjectSpawner randomObjectSpawner;
     [SerializeField, Tooltip("Time for object spawning")]
     float spawnTime;
+    bool _obstacleSpawning = true;
 
     // Managers (queremos instanciar prefabs o hacer un find?)
     [SerializeField]
@@ -121,6 +122,7 @@ public class DolphinLevelManager : MonoBehaviour
         {
             // Animacion ballena
             _whale.SetActive(true);
+            SetAllObstacleSpawning(false);
 
             EndGame();
         }
@@ -146,17 +148,20 @@ public class DolphinLevelManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        currTime += Time.deltaTime;
-        if (currTime >= spawnTime)
+        if (_obstacleSpawning)
         {
-            currTime = 0;
-            randomObjectSpawner.Spawn();
+            currTime += Time.deltaTime;
+            if (currTime >= spawnTime)
+            {
+                currTime = 0;
+                randomObjectSpawner.Spawn();
+            }
         }
     }
     /// <summary>
-    /// M�todos de c�culo de matrices/r�o
+    /// M�todos de caculo de matrices/rio
     /// </summary>
-    
+
     // Crea una casilla en la posicion indicada x,y
     private GameObject CreateCube(int x, int y)
     {
@@ -236,7 +241,7 @@ public class DolphinLevelManager : MonoBehaviour
     //}
 
     //cogemos el punto en la matriz m�s libre (respecto a un punto hacia su derecha, por donde aparecen los obst�culos(?))
-    public Vector2 GetNextAvailableMatrixSpot(Vector3 pos, bool setOcuppation = true, Box type = Box.Dolphin) 
+    public Vector2 GetNextAvailableMatrixSpot(Vector3 pos, bool setOcuppation = true, Box type = Box.Dolphin)
     {
         Vector2 nextPos = new Vector3(0, 1);
         Vector2 dolphinMatrixPos = GetUpperCubeXYfromDivePos(pos);
@@ -252,7 +257,7 @@ public class DolphinLevelManager : MonoBehaviour
             {
                 nextPos = new Vector2(x, y);
                 success = true;
-                if(setOcuppation) SetOccupation(x, y, type);
+                if (setOcuppation) SetOccupation(x, y, type);
             }
             else
             {
@@ -282,7 +287,7 @@ public class DolphinLevelManager : MonoBehaviour
     }
     public Vector3 GetWorldPositionFromCube(int x, int y)
     {
-        return GetCubeFromMatrix(x, y).GetComponent<Transform>().position;  
+        return GetCubeFromMatrix(x, y).GetComponent<Transform>().position;
     }
 
     //metodo para traducir posicion de diving a posicion en matriz (en cuanto a x, z)
@@ -298,5 +303,17 @@ public class DolphinLevelManager : MonoBehaviour
         }
 
         else return new Vector2(0, 1);
+    }
+
+    // Activa o Desactiva el spawner de obstaculos
+    public void SetAllObstacleSpawning(bool enabled)
+    {
+        _obstacleSpawning = enabled;
+    }
+
+    // Activa o Desactiva el spawner de obstaculos en el carril indicado en railNum
+    public void SetObstacleSpawnerInRail(int railNum, bool enabled)
+    {
+        randomObjectSpawner.SetRailObstacleSpawner(railNum, enabled);
     }
 }
