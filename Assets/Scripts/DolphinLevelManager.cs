@@ -1,10 +1,5 @@
-using JetBrains.Annotations;
-using NUnit.Framework;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
-using static UnityEditor.PlayerSettings;
 
 public enum Box { Empty, Dolphin, Obstacle }
 
