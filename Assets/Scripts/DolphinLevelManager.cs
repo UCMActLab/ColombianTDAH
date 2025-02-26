@@ -107,21 +107,6 @@ public class DolphinLevelManager : MonoBehaviour
         _offset = _offset - new Vector3(-_riverSize.x / 2, 0.0f, _riverSize.z / 2);
     }
 
-    private void Awake()
-    {
-        // Si no hay instancia de esta clase ya creada se almacena
-        if (_instance == null)
-            _instance = this;
-        // Si est� creada se destruyee porque no necesitamos una mas
-        else
-            Destroy(this.gameObject);
-    }
-
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-       InitLevel();
-    }
     private void EndGame()
     {
         _UIManager.showWin();
@@ -155,7 +140,6 @@ public class DolphinLevelManager : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        randomObjectSpawner = GetComponent<RandomObjectSpawner>();
         InitLevel();
     }
 
