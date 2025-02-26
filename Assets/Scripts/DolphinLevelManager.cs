@@ -1,10 +1,5 @@
-using JetBrains.Annotations;
-using NUnit.Framework;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
-using static UnityEditor.PlayerSettings;
 
 public enum Box { Empty, Dolphin, Obstacle }
 
@@ -43,6 +38,8 @@ public class DolphinLevelManager : MonoBehaviour
     int _currentPoints;
     [SerializeField, Tooltip("Points to add per right special jump guess")]
     int _specialJumpPoints;
+    [SerializeField, Tooltip("Points to add per right special jump guess")]
+    int _wrongSpecialJumpPoints;
     [SerializeField, Tooltip("Points to substact per collision with obstacle")]
     int _hitObstaclePoints;
 
@@ -71,11 +68,19 @@ public class DolphinLevelManager : MonoBehaviour
     {
         InitialiseMatrixes();
         // Init Dolphin Manager
-        List<Vector3> dolphinpositions = new List<Vector3>();
-        dolphinpositions.Add(new Vector3(0, 0, 0));
-        dolphinpositions.Add(new Vector3(-10, 0, 10));
+        int nDolphins = 2; 
 
-        _dolphinManager.Init(2, dolphinpositions, 1.5f, 10f);
+        List<Vector2> dolphinXYPositions = new List<Vector2>();
+        dolphinXYPositions.Add(new Vector2(0, 0));
+        dolphinXYPositions.Add(new Vector2(1, 3));
+
+        List<Vector3> dolphinRealPositions = new List<Vector3>();
+        for(int i = 0; i < nDolphins; i++)
+        {
+            dolphinRealPositions.Add(GetWorldPositionFromCube((int)dolphinXYPositions[i].x, (int)dolphinXYPositions[i].y));//----------------------------------
+        }
+
+        _dolphinManager.Init(2, dolphinRealPositions,dolphinXYPositions, 1.5f, 10f);
 
         // Init Level UI
         _UIManager.startLevelStats(0, 0);
@@ -129,6 +134,12 @@ public class DolphinLevelManager : MonoBehaviour
         return _specialJumpPoints;
     }
 
+    public int WrongGuess()
+    {
+        _currentPoints += _wrongSpecialJumpPoints;
+        _UIManager.updatePoints(_currentPoints);
+        return _wrongSpecialJumpPoints;
+    }
     private void Awake()
     {
         // Si no hay instancia de esta clase ya creada se almacena
@@ -239,6 +250,8 @@ public class DolphinLevelManager : MonoBehaviour
     //    if (!found) return 100;
     //    return dist;
     //}
+
+
 
     //cogemos el punto en la matriz m�s libre (respecto a un punto hacia su derecha, por donde aparecen los obst�culos(?))
     public Vector2 GetNextAvailableMatrixSpot(Vector3 pos, bool setOcuppation = true, Box type = Box.Dolphin)

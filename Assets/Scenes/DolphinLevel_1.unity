@@ -166,8 +166,8 @@ MonoBehaviour:
   _posX: 20
   _destroyTime: 10
   _obstacles:
-  - {fileID: 6523833133376997576, guid: 7f26c9e5ec82c404d84320a435da9ca0, type: 3}
-  - {fileID: 3204323081885684925, guid: 010a71288279b4b439302c3ce992b577, type: 3}
+  - {fileID: 4471688920980463174, guid: 7f26c9e5ec82c404d84320a435da9ca0, type: 3}
+  - {fileID: 6893381600990689223, guid: 010a71288279b4b439302c3ce992b577, type: 3}
 --- !u!1001 &30960393
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -22,7 +22,6 @@ public class Obstaculo : MonoBehaviour
     {
         if (collision.gameObject.GetComponent<DolphinController>() != null)
         {
-            Debug.Log("Chokau");
             Vector3 aux = Vector3.zero;
             aux.x = m_Vel / 10;
             aux.y = -m_Vel;
