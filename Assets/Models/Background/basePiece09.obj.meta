@@ -3,7 +3,32 @@ guid: b63feaa78bea0e54daae300ce06da9ef
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: baseMat
+    second: {fileID: 2100000, guid: d931446dde5f6584f9fb9dfb6db7eba8, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: plantsMat
+    second: {fileID: 2100000, guid: 71816dfdc4aec154683eb6c727db1501, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: rockAMat
+    second: {fileID: 2100000, guid: c827aefb7708acb4eafbfc4b89ed1669, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: rockBMat
+    second: {fileID: 2100000, guid: 0387d04bea5469a4080de9140cf165f0, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: treesMat
+    second: {fileID: 2100000, guid: d47e6ec0e5108854ea78fbe77746c9e5, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
