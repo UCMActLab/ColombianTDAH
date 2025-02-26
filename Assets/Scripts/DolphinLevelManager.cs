@@ -99,7 +99,7 @@ public class DolphinLevelManager : MonoBehaviour
         occupationMatrix = new Box[colsNumber, railNumber];
         cubesMatrix = new GameObject[colsNumber, railNumber];
 
-        //randomObjectSpawner.carrilCenetrs = new float[railNumber];
+        randomObjectSpawner.Init(railNumber);
 
         // Creacion de casillas en la escena
         for (int i = 0; i < railNumber; i++) // i -> y
@@ -136,10 +136,10 @@ public class DolphinLevelManager : MonoBehaviour
         _cubeObject.transform.localScale = _cubeSize; // escala
         _cubeObject.transform.position = new Vector3(x * _cubeSize.x + _cubeSize.x / 2, 0.0f, -y * _cubeSize.z - _cubeSize.z / 2) + _offset; // position
 
-        //if (x == 0)
-        //{ //en la primera casilla registra el carril en el spawner
-        //    randomObjectSpawner.carrilCenetrs[y] = _cubeObject.transform.position.z;
-        //}
+        if (x == 0)
+        { //en la primera casilla registra el carril en el spawner
+            randomObjectSpawner.SetCenterPos(y, _cubeObject.transform.position.z);
+        }
 
         _cubeObject.GetComponent<MeshRenderer>().enabled = false; // Invisible
         _cubeObject.GetComponent<Collider>().isTrigger = true;

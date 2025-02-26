@@ -13,11 +13,16 @@ public class RandomObjectSpawner : MonoBehaviour
 
     }
 
-    //public void Init(int nRail, )
-    //{
-        
-    //}
-    
+    public void Init(int nRail)
+    {
+        carrilCenetrs = new float[nRail];
+    }
+
+    public void SetCenterPos(int index, float zCenter)
+    {
+        carrilCenetrs[index] = zCenter;
+    }
+
     public void Spawn()
     {
         int randomIndex = Random.Range(0, myObjects.Length);
