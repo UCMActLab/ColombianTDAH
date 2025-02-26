@@ -14,50 +14,104 @@ public class DolphinLevelManager : MonoBehaviour
     static private DolphinLevelManager _instance;
     public static DolphinLevelManager Instance { get { return _instance; } }
 
-
-    [SerializeField]
+    // RIVER VARIABLES
+    //  Nï¿½mero de carriles y columnas del rï¿½o
+    [SerializeField, Tooltip("Carriles del rï¿½o")]
     int railNumber = 3;
-
     [SerializeField]
     int colsNumber = 8;
+    float floatingPlaneHeight = 0;
 
     // Matrices
     Box[,] occupationMatrix;
     GameObject[,] cubesMatrix;
-    int floatingPlaneY = 0; //esto lo sabe el drop también
 
     // Sizes
-    [SerializeField]
+    [SerializeField, Tooltip("River size")]
     Vector3 _riverSize;
     Vector3 _cubeSize;
 
-    // Offset
-    [SerializeField]
+    // Offset (drag)
+    [SerializeField, Tooltip("Offset for dolphin drag")]
     Vector3 _offset;
 
-    //GAME VARIABLES
+    // GAME LEVEL VARIABLES
+    // Points
     [Header("Level variables")]
     [SerializeField, Tooltip("Necessary points to end level")]
     int _winPoints;
     int _currentPoints;
     [SerializeField, Tooltip("Points to add per right special jump guess")]
     int _specialJumpPoints;
-    [SerializeField, Tooltip("Points to substact per collision with obstacle")] //al final quitábamos puntos? o solo los mandábamos abajo
+    [SerializeField, Tooltip("Points to substact per collision with obstacle")]
     int _hitObstaclePoints;
 
-
-    [SerializeField]
-    DolphinUIManager _UIManager; //quizá mejor con un find o singleton, o con un prefab de ui de nivel a instanciar
+    // DolphinTimes
+    protected float jumpTime;
+    [SerializeField, Tooltip("Time between jumps")] //pasar a rango de tiempos 
+    protected float currTime;
 
     // Para obstaculos
     [SerializeField]
     RandomObjectSpawner randomObjectSpawner;
-    [SerializeField]
+    [SerializeField, Tooltip("Time for object spawning")]
     float spawnTime;
-    float currTime;
 
+    // Managers (queremos instanciar prefabs o hacer un find?)
     [SerializeField]
+    DolphinUIManager _UIManager;
+    [SerializeField]
+    DolphinManager _dolphinManager;
+
+    [SerializeField, Tooltip("Whale prefab")]
     GameObject _whale;
+
+    public void InitLevel()
+    {
+        InitialiseMatrixes();
+        // Init Dolphin Manager
+        List<Vector3> dolphinpositions = new List<Vector3>();
+        dolphinpositions.Add(new Vector3(0, 0, 0));
+        dolphinpositions.Add(new Vector3(-10, 0, 10));
+
+        _dolphinManager.Init(2, dolphinpositions, 1.5f, 10f);
+
+        // Init Level UI
+        _UIManager.startLevelStats(0, 0);
+
+    }
+
+    public void InitialiseMatrixes()
+    {
+        // Calculo tamanyos
+        _cubeSize = new Vector3(_riverSize.x / colsNumber, 0.5f, _riverSize.z / railNumber); // cube size
+        _offset = _offset + new Vector3(-_riverSize.x / 2, 0.0f, _riverSize.z / 2); // coloca centrado;
+
+        // Inicializo matrices
+        occupationMatrix = new Box[colsNumber, railNumber];
+        cubesMatrix = new GameObject[colsNumber, railNumber];
+
+        randomObjectSpawner.Init(railNumber);
+
+        // Creacion de casillas en la escena
+        for (int i = 0; i < railNumber; i++) // i -> y
+        {
+            for (int j = 0; j < colsNumber; j++) // j -> x
+            {
+                // Relleno matrices
+                occupationMatrix[j, i] = Box.Empty;
+                cubesMatrix[j, i] = CreateCube(j, i);
+            }
+        }
+
+        _offset = _offset - new Vector3(-_riverSize.x / 2, 0.0f, _riverSize.z / 2);
+    }
+
+    private void EndGame()
+    {
+        _UIManager.showWin();
+        //freeze gam/disable input
+    }
 
     public int RightGuess()
     {
@@ -73,17 +127,12 @@ public class DolphinLevelManager : MonoBehaviour
         return _specialJumpPoints;
     }
 
-    private void EndGame()
-    {
-        _UIManager.showWin();
-    }
-
     private void Awake()
     {
         // Si no hay instancia de esta clase ya creada se almacena
         if (_instance == null)
             _instance = this;
-        // Si está creada se destruyee porque no necesitamos una mas
+        // Si estï¿½ creada se destruyee porque no necesitamos una mas
         else
             Destroy(this.gameObject);
     }
@@ -91,29 +140,7 @@ public class DolphinLevelManager : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        // Calculo tamanyos
-        _cubeSize = new Vector3(_riverSize.x / colsNumber, 0.5f, _riverSize.z / railNumber); // cube size
-        _offset = _offset + new Vector3(-_riverSize.x / 2, 0.0f, _riverSize.z / 2); // coloca centrado;
-
-        // Inicializo matrices
-        occupationMatrix = new Box[colsNumber, railNumber];
-        cubesMatrix = new GameObject[colsNumber, railNumber];
-
-        //randomObjectSpawner.carrilCenetrs = new float[railNumber];
-
-        // Creacion de casillas en la escena
-        for (int i = 0; i < railNumber; i++) // i -> y
-        {
-            for (int j = 0; j < colsNumber; j++) // j -> x
-            {
-                // Relleno matrices
-                occupationMatrix[j, i] = Box.Empty;
-                cubesMatrix[j, i] = CreateCube(j, i);
-            }
-        }
-
-        _offset = _offset - new Vector3(-_riverSize.x / 2, 0.0f, _riverSize.z / 2);
-        _UIManager.startLevelStats(0, 0);
+        InitLevel();
     }
 
     // Update is called once per frame
@@ -126,7 +153,10 @@ public class DolphinLevelManager : MonoBehaviour
             randomObjectSpawner.Spawn();
         }
     }
-
+    /// <summary>
+    /// Mï¿½todos de cï¿½culo de matrices/rï¿½o
+    /// </summary>
+    
     // Crea una casilla en la posicion indicada x,y
     private GameObject CreateCube(int x, int y)
     {
@@ -136,10 +166,10 @@ public class DolphinLevelManager : MonoBehaviour
         _cubeObject.transform.localScale = _cubeSize; // escala
         _cubeObject.transform.position = new Vector3(x * _cubeSize.x + _cubeSize.x / 2, 0.0f, -y * _cubeSize.z - _cubeSize.z / 2) + _offset; // position
 
-        //if (x == 0)
-        //{ //en la primera casilla registra el carril en el spawner
-        //    randomObjectSpawner.carrilCenetrs[y] = _cubeObject.transform.position.z;
-        //}
+        if (x == 0)
+        { //en la primera casilla registra el carril en el spawner
+            randomObjectSpawner.SetCenterPos(y, _cubeObject.transform.position.z);
+        }
 
         _cubeObject.GetComponent<MeshRenderer>().enabled = false; // Invisible
         _cubeObject.GetComponent<Collider>().isTrigger = true;
@@ -177,6 +207,11 @@ public class DolphinLevelManager : MonoBehaviour
         return _offset;
     }
 
+    public float GetRiverFloatingHeight()
+    {
+        return floatingPlaneHeight;
+    }
+
     //public int XLaneOccupancyDistance(int xLargo, int yCarril) //distance between pos xLargo and next obj in line alongside the axis x of river
     //{
     //    int i = xLargo;
@@ -200,7 +235,7 @@ public class DolphinLevelManager : MonoBehaviour
     //    return dist;
     //}
 
-    //cogemos el punto en la matriz más libre (respecto a un punto hacia su derecha, por donde aparecen los obstáculos(?))
+    //cogemos el punto en la matriz mï¿½s libre (respecto a un punto hacia su derecha, por donde aparecen los obstï¿½culos(?))
     public Vector2 GetNextAvailableMatrixSpot(Vector3 pos, bool setOcuppation = true, Box type = Box.Dolphin) 
     {
         Vector2 nextPos = new Vector3(0, 1);
