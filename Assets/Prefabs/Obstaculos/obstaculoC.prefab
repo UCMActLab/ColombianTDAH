@@ -128,7 +128,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad68427740ffc194f8f097716bc37ef6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Vel: 20
 --- !u!114 &4878629362826217011
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -141,3 +140,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7cc027e2d50b6674e93ccf59449b0485, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_Vel: 10

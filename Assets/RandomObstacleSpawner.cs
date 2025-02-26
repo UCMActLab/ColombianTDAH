@@ -17,6 +17,7 @@ public class RandomObjectSpawner : MonoBehaviour
     //{
         
     //}
+    
     public void Spawn()
     {
         int randomIndex = Random.Range(0, myObjects.Length);
