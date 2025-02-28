@@ -67,7 +67,7 @@ public class DolphinController : MonoBehaviour
 
     void OnCollisionEnter(Collision collision)
     {
-        Debug.Log("AUTX!");
+        //Debug.Log("AUTX!");
         Dive();
     }
 
@@ -82,7 +82,7 @@ public class DolphinController : MonoBehaviour
            currentState = DolphinStates.JUMPING;
             animator.SetTrigger("Jump");
             _colliderClickDolphin.SetActive(true);
-            Debug.Log(currentState);
+            //Debug.Log(currentState);
             return true;
         }
         return false;
