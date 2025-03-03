@@ -1,84 +1,86 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
     <Style src="project://database/Assets/Scripts/configUi/configUi.uss?fileID=7433441132597879392&amp;guid=bd014f9788e6ad84ea62ed986ccff74e&amp;type=3#configUi" />
-    <ui:VisualElement name="UiDoc" style="flex-grow: 1; flex-direction: row; background-color: rgb(0, 138, 17); position: absolute; top: 0; left: 0; flex-shrink: 1; height: 720px; width: 1080px; max-width: 1080px; max-height: 720px; min-width: 1080px; min-height: 720px;">
-        <ui:VisualElement name="Fase1y2" style="flex-grow: 1; flex-direction: column; width: 40%; height: 100%;">
-            <ui:VisualElement name="Fase1" class="faseBg" style="flex-grow: 1;">
-                <ui:IntegerField label="Cant carriles:" value="3" name="carrilesN" />
-                <ui:Label text="El máximo es 6. Aunque el número &#10;sea mayor los carriles serán 6." style="flex-wrap: wrap;" />
-                <ui:IntegerField label="Cant delf:" value="5" name="delfinesN" />
-                <ui:Button text="Aceptar" name="fase1Complet" />
-                <ui:Label text="(al pulsar este botón se recargará &#10;la cuadrícula de abajo, cuidado &#10;con los cambios que hayas hecho!)" style="flex-wrap: wrap;" />
-            </ui:VisualElement>
-            <ui:VisualElement name="Fase2" class="faseBg" style="flex-grow: 1; flex-wrap: wrap; flex-direction: column; padding-top: 20px; padding-right: 20px; padding-bottom: 20px; padding-left: 20px;">
-                <ui:Label text="Superficie del rio:                                       ." style="width: 100%;" />
-                <ui:VisualElement name="toggleGroup" style="flex-grow: 1; width: 100%; flex-direction: row; flex-wrap: wrap;">
-                    <ui:VisualElement name="carrilToggles" style="flex-grow: 1; flex-direction: row;">
-                        <ui:Toggle enabled="true" toggle-on-label-click="true" focusable="true" style="flex-wrap: wrap;" />
-                        <ui:Toggle enabled="true" toggle-on-label-click="true" focusable="true" />
-                        <ui:Toggle enabled="true" toggle-on-label-click="true" focusable="true" />
-                        <ui:Toggle enabled="true" toggle-on-label-click="true" focusable="true" />
-                        <ui:Toggle enabled="true" toggle-on-label-click="true" focusable="true" />
-                        <ui:Toggle enabled="true" toggle-on-label-click="true" focusable="true" />
-                        <ui:Toggle enabled="true" toggle-on-label-click="true" focusable="true" />
-                        <ui:Toggle enabled="true" toggle-on-label-click="true" focusable="true" />
-                        <ui:Toggle enabled="true" toggle-on-label-click="true" focusable="true" name="Toggle" />
+    <ui:VisualElement name="FullScreen" style="flex-grow: 1; width: 1920px; height: 1080px; align-items: center; justify-content: flex-end; align-self: stretch; align-content: stretch; flex-direction: row; flex-shrink: 0; position: relative; left: 0; top: 0; background-color: rgba(200, 255, 165, 0.53);">
+        <ui:VisualElement name="UiDoc" style="flex-grow: 1; flex-direction: row; background-color: rgb(0, 138, 17); position: absolute; top: 74px; left: 213px; flex-shrink: 1; height: 720px; width: 1080px; max-width: 1080px; max-height: 720px; min-width: 1080px; min-height: 720px;">
+            <ui:VisualElement name="Fase1y2" style="flex-grow: 1; flex-direction: column; width: 40%; height: 100%;">
+                <ui:VisualElement name="Fase1" class="faseBg" style="flex-grow: 1;">
+                    <ui:IntegerField label="Cant carriles:" value="3" name="carrilesN" />
+                    <ui:Label text="El máximo es 6. Aunque el número &#10;sea mayor los carriles serán 6." style="flex-wrap: wrap;" />
+                    <ui:IntegerField label="Cant delf:" value="5" name="delfinesN" />
+                    <ui:Button text="Aceptar" name="fase1Complet" />
+                    <ui:Label text="(al pulsar este botón se recargará &#10;la cuadrícula de abajo, cuidado &#10;con los cambios que hayas hecho!)" style="flex-wrap: wrap;" />
+                </ui:VisualElement>
+                <ui:VisualElement name="Fase2" class="faseBg" style="flex-grow: 1; flex-wrap: wrap; flex-direction: column; padding-top: 20px; padding-right: 20px; padding-bottom: 20px; padding-left: 20px;">
+                    <ui:Label text="Superficie del rio:                                       ." style="width: 100%;" />
+                    <ui:VisualElement name="toggleGroup" style="flex-grow: 1; width: 100%; flex-direction: row; flex-wrap: wrap;">
+                        <ui:VisualElement name="carrilToggles" style="flex-grow: 1; flex-direction: row;">
+                            <ui:Toggle enabled="true" toggle-on-label-click="true" focusable="true" style="flex-wrap: wrap;" />
+                            <ui:Toggle enabled="true" toggle-on-label-click="true" focusable="true" />
+                            <ui:Toggle enabled="true" toggle-on-label-click="true" focusable="true" />
+                            <ui:Toggle enabled="true" toggle-on-label-click="true" focusable="true" />
+                            <ui:Toggle enabled="true" toggle-on-label-click="true" focusable="true" />
+                            <ui:Toggle enabled="true" toggle-on-label-click="true" focusable="true" />
+                            <ui:Toggle enabled="true" toggle-on-label-click="true" focusable="true" />
+                            <ui:Toggle enabled="true" toggle-on-label-click="true" focusable="true" />
+                            <ui:Toggle enabled="true" toggle-on-label-click="true" focusable="true" name="Toggle" />
+                        </ui:VisualElement>
+                        <ui:VisualElement name="carrilToggles" style="flex-grow: 1; flex-direction: row;">
+                            <ui:Toggle enabled="true" toggle-on-label-click="true" focusable="true" style="flex-wrap: wrap;" />
+                            <ui:Toggle enabled="true" toggle-on-label-click="true" focusable="true" />
+                            <ui:Toggle enabled="true" toggle-on-label-click="true" focusable="true" />
+                            <ui:Toggle enabled="true" toggle-on-label-click="true" focusable="true" />
+                            <ui:Toggle enabled="true" toggle-on-label-click="true" focusable="true" />
+                            <ui:Toggle enabled="true" toggle-on-label-click="true" focusable="true" />
+                            <ui:Toggle enabled="true" toggle-on-label-click="true" focusable="true" />
+                            <ui:Toggle enabled="true" toggle-on-label-click="true" focusable="true" />
+                            <ui:Toggle enabled="true" toggle-on-label-click="true" focusable="true" name="Toggle" />
+                        </ui:VisualElement>
+                        <ui:VisualElement name="carrilToggles" style="flex-grow: 1; flex-direction: row;">
+                            <ui:Toggle enabled="true" toggle-on-label-click="true" focusable="true" style="flex-wrap: wrap;" />
+                            <ui:Toggle enabled="true" toggle-on-label-click="true" focusable="true" />
+                            <ui:Toggle enabled="true" toggle-on-label-click="true" focusable="true" />
+                            <ui:Toggle enabled="true" toggle-on-label-click="true" focusable="true" />
+                            <ui:Toggle enabled="true" toggle-on-label-click="true" focusable="true" />
+                            <ui:Toggle enabled="true" toggle-on-label-click="true" focusable="true" />
+                            <ui:Toggle enabled="true" toggle-on-label-click="true" focusable="true" />
+                            <ui:Toggle enabled="true" toggle-on-label-click="true" focusable="true" />
+                            <ui:Toggle enabled="true" toggle-on-label-click="true" focusable="true" name="Toggle" />
+                        </ui:VisualElement>
                     </ui:VisualElement>
-                    <ui:VisualElement name="carrilToggles" style="flex-grow: 1; flex-direction: row;">
-                        <ui:Toggle enabled="true" toggle-on-label-click="true" focusable="true" style="flex-wrap: wrap;" />
-                        <ui:Toggle enabled="true" toggle-on-label-click="true" focusable="true" />
-                        <ui:Toggle enabled="true" toggle-on-label-click="true" focusable="true" />
-                        <ui:Toggle enabled="true" toggle-on-label-click="true" focusable="true" />
-                        <ui:Toggle enabled="true" toggle-on-label-click="true" focusable="true" />
-                        <ui:Toggle enabled="true" toggle-on-label-click="true" focusable="true" />
-                        <ui:Toggle enabled="true" toggle-on-label-click="true" focusable="true" />
-                        <ui:Toggle enabled="true" toggle-on-label-click="true" focusable="true" />
-                        <ui:Toggle enabled="true" toggle-on-label-click="true" focusable="true" name="Toggle" />
+                    <ui:Label text="Ahora mismo tienes X delfines restantes en el &#10;juego, aparecerán buceando." name="delfinesRestantes" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+            <ui:VisualElement name="Fase3" class="faseBg" style="flex-grow: 1; width: 60%; height: auto; flex-wrap: wrap; justify-content: flex-start;">
+                <ui:VisualElement name="A" style="flex-grow: 1; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 10px; padding-right: 10px; padding-bottom: 10px; padding-left: 10px; background-color: rgba(255, 121, 121, 0); justify-content: flex-start;">
+                    <ui:Label text="Espaciado de eventos:" name="Titulo" />
+                    <ui:Label text="Entre cada cuantos segundos pasarán las cosas en la escena." name="Explicacion" />
+                    <ui:VisualElement style="flex-grow: 1; flex-wrap: wrap; flex-direction: row;">
+                        <ui:Label text="Cada cuanto aparecen troncos en el rio (entre 3 y 20 segundos)" name="expl" style="flex-direction: column;" />
+                        <ui:IntegerField label="min" value="3" name="obstacleMin" />
+                        <ui:IntegerField label="max" value="20" name="obstacleMax" />
                     </ui:VisualElement>
-                    <ui:VisualElement name="carrilToggles" style="flex-grow: 1; flex-direction: row;">
-                        <ui:Toggle enabled="true" toggle-on-label-click="true" focusable="true" style="flex-wrap: wrap;" />
-                        <ui:Toggle enabled="true" toggle-on-label-click="true" focusable="true" />
-                        <ui:Toggle enabled="true" toggle-on-label-click="true" focusable="true" />
-                        <ui:Toggle enabled="true" toggle-on-label-click="true" focusable="true" />
-                        <ui:Toggle enabled="true" toggle-on-label-click="true" focusable="true" />
-                        <ui:Toggle enabled="true" toggle-on-label-click="true" focusable="true" />
-                        <ui:Toggle enabled="true" toggle-on-label-click="true" focusable="true" />
-                        <ui:Toggle enabled="true" toggle-on-label-click="true" focusable="true" />
-                        <ui:Toggle enabled="true" toggle-on-label-click="true" focusable="true" name="Toggle" />
+                    <ui:VisualElement style="flex-grow: 1; flex-wrap: wrap; flex-direction: row;">
+                        <ui:Label text="Cada cuantos segundoss salta un delfín (entre 2 y 10):" name="expl" style="flex-direction: column;" />
+                        <ui:IntegerField label="min" value="2" name="jumpMin" />
+                        <ui:IntegerField label="max" value="10" name="jumpMax" />
+                    </ui:VisualElement>
+                    <ui:Toggle label="Piruetas simultaneas??" name="piruetasSimult" />
+                    <ui:VisualElement style="flex-grow: 1; flex-wrap: wrap; flex-direction: row;">
+                        <ui:Label text="Cada cuantos saltos es pirueta (entre 2 y 10):                                         ." name="expl" style="flex-direction: column;" />
+                        <ui:IntegerField label="min" value="2" name="piruetMin" />
+                        <ui:IntegerField label="max" value="10" name="piruetMax" />
                     </ui:VisualElement>
                 </ui:VisualElement>
-                <ui:Label text="Ahora mismo tienes X delfines restantes en el &#10;juego, aparecerán buceando." name="delfinesRestantes" />
-            </ui:VisualElement>
-        </ui:VisualElement>
-        <ui:VisualElement name="Fase3" class="faseBg" style="flex-grow: 1; width: 60%; height: auto; flex-wrap: wrap; justify-content: flex-start;">
-            <ui:VisualElement name="A" style="flex-grow: 1; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 10px; padding-right: 10px; padding-bottom: 10px; padding-left: 10px; background-color: rgba(255, 121, 121, 0); justify-content: flex-start;">
-                <ui:Label text="Espaciado de eventos:" name="Titulo" />
-                <ui:Label text="Entre cada cuantos segundos pasarán las cosas en la escena." name="Explicacion" />
-                <ui:VisualElement style="flex-grow: 1; flex-wrap: wrap; flex-direction: row;">
-                    <ui:Label text="Cada cuanto aparecen troncos en el rio (entre 3 y 20 segundos)" name="expl" style="flex-direction: column;" />
-                    <ui:IntegerField label="min" value="3" name="obstacleMin" />
-                    <ui:IntegerField label="max" value="20" name="obstacleMax" />
+                <ui:VisualElement name="B" style="flex-grow: 1; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 10px; padding-right: 10px; padding-bottom: 10px; padding-left: 10px; background-color: rgba(255, 121, 121, 0); justify-content: flex-start;">
+                    <ui:FloatField label="Velocidad de obstaculos: (entre 0.1 y 20)" value="2.5" name="obstacleVel" />
                 </ui:VisualElement>
-                <ui:VisualElement style="flex-grow: 1; flex-wrap: wrap; flex-direction: row;">
-                    <ui:Label text="Cada cuantos segundoss salta un delfín (entre 2 y 10):" name="expl" style="flex-direction: column;" />
-                    <ui:IntegerField label="min" value="2" name="jumpMin" />
-                    <ui:IntegerField label="max" value="10" name="jumpMax" />
+                <ui:VisualElement name="C" style="flex-grow: 1; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 10px; padding-right: 10px; padding-bottom: 10px; padding-left: 10px; background-color: rgba(255, 121, 121, 0); justify-content: flex-start; flex-wrap: wrap; flex-direction: row;">
+                    <ui:IntegerField label="Puntuacion max:" value="42" name="pointMax" />
+                    <ui:IntegerField label="Puntuación por cada pirueta:" value="42" name="pointPirueta" />
+                    <ui:IntegerField label="Puntuación negativa por clicar en salto: " value="42" name="pointWrongGuess" />
+                    <ui:IntegerField label="Puntuación negativa por chocar con obstáculo: " value="42" name="pointChoque" />
+                    <ui:Button text="Button" name="guardar" style="margin-left: 121px; background-color: rgb(255, 148, 48);" />
                 </ui:VisualElement>
-                <ui:Toggle label="Piruetas simultaneas??" name="piruetasSimult" />
-                <ui:VisualElement style="flex-grow: 1; flex-wrap: wrap; flex-direction: row;">
-                    <ui:Label text="Cada cuantos saltos es pirueta (entre 2 y 10):                                         ." name="expl" style="flex-direction: column;" />
-                    <ui:IntegerField label="min" value="2" name="piruetMin" />
-                    <ui:IntegerField label="max" value="10" name="piruetMax" />
-                </ui:VisualElement>
-            </ui:VisualElement>
-            <ui:VisualElement name="B" style="flex-grow: 1; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 10px; padding-right: 10px; padding-bottom: 10px; padding-left: 10px; background-color: rgba(255, 121, 121, 0); justify-content: flex-start;">
-                <ui:FloatField label="Velocidad de obstaculos: (entre 0.1 y 20)" value="2.5" name="obstacleVel" />
-            </ui:VisualElement>
-            <ui:VisualElement name="C" style="flex-grow: 1; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 10px; padding-right: 10px; padding-bottom: 10px; padding-left: 10px; background-color: rgba(255, 121, 121, 0); justify-content: flex-start; flex-wrap: wrap; flex-direction: row;">
-                <ui:IntegerField label="Puntuacion max:" value="42" name="pointMax" />
-                <ui:IntegerField label="Puntuación por cada pirueta:" value="42" name="pointPirueta" />
-                <ui:IntegerField label="Puntuación negativa por clicar en salto: " value="42" name="pointWrongGuess" />
-                <ui:IntegerField label="Puntuación negativa por chocar con obstáculo: " value="42" name="pointChoque" />
-                <ui:Button text="Button" name="guardar" style="margin-left: 121px; background-color: rgb(255, 148, 48);" />
             </ui:VisualElement>
         </ui:VisualElement>
     </ui:VisualElement>

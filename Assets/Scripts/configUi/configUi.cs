@@ -26,7 +26,7 @@ public class configUi : MonoBehaviour
     IntegerField input_pointChoque;
     Button input_guardar;
     VisualElement input_toggleGroup;
-    TextField text_delfinesRestantes;
+    Label text_delfinesRestantes;
     int delfinesColocados = 0;
 
     private void OnEnable()
@@ -54,13 +54,11 @@ public class configUi : MonoBehaviour
         input_pointChoque = root.Q<IntegerField>("pointChoque");
         input_guardar = root.Q<Button>("guardar");
         input_toggleGroup = root.Q<VisualElement>("toggleGroup");
-        text_delfinesRestantes = root.Q<TextField>("delfinesRestantes");
+        text_delfinesRestantes = root.Q<Label>("delfinesRestantes");
 
         input_guardar.RegisterCallback<ClickEvent>(GuardarTodo);
         input_fase1Complet.RegisterCallback<ClickEvent>(Fase1Complet);
-        input_toggleGroup.RegisterCallback<ClickEvent>(DelfinColocado);
-
-        
+        input_toggleGroup.RegisterCallback<ClickEvent>(DelfinColocado);        
     }
 
     void GuardarTodo(ClickEvent e)
@@ -89,7 +87,17 @@ public class configUi : MonoBehaviour
 
     void DelfinColocado(ClickEvent e)
     {
-        delfinesColocados++;
-        text_delfinesRestantes.label = "Ahora mismo tienes " + (input_delfinesN.value - delfinesColocados) + "delfines restantes en el \r\njuego, aparecerán buceando.";
+        delfinesColocados = 0;
+        for (int i = 0; i < input_toggleGroup.childCount; i++)
+        {
+            for(int j = 0; j < input_toggleGroup[i].childCount; j++)
+            {
+                if (input_toggleGroup[i][j].Q<Toggle>().value == true)
+                {
+                    delfinesColocados++;
+                }
+            }
+        }
+        text_delfinesRestantes.text = "Ahora mismo tienes " + (input_delfinesN.value - delfinesColocados) + " delfines restantes en el \r\njuego, aparecerán buceando.";
     }
 }
