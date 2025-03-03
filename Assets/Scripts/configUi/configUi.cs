@@ -5,6 +5,13 @@ using UnityEngine.Windows;
 
 public class configUi : MonoBehaviour
 {
+    [SerializeField]
+    GameObject environmentObject;
+    [SerializeField]
+    GameObject managerstObject;
+    [SerializeField]
+    GameObject canvasObject;
+
     VisualElement fase1;
     VisualElement fase2;
     VisualElement fase3;
@@ -58,7 +65,10 @@ public class configUi : MonoBehaviour
 
         input_guardar.RegisterCallback<ClickEvent>(GuardarTodo);
         input_fase1Complet.RegisterCallback<ClickEvent>(Fase1Complet);
-        input_toggleGroup.RegisterCallback<ClickEvent>(DelfinColocado);        
+        input_toggleGroup.RegisterCallback<ClickEvent>(DelfinColocado);
+
+        // Desactiva Juego
+        ActivateGame(false);
     }
 
     void GuardarTodo(ClickEvent e)
@@ -67,6 +77,10 @@ public class configUi : MonoBehaviour
 
 
         //List<VisualElement> lveizda = izda.Children().ToList()
+
+
+        // Activa Juego
+        ActivateGame(true);
     }
 
     void Fase1Complet(ClickEvent e)
@@ -99,5 +113,12 @@ public class configUi : MonoBehaviour
             }
         }
         text_delfinesRestantes.text = "Ahora mismo tienes " + (input_delfinesN.value - delfinesColocados) + " delfines restantes en el \r\njuego, aparecerán buceando.";
+    }
+
+    void ActivateGame(bool enable)
+    {
+        environmentObject.SetActive(enable);
+        managerstObject.SetActive(enable);
+        canvasObject.SetActive(enable);
     }
 }

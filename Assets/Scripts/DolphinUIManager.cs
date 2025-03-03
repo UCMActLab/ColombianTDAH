@@ -10,12 +10,15 @@ public class DolphinUIManager : MonoBehaviour
     GameObject _endLevel;
     [SerializeField]
     GameObject _options;
-
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    [SerializeField]
+    private GameObject _configUIObject;
+    
+    void OnEnable()
     {
-
+        // Desactivo UI configuracion
+        _configUIObject.SetActive(false);
     }
+
     public void startLevelStats(int level, int points)
     {
         _pointsText.SetText("Points: " + level.ToString());
