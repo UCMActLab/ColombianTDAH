@@ -13,7 +13,7 @@ public class DolphinLevelManager : MonoBehaviour
     public static DolphinLevelManager Instance { get { return _instance; } }
 
     // RIVER VARIABLES
-    //  N�mero de carriles y columnas del r�o
+    //  Numero de carriles y columnas del rio
     [SerializeField, Tooltip("Carriles del r�o")]
     int railNumber = 3;
     [SerializeField]
@@ -163,6 +163,7 @@ public class DolphinLevelManager : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        LoadConfiguration();
         InitLevel();
     }
 
@@ -473,5 +474,12 @@ public class DolphinLevelManager : MonoBehaviour
         SetObstacleSpawnerInRail(rail, false); Debug.Log(rail + "I stoppeddddd");
         yield return new WaitForSeconds(pauseSpawningTime);
         SetObstacleSpawnerInRail(rail, true); Debug.Log(rail + "I returnedddd");
+    }
+
+    // Metodo que guarda los datos de la configuracion en las variables privadas de la clase
+    void LoadConfiguration()
+    {
+        railNumber = levelData.NumCarriles; // Numero de carriles
+        //_winPoints = levelData.LevelPoints;
     }
 }
