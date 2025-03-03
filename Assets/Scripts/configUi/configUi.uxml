@@ -1,4 +1,5 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <ui:Template name="carrilToggles" src="project://database/Assets/Resources/UI/carrilToggles.uxml?fileID=9197481963319205126&amp;guid=1f76b31529b39514a87ddd7c626d0f25&amp;type=3#carrilToggles" />
     <Style src="project://database/Assets/Scripts/configUi/configUi.uss?fileID=7433441132597879392&amp;guid=bd014f9788e6ad84ea62ed986ccff74e&amp;type=3#configUi" />
     <ui:VisualElement name="FullScreen" style="flex-grow: 1; width: 1920px; height: 1080px; align-items: center; justify-content: flex-end; align-self: stretch; align-content: stretch; flex-direction: row; flex-shrink: 0; position: relative; left: 0; top: 0; background-color: rgba(200, 255, 165, 0.53);">
         <ui:VisualElement name="UiDoc" style="flex-grow: 1; flex-direction: row; background-color: rgb(0, 138, 17); position: absolute; top: 74px; left: 213px; flex-shrink: 1; height: 720px; width: 1080px; max-width: 1080px; max-height: 720px; min-width: 1080px; min-height: 720px;">
@@ -14,36 +15,36 @@
                     <ui:Label text="Superficie del rio:                                       ." style="width: 100%;" />
                     <ui:VisualElement name="toggleGroup" style="flex-grow: 1; width: 100%; flex-direction: row; flex-wrap: wrap;">
                         <ui:VisualElement name="carrilToggles" style="flex-grow: 1; flex-direction: row;">
-                            <ui:Toggle enabled="true" toggle-on-label-click="true" focusable="true" style="flex-wrap: wrap;" />
-                            <ui:Toggle enabled="true" toggle-on-label-click="true" focusable="true" />
-                            <ui:Toggle enabled="true" toggle-on-label-click="true" focusable="true" />
-                            <ui:Toggle enabled="true" toggle-on-label-click="true" focusable="true" />
-                            <ui:Toggle enabled="true" toggle-on-label-click="true" focusable="true" />
-                            <ui:Toggle enabled="true" toggle-on-label-click="true" focusable="true" />
-                            <ui:Toggle enabled="true" toggle-on-label-click="true" focusable="true" />
-                            <ui:Toggle enabled="true" toggle-on-label-click="true" focusable="true" />
+                            <ui:Toggle enabled="true" toggle-on-label-click="true" focusable="true" name="Toggle" style="flex-wrap: wrap;" />
+                            <ui:Toggle enabled="true" toggle-on-label-click="true" focusable="true" name="Toggle" />
+                            <ui:Toggle enabled="true" toggle-on-label-click="true" focusable="true" name="Toggle" />
+                            <ui:Toggle enabled="true" toggle-on-label-click="true" focusable="true" name="Toggle" />
+                            <ui:Toggle enabled="true" toggle-on-label-click="true" focusable="true" name="Toggle" />
+                            <ui:Toggle enabled="true" toggle-on-label-click="true" focusable="true" name="Toggle" />
+                            <ui:Toggle enabled="true" toggle-on-label-click="true" focusable="true" name="Toggle" />
+                            <ui:Toggle enabled="true" toggle-on-label-click="true" focusable="true" name="Toggle" />
                             <ui:Toggle enabled="true" toggle-on-label-click="true" focusable="true" name="Toggle" />
                         </ui:VisualElement>
                         <ui:VisualElement name="carrilToggles" style="flex-grow: 1; flex-direction: row;">
                             <ui:Toggle enabled="true" toggle-on-label-click="true" focusable="true" style="flex-wrap: wrap;" />
-                            <ui:Toggle enabled="true" toggle-on-label-click="true" focusable="true" />
-                            <ui:Toggle enabled="true" toggle-on-label-click="true" focusable="true" />
-                            <ui:Toggle enabled="true" toggle-on-label-click="true" focusable="true" />
-                            <ui:Toggle enabled="true" toggle-on-label-click="true" focusable="true" />
-                            <ui:Toggle enabled="true" toggle-on-label-click="true" focusable="true" />
-                            <ui:Toggle enabled="true" toggle-on-label-click="true" focusable="true" />
-                            <ui:Toggle enabled="true" toggle-on-label-click="true" focusable="true" />
+                            <ui:Toggle enabled="true" toggle-on-label-click="true" focusable="true" name="Toggle" />
+                            <ui:Toggle enabled="true" toggle-on-label-click="true" focusable="true" name="Toggle" />
+                            <ui:Toggle enabled="true" toggle-on-label-click="true" focusable="true" name="Toggle" />
+                            <ui:Toggle enabled="true" toggle-on-label-click="true" focusable="true" name="Toggle" />
+                            <ui:Toggle enabled="true" toggle-on-label-click="true" focusable="true" name="Toggle" />
+                            <ui:Toggle enabled="true" toggle-on-label-click="true" focusable="true" name="Toggle" />
+                            <ui:Toggle enabled="true" toggle-on-label-click="true" focusable="true" name="Toggle" />
                             <ui:Toggle enabled="true" toggle-on-label-click="true" focusable="true" name="Toggle" />
                         </ui:VisualElement>
                         <ui:VisualElement name="carrilToggles" style="flex-grow: 1; flex-direction: row;">
-                            <ui:Toggle enabled="true" toggle-on-label-click="true" focusable="true" style="flex-wrap: wrap;" />
-                            <ui:Toggle enabled="true" toggle-on-label-click="true" focusable="true" />
-                            <ui:Toggle enabled="true" toggle-on-label-click="true" focusable="true" />
-                            <ui:Toggle enabled="true" toggle-on-label-click="true" focusable="true" />
-                            <ui:Toggle enabled="true" toggle-on-label-click="true" focusable="true" />
-                            <ui:Toggle enabled="true" toggle-on-label-click="true" focusable="true" />
-                            <ui:Toggle enabled="true" toggle-on-label-click="true" focusable="true" />
-                            <ui:Toggle enabled="true" toggle-on-label-click="true" focusable="true" />
+                            <ui:Toggle enabled="true" toggle-on-label-click="true" focusable="true" name="Toggle" style="flex-wrap: wrap;" />
+                            <ui:Toggle enabled="true" toggle-on-label-click="true" focusable="true" name="Toggle" />
+                            <ui:Toggle enabled="true" toggle-on-label-click="true" focusable="true" name="Toggle" />
+                            <ui:Toggle enabled="true" toggle-on-label-click="true" focusable="true" name="Toggle" />
+                            <ui:Toggle enabled="true" toggle-on-label-click="true" focusable="true" name="Toggle" />
+                            <ui:Toggle enabled="true" toggle-on-label-click="true" focusable="true" name="Toggle" />
+                            <ui:Toggle enabled="true" toggle-on-label-click="true" focusable="true" name="Toggle" />
+                            <ui:Toggle enabled="true" toggle-on-label-click="true" focusable="true" name="Toggle" />
                             <ui:Toggle enabled="true" toggle-on-label-click="true" focusable="true" name="Toggle" />
                         </ui:VisualElement>
                     </ui:VisualElement>
@@ -84,4 +85,5 @@
             </ui:VisualElement>
         </ui:VisualElement>
     </ui:VisualElement>
+    <ui:Instance template="carrilToggles" />
 </ui:UXML>

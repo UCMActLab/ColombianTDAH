@@ -2,6 +2,8 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using System.Collections.Generic;
 using UnityEngine.Windows;
+using System.Linq;
+
 
 public class configUi : MonoBehaviour
 {
@@ -87,15 +89,20 @@ public class configUi : MonoBehaviour
         int j = 0;
         int delfinesEncontrados = 0;
 
+        Debug.Log("i "+input_toggleGroup.childCount);
+        Debug.Log("j "+input_toggleGroup[i][0].childCount);
         while (i < input_toggleGroup.childCount)
         {
-            while (j < input_toggleGroup[i].childCount)
+            while (j < input_toggleGroup[i][0].childCount)
             {
-                if (input_toggleGroup[i][j].Q<Toggle>().value == true)
+                Debug.Log(j+ "Val "+ input_toggleGroup[i][0][j].Q<Toggle>().value);
+                if (input_toggleGroup[i][0][j].Q<Toggle>().value)
                 {
                     Debug.Log("dolphin pos colcoado " + i + " " + j);
-                    posDelfines[delfinesEncontrados] = new Vector2(i, j);
+                    Debug.Log(delfinesEncontrados);
+                    if(delfinesEncontrados < input_delfinesN.value) posDelfines[delfinesEncontrados] = new Vector2(i, j); //si se ha pasado se fastidian los ultimos :p
                     delfinesEncontrados++;
+                    Debug.Log("marcado");
                 }
                 j++;
             }
@@ -166,29 +173,38 @@ public class configUi : MonoBehaviour
             VisualTreeAsset uiAsset = Resources.Load<VisualTreeAsset>("UI/carrilToggles");
             Debug.Log(uiAsset);
             VisualElement ui = uiAsset.Instantiate();
+            Debug.Log("uichildcount"+ui.name + ui.childCount);
+            Debug.Log("uichildcount" + ui[0].name + ui[0].childCount);
+
+            for (int j = 0; j < ui.childCount; j++)
+            {
+                ui[j].name = "Toggle" + i.ToString() + j.ToString();
+            }
+
             input_toggleGroup.Add(ui);
+            Debug.Log("misninosinputtoggle"+input_toggleGroup.childCount);
+
         }
     }
 
     void DelfinColocado(ClickEvent e)
     {
         delfinesColocados = 0;
-        Debug.Log("i carriles " + input_toggleGroup.childCount);
-        Debug.Log("j carriles (Del primero) " + input_toggleGroup[0].Q<VisualElement>().childCount);
 
-        for (int i = 0; i < input_toggleGroup.childCount; i++)
+        for (int i = 0; i< input_toggleGroup.childCount; i++)
         {
-            for (int j = 0; j < input_toggleGroup[i].childCount; j++)
+            for (int j = 0; j < input_toggleGroup[i][0].childCount; j++)
             {
-                Debug.Log(j);
-                if (input_toggleGroup[i][j].Q<Toggle>().value == true)
+                if (input_toggleGroup[i][0][j].Q<Toggle>().value)
                 {
                     delfinesColocados++;
                     Debug.Log("oui");
                 }
             }
         }
-        text_delfinesRestantes.text = "Ahora mismo tienes " + (input_delfinesN.value - delfinesColocados) + " delfines restantes en el \r\njuego, aparecer�n buceando.";
+        int delfinesRestantes = input_delfinesN.value - delfinesColocados;
+        if (delfinesRestantes < 0) text_delfinesRestantes.text = "Por favor retire " + Mathf.Abs(delfinesRestantes) + " delfines. \r\n Como mucho puede tener " + input_delfinesN.value + " delfines en el río.";
+        else text_delfinesRestantes.text = "Ahora mismo tienes " + delfinesRestantes + " delfines restantes en el \r\njuego, aparecer�n buceando.";
     }
 
     void ActivateGame(bool enable)
