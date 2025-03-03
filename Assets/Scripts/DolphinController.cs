@@ -77,7 +77,7 @@ public class DolphinController : MonoBehaviour
     }
     public bool Jump()
     {
-        if (currentState == DolphinStates.FLOATING)
+        if (currentState == DolphinStates.FLOATING && !dragComponent.AmIBeingDragged())
         {
             currentState = DolphinStates.JUMPING;
             animator.SetTrigger("Jump");
@@ -89,7 +89,7 @@ public class DolphinController : MonoBehaviour
     }
     public bool SpecialJump()
     {
-        if (currentState == DolphinStates.FLOATING)
+        if (currentState == DolphinStates.FLOATING && !dragComponent.AmIBeingDragged())
         {
             currentState = DolphinStates.SPECIALJUMPING;
             animator.SetTrigger("SpecialJump");
