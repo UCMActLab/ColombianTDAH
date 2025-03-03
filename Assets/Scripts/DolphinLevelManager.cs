@@ -125,6 +125,7 @@ public class DolphinLevelManager : MonoBehaviour
     private void EndGame()
     {
         _UIManager.showWin();
+        _dolphinManager.DeactivateDolphins();
         //freeze gam/disable input
     }
 
@@ -173,6 +174,7 @@ public class DolphinLevelManager : MonoBehaviour
             currTime += Time.deltaTime;
             if (currTime >= spawnTime)
             {
+                Debug.Log("Instancio obstaculo");
                 currTime = 0;
                 randomObjectSpawner.Spawn();
             }

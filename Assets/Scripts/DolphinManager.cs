@@ -138,4 +138,9 @@ public class DolphinManager : MonoBehaviour
             while (dolphinsToFloatCheck.Count != 0 && !Float());
         }
     }
+
+    public void DeactivateDolphins()
+    {
+        dolphins.ForEach(d => d.SetActive(false));
+    }
 }
