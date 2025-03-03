@@ -1,0 +1,13 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <ui:VisualElement name="carrilToggles" style="flex-grow: 1; flex-direction: row;">
+        <ui:Toggle enabled="true" toggle-on-label-click="true" focusable="true" style="flex-wrap: wrap;" />
+        <ui:Toggle enabled="true" toggle-on-label-click="true" focusable="true" />
+        <ui:Toggle enabled="true" toggle-on-label-click="true" focusable="true" />
+        <ui:Toggle enabled="true" toggle-on-label-click="true" focusable="true" />
+        <ui:Toggle enabled="true" toggle-on-label-click="true" focusable="true" />
+        <ui:Toggle enabled="true" toggle-on-label-click="true" focusable="true" />
+        <ui:Toggle enabled="true" toggle-on-label-click="true" focusable="true" />
+        <ui:Toggle enabled="true" toggle-on-label-click="true" focusable="true" />
+        <ui:Toggle enabled="true" toggle-on-label-click="true" focusable="true" name="Toggle" />
+    </ui:VisualElement>
+</ui:UXML>

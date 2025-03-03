@@ -4,42 +4,49 @@
         <ui:VisualElement name="Fase1y2" style="flex-grow: 1; flex-direction: column; width: 40%; height: 100%;">
             <ui:VisualElement name="Fase1" class="faseBg" style="flex-grow: 1;">
                 <ui:IntegerField label="Cant carriles:" value="3" name="carrilesN" />
+                <ui:Label text="El máximo es 6. Aunque el número &#10;sea mayor los carriles serán 6." style="flex-wrap: wrap;" />
                 <ui:IntegerField label="Cant delf:" value="5" name="delfinesN" />
                 <ui:Button text="Aceptar" name="fase1Complet" />
                 <ui:Label text="(al pulsar este botón se recargará &#10;la cuadrícula de abajo, cuidado &#10;con los cambios que hayas hecho!)" style="flex-wrap: wrap;" />
             </ui:VisualElement>
             <ui:VisualElement name="Fase2" class="faseBg" style="flex-grow: 1; flex-wrap: wrap; flex-direction: column; padding-top: 20px; padding-right: 20px; padding-bottom: 20px; padding-left: 20px;">
                 <ui:Label text="Superficie del rio:                                       ." style="width: 100%;" />
-                <ui:VisualElement style="flex-grow: 1; width: 100%; flex-direction: row; flex-wrap: wrap;">
-                    <ui:Toggle enabled="true" toggle-on-label-click="true" focusable="true" style="flex-wrap: wrap;" />
-                    <ui:Toggle enabled="true" toggle-on-label-click="true" focusable="true" />
-                    <ui:Toggle enabled="true" toggle-on-label-click="true" focusable="true" />
-                    <ui:Toggle enabled="true" toggle-on-label-click="true" focusable="true" />
-                    <ui:Toggle enabled="true" toggle-on-label-click="true" focusable="true" />
-                    <ui:Toggle enabled="true" toggle-on-label-click="true" focusable="true" />
-                    <ui:Toggle enabled="true" toggle-on-label-click="true" focusable="true" />
-                    <ui:Toggle enabled="true" toggle-on-label-click="true" focusable="true" />
-                    <ui:Toggle enabled="true" toggle-on-label-click="true" focusable="true" />
-                    <ui:Toggle enabled="true" toggle-on-label-click="true" focusable="true" />
-                    <ui:Toggle enabled="true" toggle-on-label-click="true" focusable="true" />
-                    <ui:Toggle enabled="true" toggle-on-label-click="true" focusable="true" />
-                    <ui:Toggle enabled="true" toggle-on-label-click="true" focusable="true" />
-                    <ui:Toggle enabled="true" toggle-on-label-click="true" focusable="true" />
-                    <ui:Toggle enabled="true" toggle-on-label-click="true" focusable="true" />
-                    <ui:Toggle enabled="true" toggle-on-label-click="true" focusable="true" />
-                    <ui:Toggle enabled="true" toggle-on-label-click="true" focusable="true" />
-                    <ui:Toggle enabled="true" toggle-on-label-click="true" focusable="true" />
-                    <ui:Toggle enabled="true" toggle-on-label-click="true" focusable="true" />
-                    <ui:Toggle enabled="true" toggle-on-label-click="true" focusable="true" />
-                    <ui:Toggle enabled="true" toggle-on-label-click="true" focusable="true" />
-                    <ui:Toggle enabled="true" toggle-on-label-click="true" focusable="true" />
-                    <ui:Toggle enabled="true" toggle-on-label-click="true" focusable="true" />
-                    <ui:Toggle enabled="true" toggle-on-label-click="true" focusable="true" />
-                    <ui:Toggle enabled="true" toggle-on-label-click="true" focusable="true" />
-                    <ui:Toggle enabled="true" toggle-on-label-click="true" focusable="true" />
-                    <ui:Toggle enabled="true" toggle-on-label-click="true" focusable="true" />
+                <ui:VisualElement name="toggleGroup" style="flex-grow: 1; width: 100%; flex-direction: row; flex-wrap: wrap;">
+                    <ui:VisualElement name="carrilToggles" style="flex-grow: 1; flex-direction: row;">
+                        <ui:Toggle enabled="true" toggle-on-label-click="true" focusable="true" style="flex-wrap: wrap;" />
+                        <ui:Toggle enabled="true" toggle-on-label-click="true" focusable="true" />
+                        <ui:Toggle enabled="true" toggle-on-label-click="true" focusable="true" />
+                        <ui:Toggle enabled="true" toggle-on-label-click="true" focusable="true" />
+                        <ui:Toggle enabled="true" toggle-on-label-click="true" focusable="true" />
+                        <ui:Toggle enabled="true" toggle-on-label-click="true" focusable="true" />
+                        <ui:Toggle enabled="true" toggle-on-label-click="true" focusable="true" />
+                        <ui:Toggle enabled="true" toggle-on-label-click="true" focusable="true" />
+                        <ui:Toggle enabled="true" toggle-on-label-click="true" focusable="true" name="Toggle" />
+                    </ui:VisualElement>
+                    <ui:VisualElement name="carrilToggles" style="flex-grow: 1; flex-direction: row;">
+                        <ui:Toggle enabled="true" toggle-on-label-click="true" focusable="true" style="flex-wrap: wrap;" />
+                        <ui:Toggle enabled="true" toggle-on-label-click="true" focusable="true" />
+                        <ui:Toggle enabled="true" toggle-on-label-click="true" focusable="true" />
+                        <ui:Toggle enabled="true" toggle-on-label-click="true" focusable="true" />
+                        <ui:Toggle enabled="true" toggle-on-label-click="true" focusable="true" />
+                        <ui:Toggle enabled="true" toggle-on-label-click="true" focusable="true" />
+                        <ui:Toggle enabled="true" toggle-on-label-click="true" focusable="true" />
+                        <ui:Toggle enabled="true" toggle-on-label-click="true" focusable="true" />
+                        <ui:Toggle enabled="true" toggle-on-label-click="true" focusable="true" name="Toggle" />
+                    </ui:VisualElement>
+                    <ui:VisualElement name="carrilToggles" style="flex-grow: 1; flex-direction: row;">
+                        <ui:Toggle enabled="true" toggle-on-label-click="true" focusable="true" style="flex-wrap: wrap;" />
+                        <ui:Toggle enabled="true" toggle-on-label-click="true" focusable="true" />
+                        <ui:Toggle enabled="true" toggle-on-label-click="true" focusable="true" />
+                        <ui:Toggle enabled="true" toggle-on-label-click="true" focusable="true" />
+                        <ui:Toggle enabled="true" toggle-on-label-click="true" focusable="true" />
+                        <ui:Toggle enabled="true" toggle-on-label-click="true" focusable="true" />
+                        <ui:Toggle enabled="true" toggle-on-label-click="true" focusable="true" />
+                        <ui:Toggle enabled="true" toggle-on-label-click="true" focusable="true" />
+                        <ui:Toggle enabled="true" toggle-on-label-click="true" focusable="true" name="Toggle" />
+                    </ui:VisualElement>
                 </ui:VisualElement>
-                <ui:Label text="Buceando:&#10;Ahora mismo tienes X delfines restantes en el &#10;juego, aparecerán buceando." />
+                <ui:Label text="Ahora mismo tienes X delfines restantes en el &#10;juego, aparecerán buceando." name="delfinesRestantes" />
             </ui:VisualElement>
         </ui:VisualElement>
         <ui:VisualElement name="Fase3" class="faseBg" style="flex-grow: 1; width: 60%; height: auto; flex-wrap: wrap; justify-content: flex-start;">

@@ -25,7 +25,9 @@ public class configUi : MonoBehaviour
     IntegerField input_pointWrongGuess;
     IntegerField input_pointChoque;
     Button input_guardar;
-
+    VisualElement input_toggleGroup;
+    TextField text_delfinesRestantes;
+    int delfinesColocados = 0;
 
     private void OnEnable()
     {
@@ -51,36 +53,43 @@ public class configUi : MonoBehaviour
         input_pointWrongGuess = root.Q<IntegerField>("pointWrongGuess");
         input_pointChoque = root.Q<IntegerField>("pointChoque");
         input_guardar = root.Q<Button>("guardar");
-
-        //
-        //Faltan los toggles de la fase 2
+        input_toggleGroup = root.Q<VisualElement>("toggleGroup");
+        text_delfinesRestantes = root.Q<TextField>("delfinesRestantes");
 
         input_guardar.RegisterCallback<ClickEvent>(GuardarTodo);
         input_fase1Complet.RegisterCallback<ClickEvent>(Fase1Complet);
+        input_toggleGroup.RegisterCallback<ClickEvent>(DelfinColocado);
+
+        
     }
 
     void GuardarTodo(ClickEvent e)
     {
         Debug.Log("Guardando: carrilesN = " + input_carrilesN.value);
+
+
+        //List<VisualElement> lveizda = izda.Children().ToList()
     }
 
     void Fase1Complet(ClickEvent e)
     {
         Debug.Log("Fase 1 completada");
-        for (int i = 0; i < input_carrilesN.value; i++)
+        delfinesColocados = 0;
+        input_toggleGroup.Clear(); //Borramos los carriles
+        int n = input_carrilesN.value;
+        if (n > 6) n = 6;
+        for (int i = 0; i < n; i++)
         {
-            //INVESTIGAR COMO INSTANCIAR TOGGLES
-            // fase2.AñadirLineaDeToggles()
-            // deberíamos tener un array de toggles??? o
-            // iteramos en los hijos del VisualElement padre?
+            VisualTreeAsset uiAsset = Resources.Load<VisualTreeAsset>("UI/carrilToggles");
+            Debug.Log(uiAsset);
+            VisualElement ui = uiAsset.Instantiate();
+            input_toggleGroup.Add(ui);
         }
     }
 
     void DelfinColocado(ClickEvent e)
     {
-        //Cada vez que se coloca un delfín, se llama a esta función
-            //llamamos cuando se clika en el elem padre? puede dar errores pero 
-            //callbacks desde cada toggle?? pereza no??
-        //TODO: Actualizar texto de toggles restantes
+        delfinesColocados++;
+        text_delfinesRestantes.label = "Ahora mismo tienes " + (input_delfinesN.value - delfinesColocados) + "delfines restantes en el \r\njuego, aparecerán buceando.";
     }
 }
