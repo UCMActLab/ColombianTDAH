@@ -106,6 +106,7 @@ public class configUi : MonoBehaviour
         {
             for(int j = 0; j < input_toggleGroup[i].childCount; j++)
             {
+                Debug.Log(j);
                 if (input_toggleGroup[i][j].Q<Toggle>().value == true)
                 {
                     delfinesColocados++;
