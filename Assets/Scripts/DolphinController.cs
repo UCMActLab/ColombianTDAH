@@ -58,7 +58,7 @@ public class DolphinController : MonoBehaviour
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
-        if(_colliderClickDolphin.activeSelf)
+        if (_colliderClickDolphin.activeSelf)
         {
             BoxCollider boxCollider = _colliderClickDolphin.GetComponent<BoxCollider>();
             Gizmos.DrawWireCube(boxCollider.bounds.center, boxCollider.bounds.size);
@@ -77,9 +77,9 @@ public class DolphinController : MonoBehaviour
     }
     public bool Jump()
     {
-        if(currentState==DolphinStates.FLOATING)
+        if (currentState == DolphinStates.FLOATING)
         {
-           currentState = DolphinStates.JUMPING;
+            currentState = DolphinStates.JUMPING;
             animator.SetTrigger("Jump");
             _colliderClickDolphin.SetActive(true);
             //Debug.Log(currentState);
@@ -111,15 +111,15 @@ public class DolphinController : MonoBehaviour
 
     public bool Float() //-------------------------------
     {
-        if(currentState == DolphinStates.DIVING)
+        if (currentState == DolphinStates.DIVING)
         {
             //transform.position.x, 0, transform.position.z
             Vector2 matrixPos = DolphinLevelManager.Instance.GetNextAvailableMatrixSpot(this.transform.position);
             float3 pos = (float3)DolphinLevelManager.Instance.GetWorldPositionFromCube((int)matrixPos.x, (int)matrixPos.y);
-            pos = new float3(pos.x, riverFloatingHeight, pos.z);           
+            pos = new float3(pos.x, riverFloatingHeight, pos.z);
             buceoComponent.SetPath(pos);
             GetComponent<MatrixCubeInfo>().SetXY((int)matrixPos.x, (int)matrixPos.y);
-            currentState=DolphinStates.FLOATING;
+            currentState = DolphinStates.FLOATING;
             isAboutToDive = false;
             this.GetComponent<Drag>().enabled = true;
             return true;
@@ -128,7 +128,7 @@ public class DolphinController : MonoBehaviour
     }
     public void OnAnimationEnded(string action) //función que se llama en evento de fin de animación 
     {
-        switch(action)
+        switch (action)
         {
             case "Jump":
                 //Debug.Log("ive ended jumping");
@@ -146,65 +146,61 @@ public class DolphinController : MonoBehaviour
 
     public void TryClickDolphin() //comprobacion un poco provisional (no se si el onmouseover aquí se podría reutilizar también)
     {
-            Camera cam = Camera.main;
-            Vector2 mousePos = new Vector2();
+        Camera cam = Camera.main;
+        Vector2 mousePos = new Vector2();
 
-            mousePos.x = Input.mousePosition.x;
-            mousePos.y = Input.mousePosition.y;
+        mousePos.x = Input.mousePosition.x;
+        mousePos.y = Input.mousePosition.y;
 
-            Vector3 point = cam.ScreenToWorldPoint(new Vector3(mousePos.x, mousePos.y, _raycastDistance));
-            Vector3 dir = point - cam.transform.position;
-            bool hasHit = Physics.Raycast(cam.transform.position, dir, out RaycastHit hit, Mathf.Infinity, _layerMask);
+        Vector3 point = cam.ScreenToWorldPoint(new Vector3(mousePos.x, mousePos.y, _raycastDistance));
+        Vector3 dir = point - cam.transform.position;
+        bool hasHit = Physics.Raycast(cam.transform.position, dir, out RaycastHit hit, Mathf.Infinity, _layerMask);
 
-            Debug.DrawRay(cam.transform.position, dir, UnityEngine.Color.yellow);
+        Debug.DrawRay(cam.transform.position, dir, UnityEngine.Color.yellow);
 
-            if (hasHit && (hit.transform.gameObject == _colliderClickDolphin))
+        if (hasHit && (hit.transform.gameObject == _colliderClickDolphin))
+        {
+            Debug.Log("I clicked the collider (jumping o rolling)");
+
+            if (currentState == DolphinStates.SPECIALJUMPING && !hasBeenHit) //RIGHT GUESS SPECIAL JUMP
             {
-                Debug.Log("I clicked the collider (jumping o rolling)");
+                //Debug.Log("HIT 30000000 POINTS");
 
-                if (currentState == DolphinStates.SPECIALJUMPING && !hasBeenHit) //RIGHT GUESS SPECIAL JUMP
-                {
-                    //Debug.Log("HIT 30000000 POINTS");
+                hasBeenHit = true;
+                _colliderClickDolphin.SetActive(false);
 
-                    hasBeenHit = true;
-                    _colliderClickDolphin.SetActive(false);
-                    
-                    // Dolphin sound
-                    _myAudioSource.Play();
-                    
-                    //In world points text
-                    int plusPoints = dolphinMngr.RightGuess();
-                    Vector3 offsetHeight = new Vector3(0.0f, 2.0f, 0.0f);
-                    GameObject pointsTetx = Instantiate(_pointsTextPrefab, transform.position + offsetHeight, Quaternion.identity); 
-                    pointsTetx.GetComponentInChildren<TextMeshProUGUI>().SetText(plusPoints.ToString());
-               
-                    Destroy(pointsTetx, _pointsTextLifeTime);
-                }
-                else if (currentState == DolphinStates.JUMPING && !dragComponent.AmIBeingDragged()) //WRONG GUESS SPECIAL JUMP
-                {
-                /*
-                    //In world points text
-                    int lessPoints = dolphinMngr.WrongGuess();
-                    Vector3 offsetHeight = new Vector3(0.0f, 2.0f, 0.0f);
-                    GameObject pointsTetx = Instantiate(_pointsTextPrefab, transform.position + offsetHeight, Quaternion.identity); 
-                    pointsTetx.GetComponentInChildren<TextMeshProUGUI>().SetText(lessPoints.ToString());
-                    pointsTetx.GetComponentInChildren<TextMeshProUGUI>().color = Color.red;
+                // Dolphin sound
+                _myAudioSource.Play();
 
-                    Destroy(pointsTetx, _pointsTextLifeTime);
-                */ //esto requiere de algun tipo de delay para saber que no estamos draggeando el delfin 
-                }
+                //In world points text
+                int plusPoints = dolphinMngr.RightGuess();
+                Vector3 offsetHeight = new Vector3(0.0f, 2.0f, 0.0f);
+                GameObject pointsTetx = Instantiate(_pointsTextPrefab, transform.position + offsetHeight, Quaternion.identity);
+                pointsTetx.GetComponentInChildren<TextMeshProUGUI>().SetText(plusPoints.ToString());
+
+                Destroy(pointsTetx, _pointsTextLifeTime);
             }
+            else if (currentState == DolphinStates.JUMPING && !dragComponent.AmIBeingDragged()) //WRONG GUESS SPECIAL JUMP
+            {
+
+                //In world points text
+                int lessPoints = dolphinMngr.WrongGuess();
+                Vector3 offsetHeight = new Vector3(0.0f, 2.0f, 0.0f);
+                GameObject pointsTetx = Instantiate(_pointsTextPrefab, transform.position + offsetHeight, Quaternion.identity);
+                pointsTetx.GetComponentInChildren<TextMeshProUGUI>().SetText(lessPoints.ToString());
+                pointsTetx.GetComponentInChildren<TextMeshProUGUI>().color = Color.red;
+
+                Destroy(pointsTetx, _pointsTextLifeTime);
+            }
+        }
     }
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Mouse0)) //haciendo pruebas
+        // Si levanta click izquierdo
+        if (Input.GetMouseButtonUp(0))
         {
             TryClickDolphin();
         }
-        //if (Input.GetKeyDown(KeyCode.Mouse1)) //haciendo pruebas
-        //{
-        //    SpecialJump();
-        //}
     }
 }

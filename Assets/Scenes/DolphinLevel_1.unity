@@ -3316,7 +3316,7 @@ MonoBehaviour:
   _offset: {x: 0, y: 0, z: -2}
   _winPoints: 40
   _specialJumpPoints: 20
-  _wrongSpecialJumpPoints: 0
+  _wrongSpecialJumpPoints: -10
   _hitObstaclePoints: 0
   currTime: 0
   randomObjectSpawner: {fileID: 4826972}
