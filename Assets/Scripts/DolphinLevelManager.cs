@@ -1,4 +1,7 @@
+using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
+using UnityEditor.ShaderKeywordFilter;
 using UnityEngine;
 
 public enum Box { Empty, Dolphin, Obstacle }
@@ -54,6 +57,7 @@ public class DolphinLevelManager : MonoBehaviour
     [SerializeField, Tooltip("Time for object spawning")]
     float spawnTime;
     bool _obstacleSpawning = true;
+    float pauseSpawningTime = 5.0f;
 
     // Managers (queremos instanciar prefabs o hacer un find?)
     [SerializeField]
@@ -63,6 +67,10 @@ public class DolphinLevelManager : MonoBehaviour
 
     [SerializeField, Tooltip("Whale prefab")]
     GameObject _whale;
+
+    //SavedfromUI
+    [SerializeField]
+    configData levelData;
 
     public void InitLevel()
     {
@@ -113,6 +121,7 @@ public class DolphinLevelManager : MonoBehaviour
         _offset = _offset - new Vector3(-_riverSize.x / 2, 0.0f, _riverSize.z / 2);
     }
 
+    
     private void EndGame()
     {
         _UIManager.showWin();
@@ -251,6 +260,45 @@ public class DolphinLevelManager : MonoBehaviour
     //    return dist;
     //}
 
+    //return num objs, distance a primer obs 
+    protected struct InfoRail
+    {
+        public int railNumber;
+        public int nObstacles;
+        public int distToFirstObs;
+        public int freeSpots;
+
+        public InfoRail(int railN, int nObs, int dist, int spots)
+        {
+            railNumber = railN;
+            nObstacles = nObs;
+            distToFirstObs = dist;
+            freeSpots = spots;
+        }
+    }
+    private InfoRail GetRailOccupancy(int xPos, int rail)
+    {
+        InfoRail occupancy = new InfoRail(rail, 0, 0, 0);
+        int i = xPos;
+        while (i < cubesMatrix.GetLength(0))
+        {
+            Box ocup = GetOccupationFromMatrix(i, rail);
+
+            if (ocup == Box.Obstacle)
+            {
+                if (occupancy.nObstacles == 0) occupancy.distToFirstObs = i;
+                occupancy.nObstacles++;
+            }
+            else if (ocup == Box.Empty)
+            {
+                occupancy.freeSpots++;
+            }
+            i++; 
+        }
+
+        if (occupancy.nObstacles == 0) occupancy.distToFirstObs = 1000;
+        return occupancy;
+    }
 
 
     //cogemos el punto en la matriz m�s libre (respecto a un punto hacia su derecha, por donde aparecen los obst�culos(?))
@@ -264,19 +312,84 @@ public class DolphinLevelManager : MonoBehaviour
         int x = (int)dolphinMatrixPos.x;
         int y = (int)dolphinMatrixPos.y;
 
-        while (!success)
-        {
-            if (GetOccupationFromMatrix(x, y) == Box.Empty)
-            {
-                nextPos = new Vector2(x, y);
-                success = true;
-                if (setOcuppation) SetOccupation(x, y, type);
-            }
-            else
-            {
-                x++;
-            }
-        }
+        Debug.Log("x: "+x +"y: "+y);
+        int minDistanceToObs = 4;
+
+        nextPos = GetMatrixXFreePos(x, y, setOcuppation, type);
+        //THRID TRY LOL
+        //InfoRail railToCheck = new InfoRail(y, 0, 0, 0);
+        //int rail = y;
+        //railToCheck = GetRailOccupancy(x, rail);
+
+        //if (railToCheck.distToFirstObs < minDistanceToObs) return GetMatrixXFreePos(x, rail, setOcuppation, type);
+        
+        //int i = 1;
+        //int leftRail = y, rightRail = y;
+
+        //Debug.Log("hiiii");
+        //InfoRail railToCheckUp = new InfoRail(y, 0, 0, 0);
+        //InfoRail railToCheckDown = new InfoRail(y, 0, 0, 0);
+
+        //Debug.Log("rails : " + railNumber);
+        //while (i < railNumber / 2)
+        //{
+
+        //    if (leftRail - i >= 0)
+        //    {
+        //        leftRail -= 1;
+        //        railToCheckUp = GetRailOccupancy(x, leftRail);
+        //    }
+        //    if (rightRail + i < railNumber)
+        //    {
+        //        rightRail = rail += 1;
+        //        railToCheckDown = GetRailOccupancy(x, rightRail);
+        //    }
+
+        //    if (railToCheckUp.distToFirstObs > railToCheckDown.distToFirstObs || (railToCheckUp.distToFirstObs == railToCheckDown.distToFirstObs && railToCheckUp.freeSpots > railToCheckDown.freeSpots))
+        //    {
+        //        railToCheck = railToCheckUp;
+        //    }
+        //    else if (railToCheckDown.distToFirstObs > railToCheckUp.distToFirstObs || (railToCheckDown.distToFirstObs == railToCheckUp.distToFirstObs && railToCheckDown.freeSpots > railToCheckUp.freeSpots))
+        //    {
+        //        railToCheck = railToCheckDown;
+        //    }
+
+        //    if (railToCheck.distToFirstObs < minDistanceToObs)
+        //    {
+        //       nextPos = GetMatrixXFreePos((int)dolphinMatrixPos.x, railToCheck.railNumber, setOcuppation, type); break;
+        //    }
+
+        //    i++;
+        //}
+        Debug.Log(nextPos);
+
+        //for (int i = 0; i < railNumber / 2; i++)
+        //{
+        //    if (y - 1 >= 0) y--;
+        //    {
+
+        //        railToCheck = GetRailOccupancy(x, y - 1);
+        //        if (railToCheck.distToFirstObs < minDistanceToObs) return new Vector2(x, rail);
+        //    }
+        //    if (y + 1 < railNumber) y++;
+        //    {
+
+        //    }
+
+        //}
+        //while (!success)
+        //{
+        //    if (GetOccupationFromMatrix(x, y) == Box.Empty)
+        //    {
+        //        nextPos = new Vector2(x, y);
+        //        success = true;
+        //        if (setOcuppation) SetOccupation(x, y, type);
+        //    }
+        //    else
+        //    {
+        //        x++;
+        //    }
+        //}
 
         //cosas en las que estoy cookeando las prioridades xd
         ////neccessary space to spawn = algo //distance, lane
@@ -296,7 +409,31 @@ public class DolphinLevelManager : MonoBehaviour
 
         //return nextPos;
         //Debug.Log("New position: " + nextPos);
+
+
+        StartCoroutine(PauseObstaclesInRail((int)nextPos.y));
         return nextPos;
+    }
+
+    private Vector2 GetMatrixXFreePos(int x, int y, bool setOcuppation, Box type)
+    {
+        bool success = false;
+        Vector2 pos = new Vector3(0, 1);
+
+        while (!success)
+        {
+            if (GetOccupationFromMatrix(x, y) == Box.Empty)
+            {
+                pos = new Vector2(x, y);
+                success = true;
+                if (setOcuppation) SetOccupation(x, y, type);
+            }
+            else
+            {
+                x++;
+            }
+        }
+        return pos;
     }
     public Vector3 GetWorldPositionFromCube(int x, int y)
     {
@@ -328,5 +465,11 @@ public class DolphinLevelManager : MonoBehaviour
     public void SetObstacleSpawnerInRail(int railNum, bool enabled)
     {
         randomObjectSpawner.SetRailObstacleSpawner(railNum, enabled);
+    }
+    IEnumerator PauseObstaclesInRail(int rail)
+    {
+        SetObstacleSpawnerInRail(rail, false); Debug.Log(rail + "I stoppeddddd");
+        yield return new WaitForSeconds(pauseSpawningTime);
+        SetObstacleSpawnerInRail(rail, true); Debug.Log(rail + "I returnedddd");
     }
 }

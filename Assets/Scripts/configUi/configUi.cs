@@ -36,6 +36,9 @@ public class configUi : MonoBehaviour
     Label text_delfinesRestantes;
     int delfinesColocados = 0;
 
+    [SerializeField]
+    configData config;
+
     private void OnEnable()
     {
         VisualElement root = GetComponent<UIDocument>().rootVisualElement;
@@ -73,11 +76,79 @@ public class configUi : MonoBehaviour
 
     void GuardarTodo(ClickEvent e)
     {
+        //RIVER CONFIG
         Debug.Log("Guardando: carrilesN = " + input_carrilesN.value);
+        config.NumCarriles = input_carrilesN.value;
+        config.NumDelfines = input_delfinesN.value;
 
+        // Posiciones de delfines: Active Toggles to Vector2d
+        Vector2[] posDelfines = new Vector2[input_delfinesN.value];
+        int i = 0;
+        int j = 0;
+        int delfinesEncontrados = 0;
+
+        while (i < input_toggleGroup.childCount)
+        {
+            while (j < input_toggleGroup[i].childCount)
+            {
+                if (input_toggleGroup[i][j].Q<Toggle>().value == true)
+                {
+                    Debug.Log("dolphin pos colcoado " + i + " " + j);
+                    posDelfines[delfinesEncontrados] = new Vector2(i, j);
+                    delfinesEncontrados++;
+                }
+                j++;
+            }
+            i++;
+        }
+
+        //delfinesColocados = 0;
+        //for (int i = 0; i < input_toggleGroup.childCount; i++)
+        //{
+        //    for (int j = 0; j < input_toggleGroup[i].childCount; j++)
+        //    {
+        //        if (input_toggleGroup[i][j].Q<Toggle>().value == true)
+        //        {
+        //            posDelfines[delfinesEncontrados] = new Vector2(i, j);
+        //            delfinesColocados++;
+        //            delfinesEncontrados++;
+        //            Debug.Log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+        //        }
+        //    }
+        //}
+        //text_delfinesRestantes.text = "Ahora mismo tienes " + (input_delfinesN.value - delfinesColocados) + " delfines restantes en el \r\njuego, aparecerï¿½n buceando.";
+
+        Debug.Log("delfinesColocados " + delfinesColocados);
+
+        Debug.Log("delfinesEncontrados" + delfinesEncontrados);
+        for (int d = delfinesEncontrados; d < config.NumDelfines; d++)
+        {
+            //Debug.Log("dolphin pos no colcoado " + i + " " + j);
+
+            posDelfines[d] = new Vector2(-1, -1);
+        }
+
+        config.PosDelfines = posDelfines;
 
         //List<VisualElement> lveizda = izda.Children().ToList()
 
+        //OBS
+        config.MinObstacleSpawn = input_obstacleMin.value; Debug.Log("scroipt"+config.MinObstacleSpawn); Debug.Log("input"+input_obstacleMin.value);
+        config.MaxObstacleSpawn = input_obstacleMax.value;
+        config.ObstacleSpeed = input_obstacleVel.value;
+
+        //JUMP
+        config.canSpecialJumpSimultaneously = input_piruetasSimult.value;
+        config.MinTimeBetweenJumps = input_jumpMin.value;
+        config.MaxTimeBetweenJumps = input_jumpMax.value;
+        config.MinTimeBetweenSpecialJumps = input_piruetMin.value;
+        config.MaxTimeBetweenSpecialJumps = input_piruetMax.value;
+
+        //POINTS
+        config.LevelPoints = input_pointMax.value;
+        config.RightGuessPoints = input_pointPirueta.value;
+        config.WrongGuessPoints = input_pointWrongGuess.value;
+        config.HitObstaclePoints = input_pointChoque.value;
 
         // Activa Juego
         ActivateGame(true);
@@ -102,18 +173,22 @@ public class configUi : MonoBehaviour
     void DelfinColocado(ClickEvent e)
     {
         delfinesColocados = 0;
+        Debug.Log("i carriles " + input_toggleGroup.childCount);
+        Debug.Log("j carriles (Del primero) " + input_toggleGroup[0].Q<VisualElement>().childCount);
+
         for (int i = 0; i < input_toggleGroup.childCount; i++)
         {
-            for(int j = 0; j < input_toggleGroup[i].childCount; j++)
+            for (int j = 0; j < input_toggleGroup[i].childCount; j++)
             {
                 Debug.Log(j);
                 if (input_toggleGroup[i][j].Q<Toggle>().value == true)
                 {
                     delfinesColocados++;
+                    Debug.Log("oui");
                 }
             }
         }
-        text_delfinesRestantes.text = "Ahora mismo tienes " + (input_delfinesN.value - delfinesColocados) + " delfines restantes en el \r\njuego, aparecerán buceando.";
+        text_delfinesRestantes.text = "Ahora mismo tienes " + (input_delfinesN.value - delfinesColocados) + " delfines restantes en el \r\njuego, aparecerï¿½n buceando.";
     }
 
     void ActivateGame(bool enable)

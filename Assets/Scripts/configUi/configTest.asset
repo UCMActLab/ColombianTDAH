@@ -10,21 +10,21 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a355f670193f2e247a0395a1c0be0ea9, type: 3}
-  m_Name: configData
+  m_Name: configTest
   m_EditorClassIdentifier: 
-  configName: Default
-  _nCarriles: 3
-  _nDelfines: 7
+  configName: 
+  _nCarriles: 1
+  _nDelfines: 1
   _posDelfines: []
-  _minObstacleSpawn: 3
-  _maxObstacleSpawn: 4
-  _obstacleSpeed: 55.3
-  _minTimeBetweenJumps: 3
-  _maxTimeBetweenJumps: 4
+  _minObstacleSpawn: 0
+  _maxObstacleSpawn: 0
+  _obstacleSpeed: 1
+  _minTimeBetweenJumps: 0
+  _maxTimeBetweenJumps: 0
   canSpecialJumpSimultaneously: 0
   _minTimeBetweenSpecialJumps: 0
   _maxTimeBetweenSpecialJumps: 0
-  _levelPoints: 3
+  _levelPoints: 0
   _rightGuessPoints: 0
   _wrongGuessPoints: 0
   _hitObstaclePoints: 0

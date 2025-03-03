@@ -2465,6 +2465,7 @@ MonoBehaviour:
   environmentObject: {fileID: 1737488662}
   managerstObject: {fileID: 205169870}
   canvasObject: {fileID: 1224563443}
+  config: {fileID: 11400000, guid: f5b975a533fed634e8088a3b8741154c, type: 2}
 --- !u!114 &1321929724
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3467,6 +3468,7 @@ MonoBehaviour:
   _UIManager: {fileID: 1248144298}
   _dolphinManager: {fileID: 811574443}
   _whale: {fileID: 1351410519}
+  levelData: {fileID: 0}
 --- !u!1001 &1755331234
 PrefabInstance:
   m_ObjectHideFlags: 0
