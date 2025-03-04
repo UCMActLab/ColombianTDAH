@@ -125,6 +125,6 @@ public class Drag : MonoBehaviour
             _dolphinClicked = false;
             GetComponent<Drop>().Belittle();
         }
-        GetComponent<Drop>().ClearMatrixOccupation(); //vaciamos lugar en matriz
+        //GetComponent<DolphinController>().ClearMatrixOccupation(); //vaciamos lugar en matriz
     }
 }

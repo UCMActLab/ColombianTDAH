@@ -13,6 +13,11 @@ public class Obstaculo : MonoBehaviour
         m_CubeInfo = GetComponent<MatrixCubeInfo>();
     }
 
+    public void SetVel(float obsVel)
+    {
+        m_Vel = obsVel;
+    }
+
     void FixedUpdate()
     {
         m_Rigidbody.linearVelocity = Vector3.left * m_Vel;

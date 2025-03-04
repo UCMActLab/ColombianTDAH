@@ -1,5 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
+using UnityEditor.ShaderGraph.Internal;
 using UnityEngine;
 
 public enum Box { Empty, Dolphin, Obstacle }
@@ -14,9 +16,13 @@ public class DolphinLevelManager : MonoBehaviour
     //  Numero de carriles y columnas del rio
     [SerializeField, Tooltip("Carriles del r�o")]
     int railNumber = 3;
-    [SerializeField]
-    int colsNumber = 8;
+    //[SerializeField]
+    int colsNumber = 9;
     float floatingPlaneHeight = 0;
+
+    //quizá sobre lol
+    int initialDolphins;
+    Vector2[] posDolphins; 
 
     // Matrices
     Box[,] occupationMatrix;
@@ -59,9 +65,12 @@ public class DolphinLevelManager : MonoBehaviour
     [SerializeField]
     RandomObjectSpawner randomObjectSpawner;
     [SerializeField, Tooltip("Time for object spawning")]
-    float spawnTime;
+    float minSpawnTime;
+    float maxSpawnTime;
+    float nextSpawnTime;
     bool _obstacleSpawning = true;
     float pauseSpawningTime = 5.0f;
+    float _obstacleSpeed;
 
     // Managers (queremos instanciar prefabs o hacer un find?)
     [SerializeField]
@@ -76,23 +85,38 @@ public class DolphinLevelManager : MonoBehaviour
     [SerializeField]
     configData levelData;
 
-    public void InitLevel()
+    public void InitLevel(configData config)
     {
+        bool loaded = LoadConfiguration(config);
         InitialiseMatrixes();
-        // Init Dolphin Manager
-        int nDolphins = 2; 
-
+        
         List<Vector2> dolphinXYPositions = new List<Vector2>();
-        dolphinXYPositions.Add(new Vector2(0, 0));
-        dolphinXYPositions.Add(new Vector2(1, 3));
+        
 
-        List<Vector3> dolphinRealPositions = new List<Vector3>();
-        for(int i = 0; i < nDolphins; i++)
+        if (!loaded)
         {
-            dolphinRealPositions.Add(GetWorldPositionFromCube((int)dolphinXYPositions[i].x, (int)dolphinXYPositions[i].y));//----------------------------------
+            initialDolphins = 2;
+            dolphinXYPositions.Add(new Vector2(0, 0));
+            dolphinXYPositions.Add(new Vector2(1, 3));
         }
 
-        _dolphinManager.Init(2, dolphinRealPositions,dolphinXYPositions, 2.0f, 6.0f, 10f);
+        List<Vector3> dolphinRealPositions = new List<Vector3>();
+        int divingDolphins = 0;
+
+        for (int i = 0; i < initialDolphins; i++)
+        {
+            if (posDolphins[i].x == -1) divingDolphins++;
+            else
+            {
+                dolphinXYPositions.Add(posDolphins[i]);
+                dolphinRealPositions.Add(GetWorldPositionFromCube((int)posDolphins[i].y, (int)posDolphins[i].x));//----------------------------------
+            }
+        }
+
+        _dolphinManager.Init(initialDolphins, divingDolphins, dolphinRealPositions,dolphinXYPositions, minJumpTime, maxJumpTime, 10);
+
+        //obs
+        randomObjectSpawner.SetVel((float)_obstacleSpeed);
 
         // Init Level UIs
         _UIManager.startLevelStats(0, 0);
@@ -167,8 +191,7 @@ public class DolphinLevelManager : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        //LoadConfiguration();
-        InitLevel();
+        if (_obstacleSpawning) nextSpawnTime = maxSpawnTime;
     }
 
     // Update is called once per frame
@@ -177,8 +200,9 @@ public class DolphinLevelManager : MonoBehaviour
         if (_obstacleSpawning)
         {
             currTime += Time.deltaTime;
-            if (currTime >= spawnTime)
+            if (currTime >= nextSpawnTime)
             {
+                nextSpawnTime = Random.Range(minSpawnTime, maxSpawnTime);
                 Debug.Log("Instancio obstaculo");
                 currTime = 0;
                 randomObjectSpawner.Spawn();
@@ -215,6 +239,7 @@ public class DolphinLevelManager : MonoBehaviour
     // Devuelve GameObject de la posicion de la matriz indicada
     public GameObject GetCubeFromMatrix(int x, int y)
     {
+        Debug.Log("cubesMatrix.Length: " + cubesMatrix);
         return cubesMatrix[x, y];
     }
 
@@ -444,6 +469,7 @@ public class DolphinLevelManager : MonoBehaviour
     }
     public Vector3 GetWorldPositionFromCube(int x, int y)
     {
+        Debug.Log("x" + x + "y" + y);
         return GetCubeFromMatrix(x, y).GetComponent<Transform>().position;
     }
 
@@ -481,13 +507,36 @@ public class DolphinLevelManager : MonoBehaviour
     }
 
     // Metodo que guarda los datos de la configuracion en las variables privadas de la clase
-    void LoadConfiguration()
+    bool LoadConfiguration(configData config)
     {
-        railNumber = levelData.NumCarriles; // Numero de carriles
-        //_winPoints = levelData.LevelPoints;
+        levelData = config; 
+
+        if (levelData == null) return false;
 
 
+        railNumber = levelData.NumCarriles;
+        initialDolphins = levelData.NumDelfines;
+        posDolphins = levelData.PosDelfines;
 
-        //DolphinManager
+        minSpawnTime = levelData.MinObstacleSpawn;
+        maxSpawnTime = levelData.MaxObstacleSpawn;
+        if(maxSpawnTime == 0)
+        {
+            _obstacleSpawning = false;
+        }
+        _obstacleSpeed = levelData.ObstacleSpeed;
+
+        minJumpTime = levelData.MinTimeBetweenJumps;
+        maxJumpTime = levelData.MaxTimeBetweenJumps;
+        minSpecialJumpCount = levelData.MinCountBetweenSpecialJumps;
+        maxSpecialJumpCount = levelData.MaxCountBetweenSpecialJumps;
+
+        _winPoints = (int)levelData.LevelPoints; //lol
+        _specialJumpPoints = (int)levelData.RightGuessPoints;
+        _wrongSpecialJumpPoints = (int)levelData.WrongGuessPoints;
+        _hitObstaclePoints = (int) levelData.HitObstaclePoints;
+
+
+        return true;
     }
 }

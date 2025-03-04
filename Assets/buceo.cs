@@ -11,14 +11,17 @@ public class Buceo : MonoBehaviour
     PathGenerator pathGen;
     bool lastSpline;
 
+    private void Awake()
+    {
+        splineAnimate = GetComponent<SplineAnimate>();
+        pathGen = GameObject.Find("PathGenerator").GetComponent<PathGenerator>();
+    }
     void Start()
 	{
-        pathGen= GameObject.Find("PathGenerator").GetComponent<PathGenerator>();
         //if(pathGen != null )
         //{
         //    this.enabled = false;
         //}
-        splineAnimate = GetComponent<SplineAnimate>();
         lastSpline = false;
         this.enabled = false;
     }
@@ -52,7 +55,7 @@ public class Buceo : MonoBehaviour
             Debug.Log("lastSpline");
             lastSpline = true;
         }
-
+        pathGen = GameObject.Find("PathGenerator").GetComponent<PathGenerator>();
         SplineContainer sp = pathGen.GeneratePath(transform.position, destination);
         SplineContainer aux = splineAnimate.Container;
         splineAnimate.Container = sp;

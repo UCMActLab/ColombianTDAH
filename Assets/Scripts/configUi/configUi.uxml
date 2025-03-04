@@ -23,7 +23,7 @@
                     <ui:VisualElement style="flex-grow: 1; flex-wrap: wrap; flex-direction: row;">
                         <ui:Label text="Cada cuanto aparecen troncos en el rio (entre 3 y 20 segundos)" name="expl" style="flex-direction: column;" />
                         <ui:IntegerField label="min" value="3" name="obstacleMin" />
-                        <ui:IntegerField label="max" value="20" name="obstacleMax" />
+                        <ui:IntegerField label="max" value="10" name="obstacleMax" />
                     </ui:VisualElement>
                     <ui:VisualElement style="flex-grow: 1; flex-wrap: wrap; flex-direction: row;">
                         <ui:Label text="Cada cuantos segundoss salta un delfín (entre 2 y 10):" name="expl" style="flex-direction: column;" />
@@ -34,17 +34,17 @@
                     <ui:VisualElement style="flex-grow: 1; flex-wrap: wrap; flex-direction: row;">
                         <ui:Label text="Cada cuantos saltos es pirueta (entre 2 y 10):                                         ." name="expl" style="flex-direction: column;" />
                         <ui:IntegerField label="min" value="2" name="piruetMin" />
-                        <ui:IntegerField label="max" value="10" name="piruetMax" />
+                        <ui:IntegerField label="max" value="8" name="piruetMax" />
                     </ui:VisualElement>
                 </ui:VisualElement>
                 <ui:VisualElement name="B" style="flex-grow: 1; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 10px; padding-right: 10px; padding-bottom: 10px; padding-left: 10px; background-color: rgba(255, 121, 121, 0); justify-content: flex-start;">
-                    <ui:FloatField label="Velocidad de obstaculos: (entre 0.1 y 20)" value="2.5" name="obstacleVel" />
+                    <ui:FloatField label="Velocidad de obstaculos: (entre 0.1 y 20)" value="2.5" name="obstacleVel" max-length="100" />
                 </ui:VisualElement>
                 <ui:VisualElement name="C" style="flex-grow: 1; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 10px; padding-right: 10px; padding-bottom: 10px; padding-left: 10px; background-color: rgba(255, 121, 121, 0); justify-content: flex-start; flex-wrap: wrap; flex-direction: row;">
-                    <ui:IntegerField label="Puntuacion max:" value="42" name="pointMax" />
-                    <ui:IntegerField label="Puntuación por cada pirueta:" value="42" name="pointPirueta" />
-                    <ui:IntegerField label="Puntuación negativa por clicar en salto: " value="42" name="pointWrongGuess" />
-                    <ui:IntegerField label="Puntuación negativa por chocar con obstáculo: " value="42" name="pointChoque" />
+                    <ui:IntegerField label="Puntuacion max:" value="1000" name="pointMax" max-length="100" />
+                    <ui:IntegerField label="Puntuación por cada pirueta:" value="100" name="pointPirueta" />
+                    <ui:IntegerField label="Puntuación negativa por clicar en salto: " value="-10" name="pointWrongGuess" />
+                    <ui:IntegerField label="Puntuación negativa por chocar con obstáculo: " value="-20" name="pointChoque" />
                     <ui:Button text="Guardar" name="guardar" style="margin-left: 121px; background-color: rgb(255, 148, 48);" />
                 </ui:VisualElement>
             </ui:VisualElement>

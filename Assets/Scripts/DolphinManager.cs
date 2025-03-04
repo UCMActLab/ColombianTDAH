@@ -92,16 +92,46 @@ public class DolphinManager : MonoBehaviour
         return lessPoints;
     }
 
-    public void Init(int numberDolphins, List<Vector3> dolphinPositions, List<Vector2> dolphinXYPositions, float minJumpingTime, float maxJumpingTime, float floatingTime)
+    public void Init(int numberDolphins, int divingDolphins, List<Vector3> dolphinPositions, List<Vector2> dolphinXYPositions, float minJumpingTime, float maxJumpingTime, float floatingTime)
     {
-        for (int i = 0; i<numberDolphins; i++) //pos (?)
+        //for (int i = 0; i < numberDolphins; i++) //pos (?)
+        //{
+        //    Vector2 pos = new Vector2(i, 1);
+        //   Vector3 realpos = DolphinLevelManager.Instance.GetWorldPositionFromCube((int)pos.x, (int)pos.y);
+        //    GameObject dolphin = GameObject.Instantiate(dolphinPrefab, realpos, Quaternion.identity);
+        //    dolphins.Add(dolphin);
+        //    dolphin.GetComponent<Drag>().SetIndex(i);
+        //    dolphins[i].GetComponent<DolphinController>().registerDolphinManager(this);
+        //    dolphin.GetComponent<MatrixCubeInfo>().SetXY((int)pos.x, (int)pos.y);
+
+        //}
+        //for (int i = numberDolphins - divingDolphins; i < numberDolphins; i++) //pos (?)
+        //{
+        //    GameObject dolphin = GameObject.Instantiate(dolphinPrefab, new Vector3(0, -5, 0), Quaternion.identity);
+        //    dolphins.Add(dolphin);
+        //    dolphin.GetComponent<Drag>().SetIndex(i);
+        //    dolphins[i].GetComponent<DolphinController>().registerDolphinManager(this);
+        //    //dolphin.GetComponent<MatrixCubeInfo>().SetXY((int)dolphinXYPositions[i].x, (int)dolphinXYPositions[i].y);
+        //    dolphins[i].GetComponent<DolphinController>().Dive();
+        //}
+        //Creamos en la matriz e instanciamos en la posición correspondiente los delfines colocados
+        for (int i = 0; i < numberDolphins - divingDolphins; i++) 
         {
             GameObject dolphin = GameObject.Instantiate(dolphinPrefab, dolphinPositions[i], Quaternion.identity);
             dolphins.Add(dolphin);
             dolphin.GetComponent<Drag>().SetIndex(i);
-            dolphins[i].GetComponent<DolphinController>().registerDolphinManager(this);
-            dolphin.GetComponent<MatrixCubeInfo>().SetXY((int)dolphinXYPositions[i].x, (int)dolphinXYPositions[i].y);
+            dolphins[i].GetComponent<DolphinController>().RegisterDolphinManager(this);
+            dolphin.GetComponent<MatrixCubeInfo>().SetXY((int)dolphinXYPositions[i].y, (int)dolphinXYPositions[i].x);
 
+        }
+        //Los delfines buceadores los mandamos a nadar
+        for (int i = numberDolphins - divingDolphins; i < numberDolphins; i++) 
+        {
+            GameObject dolphin = GameObject.Instantiate(dolphinPrefab, new Vector3(0, -5, 0), Quaternion.identity);
+            dolphins.Add(dolphin);
+            dolphin.GetComponent<Drag>().SetIndex(i);
+            dolphins[i].GetComponent<DolphinController>().RegisterDolphinManager(this);
+            dolphins[i].GetComponent<DolphinController>().SetStartingState(DolphinController.DolphinStates.DIVING);
         }
 
         minJumpTime = minJumpingTime;
@@ -113,7 +143,7 @@ public class DolphinManager : MonoBehaviour
     private void GenerateNextJumpingTime()
     {
         nextJumpingTime = Random.Range(minJumpTime, maxJumpTime);
-        Debug.Log(nextJumpingTime);
+        
     }
     private void GenerateNextSpecialJumpCont()
     {

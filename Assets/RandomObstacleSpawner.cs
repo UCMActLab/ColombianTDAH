@@ -19,10 +19,16 @@ public class RandomObjectSpawner : MonoBehaviour
     GameObject[] _obstacles;
     CarrilInfo[] _carrilCenetrs;
 
+    float _obsVel;
 
     public void Init(int nRail)
     {
         _carrilCenetrs = new CarrilInfo[nRail];
+    }
+
+    public void SetVel(float speed)
+    {
+        _obsVel = speed;
     }
 
     public void SetCenterPos(int index, float zCenter)
@@ -43,6 +49,7 @@ public class RandomObjectSpawner : MonoBehaviour
 
             randomIdPos = Random.Range(0, _obstacles.Length);
             GameObject instantiated = Instantiate(_obstacles[randomIdPos], randomSpawnPosition, Quaternion.identity);
+            instantiated.GetComponent<Obstaculo>().SetVel(_obsVel);
             Destroy(instantiated, _destroyTime);
         }
     }

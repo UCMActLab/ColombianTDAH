@@ -2720,13 +2720,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   limitMin:
-    x: -11
+    x: -10
     y: -7
-    z: -6
+    z: -15
   limitMax:
-    x: 11
+    x: 10
     y: -4
-    z: 6
+    z: 15
   pathPointMin: 2
   pathPointMax: 4
 --- !u!4 &1662333866
@@ -2923,16 +2923,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   railNumber: 5
-  colsNumber: 7
   _riverSize: {x: 24, y: 0.5, z: 24}
   _offset: {x: 0, y: 0, z: -2}
   _winPoints: 40
   _specialJumpPoints: 20
   _wrongSpecialJumpPoints: -10
   _hitObstaclePoints: 0
-  currTime: 0
+  minJumpTime: 0
+  maxJumpTime: 0
+  minSpecialJumpCount: 0
+  maxSpecialJumpCount: 0
   randomObjectSpawner: {fileID: 4826972}
-  spawnTime: 3
+  minSpawnTime: 0
   _UIManager: {fileID: 1248144298}
   _dolphinManager: {fileID: 811574443}
   _whale: {fileID: 1351410519}

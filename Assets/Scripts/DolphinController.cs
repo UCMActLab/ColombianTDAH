@@ -1,6 +1,7 @@
 using TMPro;
 using Unity.Mathematics;
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
 
 public class DolphinController : MonoBehaviour
 {
@@ -10,6 +11,7 @@ public class DolphinController : MonoBehaviour
     protected Drag dragComponent;
     public enum DolphinStates { FLOATING, DIVING, JUMPING, SPECIALJUMPING };
     public DolphinStates currentState;
+    public DolphinStates startingState;
     bool isAboutToDive;
 
     AudioSource _myAudioSource;
@@ -44,9 +46,19 @@ public class DolphinController : MonoBehaviour
 
         transform.Rotate(new Vector3(0, 90, 0));
         riverFloatingHeight = DolphinLevelManager.Instance.GetRiverFloatingHeight();
+
+        //Si su estado es diving se va
+        if(startingState == DolphinStates.DIVING)
+        {
+            Dive();
+        }
     }
 
-    public void registerDolphinManager(DolphinManager mngr)
+    public void SetStartingState(DolphinStates state)
+    {
+        startingState = state;
+    }
+    public void RegisterDolphinManager(DolphinManager mngr)
     {
         dolphinMngr = mngr;
     }
@@ -102,9 +114,21 @@ public class DolphinController : MonoBehaviour
         dragComponent.DeactivateDrag();
         dragComponent.enabled = false; //esto dependerá de cómo juntemos input, falta que se enabelee
         buceoComponent.SetPath(float3.zero);
+        ClearMatrixOccupation();
         currentState = DolphinStates.DIVING;
     }
+    public void ClearMatrixOccupation()
+    {
+        //vaciamos lugar en matriz
+        Vector2 dolphinMatrixPos = GetComponent<MatrixCubeInfo>().GetXY();
+        if (dolphinMatrixPos.x != -1)
+        {
+            DolphinLevelManager.Instance.SetOccupation((int)dolphinMatrixPos.x, (int)dolphinMatrixPos.y, Box.Empty);
+        }
+        //seteamos a no en matriz
+        GetComponent<MatrixCubeInfo>().SetXY(-1, -1);
 
+    }
     public bool Float() //-------------------------------
     {
         if (currentState == DolphinStates.DIVING)

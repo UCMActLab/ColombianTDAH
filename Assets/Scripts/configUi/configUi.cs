@@ -41,7 +41,7 @@ public class configUi : MonoBehaviour
     bool mensajeError = false;
 
     [SerializeField]
-    configData config;
+    configData config = null;
 
     private void OnEnable()
     {
@@ -80,7 +80,8 @@ public class configUi : MonoBehaviour
 
     void GuardarTodo(ClickEvent e)
     {
-        if (hayErrores) {
+        if (hayErrores)
+        {
             if (!mensajeError)
             {
                 mensajeError = true;
@@ -141,8 +142,8 @@ public class configUi : MonoBehaviour
             config.canSpecialJumpSimultaneously = input_piruetasSimult.value;
             config.MinTimeBetweenJumps = input_jumpMin.value;
             config.MaxTimeBetweenJumps = input_jumpMax.value;
-            config.MinTimeBetweenSpecialJumps = input_piruetMin.value;
-            config.MaxTimeBetweenSpecialJumps = input_piruetMax.value;
+            config.MinCountBetweenSpecialJumps = input_piruetMin.value;
+            config.MaxCountBetweenSpecialJumps = input_piruetMax.value;
 
             //POINTS
             config.LevelPoints = input_pointMax.value;
@@ -161,7 +162,7 @@ public class configUi : MonoBehaviour
         if (!hayErrores && mensajeError)
         {
             mensajeError = false;
-            fase3.RemoveAt(fase3.childCount-1);
+            fase3.RemoveAt(fase3.childCount - 1);
         }
     }
 
@@ -195,7 +196,7 @@ public class configUi : MonoBehaviour
     {
         delfinesColocados = 0;
 
-        for (int i = 0; i< input_toggleGroup.childCount; i++)
+        for (int i = 0; i < input_toggleGroup.childCount; i++)
         {
             for (int j = 0; j < input_toggleGroup[i][0].childCount; j++)
             {
@@ -226,5 +227,6 @@ public class configUi : MonoBehaviour
         environmentObject.SetActive(enable);
         managerstObject.SetActive(enable);
         canvasObject.SetActive(enable);
+        if(enable == true)DolphinLevelManager.Instance.InitLevel(config);
     }
 }

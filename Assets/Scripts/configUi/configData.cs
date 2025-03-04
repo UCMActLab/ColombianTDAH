@@ -56,11 +56,11 @@ public class configData : ScriptableObject
 
     [SerializeField, Tooltip("Count between special jumps")] //pasar a rango de tiempos 
     private float _minCountBetweenSpecialJumps;
-    public float MinTimeBetweenSpecialJumps { get => _minCountBetweenSpecialJumps; set => _minCountBetweenSpecialJumps = value; }
+    public float MinCountBetweenSpecialJumps { get => _minCountBetweenSpecialJumps; set => _minCountBetweenSpecialJumps = value; }
 
     [SerializeField]
     private float _maxCountBetweenSpecialJumps;
-    public float MaxTimeBetweenSpecialJumps { get => _maxCountBetweenSpecialJumps; set => _maxCountBetweenSpecialJumps = value; }
+    public float MaxCountBetweenSpecialJumps { get => _maxCountBetweenSpecialJumps; set => _maxCountBetweenSpecialJumps = value; }
 
 
 
