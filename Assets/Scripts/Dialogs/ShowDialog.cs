@@ -14,6 +14,8 @@ public class ShowDialog : MonoBehaviour
 
     int _currentText;
 
+    private const string HTML_ALPHA = "<color=#00000000>";
+
     public void SetSettings(DialogSettings settings) { this._settings = settings; }
 
     private void Start()
@@ -69,19 +71,18 @@ public class ShowDialog : MonoBehaviour
 
         if (_talkingObjectAnimator != null) _talkingObjectAnimator.SetBool("isTalking", true);
 
-        if (initialIndex < messageToShow.Length && initialIndex >= 0)
+        int alphaIndex = 0;
+        string displayText = "";
+
+        foreach (char c in messageToShow.ToCharArray())
         {
-            int index = initialIndex;
-            int length = messageToShow.Length;
+            alphaIndex++;
+            _text.text = messageToShow;
 
-            while (++index <= length)
-            {
-                string dialog = messageToShow.Substring(initialIndex, index - initialIndex);
-                _text.text = dialog;
-                char currentLetter = dialog[dialog.Length - 1];
-
-                yield return new WaitForSeconds(_settings.speed);
-            }
+            displayText = _text.text.Insert(alphaIndex, HTML_ALPHA);
+            _text.text = displayText;
+            
+            yield return new WaitForSeconds(_settings.speed);
         }
         
         if (_talkingObjectAnimator != null) _talkingObjectAnimator.SetBool("isTalking", false);

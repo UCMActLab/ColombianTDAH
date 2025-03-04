@@ -1,9 +1,6 @@
 using TMPro;
 using Unity.Mathematics;
 using UnityEngine;
-using UnityEngine.Rendering;
-using System.Collections;
-using Unity.VisualScripting;
 
 public class DolphinController : MonoBehaviour
 {
@@ -32,7 +29,6 @@ public class DolphinController : MonoBehaviour
     [SerializeField, Tooltip("Área que detecta click delfín")]
     GameObject _colliderClickDolphin;
     float riverFloatingHeight;
-
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()

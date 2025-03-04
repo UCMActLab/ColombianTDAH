@@ -2027,7 +2027,7 @@ MonoBehaviour:
   environmentObject: {fileID: 1737488662}
   managerstObject: {fileID: 205169870}
   canvasObject: {fileID: 1224563443}
-  config: {fileID: 11400000, guid: f5b975a533fed634e8088a3b8741154c, type: 2}
+  config: {fileID: 11400000, guid: 28af6196035b21547894ddb245404fe7, type: 2}
 --- !u!114 &1321929724
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2936,7 +2936,7 @@ MonoBehaviour:
   _UIManager: {fileID: 1248144298}
   _dolphinManager: {fileID: 811574443}
   _whale: {fileID: 1351410519}
-  levelData: {fileID: 0}
+  levelData: {fileID: 11400000, guid: 28af6196035b21547894ddb245404fe7, type: 2}
 --- !u!1 &1758082877
 GameObject:
   m_ObjectHideFlags: 0
