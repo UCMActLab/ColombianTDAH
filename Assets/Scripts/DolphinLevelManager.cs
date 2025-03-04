@@ -45,9 +45,15 @@ public class DolphinLevelManager : MonoBehaviour
     int _hitObstaclePoints;
 
     // DolphinTimes
-    protected float jumpTime;
-    [SerializeField, Tooltip("Time between jumps")] //pasar a rango de tiempos 
+    [SerializeField, Tooltip("Min time between jumps")] 
+    protected float minJumpTime;
+    [SerializeField, Tooltip("Max time between jumps")] 
+    protected float maxJumpTime;
     protected float currTime;
+    [SerializeField, Tooltip("Min time between special jumps")]
+    protected float minSpecialJumpCount;
+    [SerializeField, Tooltip("Max time between special jumps")]
+    protected float maxSpecialJumpCount;
 
     // Para obstaculos
     [SerializeField]
@@ -86,9 +92,9 @@ public class DolphinLevelManager : MonoBehaviour
             dolphinRealPositions.Add(GetWorldPositionFromCube((int)dolphinXYPositions[i].x, (int)dolphinXYPositions[i].y));//----------------------------------
         }
 
-        _dolphinManager.Init(2, dolphinRealPositions,dolphinXYPositions, 1.5f, 10f);
+        _dolphinManager.Init(2, dolphinRealPositions,dolphinXYPositions, 2.0f, 6.0f, 10f);
 
-        // Init Level UI
+        // Init Level UIs
         _UIManager.startLevelStats(0, 0);
 
     }
@@ -161,7 +167,7 @@ public class DolphinLevelManager : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        // LoadConfiguration();
+        //LoadConfiguration();
         InitLevel();
     }
 
@@ -479,5 +485,9 @@ public class DolphinLevelManager : MonoBehaviour
     {
         railNumber = levelData.NumCarriles; // Numero de carriles
         //_winPoints = levelData.LevelPoints;
+
+
+
+        //DolphinManager
     }
 }

@@ -15,9 +15,13 @@ public class DolphinManager : MonoBehaviour
     protected List<GameObject> dolphinsToFloatCheck;
 
     //times
-    protected float jumpTime;
+    protected float minJumpTime;
+    protected float maxJumpTime;
+    protected float nextJumpingTime;
     protected float currTime;
-    protected float floatTime;
+    protected int minSpecialJumpCount;
+    protected int maxSpecialJumpCount;
+    protected float floatTime; //tiempo de floating back 
     protected float currFloatTime;
 
     [SerializeField]
@@ -52,7 +56,7 @@ public class DolphinManager : MonoBehaviour
         if(jumpCont == dolphins.Count - 1)
         {
             jumpCont = 0;
-            nextPirueta = Random.Range(0, dolphins.Count);
+            GenerateNextSpecialJumpCont();
         }
         return true;
 
@@ -88,7 +92,7 @@ public class DolphinManager : MonoBehaviour
         return lessPoints;
     }
 
-    public void Init(int numberDolphins, List<Vector3> dolphinPositions, List<Vector2> dolphinXYPositions, float jumpingTime, float floatingTime)
+    public void Init(int numberDolphins, List<Vector3> dolphinPositions, List<Vector2> dolphinXYPositions, float minJumpingTime, float maxJumpingTime, float floatingTime)
     {
         for (int i = 0; i<numberDolphins; i++) //pos (?)
         {
@@ -100,10 +104,21 @@ public class DolphinManager : MonoBehaviour
 
         }
 
-        jumpTime = jumpingTime;
+        minJumpTime = minJumpingTime;
+        maxJumpTime = maxJumpingTime;
         floatTime = floatingTime;
+        GenerateNextJumpingTime();
     }
 
+    private void GenerateNextJumpingTime()
+    {
+        nextJumpingTime = Random.Range(minJumpTime, maxJumpTime);
+        Debug.Log(nextJumpingTime);
+    }
+    private void GenerateNextSpecialJumpCont()
+    {
+        nextPirueta = Random.Range(minSpecialJumpCount, maxSpecialJumpCount);
+    }
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -123,9 +138,10 @@ public class DolphinManager : MonoBehaviour
     void Update()
     {
         currTime += Time.deltaTime;
-        if (currTime >= jumpTime)
+        if (currTime >= nextJumpingTime)
         {
             currTime = 0;
+            GenerateNextJumpingTime();
             dolphinsToCheck = new List<GameObject>(dolphins);
             while (dolphinsToCheck.Count!=0&&!Jump());
         }
