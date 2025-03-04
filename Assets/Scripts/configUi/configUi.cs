@@ -93,55 +93,36 @@ public class configUi : MonoBehaviour
         else
         {
             //RIVER CONFIG
-            Debug.Log("Guardando: carrilesN = " + input_carrilesN.value);
             config.NumCarriles = input_carrilesN.value;
             config.NumDelfines = input_delfinesN.value;
 
             // Posiciones de delfines: Active Toggles to Vector2d
             Vector2[] posDelfines = new Vector2[input_delfinesN.value];
             int i = 0;
-            int j = 0;
             int delfinesEncontrados = 0;
-
-            //Debug.Log("i "+input_toggleGroup.childCount);
-            //Debug.Log("j "+input_toggleGroup[i][0].childCount);
             while (i < input_toggleGroup.childCount)
             {
+                int j = 0;
                 while (j < input_toggleGroup[i][0].childCount)
                 {
-                    //Debug.Log(j+ "Val "+ input_toggleGroup[i][0][j].Q<Toggle>().value);
+                    //Debug.Log("J = " + j+ " Val = "+ input_toggleGroup[i][0][j].Q<Toggle>().value);
                     if (input_toggleGroup[i][0][j].Q<Toggle>().value)
                     {
-                        //Debug.Log("dolphin pos colcoado " + i + " " + j);
-                        //Debug.Log(delfinesEncontrados);
-                        if (delfinesEncontrados < input_delfinesN.value) posDelfines[delfinesEncontrados] = new Vector2(i, j); //si se ha pasado se fastidian los ultimos :p
+                        if (delfinesEncontrados < input_delfinesN.value)
+                        {
+                            posDelfines[delfinesEncontrados] = new Vector2(i, j); //si se ha pasado se fastidian los ultimos :p
+                        }
                         delfinesEncontrados++;
-                        Debug.Log("marcado");
+                        //Debug.Log("delfin encontrado en x = " + j + ", y = " + i);
                     }
                     j++;
                 }
                 i++;
             }
 
-            //delfinesColocados = 0;
-            //for (int i = 0; i < input_toggleGroup.childCount; i++)
-            //{
-            //    for (int j = 0; j < input_toggleGroup[i].childCount; j++)
-            //    {
-            //        if (input_toggleGroup[i][j].Q<Toggle>().value == true)
-            //        {
-            //            posDelfines[delfinesEncontrados] = new Vector2(i, j);
-            //            delfinesColocados++;
-            //            delfinesEncontrados++;
-            //            Debug.Log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
-            //        }
-            //    }
-            //}
-            //text_delfinesRestantes.text = "Ahora mismo tienes " + (input_delfinesN.value - delfinesColocados) + " delfines restantes en el \r\njuego, aparecer�n buceando.";
-
             Debug.Log("delfinesColocados " + delfinesColocados);
 
-            Debug.Log("delfinesEncontrados" + delfinesEncontrados);
+            Debug.Log("delfinesEncontrados " + delfinesEncontrados);
             for (int d = delfinesEncontrados; d < config.NumDelfines; d++)
             {
                 //Debug.Log("dolphin pos no colcoado " + i + " " + j);
@@ -150,8 +131,6 @@ public class configUi : MonoBehaviour
             }
 
             config.PosDelfines = posDelfines;
-
-            //List<VisualElement> lveizda = izda.Children().ToList()
 
             //OBS
             config.MinObstacleSpawn = input_obstacleMin.value; Debug.Log("scroipt" + config.MinObstacleSpawn); Debug.Log("input" + input_obstacleMin.value);
@@ -173,6 +152,7 @@ public class configUi : MonoBehaviour
 
             // Activa Juego
             ActivateGame(true);
+
         }
     }
 
@@ -222,7 +202,7 @@ public class configUi : MonoBehaviour
                 if (input_toggleGroup[i][0][j].Q<Toggle>().value)
                 {
                     delfinesColocados++;
-                    //Debug.Log("oui");
+                    Debug.Log("delfin colocado en x = " + j + ", y = " + i);
                 }
             }
         }
