@@ -47,4 +47,9 @@ public class Obstaculo : MonoBehaviour
             DolphinLevelManager.Instance.SetOccupation((int)newCubePos.x, (int)newCubePos.y, Box.Obstacle);
         }
     }
+
+    public void DestroyObstacle()
+    {
+        Destroy(gameObject);
+    }
 }

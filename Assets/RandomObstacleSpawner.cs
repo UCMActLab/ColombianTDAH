@@ -13,9 +13,6 @@ public class RandomObjectSpawner : MonoBehaviour
     float _posX = 20.0f;
 
     [SerializeField]
-    float _destroyTime = 10.0f;
-
-    [SerializeField]
     GameObject[] _obstacles;
     CarrilInfo[] _carrilCenetrs;
 
@@ -50,7 +47,6 @@ public class RandomObjectSpawner : MonoBehaviour
             randomIdPos = Random.Range(0, _obstacles.Length);
             GameObject instantiated = Instantiate(_obstacles[randomIdPos], randomSpawnPosition, Quaternion.identity);
             instantiated.GetComponent<Obstaculo>().SetVel(_obsVel);
-            Destroy(instantiated, _destroyTime);
         }
     }
 
