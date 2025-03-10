@@ -1,6 +1,7 @@
 using TMPro;
 using Unity.Mathematics;
 using UnityEngine;
+using System.Collections;
 using UnityEngine.Rendering.Universal;
 using System;
 using System.Collections.Generic;
@@ -15,7 +16,8 @@ public class DolphinController : MonoBehaviour
     public DolphinStates currentState;
     public DolphinStates startingState;
     bool isAboutToDive;
-
+    bool canBeDamaged;
+    public float invincibilityTime = 2.0f;
     AudioSource _myAudioSource;
 
     [SerializeField, Tooltip("Capa con la que querremos clicar la vuelta especial (delfines)")]
@@ -30,7 +32,7 @@ public class DolphinController : MonoBehaviour
     [SerializeField]
     float _pointsTextLifeTime;
 
-    [SerializeField, Tooltip("Área que detecta click delfín")]
+    [SerializeField, Tooltip("ï¿½rea que detecta click delfï¿½n")]
     GameObject _colliderClickDolphin;
     float riverFloatingHeight;
 
@@ -43,8 +45,9 @@ public class DolphinController : MonoBehaviour
         _myAudioSource = GetComponent<AudioSource>();
         hasBeenHit = false;
         _colliderClickDolphin.SetActive(false);
-        currentState = DolphinStates.FLOATING; //default, ajustar para que detecte si está arriba o no (por posición o diseño de nivel)
+        currentState = DolphinStates.FLOATING; //default, ajustar para que detecte si estï¿½ arriba o no (por posiciï¿½n o diseï¿½o de nivel)
         isAboutToDive = false;
+        canBeDamaged = true;
 
         transform.Rotate(new Vector3(0, 90, 0));
         riverFloatingHeight = DolphinLevelManager.Instance.GetRiverFloatingHeight();
@@ -80,17 +83,33 @@ public class DolphinController : MonoBehaviour
         //Debug.Log("AUTX!");
         if(collision.gameObject.GetComponent<Obstaculo>())
         {
+            OnHitObstacle();
+        }
+        
+    }
+    private void OnTriggerEnter(Collider other)
+    {
+        if(other.gameObject.GetComponent<Floatie>())
+        {
+            OnHitFloatie();
+        }
+    }
+    protected void OnHitObstacle()
+    {
+        if (canBeDamaged)
+        {
+            PauseDamage();
             Dive();
             int points = dolphinMngr.HitObstacle();
             showPointsOnDolphin(points, Color.red);
         }
-        else
-        {
-            int points = dolphinMngr.FloatHit();
-            showPointsOnDolphin(points, Color.green);
-        }
     }
-
+    protected void OnHitFloatie()
+    {
+        int points = dolphinMngr.FloatHit();
+        showPointsOnDolphin(points, Color.green);
+        //Dive();
+    }
     public DolphinStates getDolphinState()
     {
         return currentState;
@@ -128,7 +147,7 @@ public class DolphinController : MonoBehaviour
         isAboutToDive = true;
         buceoComponent.enabled = true;
         dragComponent.DeactivateDrag();
-        dragComponent.enabled = false; //esto dependerá de cómo juntemos input, falta que se enabelee
+        dragComponent.enabled = false; //esto dependerï¿½ de cï¿½mo juntemos input, falta que se enabelee
         buceoComponent.SetPath(float3.zero);
         ClearMatrixOccupation();
         currentState = DolphinStates.DIVING;
@@ -162,11 +181,12 @@ public class DolphinController : MonoBehaviour
             this.GetComponent<Drag>().enabled = true;
             EventRegister.Instance.AddToEvnt(Tuple.Create(EventRegister.EventosInfo.DEntraSuperficie, dragComponent.GetIndex().ToString("00")));
             EventRegister.Instance.EvntToJson();
+            PauseDamage();
             return true;
         }
         else return false;
     }
-    public void OnAnimationEnded(string action) //función que se llama en evento de fin de animación 
+    public void OnAnimationEnded(string action) //funciï¿½n que se llama en evento de fin de animaciï¿½n 
     {
         switch (action)
         {
@@ -188,7 +208,7 @@ public class DolphinController : MonoBehaviour
     }
 
 
-    public void TryClickDolphin() //comprobacion un poco provisional (no se si el onmouseover aquí se podría reutilizar también)
+    public void TryClickDolphin() //comprobacion un poco provisional (no se si el onmouseover aquï¿½ se podrï¿½a reutilizar tambiï¿½n)
     {
         Camera cam = Camera.main;
         Vector2 mousePos = new Vector2();
@@ -242,6 +262,12 @@ public class DolphinController : MonoBehaviour
         Destroy(pointsTetx, _pointsTextLifeTime);
     }
 
+    IEnumerator PauseDamage()
+    {
+        canBeDamaged = false;
+        yield return new WaitForSeconds(invincibilityTime);
+        canBeDamaged = true;
+    }
     // Update is called once per frame
     void Update()
     {

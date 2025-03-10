@@ -49,6 +49,7 @@ public class RandomObjectSpawner : MonoBehaviour
 
             randomIdPos = UnityEngine.Random.Range(0, _obstacles.Length);
             GameObject instantiated = Instantiate(_obstacles[randomIdPos], randomSpawnPosition, Quaternion.identity);
+            instantiated.transform.Rotate(90,0,0);
             instantiated.GetComponent<Obstaculo>().SetVel(_obsVel);
         }
 

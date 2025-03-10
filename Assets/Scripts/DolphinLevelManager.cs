@@ -536,9 +536,9 @@ public class DolphinLevelManager : MonoBehaviour
     }
     IEnumerator PauseObstaclesInRail(int rail)
     {
-        SetObstacleSpawnerInRail(rail, false); Debug.Log(rail + "I stoppeddddd");
+        SetObstacleSpawnerInRail(rail, false); //Debug.Log(rail + "I stoppeddddd");
         yield return new WaitForSeconds(pauseSpawningTime);
-        SetObstacleSpawnerInRail(rail, true); Debug.Log(rail + "I returnedddd");
+        SetObstacleSpawnerInRail(rail, true); //Debug.Log(rail + "I returnedddd");
     }
 
     // Metodo que guarda los datos de la configuracion en las variables privadas de la clase
