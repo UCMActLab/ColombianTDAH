@@ -38,9 +38,6 @@ public class MovingObject : MonoBehaviour
                 aux.x = m_Vel / 10;
                 aux.y = -m_Vel;
                 m_Rigidbody.linearVelocity = aux;
-
-                // Desactiva Velocidad aumentada
-                DolphinLevelManager.Instance.DeactivateIncreasedSpeed();
             }
         }
     }
