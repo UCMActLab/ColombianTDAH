@@ -54,7 +54,7 @@ public class EventRegister : MonoBehaviour
         _instance = this;
     }
 
-    void WriteStart()
+    public void WriteStart()
     {
         auxEvntInfo = new List<Tuple<EventRegister.EventosInfo, string>>();
         CreateDir();
