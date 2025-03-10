@@ -4,7 +4,7 @@ using Unity.VisualScripting;
 using UnityEditor.ShaderGraph.Internal;
 using UnityEngine;
 
-public enum Box { Empty, Dolphin, Obstacle }
+public enum Box { Empty, Dolphin, Obstacle, Floatie }
 
 public class DolphinLevelManager : MonoBehaviour
 {
@@ -54,6 +54,8 @@ public class DolphinLevelManager : MonoBehaviour
     [SerializeField]
     float _increaseVelFactor = 3;
     bool _increasedVelocity = false;
+    [SerializeField, Tooltip("Points to add when getting through a floatie")]
+    int _floatiePoints = 50;
 
     // DolphinTimes
     [SerializeField, Tooltip("Min time between jumps")]
@@ -187,6 +189,19 @@ public class DolphinLevelManager : MonoBehaviour
         _currentPoints += _wrongSpecialJumpPoints;
         _UIManager.updatePoints(_currentPoints);
         return _wrongSpecialJumpPoints;
+    }
+
+    public int HitObstacle()
+    {
+        _currentPoints += _hitObstaclePoints;
+        _UIManager.updatePoints(_currentPoints);
+        return _hitObstaclePoints;
+    }
+    public int FloatHit()
+    {
+        _currentPoints += _floatiePoints;
+        _UIManager.updatePoints(_currentPoints);
+        return _floatiePoints;
     }
     private void Awake()
     {

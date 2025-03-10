@@ -76,7 +76,17 @@ public class DolphinController : MonoBehaviour
     void OnCollisionEnter(Collision collision)
     {
         //Debug.Log("AUTX!");
-        Dive();
+        if(collision.gameObject.GetComponent<Obstaculo>())
+        {
+            Dive();
+            int points = dolphinMngr.HitObstacle();
+            showPointsOnDolphin(points, Color.red);
+        }
+        else
+        {
+            int points = dolphinMngr.FloatHit();
+            showPointsOnDolphin(points, Color.green);
+        }
     }
 
     public DolphinStates getDolphinState()
@@ -184,8 +194,7 @@ public class DolphinController : MonoBehaviour
 
             if (currentState == DolphinStates.SPECIALJUMPING && !hasBeenHit) //RIGHT GUESS SPECIAL JUMP
             {
-                //Debug.Log("HIT 30000000 POINTS");
-
+                //Deactivate jump collider
                 hasBeenHit = true;
                 _colliderClickDolphin.SetActive(false);
 
@@ -194,29 +203,29 @@ public class DolphinController : MonoBehaviour
 
                 //In world points text
                 int plusPoints = dolphinMngr.RightGuess();
-                Vector3 offsetHeight = new Vector3(0.0f, 2.0f, 0.0f);
-                GameObject pointsTetx = Instantiate(_pointsTextPrefab, transform.position + offsetHeight, Quaternion.identity);
-                pointsTetx.GetComponentInChildren<TextMeshProUGUI>().SetText(plusPoints.ToString());
-
-                Destroy(pointsTetx, _pointsTextLifeTime);
+                showPointsOnDolphin(plusPoints, Color.red);
             }
             else if (currentState == DolphinStates.JUMPING && !dragComponent.AmIBeingDragged()) //WRONG GUESS SPECIAL JUMP
             {
-
                 //In world points text
                 int lessPoints = dolphinMngr.WrongGuess();
-                Vector3 offsetHeight = new Vector3(0.0f, 2.0f, 0.0f);
-                GameObject pointsTetx = Instantiate(_pointsTextPrefab, transform.position + offsetHeight, Quaternion.identity);
-                pointsTetx.GetComponentInChildren<TextMeshProUGUI>().SetText(lessPoints.ToString());
-                pointsTetx.GetComponentInChildren<TextMeshProUGUI>().color = Color.red;
-
-                Destroy(pointsTetx, _pointsTextLifeTime);
+                showPointsOnDolphin(lessPoints, Color.red);
 
                 // Desactiva Velocidad aumentada
                 DolphinLevelManager.Instance.DeactivateIncreasedSpeed();
             }
         }
     }
+
+    void showPointsOnDolphin(int points, Color col)
+    {
+        Vector3 offsetHeight = new Vector3(0.0f, 2.0f, 0.0f);
+        GameObject pointsTetx = Instantiate(_pointsTextPrefab, transform.position + offsetHeight, Quaternion.identity);
+        pointsTetx.GetComponentInChildren<TextMeshProUGUI>().SetText(points.ToString());
+        pointsTetx.GetComponentInChildren<TextMeshProUGUI>().color = col;
+        Destroy(pointsTetx, _pointsTextLifeTime);
+    }
+
     // Update is called once per frame
     void Update()
     {

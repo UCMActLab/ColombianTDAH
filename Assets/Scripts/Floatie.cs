@@ -1,11 +1,12 @@
 using UnityEngine;
 
-public class Obstaculo : MovingObject
+public class Floatie : MovingObject
 {
     private void Start()
     {
         base.Start();
-        type = Box.Obstacle;
+        type = Box.Floatie;
         collisionReaction = true;
     }
+
 }
