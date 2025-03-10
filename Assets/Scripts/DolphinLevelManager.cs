@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -133,6 +134,9 @@ public class DolphinLevelManager : MonoBehaviour
         // Init Level UIs
         _UIManager.startLevelStats(0, 0);
 
+        //Init Event Register Manager
+        EventRegister.Instance.AddToEvnt(Tuple.Create(EventRegister.EventosInfo.Inicio, "nivel X"));
+        EventRegister.Instance.EvntToJson();
     }
 
     public void InitialiseMatrixes()
@@ -166,6 +170,7 @@ public class DolphinLevelManager : MonoBehaviour
     {
         _UIManager.showWin();
         _dolphinManager.DeactivateDolphins();
+        EventRegister.Instance.WriteEnd();
         //freeze gam/disable input
     }
 
@@ -173,6 +178,8 @@ public class DolphinLevelManager : MonoBehaviour
     {
         _currentPoints += _specialJumpPoints;
         _UIManager.updatePoints(_currentPoints);
+        EventRegister.Instance.AddToEvnt(Tuple.Create(EventRegister.EventosInfo.NPuntos, _currentPoints.ToString("00")));
+        EventRegister.Instance.EvntToJson();
         if (_currentPoints >= _winPoints)
         {
             // Animacion ballena
@@ -188,6 +195,8 @@ public class DolphinLevelManager : MonoBehaviour
     {
         _currentPoints += _wrongSpecialJumpPoints;
         _UIManager.updatePoints(_currentPoints);
+        EventRegister.Instance.AddToEvnt(Tuple.Create(EventRegister.EventosInfo.NPuntos, _currentPoints.ToString("00")));
+        EventRegister.Instance.EvntToJson();
         return _wrongSpecialJumpPoints;
     }
 
@@ -229,7 +238,7 @@ public class DolphinLevelManager : MonoBehaviour
             currTime += Time.deltaTime;
             if (currTime >= nextSpawnTime)
             {
-                nextSpawnTime = Random.Range(minSpawnTime, maxSpawnTime);
+                nextSpawnTime = UnityEngine.Random.Range(minSpawnTime, maxSpawnTime);
                 currTime = 0;
                 randomObjectSpawner.Spawn();
             }

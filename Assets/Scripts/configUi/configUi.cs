@@ -13,6 +13,8 @@ public class configUi : MonoBehaviour
     GameObject managerstObject;
     [SerializeField]
     GameObject canvasObject;
+    [SerializeField]
+    GameObject evntRegObject;
 
     VisualElement fase1;
     VisualElement fase2;
@@ -227,5 +229,6 @@ public class configUi : MonoBehaviour
         managerstObject.SetActive(enable);
         canvasObject.SetActive(enable);
         if(enable == true)DolphinLevelManager.Instance.InitLevel(config);
+        evntRegObject.SetActive(enable);
     }
 }

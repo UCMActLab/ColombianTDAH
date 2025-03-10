@@ -2,6 +2,8 @@ using TMPro;
 using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
+using System;
+using System.Collections.Generic;
 
 public class DolphinController : MonoBehaviour
 {
@@ -101,6 +103,8 @@ public class DolphinController : MonoBehaviour
             animator.SetTrigger("Jump");
             _colliderClickDolphin.SetActive(true);
             //Debug.Log(currentState);
+            EventRegister.Instance.AddToEvnt(Tuple.Create(EventRegister.EventosInfo.DSaltoInit, dragComponent.GetIndex().ToString("00")));
+            EventRegister.Instance.EvntToJson();
             return true;
         }
         return false;
@@ -112,6 +116,8 @@ public class DolphinController : MonoBehaviour
             currentState = DolphinStates.SPECIALJUMPING;
             animator.SetTrigger("SpecialJump");
             _colliderClickDolphin.SetActive(true);
+            EventRegister.Instance.AddToEvnt(Tuple.Create(EventRegister.EventosInfo.DPiruetaInit, dragComponent.GetIndex().ToString("00")));
+            EventRegister.Instance.EvntToJson();
             return true;
         }
         return false;
@@ -126,6 +132,8 @@ public class DolphinController : MonoBehaviour
         buceoComponent.SetPath(float3.zero);
         ClearMatrixOccupation();
         currentState = DolphinStates.DIVING;
+        EventRegister.Instance.AddToEvnt(Tuple.Create(EventRegister.EventosInfo.DSaleSuperficie, dragComponent.GetIndex().ToString("00")));
+        EventRegister.Instance.EvntToJson();
     }
     public void ClearMatrixOccupation()
     {
@@ -152,6 +160,8 @@ public class DolphinController : MonoBehaviour
             currentState = DolphinStates.FLOATING;
             isAboutToDive = false;
             this.GetComponent<Drag>().enabled = true;
+            EventRegister.Instance.AddToEvnt(Tuple.Create(EventRegister.EventosInfo.DEntraSuperficie, dragComponent.GetIndex().ToString("00")));
+            EventRegister.Instance.EvntToJson();
             return true;
         }
         else return false;
@@ -162,9 +172,13 @@ public class DolphinController : MonoBehaviour
         {
             case "Jump":
                 //Debug.Log("ive ended jumping");
+                EventRegister.Instance.AddToEvnt(Tuple.Create(EventRegister.EventosInfo.DSaltoFin, dragComponent.GetIndex().ToString("00")));
+                EventRegister.Instance.EvntToJson();
                 break;
             case "Roll":
                 hasBeenHit = false;
+                EventRegister.Instance.AddToEvnt(Tuple.Create(EventRegister.EventosInfo.DPiruetaFin, dragComponent.GetIndex().ToString("00")));
+                EventRegister.Instance.EvntToJson();
                 //Debug.Log("Ive ended rolling");
                 break;
         }
@@ -202,12 +216,14 @@ public class DolphinController : MonoBehaviour
                 _myAudioSource.Play();
 
                 //In world points text
+                EventRegister.Instance.AddToEvnt(Tuple.Create(EventRegister.EventosInfo.RespuestaCorrecta, dragComponent.GetIndex().ToString("00")));
                 int plusPoints = dolphinMngr.RightGuess();
-                showPointsOnDolphin(plusPoints, Color.red);
+                showPointsOnDolphin(plusPoints, Color.green);
             }
             else if (currentState == DolphinStates.JUMPING && !dragComponent.AmIBeingDragged()) //WRONG GUESS SPECIAL JUMP
             {
                 //In world points text
+                EventRegister.Instance.AddToEvnt(Tuple.Create(EventRegister.EventosInfo.RespuestaIncorrecta, dragComponent.GetIndex().ToString("00")));
                 int lessPoints = dolphinMngr.WrongGuess();
                 showPointsOnDolphin(lessPoints, Color.red);
 

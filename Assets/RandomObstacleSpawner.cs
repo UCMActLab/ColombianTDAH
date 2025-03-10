@@ -1,4 +1,7 @@
 using UnityEngine;
+using System;
+using System.Collections;
+using System.Collections.Generic;
 
 public class RandomObjectSpawner : MonoBehaviour
 {
@@ -38,16 +41,20 @@ public class RandomObjectSpawner : MonoBehaviour
 
     public void Spawn()
     {
-        int randomIdPos = Random.Range(0, _carrilCenetrs.Length);
+        int randomIdPos = UnityEngine.Random.Range(0, _carrilCenetrs.Length);
 
         if (_carrilCenetrs[randomIdPos].active)
         {
             Vector3 randomSpawnPosition = new Vector3(_posX, 0.0f, _carrilCenetrs[randomIdPos].CenterPosZ);
 
-            randomIdPos = Random.Range(0, _obstacles.Length);
+            randomIdPos = UnityEngine.Random.Range(0, _obstacles.Length);
             GameObject instantiated = Instantiate(_obstacles[randomIdPos], randomSpawnPosition, Quaternion.identity);
             instantiated.GetComponent<Obstaculo>().SetVel(_obsVel);
         }
+
+        List<Tuple<EventRegister.EventosInfo, string>> aux = new List<Tuple<EventRegister.EventosInfo, string>>();
+        EventRegister.Instance.AddToEvnt(Tuple.Create(EventRegister.EventosInfo.OEntraPantalla, "Carril " + randomIdPos.ToString()));
+        EventRegister.Instance.EvntToJson();
     }
 
     public void SetRailObstacleSpawner(int railNum, bool enabled)
