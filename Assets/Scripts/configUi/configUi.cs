@@ -203,7 +203,6 @@ public class configUi : MonoBehaviour
                 if (input_toggleGroup[i][0][j].Q<Toggle>().value)
                 {
                     delfinesColocados++;
-                    Debug.Log("delfin colocado en x = " + j + ", y = " + i);
                 }
             }
         }

@@ -2,16 +2,27 @@ using UnityEngine;
 
 public class enviroMov : MonoBehaviour
 {
-    Transform m_Tr;
-    public float m_Vel = 2f;
+    Transform _myTransform;
+    [SerializeField]
+    float _vel = 0.2f;
 
     void Start()
     {
-        m_Tr = GetComponent<Transform>();
+        _myTransform = GetComponent<Transform>();
     }
 
     void FixedUpdate()
     {
-        m_Tr.Rotate(0.0f, m_Vel*1.0f, 0.0f, Space.Self);
+        _myTransform.Rotate(0.0f, _vel*1.0f, 0.0f, Space.Self);
+    }
+
+    public void SetVelocity(float newVel)
+    {
+        _vel = newVel;
+    }
+
+    public float GetVelocity() {
+    
+        return _vel;
     }
 }

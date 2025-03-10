@@ -1448,7 +1448,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a614976379683d949b8cea8c6be493d4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Vel: 0.2
+  _vel: 0.2
 --- !u!1 &563110119
 GameObject:
   m_ObjectHideFlags: 0
@@ -3266,6 +3266,7 @@ MonoBehaviour:
   _specialJumpPoints: 20
   _wrongSpecialJumpPoints: -10
   _hitObstaclePoints: 0
+  _increaseVelFactor: 2
   minJumpTime: 0
   maxJumpTime: 0
   minSpecialJumpCount: 0
@@ -3274,6 +3275,7 @@ MonoBehaviour:
   minSpawnTime: 0
   _UIManager: {fileID: 1248144298}
   _dolphinManager: {fileID: 811574443}
+  _background: {fileID: 561643734}
   _whale: {fileID: 1351410519}
   levelData: {fileID: 11400000, guid: 28af6196035b21547894ddb245404fe7, type: 2}
 --- !u!1 &1758082877

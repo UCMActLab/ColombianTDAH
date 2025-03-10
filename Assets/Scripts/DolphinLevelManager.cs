@@ -49,6 +49,10 @@ public class DolphinLevelManager : MonoBehaviour
     int _wrongSpecialJumpPoints;
     [SerializeField, Tooltip("Points to substact per collision with obstacle")]
     int _hitObstaclePoints;
+
+    // Velocity
+    [SerializeField]
+    float _increaseVelFactor = 3;
     bool _increasedVelocity = false;
 
     // DolphinTimes
@@ -78,6 +82,11 @@ public class DolphinLevelManager : MonoBehaviour
     DolphinUIManager _UIManager;
     [SerializeField]
     DolphinManager _dolphinManager;
+
+    // BackGround
+    [SerializeField]
+    GameObject _background;
+    enviroMov _backgroundMovementComp;
 
     [SerializeField, Tooltip("Whale prefab")]
     GameObject _whale;
@@ -193,6 +202,8 @@ public class DolphinLevelManager : MonoBehaviour
     void Start()
     {
         if (_obstacleSpawning) nextSpawnTime = maxSpawnTime;
+
+        _backgroundMovementComp = _background.GetComponent<enviroMov>();
     }
 
     // Update is called once per frame
@@ -543,6 +554,12 @@ public class DolphinLevelManager : MonoBehaviour
     public void ActivateIncreasedSpeed()
     {
         _increasedVelocity = true;
+
+        // Background
+        float backgroundVel = _backgroundMovementComp.GetVelocity();
+        backgroundVel *= _increaseVelFactor;
+        _backgroundMovementComp.SetVelocity(backgroundVel);
+
     }
 
     public void DeactivateIncreasedSpeed()
@@ -550,7 +567,11 @@ public class DolphinLevelManager : MonoBehaviour
         if (_increasedVelocity) {
             _increasedVelocity = false;
             _UIManager.SetVelButton(true);
-        }
 
+            // Background
+            float backgroundVel = _backgroundMovementComp.GetVelocity();
+            backgroundVel /= _increaseVelFactor;
+            _backgroundMovementComp.SetVelocity(backgroundVel);
+        }
     }
 }
