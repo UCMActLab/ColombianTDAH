@@ -20,13 +20,12 @@ public class EventRegister : MonoBehaviour
         DSaltoFin,//...DolphinControler.OnAnimationEnded
         DPiruetaInit, //...DolphinControler.SpecialJump
         DPiruetaFin, //...DolphinControler.OnAnimationEnded
-        DColision,
         OEntraPantalla, //...RandomObjectSpawner.Spawn
         OSalePantalla,
-        OColision,
-        FEntraPantalla,
-        FSalePantalla,
-        FColision,
+        OColision, //...DolphinControler.OnCollisionEnter
+        FEntraPantalla, //...RandomObjectSpawner.Spawn
+        FSalePantalla, 
+        FColision,  //...DolphinControler.OnCollisionEnter
         RespuestaCorrecta, //...DolphinControler.TryClickDolphin y DolphinLevelManager.RightGuess
         RespuestaIncorrecta, //...DolphinControler.TryClickDolphin y DolphinLevelManager.WrongGuess
         NPuntos, //...DolphinControler.TryClickDolphin, DolphinLevelManager.RightGuess y DolphinLevelManager.WrongGuess
@@ -53,6 +52,10 @@ public class EventRegister : MonoBehaviour
     void Awake()
     {
         _instance = this;
+    }
+
+    void WriteStart()
+    {
         auxEvntInfo = new List<Tuple<EventRegister.EventosInfo, string>>();
         CreateDir();
         IncrementPath();
@@ -61,17 +64,6 @@ public class EventRegister : MonoBehaviour
         System.IO.StreamWriter file = new System.IO.StreamWriter(WriteTo);
         file.WriteLine("{ " + $"\"{WritePath}\": [");
         file.Close();
-    }
-
-    void Start()
-    {
-        //CreateDir();
-        //IncrementPath();
-        //WriteTo = System.IO.Path.Combine(WriteDir, WritePath);
-        //Debug.Log($"nuevo path: {WriteTo}");
-        //System.IO.StreamWriter file = new System.IO.StreamWriter(WriteTo);
-        //file.WriteLine("{ " + $"\"{WritePath}\": [");
-        //file.Close();
     }
 
     private void CreateDir()
@@ -136,9 +128,6 @@ public class EventRegister : MonoBehaviour
                 case EventosInfo.DPiruetaFin:
                     text += ", \n" + $"    \"Delfin finaliza la pirueta\": \"{evento.Item2}\"";
                         break;
-                case EventosInfo.DColision:
-                    text += ", \n" + $"    \"Delfin colisionando\": \"{evento.Item2}\"";
-                        break;
                 case EventosInfo.OEntraPantalla:
                     text += ", \n" + $"    \"Obstaculo entrando en pantalla\": \"{evento.Item2}\"";
                         break;
@@ -146,7 +135,7 @@ public class EventRegister : MonoBehaviour
                     text += ", \n" + $"    \"Obstaculo saliendo de pantalla\": \"{evento.Item2}\"";
                         break;
                 case EventosInfo.OColision:
-                    text += ", \n" + $"    \"Obstaculo de colision\": \"{evento.Item2}\"";
+                    text += ", \n" + $"    \"Delfin colisionando con obstaculo\": \"{evento.Item2}\"";
                         break;
                 case EventosInfo.FEntraPantalla:
                     text += ", \n" + $"    \"Flotador entrando en pantalla\": \"{evento.Item2}\"";
@@ -154,6 +143,9 @@ public class EventRegister : MonoBehaviour
                 case EventosInfo.FSalePantalla:
                     text += ", \n" + $"    \"Flotador saliendo de pantalla\": \"{evento.Item2}\"";
                         break;
+                case EventosInfo.FColision:
+                    text += ", \n" + $"    \"Delfin colisionando con flotador\": \"{evento.Item2}\"";
+                    break;
                 case EventosInfo.RespuestaCorrecta:
                     text += ", \n" + $"    \"Respuesta correcta\": \"{evento.Item2}\"";
                         break;

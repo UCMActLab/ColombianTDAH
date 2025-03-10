@@ -13,7 +13,7 @@ public class RandomObjectSpawner : MonoBehaviour
     }
 
     [SerializeField]
-    float _posX = 20.0f;
+    float _posX = 14.0f;
 
     [SerializeField]
     GameObject[] _obstacles;
@@ -41,21 +41,27 @@ public class RandomObjectSpawner : MonoBehaviour
 
     public void Spawn()
     {
-        int randomIdPos = UnityEngine.Random.Range(0, _carrilCenetrs.Length);
+        int randomCarril = UnityEngine.Random.Range(0, _carrilCenetrs.Length);
 
-        if (_carrilCenetrs[randomIdPos].active)
+        if (_carrilCenetrs[randomCarril].active)
         {
-            Vector3 randomSpawnPosition = new Vector3(_posX, 0.0f, _carrilCenetrs[randomIdPos].CenterPosZ);
+            Vector3 randomSpawnPosition = new Vector3(_posX, 0.0f, _carrilCenetrs[randomCarril].CenterPosZ);
 
-            randomIdPos = UnityEngine.Random.Range(0, _obstacles.Length);
+            int randomIdPos = UnityEngine.Random.Range(0, _obstacles.Length);
             GameObject instantiated = Instantiate(_obstacles[randomIdPos], randomSpawnPosition, Quaternion.identity);
             instantiated.transform.Rotate(90,0,0);
             instantiated.GetComponent<Obstaculo>().SetVel(_obsVel);
+            if (instantiated.GetComponent<Obstaculo>())
+            {
+                EventRegister.Instance.AddToEvnt(Tuple.Create(EventRegister.EventosInfo.OEntraPantalla, "Carril " + randomCarril.ToString()));
+            }
+            else
+            {
+                EventRegister.Instance.AddToEvnt(Tuple.Create(EventRegister.EventosInfo.FEntraPantalla, "Carril " + randomCarril.ToString()));
+            }
+                EventRegister.Instance.EvntToJson();
         }
 
-        List<Tuple<EventRegister.EventosInfo, string>> aux = new List<Tuple<EventRegister.EventosInfo, string>>();
-        EventRegister.Instance.AddToEvnt(Tuple.Create(EventRegister.EventosInfo.OEntraPantalla, "Carril " + randomIdPos.ToString()));
-        EventRegister.Instance.EvntToJson();
     }
 
     public void SetRailObstacleSpawner(int railNum, bool enabled)

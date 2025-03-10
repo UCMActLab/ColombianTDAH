@@ -135,6 +135,7 @@ public class DolphinLevelManager : MonoBehaviour
         _UIManager.startLevelStats(0, 0);
 
         //Init Event Register Manager
+        EventRegister.Instance.WriteStart();
         EventRegister.Instance.AddToEvnt(Tuple.Create(EventRegister.EventosInfo.Inicio, "nivel X"));
         EventRegister.Instance.EvntToJson();
     }
@@ -170,7 +171,6 @@ public class DolphinLevelManager : MonoBehaviour
     {
         _UIManager.showWin();
         _dolphinManager.DeactivateDolphins();
-        EventRegister.Instance.WriteEnd();
         //freeze gam/disable input
     }
 

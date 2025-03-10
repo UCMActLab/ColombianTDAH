@@ -84,6 +84,8 @@ public class DolphinController : MonoBehaviour
         if(collision.gameObject.GetComponent<Obstaculo>())
         {
             OnHitObstacle();
+            EventRegister.Instance.AddToEvnt(Tuple.Create(EventRegister.EventosInfo.OColision, dragComponent.GetIndex().ToString("00")));
+            EventRegister.Instance.EvntToJson();
         }
         
     }
@@ -92,6 +94,8 @@ public class DolphinController : MonoBehaviour
         if(other.gameObject.GetComponent<Floatie>())
         {
             OnHitFloatie();
+            EventRegister.Instance.AddToEvnt(Tuple.Create(EventRegister.EventosInfo.FColision, dragComponent.GetIndex().ToString("00")));
+            EventRegister.Instance.EvntToJson();
         }
     }
     protected void OnHitObstacle()
