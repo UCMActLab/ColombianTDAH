@@ -211,6 +211,9 @@ public class DolphinController : MonoBehaviour
                 pointsTetx.GetComponentInChildren<TextMeshProUGUI>().color = Color.red;
 
                 Destroy(pointsTetx, _pointsTextLifeTime);
+
+                // Desactiva Velocidad aumentada
+                DolphinLevelManager.Instance.DeactivateIncreasedSpeed();
             }
         }
     }

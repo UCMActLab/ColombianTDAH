@@ -25,12 +25,16 @@ public class Obstaculo : MonoBehaviour
 
     void OnCollisionEnter(Collision collision)
     {
+        // Si colisiona con un Delfin
         if (collision.gameObject.GetComponent<DolphinController>() != null)
         {
             Vector3 aux = Vector3.zero;
             aux.x = m_Vel / 10;
             aux.y = -m_Vel;
             m_Rigidbody.linearVelocity = aux;
+
+            // Desactiva Velocidad aumentada
+            DolphinLevelManager.Instance.DeactivateIncreasedSpeed();
         }
     }
 

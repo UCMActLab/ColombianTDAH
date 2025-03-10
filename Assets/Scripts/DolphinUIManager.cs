@@ -1,5 +1,6 @@
 using UnityEngine;
 using TMPro;
+using UnityEngine.UI;
 public class DolphinUIManager : MonoBehaviour
 {
     [SerializeField]
@@ -8,6 +9,8 @@ public class DolphinUIManager : MonoBehaviour
     private TMP_Text _levelText;
     [SerializeField]
     GameObject _endLevel;
+    [SerializeField]
+    private Button _velButton;
     [SerializeField]
     GameObject _options;
     [SerializeField]
@@ -42,9 +45,16 @@ public class DolphinUIManager : MonoBehaviour
         _options.SetActive(false);
         _endLevel.SetActive(true);
     }
-    // Update is called once per frame
-    void Update()
+
+    public void VelocityClick()
     {
-        
+        SetVelButton(false);
+        DolphinLevelManager.Instance.ActivateIncreasedSpeed();
+        Debug.Log("Velosidaah");
+    }
+
+    public void SetVelButton(bool enable)
+    {
+        _velButton.interactable = enable;
     }
 }

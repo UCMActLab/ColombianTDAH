@@ -22,7 +22,7 @@ public class DolphinLevelManager : MonoBehaviour
 
     //quizá sobre lol
     int initialDolphins;
-    Vector2[] posDolphins; 
+    Vector2[] posDolphins;
 
     // Matrices
     Box[,] occupationMatrix;
@@ -49,11 +49,12 @@ public class DolphinLevelManager : MonoBehaviour
     int _wrongSpecialJumpPoints;
     [SerializeField, Tooltip("Points to substact per collision with obstacle")]
     int _hitObstaclePoints;
+    bool _increasedVelocity = false;
 
     // DolphinTimes
-    [SerializeField, Tooltip("Min time between jumps")] 
+    [SerializeField, Tooltip("Min time between jumps")]
     protected float minJumpTime;
-    [SerializeField, Tooltip("Max time between jumps")] 
+    [SerializeField, Tooltip("Max time between jumps")]
     protected float maxJumpTime;
     protected float currTime;
     [SerializeField, Tooltip("Min time between special jumps")]
@@ -89,9 +90,9 @@ public class DolphinLevelManager : MonoBehaviour
     {
         bool loaded = LoadConfiguration(config);
         InitialiseMatrixes();
-        
+
         List<Vector2> dolphinXYPositions = new List<Vector2>();
-        
+
 
         if (!loaded)
         {
@@ -113,7 +114,7 @@ public class DolphinLevelManager : MonoBehaviour
             }
         }
 
-        _dolphinManager.Init(initialDolphins, divingDolphins, dolphinRealPositions,dolphinXYPositions, minJumpTime, maxJumpTime, 10);
+        _dolphinManager.Init(initialDolphins, divingDolphins, dolphinRealPositions, dolphinXYPositions, minJumpTime, maxJumpTime, 10);
 
         //obs
         randomObjectSpawner.SetVel((float)_obstacleSpeed);
@@ -149,7 +150,7 @@ public class DolphinLevelManager : MonoBehaviour
         _offset = _offset - new Vector3(-_riverSize.x / 2, 0.0f, _riverSize.z / 2);
     }
 
-    
+
     private void EndGame()
     {
         _UIManager.showWin();
@@ -203,7 +204,6 @@ public class DolphinLevelManager : MonoBehaviour
             if (currTime >= nextSpawnTime)
             {
                 nextSpawnTime = Random.Range(minSpawnTime, maxSpawnTime);
-                Debug.Log("Instancio obstaculo");
                 currTime = 0;
                 randomObjectSpawner.Spawn();
             }
@@ -325,7 +325,7 @@ public class DolphinLevelManager : MonoBehaviour
             {
                 occupancy.freeSpots++;
             }
-            i++; 
+            i++;
         }
 
         if (occupancy.nObstacles == 0) occupancy.distToFirstObs = 1000;
@@ -344,7 +344,7 @@ public class DolphinLevelManager : MonoBehaviour
         int x = (int)dolphinMatrixPos.x;
         int y = (int)dolphinMatrixPos.y;
 
-        Debug.Log("x: "+x +"y: "+y);
+        Debug.Log("x: " + x + "y: " + y);
         int minDistanceToObs = 4;
 
         nextPos = GetMatrixXFreePos(x, y, setOcuppation, type);
@@ -354,7 +354,7 @@ public class DolphinLevelManager : MonoBehaviour
         //railToCheck = GetRailOccupancy(x, rail);
 
         //if (railToCheck.distToFirstObs < minDistanceToObs) return GetMatrixXFreePos(x, rail, setOcuppation, type);
-        
+
         //int i = 1;
         //int leftRail = y, rightRail = y;
 
@@ -509,7 +509,7 @@ public class DolphinLevelManager : MonoBehaviour
     // Metodo que guarda los datos de la configuracion en las variables privadas de la clase
     bool LoadConfiguration(configData config)
     {
-        levelData = config; 
+        levelData = config;
 
         if (levelData == null) return false;
 
@@ -520,7 +520,7 @@ public class DolphinLevelManager : MonoBehaviour
 
         minSpawnTime = levelData.MinObstacleSpawn;
         maxSpawnTime = levelData.MaxObstacleSpawn;
-        if(maxSpawnTime == 0)
+        if (maxSpawnTime == 0)
         {
             _obstacleSpawning = false;
         }
@@ -534,9 +534,23 @@ public class DolphinLevelManager : MonoBehaviour
         _winPoints = (int)levelData.LevelPoints; //lol
         _specialJumpPoints = (int)levelData.RightGuessPoints;
         _wrongSpecialJumpPoints = (int)levelData.WrongGuessPoints;
-        _hitObstaclePoints = (int) levelData.HitObstaclePoints;
+        _hitObstaclePoints = (int)levelData.HitObstaclePoints;
 
 
         return true;
+    }
+
+    public void ActivateIncreasedSpeed()
+    {
+        _increasedVelocity = true;
+    }
+
+    public void DeactivateIncreasedSpeed()
+    {
+        if (_increasedVelocity) {
+            _increasedVelocity = false;
+            _UIManager.SetVelButton(true);
+        }
+
     }
 }
