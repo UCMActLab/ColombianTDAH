@@ -15,6 +15,7 @@ public class MovingObject : MonoBehaviour
         m_CubeInfo = GetComponent<MatrixCubeInfo>();
         type = Box.Empty;
         collisionReaction = false;
+        m_Rigidbody.linearVelocity = Vector3.left * m_Vel;
     }
 
     public void SetVel(float obsVel)
@@ -25,6 +26,7 @@ public class MovingObject : MonoBehaviour
     protected void FixedUpdate()
     {
         m_Rigidbody.linearVelocity = Vector3.left * m_Vel;
+        
     }
 
     protected void OnCollisionEnter(Collision collision)
@@ -58,6 +60,9 @@ public class MovingObject : MonoBehaviour
 
     public void DestroyObstacle()
     {
+        DolphinLevelManager.Instance.DeregisterObject(gameObject);
         Destroy(gameObject);
     }
+
+
 }

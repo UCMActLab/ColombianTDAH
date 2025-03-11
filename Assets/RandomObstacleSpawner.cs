@@ -1,6 +1,4 @@
 using UnityEngine;
-using System;
-using System.Collections;
 using System.Collections.Generic;
 
 public class RandomObjectSpawner : MonoBehaviour
@@ -19,8 +17,14 @@ public class RandomObjectSpawner : MonoBehaviour
     GameObject[] _obstacles;
     CarrilInfo[] _carrilCenetrs;
 
+    List<GameObject> _spawnedObjects;
+
     float _obsVel;
 
+    private void Start()
+    {
+        _spawnedObjects = new List<GameObject>();
+    }
     public void Init(int nRail)
     {
         _carrilCenetrs = new CarrilInfo[nRail];
@@ -31,6 +35,10 @@ public class RandomObjectSpawner : MonoBehaviour
         _obsVel = speed;
     }
 
+    public float GetVel()
+    {
+        return _obsVel;
+    }
     public void SetCenterPos(int index, float zCenter)
     {
         CarrilInfo carrilAux;
@@ -50,16 +58,18 @@ public class RandomObjectSpawner : MonoBehaviour
             int randomIdPos = UnityEngine.Random.Range(0, _obstacles.Length);
             GameObject instantiated = Instantiate(_obstacles[randomIdPos], randomSpawnPosition, Quaternion.identity);
             instantiated.transform.Rotate(90,0,0);
-            instantiated.GetComponent<Obstaculo>().SetVel(_obsVel);
+            instantiated.GetComponent<MovingObject>().SetVel(_obsVel);
+            Debug.Log("Obstaculo: " + instantiated);
+            _spawnedObjects.Add(instantiated);
             if (instantiated.GetComponent<Obstaculo>())
             {
-                EventRegister.Instance.AddToEvnt(Tuple.Create(EventRegister.EventosInfo.OEntraPantalla, "Carril " + randomCarril.ToString()));
+                //EventRegister.Instance.AddToEvnt(Tuple.Create(EventRegister.EventosInfo.OEntraPantalla, "Carril " + randomCarril.ToString()));
             }
             else
             {
-                EventRegister.Instance.AddToEvnt(Tuple.Create(EventRegister.EventosInfo.FEntraPantalla, "Carril " + randomCarril.ToString()));
+                //EventRegister.Instance.AddToEvnt(Tuple.Create(EventRegister.EventosInfo.FEntraPantalla, "Carril " + randomCarril.ToString()));
             }
-                EventRegister.Instance.EvntToJson();
+                //EventRegister.Instance.EvntToJson();
         }
 
     }
@@ -67,5 +77,22 @@ public class RandomObjectSpawner : MonoBehaviour
     public void SetRailObstacleSpawner(int railNum, bool enabled)
     {
         _carrilCenetrs[railNum].active = enabled;
+    }
+
+    public void DeregisterObject(GameObject obj)
+    {
+        _spawnedObjects.Remove(obj);
+    }
+
+    public void ChangeAllVelocities(float newVel)
+    {
+        for (int i = 0; i < _spawnedObjects.Count; i++)
+        {
+            MovingObject movingObjComp = _spawnedObjects[i].GetComponent<MovingObject>();
+            if (movingObjComp != null)
+            {
+                movingObjComp.SetVel(newVel);
+            }
+        }
     }
 }

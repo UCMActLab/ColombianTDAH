@@ -50,7 +50,6 @@ public class DolphinUIManager : MonoBehaviour
     {
         SetVelButton(false);
         DolphinLevelManager.Instance.ActivateIncreasedSpeed();
-        Debug.Log("Velosidaah");
     }
 
     public void SetVelButton(bool enable)

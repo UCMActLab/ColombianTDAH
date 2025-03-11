@@ -52,7 +52,6 @@ public class Buceo : MonoBehaviour
     {
         if (!destination.Equals(new(float3.zero)))
         {
-            Debug.Log("lastSpline");
             lastSpline = true;
         }
         pathGen = GameObject.Find("PathGenerator").GetComponent<PathGenerator>();

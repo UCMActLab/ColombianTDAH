@@ -178,8 +178,8 @@ public class DolphinLevelManager : MonoBehaviour
     {
         _currentPoints += _specialJumpPoints;
         _UIManager.updatePoints(_currentPoints);
-        EventRegister.Instance.AddToEvnt(Tuple.Create(EventRegister.EventosInfo.NPuntos, _currentPoints.ToString("00")));
-        EventRegister.Instance.EvntToJson();
+        //EventRegister.Instance.AddToEvnt(Tuple.Create(EventRegister.EventosInfo.NPuntos, _currentPoints.ToString("00")));
+        //EventRegister.Instance.EvntToJson();
         if (_currentPoints >= _winPoints)
         {
             // Animacion ballena
@@ -195,8 +195,8 @@ public class DolphinLevelManager : MonoBehaviour
     {
         _currentPoints += _wrongSpecialJumpPoints;
         _UIManager.updatePoints(_currentPoints);
-        EventRegister.Instance.AddToEvnt(Tuple.Create(EventRegister.EventosInfo.NPuntos, _currentPoints.ToString("00")));
-        EventRegister.Instance.EvntToJson();
+        //EventRegister.Instance.AddToEvnt(Tuple.Create(EventRegister.EventosInfo.NPuntos, _currentPoints.ToString("00")));
+        //EventRegister.Instance.EvntToJson();
         return _wrongSpecialJumpPoints;
     }
 
@@ -274,7 +274,6 @@ public class DolphinLevelManager : MonoBehaviour
     // Devuelve GameObject de la posicion de la matriz indicada
     public GameObject GetCubeFromMatrix(int x, int y)
     {
-        Debug.Log("cubesMatrix.Length: " + cubesMatrix);
         return cubesMatrix[x, y];
     }
 
@@ -379,7 +378,6 @@ public class DolphinLevelManager : MonoBehaviour
         int x = (int)dolphinMatrixPos.x;
         int y = (int)dolphinMatrixPos.y;
 
-        Debug.Log("x: " + x + "y: " + y);
         int minDistanceToObs = 4;
 
         nextPos = GetMatrixXFreePos(x, y, setOcuppation, type);
@@ -428,7 +426,6 @@ public class DolphinLevelManager : MonoBehaviour
 
         //    i++;
         //}
-        Debug.Log(nextPos);
 
         //for (int i = 0; i < railNumber / 2; i++)
         //{
@@ -504,7 +501,6 @@ public class DolphinLevelManager : MonoBehaviour
     }
     public Vector3 GetWorldPositionFromCube(int x, int y)
     {
-        Debug.Log("x" + x + "y" + y);
         return GetCubeFromMatrix(x, y).GetComponent<Transform>().position;
     }
 
@@ -584,6 +580,12 @@ public class DolphinLevelManager : MonoBehaviour
         backgroundVel *= _increaseVelFactor;
         _backgroundMovementComp.SetVelocity(backgroundVel);
 
+        // Obstaculos
+        float objectsVel = randomObjectSpawner.GetVel();
+        objectsVel *= _increaseVelFactor;
+        randomObjectSpawner.SetVel(objectsVel);
+        randomObjectSpawner.ChangeAllVelocities(objectsVel);
+
     }
 
     public void DeactivateIncreasedSpeed()
@@ -596,6 +598,17 @@ public class DolphinLevelManager : MonoBehaviour
             float backgroundVel = _backgroundMovementComp.GetVelocity();
             backgroundVel /= _increaseVelFactor;
             _backgroundMovementComp.SetVelocity(backgroundVel);
+
+            // Obstaculos y flotador
+            float objectsVel = randomObjectSpawner.GetVel();
+            objectsVel /= _increaseVelFactor;
+            randomObjectSpawner.SetVel(objectsVel);
+            randomObjectSpawner.ChangeAllVelocities(objectsVel);
         }
+    }
+
+    public void DeregisterObject(GameObject obj)
+    {
+        randomObjectSpawner.DeregisterObject(obj);
     }
 }

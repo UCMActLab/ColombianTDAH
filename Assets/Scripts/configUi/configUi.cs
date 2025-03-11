@@ -123,9 +123,6 @@ public class configUi : MonoBehaviour
                 i++;
             }
 
-            Debug.Log("delfinesColocados " + delfinesColocados);
-
-            Debug.Log("delfinesEncontrados " + delfinesEncontrados);
             for (int d = delfinesEncontrados; d < config.NumDelfines; d++)
             {
                 //Debug.Log("dolphin pos no colcoado " + i + " " + j);
@@ -136,7 +133,7 @@ public class configUi : MonoBehaviour
             config.PosDelfines = posDelfines;
 
             //OBS
-            config.MinObstacleSpawn = input_obstacleMin.value; Debug.Log("scroipt" + config.MinObstacleSpawn); Debug.Log("input" + input_obstacleMin.value);
+            config.MinObstacleSpawn = input_obstacleMin.value;
             config.MaxObstacleSpawn = input_obstacleMax.value;
             config.ObstacleSpeed = input_obstacleVel.value;
 
