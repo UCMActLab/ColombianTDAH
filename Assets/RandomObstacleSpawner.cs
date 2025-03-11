@@ -59,7 +59,6 @@ public class RandomObjectSpawner : MonoBehaviour
             GameObject instantiated = Instantiate(_obstacles[randomIdPos], randomSpawnPosition, Quaternion.identity);
             instantiated.transform.Rotate(90,0,0);
             instantiated.GetComponent<MovingObject>().SetVel(_obsVel);
-            Debug.Log("Obstaculo: " + instantiated);
             _spawnedObjects.Add(instantiated);
             if (instantiated.GetComponent<Obstaculo>())
             {
