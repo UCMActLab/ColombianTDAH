@@ -16,8 +16,11 @@ public class DolphinController : MonoBehaviour
     public DolphinStates currentState;
     public DolphinStates startingState;
     bool isAboutToDive;
-    bool canBeDamaged;
-    public float invincibilityTime = 2.0f;
+
+    [SerializeField]
+    protected bool canBeDamaged;
+    [SerializeField]
+    protected float invincibilityTime = 2.0f;
     AudioSource _myAudioSource;
 
     [SerializeField, Tooltip("Capa con la que querremos clicar la vuelta especial (delfines)")]
@@ -102,7 +105,7 @@ public class DolphinController : MonoBehaviour
     {
         if (canBeDamaged)
         {
-            PauseDamage();
+            StartCoroutine("PauseDamage");
             Dive();
             int points = dolphinMngr.HitObstacle();
             showPointsOnDolphin(points, Color.red);
