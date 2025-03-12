@@ -46,10 +46,12 @@ public class DolphinLevelManager : MonoBehaviour
     int _currentPoints;
     [SerializeField, Tooltip("Points to add per right special jump guess")]
     int _specialJumpPoints;
-    [SerializeField, Tooltip("Points to add per right special jump guess")]
+    [SerializeField, Tooltip("Points to add per wrong jump guess")]
     int _wrongSpecialJumpPoints;
     [SerializeField, Tooltip("Points to substact per collision with obstacle")]
     int _hitObstaclePoints;
+    [SerializeField]
+    int _increasedVelPointsFactor = 2;
 
     // Velocity
     [SerializeField]
@@ -132,7 +134,7 @@ public class DolphinLevelManager : MonoBehaviour
         randomObjectSpawner.SetVel(_obstacleSpeed);
 
         // Background Velocity
-        _backgroundMovementComp.SetVelocity(_obstacleSpeed/50);    // same as obstacles in game
+        _backgroundMovementComp.SetVelocity(_obstacleSpeed / 50);    // same as obstacles in game
 
         // Init Level UIs
         _UIManager.startLevelStats(0, 0);
@@ -179,7 +181,12 @@ public class DolphinLevelManager : MonoBehaviour
 
     public int RightGuess()
     {
-        _currentPoints += _specialJumpPoints;
+        int pointsToAdd = _specialJumpPoints;
+
+        if (_increasedVelocity)
+            pointsToAdd *= _increasedVelPointsFactor;
+
+        _currentPoints += pointsToAdd;
         _UIManager.updatePoints(_currentPoints);
         //EventRegister.Instance.AddToEvnt(Tuple.Create(EventRegister.EventosInfo.NPuntos, _currentPoints.ToString("00")));
         //EventRegister.Instance.EvntToJson();
@@ -191,12 +198,14 @@ public class DolphinLevelManager : MonoBehaviour
 
             EndGame();
         }
-        return _specialJumpPoints;
+        return pointsToAdd;
     }
 
     public int WrongGuess()
     {
         _currentPoints += _wrongSpecialJumpPoints;
+        if(_currentPoints < 0)
+            _currentPoints = 0;
         _UIManager.updatePoints(_currentPoints);
         //EventRegister.Instance.AddToEvnt(Tuple.Create(EventRegister.EventosInfo.NPuntos, _currentPoints.ToString("00")));
         //EventRegister.Instance.EvntToJson();
@@ -206,14 +215,21 @@ public class DolphinLevelManager : MonoBehaviour
     public int HitObstacle()
     {
         _currentPoints += _hitObstaclePoints;
+        if (_currentPoints < 0)
+            _currentPoints = 0;
         _UIManager.updatePoints(_currentPoints);
         return _hitObstaclePoints;
     }
     public int FloatHit()
     {
-        _currentPoints += _floatiePoints;
+        int pointsToAdd = _floatiePoints;
+
+        if (_increasedVelocity)
+            pointsToAdd *= _increasedVelPointsFactor;
+
+        _currentPoints += pointsToAdd;
         _UIManager.updatePoints(_currentPoints);
-        return _floatiePoints;
+        return pointsToAdd;
     }
     private void Awake()
     {
@@ -595,7 +611,8 @@ public class DolphinLevelManager : MonoBehaviour
 
     public void DeactivateIncreasedSpeed()
     {
-        if (_increasedVelocity) {
+        if (_increasedVelocity)
+        {
             _increasedVelocity = false;
             _UIManager.SetVelButton(true);
 
