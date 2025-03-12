@@ -128,8 +128,11 @@ public class DolphinLevelManager : MonoBehaviour
 
         _dolphinManager.Init(initialDolphins, divingDolphins, dolphinRealPositions, dolphinXYPositions, minJumpTime, maxJumpTime, 10);
 
-        //obs
-        randomObjectSpawner.SetVel((float)_obstacleSpeed);
+        // Obstacles Velocity
+        randomObjectSpawner.SetVel(_obstacleSpeed);
+
+        // Background Velocity
+        _backgroundMovementComp.SetVelocity(_obstacleSpeed/50);    // same as obstacles in game
 
         // Init Level UIs
         _UIManager.startLevelStats(0, 0);
@@ -226,10 +229,12 @@ public class DolphinLevelManager : MonoBehaviour
     void Start()
     {
         if (_obstacleSpawning) nextSpawnTime = maxSpawnTime;
-
-        _backgroundMovementComp = _background.GetComponent<enviroMov>();
     }
 
+    private void OnEnable()
+    {
+        _backgroundMovementComp = _background.GetComponent<enviroMov>();
+    }
     // Update is called once per frame
     void Update()
     {

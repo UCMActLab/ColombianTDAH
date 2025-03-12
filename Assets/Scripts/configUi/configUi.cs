@@ -108,7 +108,6 @@ public class configUi : MonoBehaviour
                 int j = 0;
                 while (j < input_toggleGroup[i][0].childCount)
                 {
-                    //Debug.Log("J = " + j+ " Val = "+ input_toggleGroup[i][0][j].Q<Toggle>().value);
                     if (input_toggleGroup[i][0][j].Q<Toggle>().value)
                     {
                         if (delfinesEncontrados < input_delfinesN.value)
@@ -116,7 +115,6 @@ public class configUi : MonoBehaviour
                             posDelfines[delfinesEncontrados] = new Vector2(i, j); //si se ha pasado se fastidian los ultimos :p
                         }
                         delfinesEncontrados++;
-                        //Debug.Log("delfin encontrado en x = " + j + ", y = " + i);
                     }
                     j++;
                 }
@@ -125,8 +123,6 @@ public class configUi : MonoBehaviour
 
             for (int d = delfinesEncontrados; d < config.NumDelfines; d++)
             {
-                //Debug.Log("dolphin pos no colcoado " + i + " " + j);
-
                 posDelfines[d] = new Vector2(-1, -1);
             }
 
@@ -152,7 +148,6 @@ public class configUi : MonoBehaviour
 
             // Activa Juego
             ActivateGame(true);
-
         }
     }
 
@@ -167,7 +162,6 @@ public class configUi : MonoBehaviour
 
     void Fase1Complet(ClickEvent e)
     {
-        //Debug.Log("Fase 1 completada");
         delfinesColocados = 0;
         input_toggleGroup.Clear(); //Borramos los carriles
         int n = input_carrilesN.value;
@@ -175,10 +169,7 @@ public class configUi : MonoBehaviour
         for (int i = 0; i < n; i++)
         {
             VisualTreeAsset uiAsset = Resources.Load<VisualTreeAsset>("UI/carrilToggles");
-            //Debug.Log(uiAsset);
             VisualElement ui = uiAsset.Instantiate();
-            //Debug.Log("uichildcount"+ui.name + ui.childCount);
-            //Debug.Log("uichildcount" + ui[0].name + ui[0].childCount);
 
             for (int j = 0; j < ui.childCount; j++)
             {
@@ -186,8 +177,6 @@ public class configUi : MonoBehaviour
             }
 
             input_toggleGroup.Add(ui);
-            //Debug.Log("misninosinputtoggle"+input_toggleGroup.childCount);
-
         }
     }
 
@@ -225,7 +214,7 @@ public class configUi : MonoBehaviour
         environmentObject.SetActive(enable);
         managerstObject.SetActive(enable);
         canvasObject.SetActive(enable);
-        if(enable == true)DolphinLevelManager.Instance.InitLevel(config);
+        if(enable)DolphinLevelManager.Instance.InitLevel(config);
         evntRegObject.SetActive(enable);
     }
 }
