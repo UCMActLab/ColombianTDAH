@@ -1,8 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
-using UnityEditor.ShaderGraph.Internal;
 using UnityEngine;
 
 public enum Box { Empty, Dolphin, Obstacle, Floatie }
@@ -98,6 +96,9 @@ public class DolphinLevelManager : MonoBehaviour
 
     [SerializeField, Tooltip("Whale prefab")]
     GameObject _whale;
+    [SerializeField]
+    int _whaleSpawnNum = 3;
+    int _whaleTryCont = 0;
 
     //SavedfromUI
     [SerializeField]
@@ -195,14 +196,24 @@ public class DolphinLevelManager : MonoBehaviour
 
         _currentPoints += pointsToAdd;
         _UIManager.updatePoints(_currentPoints);
-        //EventRegister.Instance.AddToEvnt(Tuple.Create(EventRegister.EventosInfo.NPuntos, _currentPoints.ToString("00")));
-        //EventRegister.Instance.EvntToJson();
-        if (_currentPoints >= _winPoints)
+
+        // Aparicion ballena con "_whaleSpawnNum" numero de aciertos
+        _whaleTryCont++;
+        if(_whaleSpawnNum <= _whaleTryCont)
         {
             // Animacion ballena
             _whale.SetActive(true);
             SetAllObstacleSpawning(false);
 
+            _whaleTryCont = 0;
+        }
+
+
+        //EventRegister.Instance.AddToEvnt(Tuple.Create(EventRegister.EventosInfo.NPuntos, _currentPoints.ToString("00")));
+        //EventRegister.Instance.EvntToJson();
+        if (_currentPoints >= _winPoints)
+        {
+            SetAllObstacleSpawning(false);
             EndGame();
         }
         return pointsToAdd;
