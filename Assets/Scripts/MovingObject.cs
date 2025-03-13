@@ -52,7 +52,7 @@ public class MovingObject : MonoBehaviour
             MatrixCubeInfo cubeInfo = other.gameObject.GetComponent<MatrixCubeInfo>();
             Vector2 newCubePos = cubeInfo.GetXY();
             Vector2 oldCubePos = m_CubeInfo.GetXY();
-            DolphinLevelManager.Instance.SetOccupation((int)oldCubePos.x, (int)oldCubePos.y, Box.Empty);
+            if(oldCubePos.x != -1) DolphinLevelManager.Instance.SetOccupation((int)oldCubePos.x, (int)oldCubePos.y, Box.Empty); //que solo se borre si tiene posición en el mapa (caso particular flotadores compoartiendo casilla con delfines por un instante)
             m_CubeInfo.SetXY((int)newCubePos.x, (int)newCubePos.y);
             DolphinLevelManager.Instance.SetOccupation((int)newCubePos.x, (int)newCubePos.y, type);
         }

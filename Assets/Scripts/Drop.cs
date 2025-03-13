@@ -77,10 +77,16 @@ public class Drop : MonoBehaviour
             hit = hitInfo;
         }
 
-        // Si esta vacia la casilla cambio posicion y ocupo casilla
+        // Si esta vacia o hay un flotador en la casilla cambio posicion y ocupo casilla
         Vector2 cubePosInMatrix = hit.collider.GetComponent<MatrixCubeInfo>().GetXY();
-        if ((DolphinLevelManager.Instance.GetOccupationFromMatrix((int)cubePosInMatrix.x, (int)cubePosInMatrix.y) == Box.Empty)|| (DolphinLevelManager.Instance.GetOccupationFromMatrix((int)cubePosInMatrix.x, (int)cubePosInMatrix.y)==Box.Floatie))
+        Box type = DolphinLevelManager.Instance.GetOccupationFromMatrix((int)cubePosInMatrix.x, (int)cubePosInMatrix.y);
+        if (type == Box.Empty || type == Box.Floatie)
         {
+            if (type == Box.Floatie) // El flotador liberará su hueco para el delfín y tomará ya XY cuando entre en el trigger del siguiente hueco
+            {
+                GameObject obj = DolphinLevelManager.Instance.GetCubeFromMatrix((int)cubePosInMatrix.x, (int)cubePosInMatrix.y);
+                obj.GetComponent<MatrixCubeInfo>().SetXY(-1, -1);
+            }
 
             // Desocupo antigua casilla
             Vector2 dolphinMatrixPos = _matrixCubeInfo.GetXY();
@@ -93,8 +99,8 @@ public class Drop : MonoBehaviour
 
             // Guardo nueva posicion
             _initialPosition = _myTransform.position;
-        }
 
+        }
         // Si no vuelvo a posicion inicial
         else
             _myTransform.position = _initialPosition;

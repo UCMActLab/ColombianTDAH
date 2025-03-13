@@ -16,6 +16,7 @@ public class DolphinController : MonoBehaviour
     public DolphinStates currentState;
     public DolphinStates startingState;
     bool isAboutToDive;
+    bool scoringFloatie;
 
     [SerializeField]
     protected bool canBeDamaged;
@@ -39,6 +40,8 @@ public class DolphinController : MonoBehaviour
     GameObject _colliderClickDolphin;
     float riverFloatingHeight;
 
+    
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -51,6 +54,7 @@ public class DolphinController : MonoBehaviour
         currentState = DolphinStates.FLOATING; //default, ajustar para que detecte si est� arriba o no (por posici�n o dise�o de nivel)
         isAboutToDive = false;
         canBeDamaged = true;
+        scoringFloatie = false;
 
         transform.Rotate(new Vector3(0, 90, 0));
         riverFloatingHeight = DolphinLevelManager.Instance.GetRiverFloatingHeight();
@@ -92,14 +96,27 @@ public class DolphinController : MonoBehaviour
         }
         
     }
-    private void OnTriggerEnter(Collider other)
+
+    private void OnTriggerStay(Collider other)
     {
-        if(other.gameObject.GetComponent<Floatie>())
+        if(!scoringFloatie)
         {
-            OnHitFloatie();
-            //EventRegister.Instance.AddToEvnt(Tuple.Create(EventRegister.EventosInfo.FColision, GetComponent<Drag>().GetIndex().ToString("00")));
-            //EventRegister.Instance.EvntToJson();
+            Floatie f = other.gameObject.GetComponent<Floatie>();
+            if (f != null)
+            {
+                if (!dragComponent.AmIBeingDragged() && f.TryScore(dragComponent.GetIndex()))
+                {
+                    OnHitFloatie();
+                }
+                //EventRegister.Instance.AddToEvnt(Tuple.Create(EventRegister.EventosInfo.FColision, GetComponent<Drag>().GetIndex().ToString("00")));
+                //EventRegister.Instance.EvntToJson();
+            }
         }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        scoringFloatie = false;
     }
     protected void OnHitObstacle()
     {
@@ -113,6 +130,7 @@ public class DolphinController : MonoBehaviour
     }
     protected void OnHitFloatie()
     {
+        scoringFloatie = true;
         int points = dolphinMngr.FloatHit();
         showPointsOnDolphin(points, Color.green);
         //Dive();
