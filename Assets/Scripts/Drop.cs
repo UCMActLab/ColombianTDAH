@@ -79,7 +79,7 @@ public class Drop : MonoBehaviour
 
         // Si esta vacia la casilla cambio posicion y ocupo casilla
         Vector2 cubePosInMatrix = hit.collider.GetComponent<MatrixCubeInfo>().GetXY();
-        if ((DolphinLevelManager.Instance.GetOccupationFromMatrix((int)cubePosInMatrix.x, (int)cubePosInMatrix.y) == Box.Empty))
+        if ((DolphinLevelManager.Instance.GetOccupationFromMatrix((int)cubePosInMatrix.x, (int)cubePosInMatrix.y) == Box.Empty)|| (DolphinLevelManager.Instance.GetOccupationFromMatrix((int)cubePosInMatrix.x, (int)cubePosInMatrix.y)==Box.Floatie))
         {
 
             // Desocupo antigua casilla

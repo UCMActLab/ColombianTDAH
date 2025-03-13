@@ -82,6 +82,9 @@ public class DolphinLevelManager : MonoBehaviour
     float pauseSpawningTime = 5.0f;
     float _obstacleSpeed;
 
+    // Para flotadores
+    bool _floatieSpawning = true;
+
     // Managers (queremos instanciar prefabs o hacer un find?)
     [SerializeField]
     DolphinUIManager _UIManager;
@@ -133,8 +136,12 @@ public class DolphinLevelManager : MonoBehaviour
         // Obstacles Velocity
         randomObjectSpawner.SetVel(_obstacleSpeed);
 
+        //Enable Floats
+        randomObjectSpawner.EnableObstacles(_obstacleSpawning); 
+        randomObjectSpawner.EnableFloats(_floatieSpawning);
+
         // Background Velocity
-        _backgroundMovementComp.SetVelocity(_obstacleSpeed / 50);    // same as obstacles in game
+        _backgroundMovementComp.SetVelocity(_obstacleSpeed/50);    // same as obstacles in game
 
         // Init Level UIs
         _UIManager.startLevelStats(0, 0);
@@ -204,7 +211,7 @@ public class DolphinLevelManager : MonoBehaviour
     public int WrongGuess()
     {
         _currentPoints += _wrongSpecialJumpPoints;
-        if(_currentPoints < 0)
+        if (_currentPoints < 0)
             _currentPoints = 0;
         _UIManager.updatePoints(_currentPoints);
         //EventRegister.Instance.AddToEvnt(Tuple.Create(EventRegister.EventosInfo.NPuntos, _currentPoints.ToString("00")));
@@ -570,12 +577,11 @@ public class DolphinLevelManager : MonoBehaviour
         initialDolphins = levelData.NumDelfines;
         posDolphins = levelData.PosDelfines;
 
+        _floatieSpawning = levelData.FloatsEnabled;
+        _obstacleSpawning = levelData.ObstaclesEnabled;
+
         minSpawnTime = levelData.MinObstacleSpawn;
         maxSpawnTime = levelData.MaxObstacleSpawn;
-        if (maxSpawnTime == 0)
-        {
-            _obstacleSpawning = false;
-        }
         _obstacleSpeed = levelData.ObstacleSpeed;
 
         minJumpTime = levelData.MinTimeBetweenJumps;
@@ -583,7 +589,7 @@ public class DolphinLevelManager : MonoBehaviour
         minSpecialJumpCount = levelData.MinCountBetweenSpecialJumps;
         maxSpecialJumpCount = levelData.MaxCountBetweenSpecialJumps;
 
-        _winPoints = (int)levelData.LevelPoints; //lol
+        _winPoints = (int)levelData.LevelPoints; 
         _specialJumpPoints = (int)levelData.RightGuessPoints;
         _wrongSpecialJumpPoints = (int)levelData.WrongGuessPoints;
         _hitObstaclePoints = (int)levelData.HitObstaclePoints;
@@ -611,8 +617,7 @@ public class DolphinLevelManager : MonoBehaviour
 
     public void DeactivateIncreasedSpeed()
     {
-        if (_increasedVelocity)
-        {
+        if (_increasedVelocity) {
             _increasedVelocity = false;
             _UIManager.SetVelButton(true);
 

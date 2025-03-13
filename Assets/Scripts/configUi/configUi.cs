@@ -35,6 +35,8 @@ public class configUi : MonoBehaviour
     IntegerField input_pointPirueta;
     IntegerField input_pointWrongGuess;
     IntegerField input_pointChoque;
+    Toggle input_floatiesEnabled;
+    Toggle input_obstaclesEnabled;
     Button input_guardar;
     VisualElement input_toggleGroup;
     Label text_delfinesRestantes;
@@ -71,11 +73,14 @@ public class configUi : MonoBehaviour
         input_guardar = root.Q<Button>("guardar");
         input_toggleGroup = root.Q<VisualElement>("toggleGroup");
         text_delfinesRestantes = root.Q<Label>("delfinesRestantes");
+        input_floatiesEnabled = root.Q<Toggle>("floatEnabled");
+        input_obstaclesEnabled = root.Q<Toggle>("obsEnabled");
 
         input_guardar.RegisterCallback<ClickEvent>(GuardarTodo);
         input_fase1Complet.RegisterCallback<ClickEvent>(Fase1Complet);
         input_toggleGroup.RegisterCallback<ClickEvent>(DelfinColocado);
 
+       
         // Desactiva Juego
         ActivateGame(false);
     }
@@ -132,6 +137,9 @@ public class configUi : MonoBehaviour
             config.MinObstacleSpawn = input_obstacleMin.value;
             config.MaxObstacleSpawn = input_obstacleMax.value;
             config.ObstacleSpeed = input_obstacleVel.value;
+            config.ObstaclesEnabled = input_obstaclesEnabled.value; Debug.Log("input_obstaclesEnabled.value");
+            //FLOATS
+            config.FloatsEnabled = input_floatiesEnabled.value;
 
             //JUMP
             config.canSpecialJumpSimultaneously = input_piruetasSimult.value;
@@ -176,7 +184,7 @@ public class configUi : MonoBehaviour
                 ui[j].name = "Toggle" + i.ToString() + j.ToString();
             }
 
-            input_toggleGroup.Add(ui);
+            input_toggleGroup.Add(ui); Debug.Log("MIAUUUUUUU");
         }
     }
 

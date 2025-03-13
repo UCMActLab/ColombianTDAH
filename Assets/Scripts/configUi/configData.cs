@@ -28,6 +28,9 @@ public class configData : ScriptableObject
 
     //LEVEL PARAM CONFIG
     [Header("Obstacles Spawning")]
+    [SerializeField]
+    private bool _obstaclesEnabled;
+    public bool ObstaclesEnabled { get => _obstaclesEnabled; set => _obstaclesEnabled = value; }
     [SerializeField, Tooltip("Time for object spawning")]
     private float _minObstacleSpawn;
     public float MinObstacleSpawn { get => _minObstacleSpawn; set => _minObstacleSpawn = value; }
@@ -40,6 +43,11 @@ public class configData : ScriptableObject
     [SerializeField, Tooltip("Speed for object spawning")]
     private float _obstacleSpeed;
     public float ObstacleSpeed { get => _obstacleSpeed; set => _obstacleSpeed = value; }
+
+    [Header("Floats Spawning")]
+    [SerializeField]
+    private bool _floatsEnabled;
+    public bool FloatsEnabled { get => _floatsEnabled; set => _floatsEnabled = value; }
 
 
     [Header("Jumping Details")]
