@@ -133,7 +133,7 @@ public class DolphinController : MonoBehaviour
         scoringFloatie = true;
         int points = dolphinMngr.FloatHit();
         showPointsOnDolphin(points, Color.green);
-        //Dive();
+        animator.SetTrigger("FloatieJump");
     }
     public DolphinStates getDolphinState()
     {

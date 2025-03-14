@@ -30,7 +30,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 730751110022670534}
-  m_LocalEulerAnglesHint: {x: -4.4810476, y: -0.000040384013, z: 0.000004908109}
+  m_LocalEulerAnglesHint: {x: -37.85058, y: -0.026312437, z: -0.5157045}
 --- !u!1 &730751110022182118
 GameObject:
   m_ObjectHideFlags: 0
@@ -62,7 +62,7 @@ Transform:
   m_Children:
   - {fileID: 730751110022670532}
   m_Father: {fileID: 730751110022670550}
-  m_LocalEulerAnglesHint: {x: 81.351425, y: -0.0005186599, z: 179.99948}
+  m_LocalEulerAnglesHint: {x: 71.67264, y: -178.85057, z: 0.7857355}
 --- !u!1 &730751110022182128
 GameObject:
   m_ObjectHideFlags: 0
@@ -93,7 +93,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 730751110022670550}
-  m_LocalEulerAnglesHint: {x: 15.671913, y: -9.828428, z: 149.25113}
+  m_LocalEulerAnglesHint: {x: 1.373791, y: 0.8144881, z: 127.48363}
 --- !u!1 &730751110022182130
 GameObject:
   m_ObjectHideFlags: 0
@@ -124,7 +124,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 730751110022670550}
-  m_LocalEulerAnglesHint: {x: -68.62424, y: -0.000015576972, z: 0.000015407657}
+  m_LocalEulerAnglesHint: {x: -31.271763, y: -0.0000039524098, z: 0.0000016604187}
 --- !u!1 &730751110022182134
 GameObject:
   m_ObjectHideFlags: 0
@@ -159,7 +159,7 @@ Transform:
   - {fileID: 730751110022670558}
   - {fileID: 730751110022670534}
   m_Father: {fileID: 730751110022670552}
-  m_LocalEulerAnglesHint: {x: -61.232758, y: -0.000010336724, z: 0.000027365713}
+  m_LocalEulerAnglesHint: {x: 18.687, y: 178.471, z: 175.719}
 --- !u!1 &730751110022182136
 GameObject:
   m_ObjectHideFlags: 0
@@ -254,7 +254,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 730751110022670550}
-  m_LocalEulerAnglesHint: {x: 15.671914, y: 9.828427, z: -149.25113}
+  m_LocalEulerAnglesHint: {x: 0.7294168, y: -2.0860896, z: -125.942245}
 --- !u!1 &2097487205444919827
 GameObject:
   m_ObjectHideFlags: 0
@@ -634,6 +634,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentState: 0
+  startingState: 0
+  canBeDamaged: 0
+  invincibilityTime: 2
   _layerMask:
     serializedVersion: 2
     m_Bits: 512

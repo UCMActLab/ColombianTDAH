@@ -272,7 +272,7 @@ public class DolphinLevelManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (_obstacleSpawning)
+        if (_obstacleSpawning || _floatieSpawning)
         {
             currTime += Time.deltaTime;
             if (currTime >= nextSpawnTime)
