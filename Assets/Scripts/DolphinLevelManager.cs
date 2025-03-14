@@ -209,8 +209,8 @@ public class DolphinLevelManager : MonoBehaviour
         }
 
 
-        //EventRegister.Instance.AddToEvnt(Tuple.Create(EventRegister.EventosInfo.NPuntos, _currentPoints.ToString("00")));
-        //EventRegister.Instance.EvntToJson();
+        EventRegister.Instance.AddToEvnt(Tuple.Create(EventRegister.EventosInfo.NPuntos, _currentPoints.ToString("00")));
+        EventRegister.Instance.EvntToJson();
         if (_currentPoints >= _winPoints)
         {
             SetAllObstacleSpawning(false);
@@ -225,8 +225,8 @@ public class DolphinLevelManager : MonoBehaviour
         if (_currentPoints < 0)
             _currentPoints = 0;
         _UIManager.updatePoints(_currentPoints);
-        //EventRegister.Instance.AddToEvnt(Tuple.Create(EventRegister.EventosInfo.NPuntos, _currentPoints.ToString("00")));
-        //EventRegister.Instance.EvntToJson();
+        EventRegister.Instance.AddToEvnt(Tuple.Create(EventRegister.EventosInfo.NPuntos, _currentPoints.ToString("00")));
+        EventRegister.Instance.EvntToJson();
         return _wrongSpecialJumpPoints;
     }
 
@@ -411,7 +411,6 @@ public class DolphinLevelManager : MonoBehaviour
     {
         Vector2 nextPos = new Vector3(0, 1);
         Vector2 dolphinMatrixPos = GetUpperCubeXYfromDivePos(pos);
-        //Debug.Log(dolphinMatrixPos.x + " " + dolphinMatrixPos.y);
 
         bool success = false;
         int x = (int)dolphinMatrixPos.x;

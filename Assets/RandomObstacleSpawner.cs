@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 using UnityEditor.Rendering;
+using System;
 
 public class RandomObjectSpawner : MonoBehaviour
 {
@@ -47,7 +48,7 @@ public class RandomObjectSpawner : MonoBehaviour
 
     public void EnableFloats(bool enable)
     {
-        if(enable) _objects.Add(_float);
+        if (enable) _objects.Add(_float);
         else
         {
             foreach (GameObject obj in _objects) //por si hubiera más de un tipo de flotador
@@ -97,18 +98,19 @@ public class RandomObjectSpawner : MonoBehaviour
 
             int randomIdPos = UnityEngine.Random.Range(0, _objects.Count);
             GameObject instantiated = Instantiate(_objects[randomIdPos], randomSpawnPosition, Quaternion.identity);
-            instantiated.transform.Rotate(90,0,0);
+            instantiated.transform.Rotate(90, 0, 0);
             instantiated.GetComponent<MovingObject>().SetVel(_obsVel);
             _spawnedObjects.Add(instantiated);
             if (instantiated.GetComponent<Obstaculo>())
             {
-                //EventRegister.Instance.AddToEvnt(Tuple.Create(EventRegister.EventosInfo.OEntraPantalla, "Carril " + randomCarril.ToString()));
+                EventRegister.Instance.AddToEvnt(Tuple.Create(EventRegister.EventosInfo.OEntraPantalla, "Carril " + randomCarril.ToString()));
             }
             else
             {
-                //EventRegister.Instance.AddToEvnt(Tuple.Create(EventRegister.EventosInfo.FEntraPantalla, "Carril " + randomCarril.ToString()));
+                EventRegister.Instance.AddToEvnt(Tuple.Create(EventRegister.EventosInfo.FEntraPantalla, "Carril " + randomCarril.ToString()));
             }
-                //EventRegister.Instance.EvntToJson();
+
+            EventRegister.Instance.EvntToJson();
         }
 
     }

@@ -24,7 +24,7 @@ public class EventRegister : MonoBehaviour
         OSalePantalla,
         OColision, //...DolphinControler.OnCollisionEnter
         FEntraPantalla, //...RandomObjectSpawner.Spawn
-        FSalePantalla, 
+        FSalePantalla,
         FColision,  //...DolphinControler.OnCollisionEnter
         RespuestaCorrecta, //...DolphinControler.TryClickDolphin y DolphinLevelManager.RightGuess
         RespuestaIncorrecta, //...DolphinControler.TryClickDolphin y DolphinLevelManager.WrongGuess
@@ -33,25 +33,18 @@ public class EventRegister : MonoBehaviour
         Fin
     }
 
-    private static EventRegister _instance;
+    static private EventRegister _instance;
+    public static EventRegister Instance { get { return _instance; } }
 
-    public static EventRegister Instance
-    {
-        get
-        {
-            if (_instance == null)
-            {
-                GameObject instance = new GameObject("Event Register");
-                instance.AddComponent<EventRegister>();
-            }
-
-            return _instance;
-        }
-    }
 
     void Awake()
     {
-        _instance = this;
+        // Si no hay instancia de esta clase ya creada se almacena
+        if (_instance == null)
+            _instance = this;
+        // Si esta creada se destruyee porque no necesitamos una mas
+        else
+            Destroy(this.gameObject);
     }
 
     public void WriteStart()
@@ -98,7 +91,7 @@ public class EventRegister : MonoBehaviour
     {
         auxEvntInfo.Add(evntData);
     }
-    
+
     public void EvntToJson()
     {
         System.IO.FileStream fs = new System.IO.FileStream(WriteTo, System.IO.FileMode.Append, System.IO.FileAccess.Write);
@@ -106,58 +99,59 @@ public class EventRegister : MonoBehaviour
 
         foreach (var evento in auxEvntInfo)
         {
-            switch (evento.Item1) { 
+            switch (evento.Item1)
+            {
                 case EventosInfo.Inicio:
                     text += ", \n" + $"    \"Iniciando nivel\": \"{evento.Item2}\"";
-                        break;
+                    break;
                 case EventosInfo.DEntraSuperficie:
                     text += ", \n" + $"    \"Delfin entrando en la superficie del rio (a flote)\": \"{evento.Item2}\"";
-                        break;
+                    break;
                 case EventosInfo.DSaleSuperficie:
                     text += ", \n" + $"    \"Delfin saliendo de la superficie del rio (se hunde)\": \"{evento.Item2}\"";
-                        break;
+                    break;
                 case EventosInfo.DSaltoInit:
                     text += ", \n" + $"    \"Delfin comienza el salto\": \"{evento.Item2}\"";
-                        break;
+                    break;
                 case EventosInfo.DSaltoFin:
                     text += ", \n" + $"    \"Delfin finaliza el salto\": \"{evento.Item2}\"";
-                        break;
+                    break;
                 case EventosInfo.DPiruetaInit:
                     text += ", \n" + $"    \"Delfin comienza la pirueta\": \"{evento.Item2}\"";
-                        break;
+                    break;
                 case EventosInfo.DPiruetaFin:
                     text += ", \n" + $"    \"Delfin finaliza la pirueta\": \"{evento.Item2}\"";
-                        break;
+                    break;
                 case EventosInfo.OEntraPantalla:
                     text += ", \n" + $"    \"Obstaculo entrando en pantalla\": \"{evento.Item2}\"";
-                        break;
+                    break;
                 case EventosInfo.OSalePantalla:
                     text += ", \n" + $"    \"Obstaculo saliendo de pantalla\": \"{evento.Item2}\"";
-                        break;
+                    break;
                 case EventosInfo.OColision:
                     text += ", \n" + $"    \"Delfin colisionando con obstaculo\": \"{evento.Item2}\"";
-                        break;
+                    break;
                 case EventosInfo.FEntraPantalla:
                     text += ", \n" + $"    \"Flotador entrando en pantalla\": \"{evento.Item2}\"";
-                       break;
+                    break;
                 case EventosInfo.FSalePantalla:
                     text += ", \n" + $"    \"Flotador saliendo de pantalla\": \"{evento.Item2}\"";
-                        break;
+                    break;
                 case EventosInfo.FColision:
                     text += ", \n" + $"    \"Delfin colisionando con flotador\": \"{evento.Item2}\"";
                     break;
                 case EventosInfo.RespuestaCorrecta:
                     text += ", \n" + $"    \"Respuesta correcta\": \"{evento.Item2}\"";
-                        break;
+                    break;
                 case EventosInfo.RespuestaIncorrecta:
                     text += ", \n" + $"    \"Respuesta incorrecta\": \"{evento.Item2}\"";
-                        break;
+                    break;
                 case EventosInfo.NPuntos:
                     text += ", \n" + $"    \"Puntuacion actual\": \"{evento.Item2}\"";
-                        break;
+                    break;
                 case EventosInfo.Vel:
                     text += ", \n" + $"    \"Velocidad actual\": \"{evento.Item2}\"";
-                        break;
+                    break;
             }
         }
 
