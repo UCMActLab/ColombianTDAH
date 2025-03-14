@@ -176,8 +176,26 @@ public class DolphinManager : MonoBehaviour
         }
     }
 
+    // Desactiva todos los delfines
     public void DeactivateDolphins()
     {
         dolphins.ForEach(d => d.SetActive(false));
+    }
+
+    // Aumenta la velocidad de la animacion de los delfines
+    public void ActivateIncreasedSpeed(float velFactor)
+    {
+        for (int i = 0; i < dolphins.Count; i++) { 
+            dolphins[i].GetComponent<Animator>().speed *= velFactor;
+        }
+    }
+
+    // Animacion de los delfines vuelve a velocidad normal
+    public void DeactivateIncreasedSpeed(float velFactor) {
+
+        for (int i = 0; i < dolphins.Count; i++)
+        {
+            dolphins[i].GetComponent<Animator>().speed /= velFactor;
+        }
     }
 }

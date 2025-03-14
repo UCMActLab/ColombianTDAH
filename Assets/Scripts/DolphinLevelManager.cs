@@ -618,12 +618,14 @@ public class DolphinLevelManager : MonoBehaviour
         backgroundVel *= _increaseVelFactor;
         _backgroundMovementComp.SetVelocity(backgroundVel);
 
-        // Obstaculos
+        // Obstaculos y flotador
         float objectsVel = randomObjectSpawner.GetVel();
         objectsVel *= _increaseVelFactor;
         randomObjectSpawner.SetVel(objectsVel);
         randomObjectSpawner.ChangeAllVelocities(objectsVel);
 
+        // Animacion delfines
+        _dolphinManager.ActivateIncreasedSpeed(_increaseVelFactor);
     }
 
     public void DeactivateIncreasedSpeed()
@@ -642,6 +644,9 @@ public class DolphinLevelManager : MonoBehaviour
             objectsVel /= _increaseVelFactor;
             randomObjectSpawner.SetVel(objectsVel);
             randomObjectSpawner.ChangeAllVelocities(objectsVel);
+
+            // Animacion delfines
+            _dolphinManager.DeactivateIncreasedSpeed(_increaseVelFactor);
         }
     }
 
