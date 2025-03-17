@@ -42,7 +42,7 @@ public class EventRegister : MonoBehaviour
         // Si no hay instancia de esta clase ya creada se almacena
         if (_instance == null)
             _instance = this;
-        // Si esta creada se destruyee porque no necesitamos una mas
+        // Si esta creada se destruyee
         else
             Destroy(this.gameObject);
     }
@@ -171,10 +171,5 @@ public class EventRegister : MonoBehaviour
         file.WriteLine(text);
         file.Close();
         fs.Close();
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
     }
 }

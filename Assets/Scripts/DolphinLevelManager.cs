@@ -143,6 +143,8 @@ public class DolphinLevelManager : MonoBehaviour
 
         // Background Velocity
         _backgroundMovementComp.SetVelocity(_obstacleSpeed/50);    // same as obstacles in game
+        _dolphinManager.DeactivateIncreasedSpeed(8);
+        _dolphinManager.ActivateIncreasedSpeed(_obstacleSpeed);
 
         // Init Level UIs
         _UIManager.startLevelStats(0, 0);
