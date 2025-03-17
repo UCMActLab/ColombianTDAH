@@ -411,7 +411,6 @@ Transform:
   - {fileID: 1248144297}
   - {fileID: 4826971}
   - {fileID: 1662333866}
-  - {fileID: 228116735}
   - {fileID: 985770304}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -420,83 +419,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 79920b63e4794a04a95e5391d82800d5, type: 3}
   m_PrefabInstance: {fileID: 704904657}
   m_PrefabAsset: {fileID: 0}
---- !u!1001 &228116734
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 205169871}
-    m_Modifications:
-    - target: {fileID: 1812368303169121169, guid: 84965b2e1f4eb1049abe109a64610d3f, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 29.146961
-      objectReference: {fileID: 0}
-    - target: {fileID: 1812368303169121169, guid: 84965b2e1f4eb1049abe109a64610d3f, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 11.371126
-      objectReference: {fileID: 0}
-    - target: {fileID: 1812368303169121169, guid: 84965b2e1f4eb1049abe109a64610d3f, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -20.063763
-      objectReference: {fileID: 0}
-    - target: {fileID: 1812368303169121169, guid: 84965b2e1f4eb1049abe109a64610d3f, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1812368303169121169, guid: 84965b2e1f4eb1049abe109a64610d3f, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1812368303169121169, guid: 84965b2e1f4eb1049abe109a64610d3f, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1812368303169121169, guid: 84965b2e1f4eb1049abe109a64610d3f, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1812368303169121169, guid: 84965b2e1f4eb1049abe109a64610d3f, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1812368303169121169, guid: 84965b2e1f4eb1049abe109a64610d3f, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1812368303169121169, guid: 84965b2e1f4eb1049abe109a64610d3f, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5103074875740643921, guid: 84965b2e1f4eb1049abe109a64610d3f, type: 3}
-      propertyPath: m_Name
-      value: EventRegisterManager
-      objectReference: {fileID: 0}
-    - target: {fileID: 5103074875740643921, guid: 84965b2e1f4eb1049abe109a64610d3f, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 84965b2e1f4eb1049abe109a64610d3f, type: 3}
---- !u!4 &228116735 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 1812368303169121169, guid: 84965b2e1f4eb1049abe109a64610d3f, type: 3}
-  m_PrefabInstance: {fileID: 228116734}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &228116736 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6383799383203840414, guid: 84965b2e1f4eb1049abe109a64610d3f, type: 3}
-  m_PrefabInstance: {fileID: 228116734}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1417496962}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 54284ecd3df181c4e9eec2814484a0ed, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &258443598
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2489,7 +2411,6 @@ MonoBehaviour:
   environmentObject: {fileID: 1737488662}
   managerstObject: {fileID: 205169870}
   canvasObject: {fileID: 1224563443}
-  evntRegObject: {fileID: 1417496962}
   config: {fileID: 11400000, guid: 28af6196035b21547894ddb245404fe7, type: 2}
 --- !u!114 &1321929724
 MonoBehaviour:
@@ -2744,6 +2665,18 @@ MonoBehaviour:
           m_StringArgument: DolphinLevelSelector
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 985770305}
+        m_TargetAssemblyTypeName: EventRegister, Assembly-CSharp
+        m_MethodName: WriteEnd
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1389383198
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2839,11 +2772,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c63334de15538f443a7dcd8b2213c457, type: 3}
---- !u!1 &1417496962 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5103074875740643921, guid: 84965b2e1f4eb1049abe109a64610d3f, type: 3}
-  m_PrefabInstance: {fileID: 228116734}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1419976850 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 21c4e14f70ffab94e84644255b63224c, type: 3}
@@ -3001,7 +2929,7 @@ MonoBehaviour:
           m_StringArgument: DolphinLevel_1
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 228116736}
+      - m_Target: {fileID: 985770305}
         m_TargetAssemblyTypeName: EventRegister, Assembly-CSharp
         m_MethodName: WriteEnd
         m_Mode: 1
@@ -3851,7 +3779,7 @@ PrefabInstance:
     - target: {fileID: 294156015948535278, guid: 2a2ce21847dae5644967bd6bacdc75b6, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
-      objectReference: {fileID: 228116736}
+      objectReference: {fileID: 0}
     - target: {fileID: 294156015948535278, guid: 2a2ce21847dae5644967bd6bacdc75b6, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_CallState
       value: 2

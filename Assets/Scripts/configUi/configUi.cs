@@ -13,8 +13,6 @@ public class configUi : MonoBehaviour
     GameObject managerstObject;
     [SerializeField]
     GameObject canvasObject;
-    [SerializeField]
-    GameObject evntRegObject;
 
     VisualElement fase1;
     VisualElement fase2;
@@ -137,7 +135,7 @@ public class configUi : MonoBehaviour
             config.MinObstacleSpawn = input_obstacleMin.value;
             config.MaxObstacleSpawn = input_obstacleMax.value;
             config.ObstacleSpeed = input_obstacleVel.value;
-            config.ObstaclesEnabled = input_obstaclesEnabled.value; Debug.Log("input_obstaclesEnabled.value");
+            config.ObstaclesEnabled = input_obstaclesEnabled.value;
             //FLOATS
             config.FloatsEnabled = input_floatiesEnabled.value;
 
@@ -184,7 +182,7 @@ public class configUi : MonoBehaviour
                 ui[j].name = "Toggle" + i.ToString() + j.ToString();
             }
 
-            input_toggleGroup.Add(ui); Debug.Log("MIAUUUUUUU");
+            input_toggleGroup.Add(ui);
         }
     }
 
@@ -223,6 +221,5 @@ public class configUi : MonoBehaviour
         managerstObject.SetActive(enable);
         canvasObject.SetActive(enable);
         if(enable)DolphinLevelManager.Instance.InitLevel(config);
-        evntRegObject.SetActive(enable);
     }
 }
