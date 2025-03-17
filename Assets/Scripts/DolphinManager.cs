@@ -111,6 +111,7 @@ public class DolphinManager : MonoBehaviour
             GameObject dolphin = GameObject.Instantiate(dolphinPrefab, dolphinPositions[i], Quaternion.identity);
             dolphins.Add(dolphin);
             dolphin.GetComponent<Drag>().SetIndex(i);
+            dolphin.GetComponent<DolphinController>().SetIndex(i);
             dolphins[i].GetComponent<DolphinController>().RegisterDolphinManager(this);
             dolphin.GetComponent<MatrixCubeInfo>().SetXY((int)dolphinXYPositions[i].y, (int)dolphinXYPositions[i].x);
 
