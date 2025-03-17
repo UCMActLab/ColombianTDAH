@@ -47,8 +47,10 @@ public class configUi : MonoBehaviour
     bool hayErrores = true;
     bool mensajeError = false;
 
+
     [SerializeField]
     configData config = null;
+    string levelInfoPath = "";
 
     private void OnEnable()
     {
@@ -90,9 +92,27 @@ public class configUi : MonoBehaviour
         input_fase1Complet.RegisterCallback<ClickEvent>(Fase1Complet);
         input_toggleGroup.RegisterCallback<ClickEvent>(DelfinColocado);
 
+        // Busca si tiene que cargar la configuración
+        SceneLoader sceneLoader = GameObject.Find("SceneLoader").GetComponent<SceneLoader>();
+        bool editMode = sceneLoader.getMode();
+        int levelId = sceneLoader.getLevelId();
+        string writeDir = System.IO.Path.Combine(Application.persistentDataPath, "configInfo");
+        if (!System.IO.Directory.Exists(writeDir))
+        {
+            System.IO.Directory.CreateDirectory(writeDir);
+        }
+        levelInfoPath = System.IO.Path.Combine(writeDir, "configData" + levelId.ToString("00") + ".json");
 
-        // Desactiva Juego
-        ActivateGame(false);
+        if (editMode) //el usuario quiere editar el juego
+        {
+            // Desactiva Juego
+            ActivateGame(false);
+        }
+        else //se carga el nivel por default
+        {
+            // Activa Juego
+            LoadLevelConfig();
+        }
     }
 
     void GuardarTodo(ClickEvent e)
@@ -164,8 +184,45 @@ public class configUi : MonoBehaviour
             config.WrongGuessPoints = input_pointWrongGuess.value;
             config.HitObstaclePoints = input_pointChoque.value;
 
-            // Activa Juego
+            //Guarda la configuración en el json correspondiente
+            SaveLevelConfig(config);
             ActivateGame(true);
+        }
+    }
+
+    private void SaveLevelConfig(configData config)
+    {
+        string info = JsonUtility.ToJson(config, true);
+
+        Debug.Log("Saving level config at " + levelInfoPath);
+
+        System.IO.FileStream fs = new System.IO.FileStream(levelInfoPath, System.IO.FileMode.Append, System.IO.FileAccess.Write);
+        System.IO.StreamWriter file = new System.IO.StreamWriter(fs);
+        file.WriteLine(info);
+        file.Close();
+        fs.Close();
+    }
+
+    private void LoadLevelConfig()
+    {
+        if (!System.IO.File.Exists(levelInfoPath))
+        {
+            Debug.LogError("No existe el archivo de configuración en " + levelInfoPath);
+            ActivateGame(false);
+        }
+        else
+        {
+            try
+            {
+                string levelInfo = System.IO.File.ReadAllText(levelInfoPath);
+                JsonUtility.FromJsonOverwrite(levelInfo, config);
+                ActivateGame(true);
+            }
+            catch (System.Exception e)
+            {
+                Debug.LogError("Error loading level config: " + e.Message);
+                ActivateGame(false);
+            }
         }
     }
 

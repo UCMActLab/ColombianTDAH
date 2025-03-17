@@ -111,7 +111,6 @@ public class DolphinLevelManager : MonoBehaviour
 
         List<Vector2> dolphinXYPositions = new List<Vector2>();
 
-
         if (!loaded)
         {
             initialDolphins = 2;

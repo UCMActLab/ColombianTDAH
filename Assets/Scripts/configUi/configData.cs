@@ -3,6 +3,7 @@ using UnityEngine;
 
 [CreateAssetMenu(fileName = "configData", menuName = "Scriptable Objects/configData")]
 
+[System.Serializable]
 public class configData : ScriptableObject
 {
     //ID
