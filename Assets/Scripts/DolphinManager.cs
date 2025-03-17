@@ -122,6 +122,7 @@ public class DolphinManager : MonoBehaviour
             GameObject dolphin = GameObject.Instantiate(dolphinPrefab, new Vector3(0, -5, 0), Quaternion.identity);
             dolphins.Add(dolphin);
             dolphin.GetComponent<Drag>().SetIndex(i);
+            dolphin.GetComponent<DolphinController>().SetIndex(i);
             dolphins[i].GetComponent<DolphinController>().RegisterDolphinManager(this);
             dolphins[i].GetComponent<DolphinController>().SetStartingState(DolphinController.DolphinStates.DIVING);
         }

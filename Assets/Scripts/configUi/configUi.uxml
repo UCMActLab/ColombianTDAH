@@ -17,36 +17,42 @@
                 </ui:VisualElement>
             </ui:VisualElement>
             <ui:VisualElement name="Fase3" class="faseBg" style="flex-grow: 1; width: 732px; height: auto; flex-wrap: wrap; justify-content: flex-start;">
-                <ui:VisualElement name="A" style="flex-grow: 1; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 10px; padding-right: 10px; padding-bottom: 10px; padding-left: 10px; background-color: rgba(255, 121, 121, 0); justify-content: flex-start;">
-                    <ui:Label text="Espaciado de eventos:" name="Titulo" />
-                    <ui:Label text="Entre cada cuantos segundos pasarán las cosas en la escena." name="Explicacion" />
-                    <ui:VisualElement style="flex-grow: 1; flex-wrap: wrap; flex-direction: row; height: 27px; width: 553px;">
+                <ui:VisualElement name="A" style="flex-grow: 1; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 10px; padding-right: 10px; padding-bottom: 10px; padding-left: 10px; background-color: rgba(255, 121, 121, 0); justify-content: flex-start; height: 292px;">
+                    <ui:VisualElement name="VisualElement" style="flex-grow: 1; flex-wrap: wrap; flex-direction: row; height: 0; width: 511px;">
                         <ui:Toggle label="Hay obstaculos?" name="obsEnabled" value="true" enabled="true" toggle-on-label-click="false" style="height: 34px; width: 191px;" />
-                        <ui:Toggle label="Hay flotadores?" name="floatEnabled" value="false" />
+                        <ui:Toggle label="Hay flotadores?" name="floatEnabled" value="false" style="height: 34px;" />
                     </ui:VisualElement>
-                    <ui:VisualElement style="flex-grow: 1; flex-wrap: wrap; flex-direction: row; height: 89px; width: 565px;">
-                        <ui:Label text="Cada cuanto aparecen obstáculos (troncos) en el rio (entre 3 y 20 segundos)" name="expl" enable-rich-text="false" style="flex-direction: column;" />
-                        <ui:IntegerField label="min" value="3" name="obstacleMin" max-length="10" style="height: 35px; width: 198px; align-items: flex-start; justify-content: center; align-content: auto;" />
-                        <ui:IntegerField label="max" value="10" name="obstacleMax" style="height: 36px; width: 202px;" />
+                    <ui:VisualElement style="flex-grow: 1; flex-wrap: wrap; flex-direction: row; height: 0; width: 565px;">
+                        <ui:Label text="Cada cuanto tronco:" name="expl" enable-rich-text="false" style="flex-direction: column;" />
+                        <ui:IntegerField label="min" value="3" name="obstacleMin" max-length="10" style="height: 35px; width: 192px; align-items: flex-start; justify-content: center; align-content: auto;" />
+                        <ui:IntegerField label="max" value="10" name="obstacleMax" style="height: 36px; width: 201px;" />
                     </ui:VisualElement>
-                    <ui:VisualElement style="flex-grow: 1; flex-wrap: wrap; flex-direction: row;">
-                        <ui:Label text="Cada cuantos segundoss salta un delfín (entre 2 y 10):" name="expl" style="flex-direction: column;" />
-                        <ui:IntegerField label="min" value="2" name="jumpMin" />
-                        <ui:IntegerField label="max" value="10" name="jumpMax" />
+                    <ui:VisualElement style="flex-grow: 1; flex-wrap: wrap; flex-direction: row; height: 0;">
+                        <ui:Label text="Cada cuanto salta delfín:" name="expl" style="flex-direction: column; height: 21px;" />
+                        <ui:IntegerField label="min" value="2" name="jumpMin" style="height: 33px;" />
+                        <ui:IntegerField label="max" value="10" name="jumpMax" style="height: 36px;" />
                     </ui:VisualElement>
                     <ui:Toggle label="Puede haber piruetas (saltos especiales) simultéaneas?" name="piruetasSimult" />
-                    <ui:VisualElement style="flex-grow: 1; flex-wrap: wrap; flex-direction: row;">
-                        <ui:Label text="Cada cuantos saltos es pirueta (entre 2 y 10):                                         ." name="expl" style="flex-direction: column;" />
-                        <ui:IntegerField label="min" value="2" name="piruetMin" />
-                        <ui:IntegerField label="max" value="8" name="piruetMax" />
+                    <ui:VisualElement style="flex-grow: 1; flex-wrap: wrap; flex-direction: row; height: 1px;">
+                        <ui:Label text="Cada cuantos saltos pirueta:                                         ." name="expl" style="flex-direction: column; width: 188px;" />
+                        <ui:IntegerField label="min" value="2" name="piruetMin" style="height: 35px;" />
+                        <ui:IntegerField label="max" value="8" name="piruetMax" style="height: 35px;" />
+                    </ui:VisualElement>
+                    <ui:VisualElement name="AciertosBalena" style="flex-grow: 1; flex-wrap: wrap; flex-direction: row; height: 1px;">
+                        <ui:Label text="Aciertos para aparición ballena:" name="expl" style="flex-direction: column; width: 212px;" />
+                        <ui:IntegerField value="3" name="whaleRightGuess" style="height: 35px;" />
                     </ui:VisualElement>
                 </ui:VisualElement>
                 <ui:VisualElement name="B" style="flex-grow: 1; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 10px; padding-right: 10px; padding-bottom: 10px; padding-left: 10px; background-color: rgba(255, 121, 121, 0); justify-content: flex-start;">
-                    <ui:FloatField label="Velocidad de obstaculos y flotadores: (entre 0.1 y 20)" value="2.5" name="obstacleVel" max-length="100" />
+                    <ui:FloatField label="Velocidad de obstaculos y flotadores: (entre 0.1 y 20)" value="4.5" name="obstacleVel" max-length="100" />
+                    <ui:FloatField label="Multiplicador Velocidad:&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;" value="2" name="velFactor" max-length="100" />
                 </ui:VisualElement>
                 <ui:VisualElement name="C" style="flex-grow: 1; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 10px; padding-right: 10px; padding-bottom: 10px; padding-left: 10px; background-color: rgba(255, 121, 121, 0); justify-content: flex-start; flex-wrap: wrap; flex-direction: row;">
-                    <ui:IntegerField label="Puntuacion max:" value="1000" name="pointMax" max-length="100" />
-                    <ui:IntegerField label="Puntuación por cada pirueta:" value="100" name="pointPirueta" />
+                    <ui:IntegerField label="Puntuación pirueta:" value="100" name="pointPirueta" />
+                    <ui:IntegerField label="Puntuación pirueta con velocidad:" value="200" name="pointPiruetaVelocidad" />
+                    <ui:IntegerField label="Puntuación flotador:" value="50" name="pointFlotador" />
+                    <ui:IntegerField label="Puntuación flotador con velocidad:" value="100" name="pointFlotadorVelocidad" />
+                    <ui:IntegerField label="Puntuación nivel:" value="1000" name="pointMax" max-length="100" />
                     <ui:IntegerField label="Puntuación negativa por clicar en salto: " value="-10" name="pointWrongGuess" />
                     <ui:IntegerField label="Puntuación negativa por chocar con obstáculo: " value="-20" name="pointChoque" />
                     <ui:Button text="Guardar" name="guardar" style="margin-left: 121px; background-color: rgb(255, 148, 48);" />

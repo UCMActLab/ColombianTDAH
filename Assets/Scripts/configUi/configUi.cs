@@ -38,6 +38,11 @@ public class configUi : MonoBehaviour
     Button input_guardar;
     VisualElement input_toggleGroup;
     Label text_delfinesRestantes;
+    IntegerField input_whaleRightGuess;
+    IntegerField input_increasedVelFactor;
+    IntegerField input_pointsPiruetaVelocidad;
+    IntegerField input_pointsFloatie;
+    IntegerField input_pointsFloatieVelocidad;
     int delfinesColocados = 0;
     bool hayErrores = true;
     bool mensajeError = false;
@@ -74,11 +79,18 @@ public class configUi : MonoBehaviour
         input_floatiesEnabled = root.Q<Toggle>("floatEnabled");
         input_obstaclesEnabled = root.Q<Toggle>("obsEnabled");
 
+        input_whaleRightGuess = root.Q<IntegerField>("whaleRightGuess");
+        input_increasedVelFactor = root.Q<IntegerField>("velFactor");
+        input_pointsPiruetaVelocidad = root.Q<IntegerField>("pointPiruetaVelocidad");
+        input_pointsFloatie = root.Q<IntegerField>("pointFlotador");
+        input_pointsFloatieVelocidad = root.Q<IntegerField>("pointFlotadorVelocidad");
+
+        //Debug.Log(input_whaleRightGuess.value + " " + input_increasedVelFactor + " " + input_pointsPiruetaVelocidad + " " + input_pointsFloatie + " " + input_pointsFloatieVelocidad);
         input_guardar.RegisterCallback<ClickEvent>(GuardarTodo);
         input_fase1Complet.RegisterCallback<ClickEvent>(Fase1Complet);
         input_toggleGroup.RegisterCallback<ClickEvent>(DelfinColocado);
 
-       
+
         // Desactiva Juego
         ActivateGame(false);
     }
@@ -220,6 +232,6 @@ public class configUi : MonoBehaviour
         environmentObject.SetActive(enable);
         managerstObject.SetActive(enable);
         canvasObject.SetActive(enable);
-        if(enable)DolphinLevelManager.Instance.InitLevel(config);
+        if (enable) DolphinLevelManager.Instance.InitLevel(config);
     }
 }
