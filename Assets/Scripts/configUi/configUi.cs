@@ -168,6 +168,8 @@ public class configUi : MonoBehaviour
             config.MaxObstacleSpawn = input_obstacleMax.value;
             config.ObstacleSpeed = input_obstacleVel.value;
             config.ObstaclesEnabled = input_obstaclesEnabled.value;
+            config.IncreasedSpeedFactor = input_increasedVelFactor.value;
+
             //FLOATS
             config.FloatsEnabled = input_floatiesEnabled.value;
 
@@ -181,8 +183,14 @@ public class configUi : MonoBehaviour
             //POINTS
             config.LevelPoints = input_pointMax.value;
             config.RightGuessPoints = input_pointPirueta.value;
+            config.RightGuessPointsVel = input_pointsPiruetaVelocidad.value;
+            config.FloatiePoints = input_pointsFloatie.value;
+            config.FloatiePointsVel = input_pointsFloatieVelocidad.value;
             config.WrongGuessPoints = input_pointWrongGuess.value;
             config.HitObstaclePoints = input_pointChoque.value;
+
+            // Whale
+            config.WhaleApearingGuests = input_whaleRightGuess.value;
 
             //Guarda la configuración en el json correspondiente
             SaveLevelConfig(config);

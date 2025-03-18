@@ -45,6 +45,15 @@ public class configData : ScriptableObject
     private float _obstacleSpeed;
     public float ObstacleSpeed { get => _obstacleSpeed; set => _obstacleSpeed = value; }
 
+    [Range(0.1f, 100)]
+    [SerializeField, Tooltip("Increased speed sactor")]
+    private float _increasedSpeedFactor;
+    public float IncreasedSpeedFactor { get => _increasedSpeedFactor; set => _increasedSpeedFactor = value; }
+
+    [SerializeField, Tooltip("Whale apearing right guests")]
+    private int _whaleApearingGuests;
+    public int WhaleApearingGuests { get => _whaleApearingGuests; set => _whaleApearingGuests = value; }
+
     [Header("Floats Spawning")]
     [SerializeField]
     private bool _floatsEnabled;
@@ -82,6 +91,20 @@ public class configData : ScriptableObject
     [SerializeField, Tooltip("Points to add per right special jump guess")]
     private float _rightGuessPoints; //acertar pirueta
     public float RightGuessPoints { get => _rightGuessPoints; set => _rightGuessPoints = value; }
+
+    [SerializeField, Tooltip("Points to add per right special jump guess with increased velocity")]
+    private float _rightGuessPointsVel; //acertar pirueta con velocidad aumentada
+    public float RightGuessPointsVel { get => _rightGuessPointsVel; set => _rightGuessPointsVel = value; }
+
+
+    [SerializeField, Tooltip("Points to add per floatie")]
+    private float _floatiePoints; //acertar en flotador
+    public float FloatiePoints { get => _floatiePoints; set => _floatiePoints = value; }
+
+
+    [SerializeField, Tooltip("Points to add per floatie with increased velocity")]
+    private float _floatiePointsVel; //acertar en flotador con velocidad aumentada
+    public float FloatiePointsVel { get => _floatiePointsVel; set => _floatiePointsVel = value; }
 
     [SerializeField, Tooltip("Points to substract per wrong special jump guess")]
     private float _wrongGuessPoints;

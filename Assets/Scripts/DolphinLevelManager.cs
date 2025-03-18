@@ -606,6 +606,7 @@ public class DolphinLevelManager : MonoBehaviour
         _wrongSpecialJumpPoints = (int)levelData.WrongGuessPoints;
         _hitObstaclePoints = (int)levelData.HitObstaclePoints;
 
+        _whaleSpawnNum = levelData.WhaleApearingGuests;
 
         return true;
     }
