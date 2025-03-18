@@ -39,7 +39,7 @@ public class configUi : MonoBehaviour
     VisualElement input_toggleGroup;
     Label text_delfinesRestantes;
     IntegerField input_whaleRightGuess;
-    IntegerField input_increasedVelFactor;
+    FloatField input_increasedVelFactor;
     IntegerField input_pointsPiruetaVelocidad;
     IntegerField input_pointsFloatie;
     IntegerField input_pointsFloatieVelocidad;
@@ -82,7 +82,7 @@ public class configUi : MonoBehaviour
         input_obstaclesEnabled = root.Q<Toggle>("obsEnabled");
 
         input_whaleRightGuess = root.Q<IntegerField>("whaleRightGuess");
-        input_increasedVelFactor = root.Q<IntegerField>("velFactor");
+        input_increasedVelFactor = root.Q<FloatField>("velFactor");
         input_pointsPiruetaVelocidad = root.Q<IntegerField>("pointPiruetaVelocidad");
         input_pointsFloatie = root.Q<IntegerField>("pointFlotador");
         input_pointsFloatieVelocidad = root.Q<IntegerField>("pointFlotadorVelocidad");
@@ -204,7 +204,7 @@ public class configUi : MonoBehaviour
 
         Debug.Log("Saving level config at " + levelInfoPath);
 
-        System.IO.FileStream fs = new System.IO.FileStream(levelInfoPath, System.IO.FileMode.Append, System.IO.FileAccess.Write);
+        System.IO.FileStream fs = new System.IO.FileStream(levelInfoPath, System.IO.FileMode.Truncate, System.IO.FileAccess.Write);
         System.IO.StreamWriter file = new System.IO.StreamWriter(fs);
         file.WriteLine(info);
         file.Close();
@@ -218,7 +218,6 @@ public class configUi : MonoBehaviour
             Debug.LogError("No existe el archivo de configuración en " + levelInfoPath);
             Debug.LogError("Cargaremos el default");
             config = Resources.Load<configData>("default01_configData");
-            Debug.Log("config: " + config);
             ActivateGame(true);
 
         }

@@ -32,7 +32,7 @@
                         <ui:IntegerField label="min" value="2" name="jumpMin" style="height: 33px;" />
                         <ui:IntegerField label="max" value="10" name="jumpMax" style="height: 36px;" />
                     </ui:VisualElement>
-                    <ui:Toggle label="Puede haber piruetas (saltos especiales) simultéaneas?" name="piruetasSimult" />
+                    <ui:Toggle label="Puede haber piruetas (saltos especiales) simultéaneas?" name="piruetasSimult" enabled="false" />
                     <ui:VisualElement style="flex-grow: 1; flex-wrap: wrap; flex-direction: row; height: 1px;">
                         <ui:Label text="Cada cuantos saltos pirueta:                                         ." name="expl" style="flex-direction: column; width: 188px;" />
                         <ui:IntegerField label="min" value="2" name="piruetMin" style="height: 35px;" />

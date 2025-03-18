@@ -20,6 +20,7 @@ public class SceneLoader : MonoBehaviour
         }
 
         levelId = 01;
+        teacherMode = false;
         DontDestroyOnLoad(this.gameObject);
     }
 
@@ -29,12 +30,10 @@ public class SceneLoader : MonoBehaviour
         {
             if (teacherMode)
             {
-                Debug.Log("Loading teacher mode");
                 name = "DolphinLevel_1";
             }
             else
             {
-                Debug.Log("Loading NOT teacher mode");
                 name = "Dialogs";
             }
         }
@@ -44,7 +43,6 @@ public class SceneLoader : MonoBehaviour
     public void setMode(bool mode)
     {
         teacherMode = !teacherMode;
-        Debug.Log("Teacher mode: " + teacherMode);
     }
 
     public bool getMode()

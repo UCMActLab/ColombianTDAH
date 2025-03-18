@@ -26,7 +26,9 @@ MonoBehaviour:
   _obstaclesEnabled: 1
   _minObstacleSpawn: 3
   _maxObstacleSpawn: 4
-  _obstacleSpeed: 5
+  _obstacleSpeed: 4.5
+  _increasedSpeedFactor: 2.0
+  _whaleApearingGuests: 3
   _floatsEnabled: 0
   _minTimeBetweenJumps: 3
   _maxTimeBetweenJumps: 4
@@ -35,5 +37,8 @@ MonoBehaviour:
   _maxCountBetweenSpecialJumps: 4
   _levelPoints: 50
   _rightGuessPoints: 20
+  _rightGuessPointsVel: 40
+  _floatiePoints: 10
+  _floatiePointsVel: 20
   _wrongGuessPoints: -10
   _hitObstaclePoints: -10

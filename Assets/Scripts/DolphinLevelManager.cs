@@ -44,12 +44,11 @@ public class DolphinLevelManager : MonoBehaviour
     int _currentPoints;
     [SerializeField, Tooltip("Points to add per right special jump guess")]
     int _specialJumpPoints;
+    int _specialJumpIncreasedVelPoints;
     [SerializeField, Tooltip("Points to add per wrong jump guess")]
     int _wrongSpecialJumpPoints;
     [SerializeField, Tooltip("Points to substact per collision with obstacle")]
     int _hitObstaclePoints;
-    [SerializeField]
-    int _increasedVelPointsFactor = 2;
 
     // Velocity
     [SerializeField]
@@ -57,6 +56,7 @@ public class DolphinLevelManager : MonoBehaviour
     bool _increasedVelocity = false;
     [SerializeField, Tooltip("Points to add when getting through a floatie")]
     int _floatiePoints = 50;
+    int _floatieIncreasedVelPoints = 100;
 
     // DolphinTimes
     [SerializeField, Tooltip("Min time between jumps")]
@@ -193,7 +193,7 @@ public class DolphinLevelManager : MonoBehaviour
         int pointsToAdd = _specialJumpPoints;
 
         if (_increasedVelocity)
-            pointsToAdd *= _increasedVelPointsFactor;
+            pointsToAdd = _specialJumpIncreasedVelPoints;
 
         _currentPoints += pointsToAdd;
         _UIManager.updatePoints(_currentPoints);
@@ -244,7 +244,7 @@ public class DolphinLevelManager : MonoBehaviour
         int pointsToAdd = _floatiePoints;
 
         if (_increasedVelocity)
-            pointsToAdd *= _increasedVelPointsFactor;
+            pointsToAdd = _floatieIncreasedVelPoints;
 
         _currentPoints += pointsToAdd;
         _UIManager.updatePoints(_currentPoints);
@@ -540,7 +540,6 @@ public class DolphinLevelManager : MonoBehaviour
     }
     public Vector3 GetWorldPositionFromCube(int x, int y)
     {
-        Debug.Log("x: " + x + " y: " + y);
         return GetCubeFromMatrix(x, y).GetComponent<Transform>().position;
     }
 
@@ -603,10 +602,14 @@ public class DolphinLevelManager : MonoBehaviour
 
         _winPoints = (int)levelData.LevelPoints; 
         _specialJumpPoints = (int)levelData.RightGuessPoints;
+        _specialJumpIncreasedVelPoints = (int)levelData.RightGuessPointsVel;
+        _floatiePoints = (int)levelData.FloatiePoints;
+        _floatieIncreasedVelPoints = (int)levelData.FloatiePointsVel;
         _wrongSpecialJumpPoints = (int)levelData.WrongGuessPoints;
         _hitObstaclePoints = (int)levelData.HitObstaclePoints;
 
         _whaleSpawnNum = levelData.WhaleApearingGuests;
+        _increaseVelFactor = levelData.IncreasedSpeedFactor;
 
         return true;
     }
