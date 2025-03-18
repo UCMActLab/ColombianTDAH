@@ -3,11 +3,22 @@ using UnityEngine.SceneManagement;
 
 public class SceneLoader : MonoBehaviour
 {
+    private static SceneLoader _instance = null;
+
     public int levelId;
     public static bool teacherMode;
-
+    
     void Awake()
     {
+        if(_instance == null)
+        {
+            _instance = this;
+        }
+        else
+        {
+            Destroy(this.gameObject);
+        }
+
         levelId = 01;
         DontDestroyOnLoad(this.gameObject);
     }
