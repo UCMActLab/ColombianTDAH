@@ -1,0 +1,39 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a355f670193f2e247a0395a1c0be0ea9, type: 3}
+  m_Name: default01_configData
+  m_EditorClassIdentifier: 
+  configName: default01
+  _nCarriles: 3
+  _nDelfines: 7
+  _posDelfines:
+  - {x: 2, y: 2}
+  - {x: 1, y: 0}
+  - {x: 0, y: 1}
+  - {x: 2, y: 1}
+  - {x: -1, y: -1}
+  - {x: -1, y: -1}
+  - {x: -1, y: -1}
+  _obstaclesEnabled: 1
+  _minObstacleSpawn: 3
+  _maxObstacleSpawn: 4
+  _obstacleSpeed: 5
+  _floatsEnabled: 0
+  _minTimeBetweenJumps: 3
+  _maxTimeBetweenJumps: 4
+  canSpecialJumpSimultaneously: 0
+  _minCountBetweenSpecialJumps: 2
+  _maxCountBetweenSpecialJumps: 4
+  _levelPoints: 50
+  _rightGuessPoints: 20
+  _wrongGuessPoints: -10
+  _hitObstaclePoints: -10

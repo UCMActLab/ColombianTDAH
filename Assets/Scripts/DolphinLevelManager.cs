@@ -540,6 +540,7 @@ public class DolphinLevelManager : MonoBehaviour
     }
     public Vector3 GetWorldPositionFromCube(int x, int y)
     {
+        Debug.Log("x: " + x + " y: " + y);
         return GetCubeFromMatrix(x, y).GetComponent<Transform>().position;
     }
 

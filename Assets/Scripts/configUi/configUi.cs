@@ -208,7 +208,11 @@ public class configUi : MonoBehaviour
         if (!System.IO.File.Exists(levelInfoPath))
         {
             Debug.LogError("No existe el archivo de configuración en " + levelInfoPath);
-            ActivateGame(false);
+            Debug.LogError("Cargaremos el default");
+            config = Resources.Load<configData>("default01_configData");
+            Debug.Log("config: " + config);
+            ActivateGame(true);
+
         }
         else
         {
