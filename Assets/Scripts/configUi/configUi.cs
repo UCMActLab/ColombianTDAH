@@ -204,7 +204,7 @@ public class configUi : MonoBehaviour
 
         Debug.Log("Saving level config at " + levelInfoPath);
 
-        System.IO.FileStream fs = new System.IO.FileStream(levelInfoPath, System.IO.FileMode.Truncate, System.IO.FileAccess.Write);
+        System.IO.FileStream fs = new System.IO.FileStream(levelInfoPath, System.IO.FileMode.Create, System.IO.FileAccess.Write);
         System.IO.StreamWriter file = new System.IO.StreamWriter(fs);
         file.WriteLine(info);
         file.Close();
