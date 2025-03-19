@@ -26,15 +26,22 @@ public class SceneLoader : MonoBehaviour
 
     public static void LoadScene(string name = "dolphin")
     {
-        if (name == "dolphin")
+        if (name == "DolphinLevelSelector")
         {
+            teacherMode = false;
+        }
+        else if (name == "dolphin")
+        {
+            
             if (teacherMode)
             {
                 name = "DolphinLevel_1";
+                Debug.Log("TEACHER MODE");
             }
             else
             {
                 name = "Dialogs";
+                Debug.Log("NIÑO MODE");
             }
         }
         SceneManager.LoadScene(name);
@@ -42,7 +49,7 @@ public class SceneLoader : MonoBehaviour
 
     public void setMode(bool mode)
     {
-        teacherMode = !teacherMode;
+        teacherMode = mode;
     }
 
     public bool getMode()

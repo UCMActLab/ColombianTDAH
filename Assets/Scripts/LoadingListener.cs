@@ -7,7 +7,7 @@ public class LoadingListener : MonoBehaviour
     void Start()
     {
         Toggle myToggle = GetComponent<Toggle>();
-        myToggle.onValueChanged.AddListener(delegate { GameObject.Find("SceneLoader").GetComponent<SceneLoader>().setMode(myToggle); });
+        myToggle.onValueChanged.AddListener(delegate { GameObject.Find("SceneLoader").GetComponent<SceneLoader>().setMode(myToggle.isOn); });
         
     }
 
