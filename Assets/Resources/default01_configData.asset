@@ -23,19 +23,19 @@ MonoBehaviour:
   - {x: -1, y: -1}
   - {x: -1, y: -1}
   - {x: -1, y: -1}
-  _obstaclesEnabled: 1
+  _obstaclesEnabled: 0
   _minObstacleSpawn: 3
   _maxObstacleSpawn: 4
   _obstacleSpeed: 4.5
-  _increasedSpeedFactor: 2.0
+  _increasedSpeedFactor: 2
   _whaleApearingGuests: 3
-  _floatsEnabled: 0
-  _minTimeBetweenJumps: 3
-  _maxTimeBetweenJumps: 4
+  _floatsEnabled: 1
+  _minTimeBetweenJumps: 4
+  _maxTimeBetweenJumps: 6
   canSpecialJumpSimultaneously: 0
-  _minCountBetweenSpecialJumps: 2
-  _maxCountBetweenSpecialJumps: 4
-  _levelPoints: 50
+  _minCountBetweenSpecialJumps: 4
+  _maxCountBetweenSpecialJumps: 6
+  _levelPoints: 500
   _rightGuessPoints: 20
   _rightGuessPointsVel: 40
   _floatiePoints: 10

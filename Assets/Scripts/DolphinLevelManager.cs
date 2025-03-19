@@ -65,9 +65,11 @@ public class DolphinLevelManager : MonoBehaviour
     protected float maxJumpTime;
     protected float currTime;
     [SerializeField, Tooltip("Min time between special jumps")]
-    protected float minSpecialJumpCount;
+    protected int minSpecialJumpCount;
     [SerializeField, Tooltip("Max time between special jumps")]
-    protected float maxSpecialJumpCount;
+    protected int maxSpecialJumpCount;
+    [SerializeField, Tooltip("More than one special jump")]
+    protected bool piruetasSimult;
 
     // Para obstaculos
     [SerializeField]
@@ -131,7 +133,7 @@ public class DolphinLevelManager : MonoBehaviour
             }
         }
 
-        _dolphinManager.Init(initialDolphins, divingDolphins, dolphinRealPositions, dolphinXYPositions, minJumpTime, maxJumpTime, 10);
+        _dolphinManager.Init(initialDolphins, divingDolphins, dolphinRealPositions, dolphinXYPositions, minJumpTime, maxJumpTime, 10, true, minSpecialJumpCount, maxSpecialJumpCount);
 
         // Obstacles Velocity
         randomObjectSpawner.SetVel(_obstacleSpeed);
@@ -180,7 +182,17 @@ public class DolphinLevelManager : MonoBehaviour
         _offset = _offset - new Vector3(-_riverSize.x / 2, 0.0f, _riverSize.z / 2);
     }
 
-
+    
+    private bool CheckWinCondition()
+    {
+        if (_currentPoints >= _winPoints)
+        {
+            SetAllObstacleSpawning(false);
+            EndGame();
+            return true;
+        }
+        return false;
+    }
     private void EndGame()
     {
         _UIManager.showWin();
@@ -212,11 +224,9 @@ public class DolphinLevelManager : MonoBehaviour
 
         EventRegister.Instance.AddToEvnt(Tuple.Create(EventRegister.EventosInfo.NPuntos, _currentPoints.ToString("00")));
         EventRegister.Instance.EvntToJson();
-        if (_currentPoints >= _winPoints)
-        {
-            SetAllObstacleSpawning(false);
-            EndGame();
-        }
+
+        CheckWinCondition();
+
         return pointsToAdd;
     }
 
@@ -248,6 +258,9 @@ public class DolphinLevelManager : MonoBehaviour
 
         _currentPoints += pointsToAdd;
         _UIManager.updatePoints(_currentPoints);
+
+        CheckWinCondition();
+
         return pointsToAdd;
     }
     private void Awake()
@@ -597,8 +610,9 @@ public class DolphinLevelManager : MonoBehaviour
 
         minJumpTime = levelData.MinTimeBetweenJumps;
         maxJumpTime = levelData.MaxTimeBetweenJumps;
-        minSpecialJumpCount = levelData.MinCountBetweenSpecialJumps;
-        maxSpecialJumpCount = levelData.MaxCountBetweenSpecialJumps;
+        minSpecialJumpCount = (int)levelData.MinCountBetweenSpecialJumps;
+        maxSpecialJumpCount = (int)levelData.MaxCountBetweenSpecialJumps;
+        piruetasSimult = levelData.canSpecialJumpSimultaneously;
 
         _winPoints = (int)levelData.LevelPoints; 
         _specialJumpPoints = (int)levelData.RightGuessPoints;

@@ -18,7 +18,7 @@ public class MovingObject : MonoBehaviour
         m_Rigidbody.linearVelocity = Vector3.left * m_Vel;
     }
 
-    public void SetVel(float obsVel)
+    public virtual void SetVel(float obsVel)
     {
         m_Vel = obsVel;
     }

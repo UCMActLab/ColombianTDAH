@@ -99,7 +99,7 @@ public class DolphinController : MonoBehaviour
     {
         if(!scoringFloatie)
         {
-            Floatie f = other.gameObject.GetComponent<Floatie>();
+            Floatie f = other.gameObject.GetComponentInParent<Floatie>();
             if (f != null)
             {
                 if (!dragComponent.AmIBeingDragged() && f.TryScore(dragComponent.GetIndex()))
@@ -110,6 +110,15 @@ public class DolphinController : MonoBehaviour
                 EventRegister.Instance.EvntToJson();
             }
         }
+        //if (dragComponent.AmIBeingDragged())
+        //{
+        //    Floatie floatie = other.gameObject.GetComponent<Floatie>();
+        //    if (floatie != null)
+        //    {
+        //        Dive();
+        //    }
+        //}
+
     }
 
     private void OnTriggerExit(Collider other)
@@ -130,6 +139,7 @@ public class DolphinController : MonoBehaviour
     {
         scoringFloatie = true;
         int points = dolphinMngr.FloatHit();
+        currentState = DolphinStates.FLOATING;
         showPointsOnDolphin(points, Color.green);
         animator.SetTrigger("FloatieJump");
     }

@@ -106,6 +106,7 @@ public class RandomObjectSpawner : MonoBehaviour
             }
             else
             {
+                instantiated.GetComponent<Floatie>().SetVel(_obsVel);
                 EventRegister.Instance.AddToEvnt(Tuple.Create(EventRegister.EventosInfo.FEntraPantalla, "Carril " + randomCarril.ToString()));
             }
 

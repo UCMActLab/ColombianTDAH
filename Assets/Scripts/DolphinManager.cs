@@ -25,7 +25,7 @@ public class DolphinManager : MonoBehaviour
     protected float currFloatTime;
 
     [SerializeField]
-    protected bool singlePirueta; //realmente esto dependera mucho de nivel 
+    protected bool piruetasSimult; //Varios delfines realizan un salto especial simultáneamente
     int nextPirueta;
     int jumpCont;
 
@@ -39,6 +39,11 @@ public class DolphinManager : MonoBehaviour
         if (jumpCont == nextPirueta)
         {
            success = dolphinCont.SpecialJump();
+            if (success)
+            {
+                jumpCont = -1;
+                GenerateNextSpecialJumpCont();
+            }
         }
         else
         {
@@ -52,19 +57,20 @@ public class DolphinManager : MonoBehaviour
         }
 
         jumpCont++;
+        
+        //if(jumpCont == dolphins.Count - 1)
+        //{
+        //    jumpCont = 0;
+        //    GenerateNextSpecialJumpCont(); //esto valdría junto con una lista de delfines por saltar para que saltaran en orden y solo una vez por ronda
+        // //deshabilitar jumpCont= 0 de jumpCOnt == nextpirueta si se quiere usar 
+        //}
 
-        if(jumpCont == dolphins.Count - 1)
-        {
-            jumpCont = 0;
-            GenerateNextSpecialJumpCont();
-        }
         return true;
-
     }
 
     private bool Float()
     {
-        int toFloatDolphin = Random.Range(0, dolphinsToFloatCheck.Count); //idea de siguiente delfin disp: copiar lista y quitar no disponible para sig random 
+        int toFloatDolphin = Random.Range(0, dolphinsToFloatCheck.Count);
         DolphinController dolphinCont = dolphinsToFloatCheck[toFloatDolphin].GetComponent<DolphinController>();
         bool success = false;
 
@@ -103,7 +109,7 @@ public class DolphinManager : MonoBehaviour
         int floatPoints = DolphinLevelManager.Instance.FloatHit();
         return floatPoints;
     }
-    public void Init(int numberDolphins, int divingDolphins, List<Vector3> dolphinPositions, List<Vector2> dolphinXYPositions, float minJumpingTime, float maxJumpingTime, float floatingTime)
+    public void Init(int numberDolphins, int divingDolphins, List<Vector3> dolphinPositions, List<Vector2> dolphinXYPositions, float minJumpingTime, float maxJumpingTime, float floatingTime, bool simultSpecialJump, int minSpecialJC, int maxSpecialJC)
     {
         //Creamos en la matriz e instanciamos en la posición correspondiente los delfines colocados
         for (int i = 0; i < numberDolphins - divingDolphins; i++) 
@@ -130,6 +136,9 @@ public class DolphinManager : MonoBehaviour
         minJumpTime = minJumpingTime;
         maxJumpTime = maxJumpingTime;
         floatTime = floatingTime;
+        piruetasSimult = simultSpecialJump;
+        minSpecialJumpCount = minSpecialJC;
+        maxSpecialJumpCount = maxSpecialJC;
         GenerateNextJumpingTime();
     }
 
@@ -152,9 +161,16 @@ public class DolphinManager : MonoBehaviour
 
         currTime = 0;
         currFloatTime = 0;
-
         jumpCont = 0;
-        nextPirueta = Random.Range(0, dolphins.Count);
+
+        //Si hay piruetas simultáneas
+        if(piruetasSimult) minSpecialJumpCount = 0;
+        else if (!piruetasSimult && minSpecialJumpCount < 2) { minSpecialJumpCount = 2; }
+
+        //Generamos el primer salto y cuándo será pirueta especial
+        GenerateNextJumpingTime();
+        GenerateNextSpecialJumpCont();
+
     }
 
     // Update is called once per frame

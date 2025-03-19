@@ -86,6 +86,7 @@ public class Drop : MonoBehaviour
             {
                 GameObject obj = DolphinLevelManager.Instance.GetCubeFromMatrix((int)cubePosInMatrix.x, (int)cubePosInMatrix.y);
                 obj.GetComponent<MatrixCubeInfo>().SetXY(-1, -1);
+                GetComponent<DolphinController>().Dive(); //--------------------------------------
             }
 
             // Desocupo antigua casilla

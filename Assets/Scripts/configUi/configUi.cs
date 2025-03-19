@@ -55,6 +55,7 @@ public class configUi : MonoBehaviour
     private void OnEnable()
     {
         VisualElement root = GetComponent<UIDocument>().rootVisualElement;
+        Debug.Log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
 
         fase1 = root.Q("Fase1");
         fase2 = root.Q("Fase2");
@@ -105,11 +106,13 @@ public class configUi : MonoBehaviour
 
         if (editMode) //el usuario quiere editar el juego
         {
+            Debug.Log("EDITOOOOOOOOOO");
             // Desactiva Juego
             ActivateGame(false);
         }
         else //se carga el nivel por default
         {
+            Debug.Log("DEFAULTOOOOOOOOO");
             // Activa Juego
             LoadLevelConfig();
         }
@@ -218,15 +221,19 @@ public class configUi : MonoBehaviour
             Debug.LogError("No existe el archivo de configuración en " + levelInfoPath);
             Debug.LogError("Cargaremos el default");
             config = Resources.Load<configData>("default01_configData");
-            ActivateGame(true);
+            Debug.Log(config);
 
+            ActivateGame(true);
         }
         else
         {
             try
             {
+                Debug.Log("MIAU CONFIG");
                 string levelInfo = System.IO.File.ReadAllText(levelInfoPath);
                 JsonUtility.FromJsonOverwrite(levelInfo, config);
+                Debug.Log(config);
+
                 ActivateGame(true);
             }
             catch (System.Exception e)
