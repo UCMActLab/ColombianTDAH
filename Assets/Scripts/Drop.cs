@@ -82,11 +82,10 @@ public class Drop : MonoBehaviour
         Box type = DolphinLevelManager.Instance.GetOccupationFromMatrix((int)cubePosInMatrix.x, (int)cubePosInMatrix.y);
         if (type == Box.Empty || type == Box.Floatie)
         {
-            if (type == Box.Floatie) // El flotador liberará su hueco para el delfín y tomará ya XY cuando entre en el trigger del siguiente hueco
+            if (type == Box.Floatie) // El flotador liberarï¿½ su hueco para el delfï¿½n y tomarï¿½ ya XY cuando entre en el trigger del siguiente hueco
             {
                 GameObject obj = DolphinLevelManager.Instance.GetCubeFromMatrix((int)cubePosInMatrix.x, (int)cubePosInMatrix.y);
                 obj.GetComponent<MatrixCubeInfo>().SetXY(-1, -1);
-                GetComponent<DolphinController>().Dive(); //--------------------------------------
             }
 
             // Desocupo antigua casilla
