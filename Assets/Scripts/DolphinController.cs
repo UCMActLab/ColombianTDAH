@@ -26,7 +26,6 @@ public class DolphinController : MonoBehaviour
 
     [SerializeField, Tooltip("Capa con la que querremos clicar la vuelta especial (delfines)")]
     LayerMask _layerMask;
-    bool hasBeenHit;
 
     [SerializeField]
     float _raycastDistance = 10.0f;
