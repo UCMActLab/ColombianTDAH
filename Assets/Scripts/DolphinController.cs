@@ -49,8 +49,6 @@ public class DolphinController : MonoBehaviour
         buceoComponent = GetComponent<Buceo>();
         dragComponent = GetComponent<Drag>();
         _myAudioSource = GetComponent<AudioSource>();
-        hasBeenHit = false;
-        _colliderClickDolphin.SetActive(false);
         currentState = DolphinStates.FLOATING; //default, ajustar para que detecte si est� arriba o no (por posici�n o dise�o de nivel)
         isAboutToDive = false;
         canBeDamaged = true;
@@ -60,7 +58,7 @@ public class DolphinController : MonoBehaviour
         riverFloatingHeight = DolphinLevelManager.Instance.GetRiverFloatingHeight();
 
         //Si su estado es diving se va
-        if(startingState == DolphinStates.DIVING)
+        if (startingState == DolphinStates.DIVING)
         {
             Dive();
         }
@@ -87,17 +85,17 @@ public class DolphinController : MonoBehaviour
 
     void OnCollisionEnter(Collision collision)
     {
-        if(collision.gameObject.GetComponent<Obstaculo>())
+        if (collision.gameObject.GetComponent<Obstaculo>())
         {
             OnHitObstacle();
             EventRegister.Instance.AddToEvnt(Tuple.Create(EventRegister.EventosInfo.OColision, _index.ToString("00")));
             EventRegister.Instance.EvntToJson();
-        }        
+        }
     }
 
     private void OnTriggerStay(Collider other)
     {
-        if(!scoringFloatie)
+        if (!scoringFloatie)
         {
             Floatie f = other.gameObject.GetComponentInParent<Floatie>();
             if (f != null)
@@ -153,7 +151,6 @@ public class DolphinController : MonoBehaviour
         {
             currentState = DolphinStates.JUMPING;
             animator.SetTrigger("Jump");
-            _colliderClickDolphin.SetActive(true);
 
             EventRegister.Instance.AddToEvnt(Tuple.Create(EventRegister.EventosInfo.DSaltoInit, _index.ToString("00")));
             EventRegister.Instance.EvntToJson();
@@ -167,7 +164,6 @@ public class DolphinController : MonoBehaviour
         {
             currentState = DolphinStates.SPECIALJUMPING;
             animator.SetTrigger("SpecialJump");
-            _colliderClickDolphin.SetActive(true);
             EventRegister.Instance.AddToEvnt(Tuple.Create(EventRegister.EventosInfo.DPiruetaInit, _index.ToString("00")));
             EventRegister.Instance.EvntToJson();
             return true;
@@ -175,14 +171,14 @@ public class DolphinController : MonoBehaviour
         return false;
     }
 
-    public void Dive() //+ probablemente haya que settear la ocupacion del cubo en la matriz (que ahora solo sabe el drop) a 0
+    public void Dive()
     {
         isAboutToDive = true;
         buceoComponent.enabled = true;
         EventRegister.Instance.AddToEvnt(Tuple.Create(EventRegister.EventosInfo.DSaleSuperficie, _index.ToString("00")));
         EventRegister.Instance.EvntToJson();
         dragComponent.DeactivateDrag();
-        dragComponent.enabled = false; //esto depender� de c�mo juntemos input, falta que se enabelee
+        dragComponent.enabled = false;
         buceoComponent.SetPath(float3.zero);
         ClearMatrixOccupation();
         currentState = DolphinStates.DIVING;
@@ -228,58 +224,38 @@ public class DolphinController : MonoBehaviour
                 EventRegister.Instance.EvntToJson();
                 break;
             case "Roll":
-                hasBeenHit = false;
+                //hasBeenHit = false;
                 EventRegister.Instance.AddToEvnt(Tuple.Create(EventRegister.EventosInfo.DPiruetaFin, _index.ToString("00")));
                 EventRegister.Instance.EvntToJson();
                 break;
         }
-        _colliderClickDolphin.SetActive(false);
         if (isAboutToDive) { currentState = DolphinStates.DIVING; }
         else currentState = DolphinStates.FLOATING;
     }
 
 
-    public void TryClickDolphin() //comprobacion un poco provisional (no se si el onmouseover aqu� se podr�a reutilizar tambi�n)
+    public void TryClickDolphin()
     {
-        Camera cam = Camera.main;
-        Vector2 mousePos = new Vector2();
 
-        mousePos.x = Input.mousePosition.x;
-        mousePos.y = Input.mousePosition.y;
-
-        Vector3 point = cam.ScreenToWorldPoint(new Vector3(mousePos.x, mousePos.y, _raycastDistance));
-        Vector3 dir = point - cam.transform.position;
-        bool hasHit = Physics.Raycast(cam.transform.position, dir, out RaycastHit hit, Mathf.Infinity, _layerMask);
-
-        Debug.DrawRay(cam.transform.position, dir, UnityEngine.Color.yellow);
-
-        if (hasHit && (hit.transform.gameObject == _colliderClickDolphin))
+        if (currentState == DolphinStates.SPECIALJUMPING) //RIGHT GUESS SPECIAL JUMP
         {
+            // Dolphin sound
+            _myAudioSource.Play();
 
-            if (currentState == DolphinStates.SPECIALJUMPING && !hasBeenHit) //RIGHT GUESS SPECIAL JUMP
-            {
-                //Deactivate jump collider
-                hasBeenHit = true;
-                _colliderClickDolphin.SetActive(false);
+            //In world points text
+            EventRegister.Instance.AddToEvnt(Tuple.Create(EventRegister.EventosInfo.RespuestaCorrecta, _index.ToString("00")));
+            int plusPoints = dolphinMngr.RightGuess();
+            showPointsOnDolphin(plusPoints, Color.green);
+        }
+        else if (currentState == DolphinStates.JUMPING /*&& !dragComponent.AmIBeingDragged()*/) //WRONG GUESS SPECIAL JUMP
+        {
+            //In world points text
+            EventRegister.Instance.AddToEvnt(Tuple.Create(EventRegister.EventosInfo.RespuestaIncorrecta, _index.ToString("00")));
+            int lessPoints = dolphinMngr.WrongGuess();
+            showPointsOnDolphin(lessPoints, Color.red);
 
-                // Dolphin sound
-                _myAudioSource.Play();
-
-                //In world points text
-                EventRegister.Instance.AddToEvnt(Tuple.Create(EventRegister.EventosInfo.RespuestaCorrecta, _index.ToString("00")));
-                int plusPoints = dolphinMngr.RightGuess();
-                showPointsOnDolphin(plusPoints, Color.green);
-            }
-            else if (currentState == DolphinStates.JUMPING && !dragComponent.AmIBeingDragged()) //WRONG GUESS SPECIAL JUMP
-            {
-                //In world points text
-                EventRegister.Instance.AddToEvnt(Tuple.Create(EventRegister.EventosInfo.RespuestaIncorrecta, _index.ToString("00")));
-                int lessPoints = dolphinMngr.WrongGuess();
-                showPointsOnDolphin(lessPoints, Color.red);
-
-                // Desactiva Velocidad aumentada
-                DolphinLevelManager.Instance.DeactivateIncreasedSpeed();
-            }
+            // Desactiva Velocidad aumentada
+            DolphinLevelManager.Instance.DeactivateIncreasedSpeed();
         }
     }
 
@@ -297,18 +273,6 @@ public class DolphinController : MonoBehaviour
         canBeDamaged = false;
         yield return new WaitForSeconds(invincibilityTime);
         canBeDamaged = true;
-    }
-    // Update is called once per frame
-    void Update()
-    {
-        // Si levanta click izquierdo
-        if (Input.GetMouseButtonUp(0) /*&& !dragComponent.SomeoneIsBeingDragged()*/)
-        {
-            //Debug.Log("Is Draging: " + dragComponent.SomeoneIsBeingDragged() + " Im draging: " + dragComponent.AmIBeingDragged());
-
-
-            TryClickDolphin();
-        }
     }
 
     public void SetIndex(int index)

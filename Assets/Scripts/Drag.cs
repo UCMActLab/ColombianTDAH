@@ -21,6 +21,7 @@ public class Drag : MonoBehaviour
     Transform _myTransform;
     bool _dolphinClicked = false;
     Drop _clickedObjectDrop = null;
+    DolphinController _dolphinController = null;
 
 
     float scalerFactor = 1.3f;
@@ -29,7 +30,7 @@ public class Drag : MonoBehaviour
     {
         cam = Camera.main;
         _myTransform = transform;
-        _layerMask = LayerMask.GetMask("Dolphins");
+        _layerMask = LayerMask.GetMask("Click");
     }
 
     // Update is called once per frame
@@ -58,17 +59,27 @@ public class Drag : MonoBehaviour
             }
             // Si no mantiene pulsado sobre el delfin el contador se reinicia
             else
+            {
                 _dolphinClicked = false;
+            }
 
         }
-        if (Input.GetMouseButtonUp(0) && _isDragging && imDragging)
+        if (Input.GetMouseButtonUp(0) && _dolphinClicked)
         {
-
-            if (_clickedObjectDrop != null)
-                _clickedObjectDrop.DropObject(_index);
-            _isDragging = false;
-            imDragging = false;
-            _dolphinClicked = false;
+            if (_isDragging && imDragging)
+            {
+                if (_clickedObjectDrop != null)
+                    _clickedObjectDrop.DropObject(_index);
+                _isDragging = false;
+                imDragging = false;
+                _dolphinClicked = false;
+            }
+            else if(!_isDragging && !imDragging && IsDolphinHit())
+            {
+                // Ha sido click
+                _dolphinController.TryClickDolphin();
+            }
+            
         }
         if (imDragging)
         {
@@ -97,10 +108,13 @@ public class Drag : MonoBehaviour
         bool hasHit = Physics.Raycast(cam.transform.position, dir, out RaycastHit hit, Mathf.Infinity, _layerMask);
 
         if (hasHit)
-            _clickedObjectDrop = hit.collider.gameObject.GetComponent<Drop>();
-
+        {
+            _clickedObjectDrop = hit.collider.gameObject.GetComponentInParent<Drop>();
+            _dolphinController = hit.collider.gameObject.GetComponentInParent<DolphinController>();
+        }
+        
         // Si hay Objeto que se pueda mover
-        return (hasHit && (hit.collider.GetComponent<Drag>().GetIndex() == _index));
+        return (hasHit && (hit.collider.GetComponentInParent<Drag>().GetIndex() == _index));
     }
 
     public int GetIndex()
@@ -131,6 +145,5 @@ public class Drag : MonoBehaviour
             _dolphinClicked = false;
             GetComponent<Drop>().Belittle();
         }
-        //GetComponent<DolphinController>().ClearMatrixOccupation(); //vaciamos lugar en matriz
     }
 }
