@@ -159,7 +159,7 @@ Transform:
   - {fileID: 730751110022670558}
   - {fileID: 730751110022670534}
   m_Father: {fileID: 730751110022670552}
-  m_LocalEulerAnglesHint: {x: 18.687, y: 178.471, z: 175.719}
+  m_LocalEulerAnglesHint: {x: 77.88426, y: 180, z: 180}
 --- !u!1 &730751110022182136
 GameObject:
   m_ObjectHideFlags: 0
@@ -509,7 +509,6 @@ GameObject:
   - component: {fileID: 5206078949442079779}
   - component: {fileID: 5206078949442079782}
   - component: {fileID: 5206078949442079777}
-  - component: {fileID: 5206078949442079776}
   - component: {fileID: 4139290770834608594}
   - component: {fileID: 7986460126324560168}
   - component: {fileID: 1915240696792901405}
@@ -517,6 +516,7 @@ GameObject:
   - component: {fileID: 8038378355741705930}
   - component: {fileID: 5579826418193593794}
   - component: {fileID: 4913972619915270577}
+  - component: {fileID: 7225412479470034739}
   m_Layer: 6
   m_Name: Dolphin
   m_TagString: Untagged
@@ -599,28 +599,6 @@ CapsuleCollider:
   m_Height: 1.8051703
   m_Direction: 2
   m_Center: {x: 0, y: 0.454643, z: -0.072977185}
---- !u!95 &5206078949442079776
-Animator:
-  serializedVersion: 7
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5206078949442079778}
-  m_Enabled: 1
-  m_Avatar: {fileID: 9000000, guid: 0394426b821d13549838a36ba29b9c1c, type: 3}
-  m_Controller: {fileID: 9100000, guid: 3fcefe53a380d5445bfb4fc5808fa685, type: 2}
-  m_CullingMode: 1
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_AnimatePhysics: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!114 &4139290770834608594
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -819,6 +797,28 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!95 &7225412479470034739
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5206078949442079778}
+  m_Enabled: 1
+  m_Avatar: {fileID: 9000000, guid: 0394426b821d13549838a36ba29b9c1c, type: 3}
+  m_Controller: {fileID: 9100000, guid: 3fcefe53a380d5445bfb4fc5808fa685, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &5206078950054429161
 GameObject:
   m_ObjectHideFlags: 0

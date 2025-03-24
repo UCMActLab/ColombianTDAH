@@ -107,6 +107,18 @@ public class Drop : MonoBehaviour
 
     }
 
+    public void DropForceOnOBj(GameObject obj) //Para droppear exactamente en un objeto en el plano (ej. flotadores), no se centra en el cubo 
+    {
+        // Desocupo antigua casilla
+        Vector2 dolphinMatrixPos = _matrixCubeInfo.GetXY();
+        DolphinLevelManager.Instance.SetOccupation((int)dolphinMatrixPos.x, (int)dolphinMatrixPos.y, Box.Empty);
+
+        Vector2 cubePosInMatrix = obj.GetComponent<MatrixCubeInfo>().GetXY();
+        // Ocupo nueva casilla
+        DolphinLevelManager.Instance.SetOccupation((int)cubePosInMatrix.x, (int)cubePosInMatrix.y, Box.Dolphin);
+        _myTransform.position = new Vector3(obj.transform.position.x, _dropPlane.transform.position.y, obj.transform.position.z);
+        _matrixCubeInfo.SetXY((int)cubePosInMatrix.x, (int)cubePosInMatrix.y);
+    }
     public void PreparingToDrop(int ind)
     {
         Vector3 mousePos = Input.mousePosition;

@@ -5,6 +5,7 @@ using UnityEngine;
 public class Floatie : MovingObject
 {
     List<int> collidedWith;  // Lista de identificadores con los que ya ha colisionado 
+    [SerializeField]
     BoxCollider jumpCollider;
     Vector3 initialJumpColliderSize;
     Vector3 initialJumpColliderPos;
@@ -19,7 +20,7 @@ public class Floatie : MovingObject
     }
     private void Awake()
     {
-        jumpCollider = GetComponentInChildren<BoxCollider>();
+        //jumpCollider = GetComponentInChildren<BoxCollider>();
         initialJumpColliderPos = jumpCollider.transform.position;
         initialJumpColliderSize = jumpCollider.size;
     }
@@ -42,14 +43,10 @@ public class Floatie : MovingObject
         Vector3 newPos = new Vector3(0, 0, 0);
 
         newPos = initialJumpColliderPos; newSize = initialJumpColliderSize;
-        newPos.x -=  1.5f * 4.5f;
+        newPos.x -=  1.6f * 4.5f;
         newSize = initialJumpColliderSize;
 
-        jumpCollider = GetComponentInChildren<BoxCollider>();
         jumpCollider.size = newSize;
-        jumpCollider.transform.position = newPos;
-
-        Debug.Log(jumpCollider.size);
-        GetComponentInChildren<BoxCollider>().size = newSize;
+        jumpCollider.transform.position= newPos;
     }
 }

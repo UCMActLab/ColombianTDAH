@@ -5,6 +5,8 @@ using System.Collections;
 using UnityEngine.Rendering.Universal;
 using System;
 using System.Collections.Generic;
+using UnityEngine.Experimental.Animations;
+using static UnityEditor.Experimental.GraphView.GraphView;
 
 public class DolphinController : MonoBehaviour
 {
@@ -12,7 +14,7 @@ public class DolphinController : MonoBehaviour
     protected Buceo buceoComponent;
     protected DolphinManager dolphinMngr;
     protected Drag dragComponent;
-    public enum DolphinStates { FLOATING, DIVING, JUMPING, SPECIALJUMPING };
+    public enum DolphinStates { FLOATING, DIVING, JUMPING, SPECIALJUMPING, FLOATIEJUMPING};
     public DolphinStates currentState;
     public DolphinStates startingState;
     bool isAboutToDive;
@@ -93,34 +95,40 @@ public class DolphinController : MonoBehaviour
     }
 
     private void OnTriggerStay(Collider other)
-    {
-        if (!scoringFloatie)
+    {       
+        Floatie f = other.gameObject.GetComponentInParent<Floatie>();
+        if (f != null)
         {
-            Floatie f = other.gameObject.GetComponentInParent<Floatie>();
-            if (f != null)
+            if (!scoringFloatie)
             {
-                if (!dragComponent.AmIBeingDragged() && f.TryScore(_index))
+                if (other.gameObject.CompareTag("JumpTrigger"))
                 {
-                    OnHitFloatie();
+                    if (!dragComponent.AmIBeingDragged() && f.TryScore(dragComponent.GetIndex()))
+                    {
+                        FloatieTrick(); // \(._.)/
+                    }
+                    EventRegister.Instance.AddToEvnt(Tuple.Create(EventRegister.EventosInfo.FColision, _index.ToString("00")));
+                    EventRegister.Instance.EvntToJson();
                 }
-                EventRegister.Instance.AddToEvnt(Tuple.Create(EventRegister.EventosInfo.FColision, _index.ToString("00")));
-                EventRegister.Instance.EvntToJson();
+                else if (other.gameObject.CompareTag("DropTrigger"))
+                {
+                    if (currentState != DolphinStates.FLOATIEJUMPING && dragComponent.AmIBeingDragged())
+                    {
+                        FloatieDrop(other.transform.parent.gameObject);
+                    }
+                }
             }
         }
-        //if (dragComponent.AmIBeingDragged())
-        //{
-        //    Floatie floatie = other.gameObject.GetComponent<Floatie>();
-        //    if (floatie != null)
-        //    {
-        //        Dive();
-        //    }
-        //}
-
     }
 
     private void OnTriggerExit(Collider other)
     {
-        scoringFloatie = false;
+        Floatie f = other.gameObject.GetComponent<Floatie>();
+        if (f != null)
+        {
+            scoringFloatie = false;
+            OnHitFloatie();
+        }
     }
     protected void OnHitObstacle()
     {
@@ -134,12 +142,10 @@ public class DolphinController : MonoBehaviour
     }
     protected void OnHitFloatie()
     {
-        scoringFloatie = true;
         int points = dolphinMngr.FloatHit();
-        currentState = DolphinStates.FLOATING;
         showPointsOnDolphin(points, Color.green);
-        animator.SetTrigger("FloatieJump");
     }
+
     public DolphinStates getDolphinState()
     {
         return currentState;
@@ -182,6 +188,24 @@ public class DolphinController : MonoBehaviour
         ClearMatrixOccupation();
         currentState = DolphinStates.DIVING;
     }
+
+    public void FloatieTrick()
+    {
+        scoringFloatie = true;
+        currentState = DolphinStates.FLOATIEJUMPING;
+        animator.SetTrigger("FloatieJump");
+    }
+    public void FloatieDrop(GameObject floatie)
+    {
+        scoringFloatie = true;
+        currentState = DolphinStates.FLOATIEJUMPING;
+        animator.SetTrigger("FloatieDive");
+        
+        dragComponent.DeactivateDrag();
+        //dragComponent.enabled = false;
+        GetComponent<Drop>().DropForceOnOBj(floatie);
+    }
+
     public void ClearMatrixOccupation()
     {
         //vaciamos lugar en matriz
@@ -209,7 +233,7 @@ public class DolphinController : MonoBehaviour
             dragComponent.enabled = true;
             EventRegister.Instance.AddToEvnt(Tuple.Create(EventRegister.EventosInfo.DEntraSuperficie, _index.ToString("00")));
             EventRegister.Instance.EvntToJson();
-            PauseDamage();
+            StartCoroutine("PauseDamage");
             return true;
         }
         else return false;
