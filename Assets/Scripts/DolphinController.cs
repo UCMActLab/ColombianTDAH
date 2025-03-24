@@ -102,7 +102,7 @@ public class DolphinController : MonoBehaviour
             Floatie f = other.gameObject.GetComponentInParent<Floatie>();
             if (f != null)
             {
-                if (!dragComponent.AmIBeingDragged() && f.TryScore(dragComponent.GetIndex()))
+                if (!dragComponent.AmIBeingDragged() && f.TryScore(_index))
                 {
                     OnHitFloatie();
                 }
@@ -302,8 +302,11 @@ public class DolphinController : MonoBehaviour
     void Update()
     {
         // Si levanta click izquierdo
-        if (Input.GetMouseButtonUp(0))
+        if (Input.GetMouseButtonUp(0) /*&& !dragComponent.SomeoneIsBeingDragged()*/)
         {
+            //Debug.Log("Is Draging: " + dragComponent.SomeoneIsBeingDragged() + " Im draging: " + dragComponent.AmIBeingDragged());
+
+
             TryClickDolphin();
         }
     }

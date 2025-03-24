@@ -129,7 +129,8 @@ public class DolphinLevelManager : MonoBehaviour
             else
             {
                 dolphinXYPositions.Add(posDolphins[i]);
-                dolphinRealPositions.Add(GetWorldPositionFromCube((int)posDolphins[i].y, (int)posDolphins[i].x));//----------------------------------
+                dolphinRealPositions.Add(GetWorldPositionFromCube((int)posDolphins[i].y, (int)posDolphins[i].x));
+                occupationMatrix[(int)posDolphins[i].y, (int)posDolphins[i].x] = Box.Dolphin;
             }
         }
 

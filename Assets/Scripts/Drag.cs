@@ -115,6 +115,12 @@ public class Drag : MonoBehaviour
     {
         return imDragging;
     }
+
+    public bool SomeoneIsBeingDragged()
+    {
+        return _isDragging;
+    }
+
     public void DeactivateDrag()
     {
         // Si el delfin que estaba arrastrando va a bucear lo suelto
