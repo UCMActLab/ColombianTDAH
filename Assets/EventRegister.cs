@@ -11,6 +11,12 @@ public class EventRegister : MonoBehaviour
 
     private List<Tuple<EventRegister.EventosInfo, string>> auxEvntInfo;
 
+    [SerializeField]
+    int whitePixelsFramesDuation = 10;
+    int frameCont = 0;
+    bool whitePixelsActive;
+    GameObject whitePixels;
+
     public enum EventosInfo
     {                       //implementado en...
         Inicio, //...DolphinLevelManager.InitLevel
@@ -45,6 +51,39 @@ public class EventRegister : MonoBehaviour
         // Si esta creada se destruyee
         else
             Destroy(this.gameObject);
+
+        //----------------------------------------------------------------
+
+        // Pinta cuadrado blanco en la esquina
+        Vector3 whitePlanePos = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width - 1, 0, 1));
+
+        // Creacion plano para pixeles blancos de eventos
+        whitePixels = GameObject.CreatePrimitive(PrimitiveType.Plane);
+        whitePixels.GetComponent<Renderer>().material.color = Color.white;
+
+        Transform cubeTransform = whitePixels.transform;
+        cubeTransform.localScale = new Vector3(0.001f, 0.001f, 0.001f); // escala
+        cubeTransform.position = whitePlanePos; // position
+        cubeTransform.rotation = Camera.main.transform.rotation; // rotacion
+        cubeTransform.Rotate(-90, 0, 0);
+
+        whitePixels.SetActive(false);
+        whitePixelsActive = false;
+    }
+
+    private void Update()
+    {
+        if (whitePixelsActive)
+        {
+            if (frameCont < whitePixelsFramesDuation)
+                frameCont++;
+            else
+            {
+                whitePixels.SetActive(false);
+                whitePixelsActive = false;
+                frameCont = 0;
+            }
+        }
     }
 
     public void WriteStart()
@@ -94,6 +133,11 @@ public class EventRegister : MonoBehaviour
 
     public void EvntToJson()
     {
+        // White pixels
+        whitePixels.SetActive(true);
+        whitePixelsActive = true;
+
+        // Events
         System.IO.FileStream fs = new System.IO.FileStream(WriteTo, System.IO.FileMode.Append, System.IO.FileAccess.Write);
         string text = "{\n" + "    \"Tiempo\": \"" + Time.realtimeSinceStartup.ToString("0.000") + "\"";
 
