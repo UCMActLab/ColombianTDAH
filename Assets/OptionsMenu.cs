@@ -11,5 +11,6 @@ public class OptionsMenu : MonoBehaviour
     public void Toggle()
     {
         gameObject.SetActive(!gameObject.activeSelf);
+        DolphinLevelManager.Instance.Pause(gameObject.activeSelf);
     }
 }

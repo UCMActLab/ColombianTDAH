@@ -140,11 +140,11 @@ public class DolphinLevelManager : MonoBehaviour
         randomObjectSpawner.SetVel(_obstacleSpeed);
 
         //Enable Floats
-        randomObjectSpawner.EnableObstacles(_obstacleSpawning); 
+        randomObjectSpawner.EnableObstacles(_obstacleSpawning);
         randomObjectSpawner.EnableFloats(_floatieSpawning);
 
         // Background Velocity
-        _backgroundMovementComp.SetVelocity(_obstacleSpeed/50);    // same as obstacles in game
+        _backgroundMovementComp.SetVelocity(_obstacleSpeed / 50);    // same as obstacles in game
         _dolphinManager.DeactivateIncreasedSpeed(8);
         _dolphinManager.ActivateIncreasedSpeed(_obstacleSpeed);
 
@@ -183,7 +183,7 @@ public class DolphinLevelManager : MonoBehaviour
         _offset = _offset - new Vector3(-_riverSize.x / 2, 0.0f, _riverSize.z / 2);
     }
 
-    
+
     private bool CheckWinCondition()
     {
         if (_currentPoints >= _winPoints)
@@ -213,7 +213,7 @@ public class DolphinLevelManager : MonoBehaviour
 
         // Aparicion ballena con "_whaleSpawnNum" numero de aciertos
         _whaleTryCont++;
-        if(_whaleSpawnNum <= _whaleTryCont)
+        if (_whaleSpawnNum <= _whaleTryCont)
         {
             // Animacion ballena
             _whale.SetActive(true);
@@ -615,7 +615,7 @@ public class DolphinLevelManager : MonoBehaviour
         maxSpecialJumpCount = (int)levelData.MaxCountBetweenSpecialJumps;
         piruetasSimult = levelData.canSpecialJumpSimultaneously;
 
-        _winPoints = (int)levelData.LevelPoints; 
+        _winPoints = (int)levelData.LevelPoints;
         _specialJumpPoints = (int)levelData.RightGuessPoints;
         _specialJumpIncreasedVelPoints = (int)levelData.RightGuessPointsVel;
         _floatiePoints = (int)levelData.FloatiePoints;
@@ -650,7 +650,8 @@ public class DolphinLevelManager : MonoBehaviour
 
     public void DeactivateIncreasedSpeed()
     {
-        if (_increasedVelocity) {
+        if (_increasedVelocity)
+        {
             _increasedVelocity = false;
             _UIManager.SetVelButton(true);
 
@@ -673,5 +674,15 @@ public class DolphinLevelManager : MonoBehaviour
     public void DeregisterObject(GameObject obj)
     {
         randomObjectSpawner.DeregisterObject(obj);
+    }
+
+    // Pausa elementos visuales del juego
+    public void Pause(bool pause)
+    {
+        SetAllObstacleSpawning(!pause);
+        randomObjectSpawner.PauseObjects(pause);
+        _dolphinManager.PauseDolphins(pause);
+        _dolphinManager.enabled = !pause;
+        _backgroundMovementComp.enabled = !pause;
     }
 }

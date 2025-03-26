@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 using Random = UnityEngine.Random;
+using UnityEngine.Splines;
 
 public class DolphinManager : MonoBehaviour
 {
@@ -38,7 +39,7 @@ public class DolphinManager : MonoBehaviour
 
         if (jumpCont == nextPirueta)
         {
-           success = dolphinCont.SpecialJump();
+            success = dolphinCont.SpecialJump();
             if (success)
             {
                 jumpCont = -1;
@@ -57,7 +58,7 @@ public class DolphinManager : MonoBehaviour
         }
 
         jumpCont++;
-        
+
         //if(jumpCont == dolphins.Count - 1)
         //{
         //    jumpCont = 0;
@@ -90,7 +91,7 @@ public class DolphinManager : MonoBehaviour
     public int RightGuess()
     {
         int plusPoints = DolphinLevelManager.Instance.RightGuess();
-        return plusPoints; 
+        return plusPoints;
     }
     public int WrongGuess()
     {
@@ -112,7 +113,7 @@ public class DolphinManager : MonoBehaviour
     public void Init(int numberDolphins, int divingDolphins, List<Vector3> dolphinPositions, List<Vector2> dolphinXYPositions, float minJumpingTime, float maxJumpingTime, float floatingTime, bool simultSpecialJump, int minSpecialJC, int maxSpecialJC)
     {
         //Creamos en la matriz e instanciamos en la posición correspondiente los delfines colocados
-        for (int i = 0; i < numberDolphins - divingDolphins; i++) 
+        for (int i = 0; i < numberDolphins - divingDolphins; i++)
         {
             GameObject dolphin = GameObject.Instantiate(dolphinPrefab, dolphinPositions[i], Quaternion.identity);
             dolphins.Add(dolphin);
@@ -123,7 +124,7 @@ public class DolphinManager : MonoBehaviour
 
         }
         //Los delfines buceadores los mandamos a nadar
-        for (int i = numberDolphins - divingDolphins; i < numberDolphins; i++) 
+        for (int i = numberDolphins - divingDolphins; i < numberDolphins; i++)
         {
             GameObject dolphin = GameObject.Instantiate(dolphinPrefab, new Vector3(0, -5, 0), Quaternion.identity);
             dolphins.Add(dolphin);
@@ -145,7 +146,7 @@ public class DolphinManager : MonoBehaviour
     private void GenerateNextJumpingTime()
     {
         nextJumpingTime = Random.Range(minJumpTime, maxJumpTime);
-        
+
     }
     private void GenerateNextSpecialJumpCont()
     {
@@ -154,7 +155,7 @@ public class DolphinManager : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        if(dolphins.Count == 0)
+        if (dolphins.Count == 0)
         {
             dolphins = new List<GameObject>();
         }
@@ -164,7 +165,7 @@ public class DolphinManager : MonoBehaviour
         jumpCont = 0;
 
         //Si hay piruetas simultáneas
-        if(piruetasSimult) minSpecialJumpCount = 0;
+        if (piruetasSimult) minSpecialJumpCount = 0;
         else if (!piruetasSimult && minSpecialJumpCount < 2) { minSpecialJumpCount = 2; }
 
         //Generamos el primer salto y cuándo será pirueta especial
@@ -182,7 +183,7 @@ public class DolphinManager : MonoBehaviour
             currTime = 0;
             GenerateNextJumpingTime();
             dolphinsToCheck = new List<GameObject>(dolphins);
-            while (dolphinsToCheck.Count!=0&&!Jump());
+            while (dolphinsToCheck.Count != 0 && !Jump()) ;
         }
 
         currFloatTime += Time.deltaTime;
@@ -190,7 +191,7 @@ public class DolphinManager : MonoBehaviour
         {
             currFloatTime = 0;
             dolphinsToFloatCheck = new List<GameObject>(dolphins);
-            while (dolphinsToFloatCheck.Count != 0 && !Float());
+            while (dolphinsToFloatCheck.Count != 0 && !Float()) ;
         }
     }
 
@@ -203,17 +204,32 @@ public class DolphinManager : MonoBehaviour
     // Aumenta la velocidad de la animacion de los delfines
     public void ActivateIncreasedSpeed(float velFactor)
     {
-        for (int i = 0; i < dolphins.Count; i++) { 
+        for (int i = 0; i < dolphins.Count; i++)
+        {
             dolphins[i].GetComponent<Animator>().speed *= velFactor;
         }
     }
 
     // Animacion de los delfines vuelve a velocidad normal
-    public void DeactivateIncreasedSpeed(float velFactor) {
+    public void DeactivateIncreasedSpeed(float velFactor)
+    {
 
         for (int i = 0; i < dolphins.Count; i++)
         {
             dolphins[i].GetComponent<Animator>().speed /= velFactor;
+        }
+    }
+
+    // Pausa animación de todos los delfines
+    public void PauseDolphins(bool pause)
+    {
+        int i = 0;
+        for (; i < dolphins.Count; i++)
+        {
+            dolphins[i].GetComponent<Animator>().enabled = !pause;
+            dolphins[i].GetComponent<Buceo>().enabled = !pause;
+            dolphins[i].GetComponent<DolphinController>().enabled = !pause;
+            dolphins[i].GetComponent<SplineAnimate>().enabled = !pause;
         }
     }
 }

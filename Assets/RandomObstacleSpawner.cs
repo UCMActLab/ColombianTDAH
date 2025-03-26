@@ -115,6 +115,7 @@ public class RandomObjectSpawner : MonoBehaviour
 
     }
 
+    // Enable specific rail
     public void SetRailObstacleSpawner(int railNum, bool enabled)
     {
         _carrilCenetrs[railNum].active = enabled;
@@ -134,6 +135,14 @@ public class RandomObjectSpawner : MonoBehaviour
             {
                 movingObjComp.SetVel(newVel);
             }
+        }
+    }
+
+    public void PauseObjects(bool pause)
+    {
+        for (int i = 0; i < _spawnedObjects.Count; i++)
+        {
+            _spawnedObjects[i].GetComponent<Rigidbody>().isKinematic = pause;
         }
     }
 }
