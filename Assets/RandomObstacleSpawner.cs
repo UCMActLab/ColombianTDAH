@@ -12,7 +12,7 @@ public class RandomObjectSpawner : MonoBehaviour
     }
 
     [SerializeField]
-    float _posX = 14.0f;
+    float _posX = 15.0f;
 
     //Listas de prefabs disponibles
     [SerializeField]
