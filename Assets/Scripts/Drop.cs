@@ -3,8 +3,8 @@ using UnityEngine;
 
 public class Drop : MonoBehaviour
 {
-
-    Material _material;
+    [SerializeField]
+    GameObject _clickCollider;
     Transform _myTransform;
     Camera _camera;
     Vector3 _initialPosition;
@@ -28,6 +28,8 @@ public class Drop : MonoBehaviour
     Vector3 _initialScale;
     Vector3 riverDropSize;
     Vector3 riverDropOffset;
+
+    float _dolphinHighOffset = 0.3f;
 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -141,7 +143,14 @@ public class Drop : MonoBehaviour
         if (name == ind.ToString())
         {
             //  Coloco delfin en la posicion a la del plano
-            _myTransform.position = new Vector3(hit.point.x, _dropPlane.transform.position.y, hit.point.z);
+            _myTransform.position = new Vector3(hit.point.x, _dropPlane.transform.position.y - _dolphinHighOffset, hit.point.z);
+
+            // Recoloca dependiendo de la posicion del collider
+            Vector3 posCol = _clickCollider.transform.localPosition;
+            if (posCol != Vector3.zero)
+            {
+                _myTransform.position -= posCol;
+            }
         }
     }
 
