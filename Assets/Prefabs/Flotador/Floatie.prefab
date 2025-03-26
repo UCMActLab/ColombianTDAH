@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6617821285397571796}
   - component: {fileID: 1078307276360406587}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: JumpTrigger
   m_TagString: JumpTrigger
   m_Icon: {fileID: 0}
@@ -63,7 +63,7 @@ GameObject:
   m_Component:
   - component: {fileID: 9156713312990801069}
   - component: {fileID: 2826285818942448363}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: DropTrigger
   m_TagString: DropTrigger
   m_Icon: {fileID: 0}

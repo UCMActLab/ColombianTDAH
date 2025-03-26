@@ -116,6 +116,7 @@ public class DolphinLevelManager : MonoBehaviour
         if (!loaded)
         {
             initialDolphins = 2;
+            dolphinXYPositions.Clear();
             dolphinXYPositions.Add(new Vector2(0, 0));
             dolphinXYPositions.Add(new Vector2(1, 3));
         }
