@@ -84,11 +84,11 @@ public class Drop : MonoBehaviour
         Box type = DolphinLevelManager.Instance.GetOccupationFromMatrix((int)cubePosInMatrix.x, (int)cubePosInMatrix.y);
         if (type == Box.Empty || type == Box.Floatie)
         {
-            if (type == Box.Floatie) // El flotador liberar� su hueco para el delf�n y tomar� ya XY cuando entre en el trigger del siguiente hueco
-            {
-                GameObject obj = DolphinLevelManager.Instance.GetCubeFromMatrix((int)cubePosInMatrix.x, (int)cubePosInMatrix.y);
-                obj.GetComponent<MatrixCubeInfo>().SetXY(-1, -1);
-            }
+            //if (type == Box.Floatie) // El flotador liberar� su hueco para el delf�n y tomar� ya XY cuando entre en el trigger del siguiente hueco
+            //{
+            //    GameObject obj = DolphinLevelManager.Instance.GetCubeFromMatrix((int)cubePosInMatrix.x, (int)cubePosInMatrix.y);
+            //    obj.GetComponent<MatrixCubeInfo>().SetXY(-1, -1);
+            //}
 
             // Desocupo antigua casilla
             Vector2 dolphinMatrixPos = _matrixCubeInfo.GetXY();
@@ -113,13 +113,22 @@ public class Drop : MonoBehaviour
     {
         // Desocupo antigua casilla
         Vector2 dolphinMatrixPos = _matrixCubeInfo.GetXY();
-        DolphinLevelManager.Instance.SetOccupation((int)dolphinMatrixPos.x, (int)dolphinMatrixPos.y, Box.Empty);
-
         Vector2 cubePosInMatrix = obj.GetComponent<MatrixCubeInfo>().GetXY();
-        // Ocupo nueva casilla
-        DolphinLevelManager.Instance.SetOccupation((int)cubePosInMatrix.x, (int)cubePosInMatrix.y, Box.Dolphin);
-        _myTransform.position = new Vector3(obj.transform.position.x, _dropPlane.transform.position.y, obj.transform.position.z);
-        _matrixCubeInfo.SetXY((int)cubePosInMatrix.x, (int)cubePosInMatrix.y);
+
+       Box type = DolphinLevelManager.Instance.GetOccupationFromMatrix((int)cubePosInMatrix.x, (int)cubePosInMatrix.y);
+        if (type == Box.Empty || type == Box.Floatie)
+        {
+            DolphinLevelManager.Instance.SetOccupation((int)dolphinMatrixPos.x, (int)dolphinMatrixPos.y, Box.Empty);
+            // Ocupo nueva casilla
+            DolphinLevelManager.Instance.SetOccupation((int)cubePosInMatrix.x, (int)cubePosInMatrix.y, Box.Dolphin);
+            Vector3 newPos = DolphinLevelManager.Instance.GetWorldPositionFromCube((int)cubePosInMatrix.x, (int)cubePosInMatrix.y);
+            _myTransform.position = new Vector3(obj.transform.position.x, newPos.y, newPos.z);
+            _matrixCubeInfo.SetXY((int)cubePosInMatrix.x, (int)cubePosInMatrix.y);
+        }
+        else
+        {
+            _myTransform.position = _initialPosition;
+        }
     }
     public void PreparingToDrop(int ind)
     {

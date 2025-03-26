@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine.Experimental.Animations;
 using static UnityEditor.Experimental.GraphView.GraphView;
+using Unity.VisualScripting;
 
 public class DolphinController : MonoBehaviour
 {
@@ -201,9 +202,9 @@ public class DolphinController : MonoBehaviour
         currentState = DolphinStates.FLOATIEJUMPING;
         animator.SetTrigger("FloatieDive");
         
+        GetComponent<Drop>().DropForceOnOBj(floatie);
         dragComponent.DeactivateDrag();
         //dragComponent.enabled = false;
-        GetComponent<Drop>().DropForceOnOBj(floatie);
     }
 
     public void ClearMatrixOccupation()
@@ -250,6 +251,10 @@ public class DolphinController : MonoBehaviour
                 //hasBeenHit = false;
                 EventRegister.Instance.AddToEvnt(Tuple.Create(EventRegister.EventosInfo.DPiruetaFin, _index.ToString("00")));
                 EventRegister.Instance.EvntToJson();
+                break;
+            case "FloatieJump":
+                break;
+            case "FloatieDive": //este es el que ha arrastrado manualmente al flotador, el otro puede que lo haya colocado o que se de la casualidad
                 break;
         }
         if (isAboutToDive) { currentState = DolphinStates.DIVING; }
