@@ -3358,7 +3358,7 @@ MonoBehaviour:
   _UIManager: {fileID: 1248144298}
   _dolphinManager: {fileID: 811574443}
   _background: {fileID: 561643734}
-  _whale: {fileID: 1351410519}
+  _whale: {fileID: 919132149155446097, guid: af37912ed6f92444b8650399df6485ff, type: 3}
   _whaleSpawnNum: 3
   levelData: {fileID: 11400000, guid: 28af6196035b21547894ddb245404fe7, type: 2}
 --- !u!1001 &1784765773
