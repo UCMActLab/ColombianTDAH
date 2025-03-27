@@ -62,6 +62,7 @@ public class MovingObject : MonoBehaviour
         }
     }
 
+    // Autodestruccion de objeto
     public void DestroyObstacle()
     {
         DolphinLevelManager.Instance.DeregisterObject(gameObject);

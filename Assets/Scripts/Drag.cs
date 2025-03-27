@@ -66,23 +66,27 @@ public class Drag : MonoBehaviour
         }
         if (Input.GetMouseButtonUp(0) && _dolphinClicked)
         {
+            // Si ha mantenido pulsado
             if (_isDragging && imDragging)
             {
+                // Dropeo en la casilla
                 if (_clickedObjectDrop != null)
                     _clickedObjectDrop.DropObject(_index);
                 _isDragging = false;
                 imDragging = false;
                 _dolphinClicked = false;
             }
-            else if(!_isDragging && !imDragging && IsDolphinHit())
+            // Si ha sido click
+            else if (!_isDragging && !imDragging && IsDolphinHit())
             {
-                // Ha sido click
                 _dolphinController.TryClickDolphin();
             }
-            
+
         }
+        // Mientras este arrastrando delfin
         if (imDragging)
         {
+            // Le dice al componente drop que calcule posicion
             if (_clickedObjectDrop != null)
                 _clickedObjectDrop.PreparingToDrop(_index);
         }
@@ -103,16 +107,18 @@ public class Drag : MonoBehaviour
         mousePos.x = Input.mousePosition.x;
         mousePos.y = Input.mousePosition.y;
 
+        // Raycast desde la posicion del raton
         Vector3 point = cam.ScreenToWorldPoint(new Vector3(mousePos.x, mousePos.y, _raycastDistance));
         Vector3 dir = point - cam.transform.position;
         bool hasHit = Physics.Raycast(cam.transform.position, dir, out RaycastHit hit, Mathf.Infinity, _layerMask);
 
         if (hasHit)
         {
+            // Guarda Drop y Dophin Controller del delfin clicado o arrastrado
             _clickedObjectDrop = hit.collider.gameObject.GetComponentInParent<Drop>();
             _dolphinController = hit.collider.gameObject.GetComponentInParent<DolphinController>();
         }
-        
+
         // Si hay Objeto que se pueda mover
         return (hasHit && (hit.collider.GetComponentInParent<Drag>().GetIndex() == _index));
     }

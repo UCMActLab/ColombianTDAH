@@ -223,13 +223,12 @@ public class DolphinManager : MonoBehaviour
     // Pausa animación de todos los delfines
     public void PauseDolphins(bool pause)
     {
-        int i = 0;
-        for (; i < dolphins.Count; i++)
+        for (int i = 0; i < dolphins.Count; i++)
         {
-            dolphins[i].GetComponent<Animator>().enabled = !pause;
-            dolphins[i].GetComponent<Buceo>().enabled = !pause;
-            dolphins[i].GetComponent<DolphinController>().enabled = !pause;
-            dolphins[i].GetComponent<SplineAnimate>().enabled = !pause;
+            dolphins[i].GetComponent<Animator>().enabled = !pause; // pausa animacion
+            dolphins[i].GetComponent<Buceo>().enabled = !pause; // pausa movimiento buceo
+            dolphins[i].GetComponent<DolphinController>().enabled = !pause; // pausa controlador delfin
+            dolphins[i].GetComponent<SplineAnimate>().enabled = !pause; // pausa animacion buceo
         }
     }
 }

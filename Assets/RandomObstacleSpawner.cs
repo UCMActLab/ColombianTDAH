@@ -121,11 +121,13 @@ public class RandomObjectSpawner : MonoBehaviour
         _carrilCenetrs[railNum].active = enabled;
     }
 
+    // Quita objeto de la lista
     public void DeregisterObject(GameObject obj)
     {
         _spawnedObjects.Remove(obj);
     }
 
+    // Cambia la velocidad de todo objeto que este en el rio
     public void ChangeAllVelocities(float newVel)
     {
         for (int i = 0; i < _spawnedObjects.Count; i++)
@@ -138,6 +140,7 @@ public class RandomObjectSpawner : MonoBehaviour
         }
     }
 
+    // Quita las fisicas de los objetos para pausarlos
     public void PauseObjects(bool pause)
     {
         for (int i = 0; i < _spawnedObjects.Count; i++)

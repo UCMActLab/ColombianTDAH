@@ -154,7 +154,7 @@ public class Drop : MonoBehaviour
             //  Coloco delfin en la posicion a la del plano
             _myTransform.position = new Vector3(hit.point.x, _dropPlane.transform.position.y - _dolphinHighOffset, hit.point.z);
 
-            // Recoloca dependiendo de la posicion del collider
+            // Recoloca dependiendo de la posicion del collider por la animacion
             Vector3 posCol = _clickCollider.transform.localPosition;
             if (posCol != Vector3.zero)
             {
@@ -170,6 +170,7 @@ public class Drop : MonoBehaviour
         _dropPlane.transform.position = new Vector3(planePos.x, _myTransform.position.y, planePos.z);
     }
 
+    // Vuelve a su tamanyo normal
     public void Belittle()
     {
         _myTransform.localScale = _initialScale;

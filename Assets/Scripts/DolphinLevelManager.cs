@@ -102,6 +102,9 @@ public class DolphinLevelManager : MonoBehaviour
     int _whaleSpawnNum = 3;
     int _whaleTryCont = 0;
 
+    [SerializeField]
+    List<GameObject> _animals;
+
     //SavedfromUI
     [SerializeField]
     configData levelData;
@@ -680,10 +683,15 @@ public class DolphinLevelManager : MonoBehaviour
     // Pausa elementos visuales del juego
     public void Pause(bool pause)
     {
-        SetAllObstacleSpawning(!pause);
-        randomObjectSpawner.PauseObjects(pause);
-        _dolphinManager.PauseDolphins(pause);
-        _dolphinManager.enabled = !pause;
-        _backgroundMovementComp.enabled = !pause;
+        SetAllObstacleSpawning(!pause); // no spawnea obstaculos
+        randomObjectSpawner.PauseObjects(pause); // pausa objetos
+        _dolphinManager.PauseDolphins(pause); // pausa delfines
+        _dolphinManager.enabled = !pause; // para manager delfines
+        _backgroundMovementComp.enabled = !pause; // pausa fondo
+
+        // Pausa animaciones de animales
+        for (int i = 0;i < _animals.Count; i++) {
+            _animals[i].GetComponent<Animator>().enabled = !pause;
+        }
     }
 }
