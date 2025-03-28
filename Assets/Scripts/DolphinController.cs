@@ -107,15 +107,17 @@ public class DolphinController : MonoBehaviour
                     if (!dragComponent.AmIBeingDragged() && f.TryScore(dragComponent.GetIndex()))
                     {
                         FloatieTrick(); // \(._.)/
+                        EventRegister.Instance.AddToEvnt(Tuple.Create(EventRegister.EventosInfo.FColision, _index.ToString("00")));
+                        EventRegister.Instance.EvntToJson();
                     }
-                    EventRegister.Instance.AddToEvnt(Tuple.Create(EventRegister.EventosInfo.FColision, _index.ToString("00")));
-                    EventRegister.Instance.EvntToJson();
                 }
                 else if (other.gameObject.CompareTag("DropTrigger"))
                 {
-                    if (currentState != DolphinStates.FLOATIEJUMPING && dragComponent.AmIBeingDragged())
+                    if (currentState != DolphinStates.FLOATIEJUMPING && dragComponent.AmIBeingDragged() && f.TryScore(dragComponent.GetIndex()))
                     {
                         FloatieDrop(other.transform.parent.gameObject);
+                        EventRegister.Instance.AddToEvnt(Tuple.Create(EventRegister.EventosInfo.FColision, _index.ToString("00")));
+                        EventRegister.Instance.EvntToJson();
                     }
                 }
             }
