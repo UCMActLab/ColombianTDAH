@@ -651,6 +651,7 @@ MonoBehaviour:
   _clickCollider: {fileID: 2097487205444919827}
   _raycastDistance: 10
   margin: {x: 2, y: 2}
+  rePosSpeed: 0.05
 --- !u!114 &5129084848932951828
 MonoBehaviour:
   m_ObjectHideFlags: 0

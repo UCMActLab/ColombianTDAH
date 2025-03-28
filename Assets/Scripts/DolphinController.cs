@@ -2,12 +2,7 @@ using TMPro;
 using Unity.Mathematics;
 using UnityEngine;
 using System.Collections;
-using UnityEngine.Rendering.Universal;
 using System;
-using System.Collections.Generic;
-using UnityEngine.Experimental.Animations;
-using static UnityEditor.Experimental.GraphView.GraphView;
-using Unity.VisualScripting;
 
 public class DolphinController : MonoBehaviour
 {
@@ -148,7 +143,6 @@ public class DolphinController : MonoBehaviour
         int points = dolphinMngr.FloatHit();
         showPointsOnDolphin(points, Color.green);
     }
-
     public DolphinStates getDolphinState()
     {
         return currentState;

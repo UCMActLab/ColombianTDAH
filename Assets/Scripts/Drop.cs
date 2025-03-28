@@ -1,4 +1,7 @@
+using JetBrains.Annotations;
+using System.Collections;
 using System.Linq.Expressions;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Drop : MonoBehaviour
@@ -31,6 +34,12 @@ public class Drop : MonoBehaviour
 
     float _dolphinHighOffset = 0.3f;
 
+    //Resposition info dolphin
+    bool _isBeingRepositioned;
+    Vector3 _rePos;
+    [SerializeField]
+    float rePosSpeed = 0.3f;
+
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -57,6 +66,23 @@ public class Drop : MonoBehaviour
         _dropPlane.GetComponent<MeshRenderer>().enabled = false; // Invisible
         _dropPlane.GetComponent<Collider>().isTrigger = true;
         _initialScale = _myTransform.localScale;
+
+        //Reposition after forced drop
+        _rePos = Vector3.zero;
+        _isBeingRepositioned = false;
+       
+    }
+    private void Update()
+    {
+        if(_isBeingRepositioned)
+        {
+            _myTransform.position = Vector3.Lerp(_myTransform.position, _rePos,rePosSpeed);
+            if (_rePos.x - _myTransform.position.x <= 0.1f)
+            {
+                _isBeingRepositioned = false;
+                _myTransform.position = _rePos;
+            }
+        }
     }
 
     public void DropObject(int ind)
@@ -122,14 +148,24 @@ public class Drop : MonoBehaviour
             // Ocupo nueva casilla
             DolphinLevelManager.Instance.SetOccupation((int)cubePosInMatrix.x, (int)cubePosInMatrix.y, Box.Dolphin);
             Vector3 newPos = DolphinLevelManager.Instance.GetWorldPositionFromCube((int)cubePosInMatrix.x, (int)cubePosInMatrix.y);
-            _myTransform.position = new Vector3(obj.transform.position.x, newPos.y, newPos.z);
+            _myTransform.position = new Vector3(obj.transform.position.x, _dropPlane.transform.position.y, newPos.z); //obj.trans.x
+            _rePos = new Vector3(newPos.x, _dropPlane.transform.position.y, newPos.z);
+            StartCoroutine("RePositionDolphin");
             _matrixCubeInfo.SetXY((int)cubePosInMatrix.x, (int)cubePosInMatrix.y);
+            _initialPosition = _myTransform.position;
         }
         else
         {
             _myTransform.position = _initialPosition;
         }
     }
+
+    IEnumerator RePositionDolphin() //Colocar bien el delfin a mitad de posicion en el centro del cubo
+    {
+        yield return new WaitForSeconds(0.5f);
+        _isBeingRepositioned = true;
+    }
+
     public void PreparingToDrop(int ind)
     {
         Vector3 mousePos = Input.mousePosition;
