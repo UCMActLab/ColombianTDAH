@@ -108,11 +108,19 @@ public class DolphinController : MonoBehaviour
                 }
                 else if (other.gameObject.CompareTag("DropTrigger"))
                 {
-                    if (currentState != DolphinStates.FLOATIEJUMPING && dragComponent.AmIBeingDragged() && f.TryScore(dragComponent.GetIndex()))
+                    if (dragComponent.AmIBeingDragged() && f.TryScore(dragComponent.GetIndex()))
                     {
                         FloatieDrop(other.transform.parent.gameObject);
                         EventRegister.Instance.AddToEvnt(Tuple.Create(EventRegister.EventosInfo.FColision, _index.ToString("00")));
                         EventRegister.Instance.EvntToJson();
+                    }
+                }
+                else if (other.gameObject.CompareTag("BodyTrigger"))
+                {
+                    if(currentState!=DolphinStates.FLOATIEJUMPING && !dragComponent.AmIBeingDragged())
+                    {
+                        currentState = DolphinStates.FLOATIEJUMPING; //Esto es mentira pero bueno
+                        animator.SetTrigger("QuickDive");
                     }
                 }
             }
@@ -122,7 +130,7 @@ public class DolphinController : MonoBehaviour
     private void OnTriggerExit(Collider other)
     {
         Floatie f = other.gameObject.GetComponent<Floatie>();
-        if (f != null)
+        if (f != null && scoringFloatie)
         {
             scoringFloatie = false;
             OnHitFloatie();
@@ -194,13 +202,17 @@ public class DolphinController : MonoBehaviour
     }
     public void FloatieDrop(GameObject floatie)
     {
-        scoringFloatie = true;
-        currentState = DolphinStates.FLOATIEJUMPING;
-        animator.SetTrigger("FloatieDive");
-        
-        GetComponent<Drop>().DropForceOnOBj(floatie);
-        dragComponent.DeactivateDrag();
-        //dragComponent.enabled = false;
+        bool success = GetComponent<Drop>().DropForceOnOBj(floatie);
+        scoringFloatie = false;
+        if (success)
+        {
+            scoringFloatie = true;
+            currentState = DolphinStates.FLOATIEJUMPING;
+            animator.SetTrigger("FloatieDive");
+            Invoke("OnHitFloatie", 0.5f);
+            dragComponent.DeactivateDrag();
+            dragComponent.enabled = false;
+        }
     }
 
     public void ClearMatrixOccupation()
@@ -250,11 +262,16 @@ public class DolphinController : MonoBehaviour
                 break;
             case "FloatieJump":
                 break;
-            case "FloatieDive": //este es el que ha arrastrado manualmente al flotador, el otro puede que lo haya colocado o que se de la casualidad
+            case "FloatieDive":
+                //este es el que ha arrastrado manualmente al flotador, el otro puede que lo haya colocado o que se de la casualidad
+                dragComponent.enabled = true;
                 break;
         }
         if (isAboutToDive) { currentState = DolphinStates.DIVING; }
-        else currentState = DolphinStates.FLOATING;
+        else
+        {
+            currentState = DolphinStates.FLOATING;
+        }
     }
 
 

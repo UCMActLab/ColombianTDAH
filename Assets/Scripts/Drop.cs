@@ -39,6 +39,9 @@ public class Drop : MonoBehaviour
     Vector3 _rePos;
     [SerializeField]
     float rePosSpeed = 0.3f;
+    float startReposTime = 0;
+    float journeyLength = 0;
+
 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -74,10 +77,13 @@ public class Drop : MonoBehaviour
     }
     private void Update()
     {
-        if(_isBeingRepositioned)
+        if(_isBeingRepositioned) // Reposicionamento progresivo tras drop en flotador al centro de la casilla
         {
-            _myTransform.position = Vector3.Lerp(_myTransform.position, _rePos,rePosSpeed);
-            if (_rePos.x - _myTransform.position.x <= 0.1f)
+            float distCovered = (Time.time - startReposTime) * rePosSpeed;
+            float fractionOfJourney = distCovered / journeyLength;
+            transform.position = Vector3.Lerp(transform.position, _rePos, fractionOfJourney);
+
+            if (_rePos.x - _myTransform.position.x == 0)
             {
                 _isBeingRepositioned = false;
                 _myTransform.position = _rePos;
@@ -135,7 +141,7 @@ public class Drop : MonoBehaviour
 
     }
 
-    public void DropForceOnOBj(GameObject obj) //Para droppear exactamente en un objeto en el plano (ej. flotadores), no se centra en el cubo 
+    public bool DropForceOnOBj(GameObject obj) //Para droppear exactamente en un objeto en el plano (ej. flotadores), no se centra en el cubo 
     {
         // Desocupo antigua casilla
         Vector2 dolphinMatrixPos = _matrixCubeInfo.GetXY();
@@ -153,16 +159,20 @@ public class Drop : MonoBehaviour
             StartCoroutine("RePositionDolphin");
             _matrixCubeInfo.SetXY((int)cubePosInMatrix.x, (int)cubePosInMatrix.y);
             _initialPosition = _myTransform.position;
+            return true;
         }
         else
         {
             _myTransform.position = _initialPosition;
+            return false;
         }
     }
 
     IEnumerator RePositionDolphin() //Colocar bien el delfin a mitad de posicion en el centro del cubo
     {
-        yield return new WaitForSeconds(0.5f);
+        journeyLength = Vector3.Distance(transform.position, _rePos);
+        yield return new WaitForSeconds(1.0f);
+        startReposTime = Time.time;
         _isBeingRepositioned = true;
     }
 
@@ -211,6 +221,4 @@ public class Drop : MonoBehaviour
     {
         _myTransform.localScale = _initialScale;
     }
-
-    
 }

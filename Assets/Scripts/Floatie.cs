@@ -43,7 +43,7 @@ public class Floatie : MovingObject
         Vector3 newPos = new Vector3(0, 0, 0);
 
         newPos = initialJumpColliderPos; newSize = initialJumpColliderSize;
-        newPos.x -=  1.6f * 4.5f;
+        newPos.x -= 2.35f * 4.5f;
         newSize = initialJumpColliderSize;
 
         jumpCollider.size = newSize;
