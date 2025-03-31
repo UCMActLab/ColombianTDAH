@@ -234,6 +234,7 @@ public class DolphinController : MonoBehaviour
             //transform.position.x, 0, transform.position.z
             Vector2 matrixPos = DolphinLevelManager.Instance.GetNextAvailableMatrixSpot(this.transform.position);
             float3 pos = (float3)DolphinLevelManager.Instance.GetWorldPositionFromCube((int)matrixPos.x, (int)matrixPos.y);
+            GetComponent<Drop>().SetInitialPosition(pos);
             pos = new float3(pos.x, riverFloatingHeight, pos.z);
             buceoComponent.SetPath(pos);
             GetComponent<MatrixCubeInfo>().SetXY((int)matrixPos.x, (int)matrixPos.y);

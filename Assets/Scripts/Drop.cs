@@ -48,7 +48,7 @@ public class Drop : MonoBehaviour
     void Start()
     {
         _myTransform = transform;
-        _initialPosition = transform.position;
+        SetInitialPosition();
         _camera = Camera.main;
         _dragComponent = GetComponent<Drag>();
         _index = _dragComponent.GetIndex();
@@ -132,7 +132,7 @@ public class Drop : MonoBehaviour
             _matrixCubeInfo.SetXY((int)cubePosInMatrix.x, (int)cubePosInMatrix.y);
 
             // Guardo nueva posicion
-            _initialPosition = _myTransform.position;
+            SetInitialPosition();
 
         }
         // Si no vuelvo a posicion inicial
@@ -220,5 +220,14 @@ public class Drop : MonoBehaviour
     public void Belittle()
     {
         _myTransform.localScale = _initialScale;
+    }
+
+    public void SetInitialPosition(Vector3 pos)
+    {
+        _initialPosition = pos;
+    }
+    public void SetInitialPosition()
+    {
+        _initialPosition = transform.position;
     }
 }
