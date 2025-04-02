@@ -7,7 +7,11 @@ public class WhaleAnimationController : MonoBehaviour
     public void OnAnimationEnded(string action)
     {
         // Desactiva ballena y vuelve a activar spawner de objetos
-        gameObject.SetActive(false);
-        DolphinLevelManager.Instance.SetAllObstacleSpawning(true);
+        if(action=="DiveExit")
+        {
+            gameObject.SetActive(false);
+            DolphinLevelManager.Instance.SetAllObstacleSpawning(true);
+        }
     }
+
 }
