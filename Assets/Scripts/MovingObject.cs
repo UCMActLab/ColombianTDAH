@@ -4,13 +4,14 @@ public class MovingObject : MonoBehaviour
 {
     protected Rigidbody m_Rigidbody;
     protected MatrixCubeInfo m_CubeInfo;
-    protected Box type;
+
+    protected Box type; // Tipos actuales: Floatie, Obstacle
+
     public float m_Vel = 10f;
     public bool collisionReaction;
 
     protected void Start()
     {
-        //Fetch the Rigidbody from the GameObject with this script attached
         m_Rigidbody = GetComponent<Rigidbody>();
         m_CubeInfo = GetComponent<MatrixCubeInfo>();
         type = Box.Empty;
@@ -49,16 +50,19 @@ public class MovingObject : MonoBehaviour
     {
         if (other.gameObject.GetComponent<DolphinController>() == null && other.gameObject.GetComponent<MatrixCubeInfo>() != null)
         {
-            //Obstáculo ocupa nueva casilla en matriz
             MatrixCubeInfo cubeInfo = other.gameObject.GetComponent<MatrixCubeInfo>();
             Vector2 newCubePos = cubeInfo.GetXY();
             Vector2 oldCubePos = m_CubeInfo.GetXY();
-           // if (oldCubePos.x != -1) DolphinLevelManager.Instance.SetOccupation((int)oldCubePos.x, (int)oldCubePos.y, Box.Empty); //que solo se borre si tiene posición en el mapa (caso particular flotadores compoartiendo casilla con delfines por un instante)
+
+            // Solo se borra si tiene posición en el mapa (caso particular: compartir momentáneamente casilla con delfines)
+            if (oldCubePos.x != -1) DolphinLevelManager.Instance.SetOccupation((int)oldCubePos.x, (int)oldCubePos.y, Box.Empty); 
             m_CubeInfo.SetXY((int)newCubePos.x, (int)newCubePos.y);
-            //if (DolphinLevelManager.Instance.GetOccupationFromMatrix((int)newCubePos.x, (int)newCubePos.y)== Box.Empty) // sin esto puede quitarle la pos al delfin lol
-            //{
-            //    DolphinLevelManager.Instance.SetOccupation((int)newCubePos.x, (int)newCubePos.y, type);
-            //}
+
+            // Objeto ocupa nueva casilla en matriz
+            if (DolphinLevelManager.Instance.GetOccupationFromMatrix((int)newCubePos.x, (int)newCubePos.y) == Box.Empty) // Para que no quite la posición al delfín sin querer
+            {
+                DolphinLevelManager.Instance.SetOccupation((int)newCubePos.x, (int)newCubePos.y, type);
+            }
         }
     }
 

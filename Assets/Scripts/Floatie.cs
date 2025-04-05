@@ -4,12 +4,10 @@ using UnityEngine;
 
 public class Floatie : MovingObject
 {
-    List<int> collidedWith;  // Lista de identificadores con los que ya ha colisionado 
+    List<int> collidedWith;  // Lista de identificadores de los delfines con los que ya ha colisionado 
     [SerializeField]
-    BoxCollider jumpCollider;
-    Vector3 initialJumpColliderSize;
+    BoxCollider jumpCollider; // Collider para triggear salto automático y que el delfín enceste en este flotador
     Vector3 initialJumpColliderPos;
-
 
     private void Start()
     {
@@ -20,12 +18,15 @@ public class Floatie : MovingObject
     }
     private void Awake()
     {
-        //jumpCollider = GetComponentInChildren<BoxCollider>();
         initialJumpColliderPos = jumpCollider.transform.position;
-        initialJumpColliderSize = jumpCollider.size;
     }
 
-    public bool TryScore(int id) // Solo sumará o se podrá colocar si aun no ha pasado por el flotador
+    /// <summary>
+    /// Solo sumará puntos o se podrá colocar si el delfín aun no ha pasado por este flotador
+    /// </summary>
+    /// <param name="id">Identificador (índice) del delfín</param>
+    /// <returns>True on success</returns>
+    public bool TryScore(int id)
     {
         if (collidedWith.Contains(id)) return false;
         else
@@ -39,14 +40,12 @@ public class Floatie : MovingObject
     {
         base.SetVel(obsVel);
 
-        Vector3 newSize = new Vector3(0, 0, 0); 
+        //Cálculo de la distancia del trigger de salto para el salto automático del delfín a este flotador
         Vector3 newPos = new Vector3(0, 0, 0);
 
-        newPos = initialJumpColliderPos; newSize = initialJumpColliderSize;
-        newPos.x -= 2.35f * 4.5f;
-        newSize = initialJumpColliderSize;
+        newPos = initialJumpColliderPos; 
+        newPos.x -= 2.35f * 4.5f; // Cálculo aproximado (la animación aumenta xon la velocidad con los objetos)
 
-        jumpCollider.size = newSize;
         jumpCollider.transform.position= newPos;
     }
 }

@@ -24,12 +24,12 @@ public class DolphinUIManager : MonoBehaviour
 
     public void startLevelStats(int level, int points)
     {
-        _pointsText.SetText("Points: " + level.ToString());
-        _levelText.SetText("Level: "+ points.ToString());
+        _pointsText.SetText("Puntos: " + level.ToString());
+        _levelText.SetText("Nivel: "+ points.ToString());
     }
     public void updatePoints(int points)
     {
-        _pointsText.SetText("Points: " + points.ToString());
+        _pointsText.SetText("Puntos: " + points.ToString());
     }
 
     public void updateLevel(int level)
@@ -41,8 +41,9 @@ public class DolphinUIManager : MonoBehaviour
     {
         _pointsText.enabled = false;
         _levelText.enabled = false;
-
         _options.SetActive(false);
+
+        // Activamos opciones de fin de nivel
         _endLevel.SetActive(true);
     }
 

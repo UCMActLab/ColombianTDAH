@@ -207,6 +207,7 @@ public class Drop : MonoBehaviour
                 _myTransform.position -= posCol;
             }
         }
+        _isBeingRepositioned = false;
     }
 
     public void ObjectClick(float dropHigh)
