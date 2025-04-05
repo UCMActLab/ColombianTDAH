@@ -91,13 +91,13 @@ public class RandomObjectSpawner : MonoBehaviour
     {
         int randomCarril = UnityEngine.Random.Range(0, _carrilCenetrs.Length);
 
-        if (_carrilCenetrs[randomCarril].active)
+        if (_carrilCenetrs[randomCarril].active && _objects.Count>0)
         {
-            Vector3 randomSpawnPosition = new Vector3(_posX, 0.0f, _carrilCenetrs[randomCarril].CenterPosZ);
+            Vector3 randomSpawnPosition = new Vector3(_posX, 0.4f, _carrilCenetrs[randomCarril].CenterPosZ);
 
             int randomIdPos = UnityEngine.Random.Range(0, _objects.Count);
             GameObject instantiated = Instantiate(_objects[randomIdPos], randomSpawnPosition, Quaternion.identity);
-            instantiated.transform.Rotate(90, 0, 0);
+            instantiated.transform.Rotate(-90, 0, 0);
             instantiated.GetComponent<MovingObject>().SetVel(_obsVel);
             _spawnedObjects.Add(instantiated);
             if (instantiated.GetComponent<Obstaculo>())

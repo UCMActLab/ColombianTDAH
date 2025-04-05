@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   configName: default01
   _nCarriles: 3
-  _nDelfines: 7
+  _nDelfines: 5
   _posDelfines:
   - {x: 2, y: 2}
   - {x: 1, y: 0}
@@ -23,9 +23,9 @@ MonoBehaviour:
   - {x: -1, y: -1}
   - {x: -1, y: -1}
   - {x: -1, y: -1}
-  _obstaclesEnabled: 0
-  _minObstacleSpawn: 3
-  _maxObstacleSpawn: 4
+  _obstaclesEnabled: 1
+  _minObstacleSpawn: 4
+  _maxObstacleSpawn: 5
   _obstacleSpeed: 4.5
   _increasedSpeedFactor: 2
   _whaleApearingGuests: 3
