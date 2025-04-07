@@ -5,39 +5,46 @@ using UnityEngine.Splines;
 
 public class DolphinManager : MonoBehaviour
 {
-    //lista de delfines, pos
+    // Delfines
     [SerializeField]
     protected GameObject dolphinPrefab;
     [SerializeField]
     protected GameObject defaultSpawnPos;
     [SerializeField]
-    protected List<GameObject> dolphins; //Deberia ser una lista de controllers? (probablemente)
-    protected List<GameObject> dolphinsToCheck;
-    protected List<GameObject> dolphinsToFloatCheck;
+    protected List<GameObject> dolphins; // Lista de todos los delfines (buceando y en superfície)
+    protected List<GameObject> dolphinsToCheck; // Lista auxiliar para realizar orden de salto
+    protected List<GameObject> surfaceDolphinsList; // Delfines en la superfície
+    protected List<GameObject> divingDolphinsList; // Delfines buceando
 
-    //times
+    // Saltos 
     protected float minJumpTime;
     protected float maxJumpTime;
     protected float nextJumpingTime;
     protected float currTime;
     protected int minSpecialJumpCount;
     protected int maxSpecialJumpCount;
+
+    // Flotar
     protected float floatTime; //tiempo de floating back 
     protected float currFloatTime;
 
+    // Piruetas
     [SerializeField]
     protected bool piruetasSimult; //Varios delfines realizan un salto especial simultáneamente
     int nextPirueta;
     int jumpCont;
 
-    //methods
+    /// <summary>
+    /// Intenta manda saltar a un delfin random entre los disponibles en el frame
+    /// </summary>
+    /// <returns>True si el deflín seleccionado ha saltado</returns>
     private bool Jump()
     {
-        int jumpingDolphin = Random.Range(0, dolphinsToCheck.Count); //idea de siguiente delfin disp: copiar lista y quitar no disponible para sig random 
+        int jumpingDolphin = Random.Range(0, dolphinsToCheck.Count); 
         DolphinController dolphinCont = dolphinsToCheck[jumpingDolphin].GetComponent<DolphinController>();
         bool success = false;
 
-        if (jumpCont == nextPirueta)
+        if (jumpCont == nextPirueta) // Si toca salto especial 
         {
             success = dolphinCont.SpecialJump();
             if (success)
@@ -46,48 +53,45 @@ public class DolphinManager : MonoBehaviour
                 GenerateNextSpecialJumpCont();
             }
         }
-        else
+        else // Salto normal 
         {
             success = dolphinCont.Jump();
         }
 
         if (!success)
         {
-            dolphinsToCheck.Remove(dolphinsToCheck[jumpingDolphin]);
+            dolphinsToCheck.Remove(dolphinsToCheck[jumpingDolphin]); // Si el delfín seleccionado no consigue saltar se retira de la lista auxiliar de delfines a contemplar
             return false;
         }
 
         jumpCont++;
 
-        //if(jumpCont == dolphins.Count - 1)
-        //{
-        //    jumpCont = 0;
-        //    GenerateNextSpecialJumpCont(); //esto valdría junto con una lista de delfines por saltar para que saltaran en orden y solo una vez por ronda
-        // //deshabilitar jumpCont= 0 de jumpCOnt == nextpirueta si se quiere usar 
-        //}
-
         return true;
     }
 
+    /// <summary>
+    /// Intenta mandar un delfín a la superfície de entre los disponibles en el frame
+    /// </summary>
+    /// <returns>True ha flotado un delfín</returns>
     private bool Float()
     {
-        int toFloatDolphin = Random.Range(0, dolphinsToFloatCheck.Count);
-        DolphinController dolphinCont = dolphinsToFloatCheck[toFloatDolphin].GetComponent<DolphinController>();
-        bool success = false;
-
-        success = dolphinCont.Float();
-
-        if (!success)
+        if (divingDolphinsList.Count > 0)
         {
-            dolphinsToFloatCheck.Remove(dolphinsToFloatCheck[toFloatDolphin]);
-            return false;
-        }
+            int toFloatDolphin = Random.Range(0, divingDolphinsList.Count);
+            DolphinController dolphinCont = divingDolphinsList[toFloatDolphin].GetComponent<DolphinController>();
+            bool success = false;
 
-        return true;
+            success = dolphinCont.Float();
+
+            surfaceDolphinsList.Add(divingDolphinsList[toFloatDolphin]); // Añadimos a lista de delfines en la superfície
+            divingDolphinsList.Remove(divingDolphinsList[toFloatDolphin]);
+            return true;
+        }
+        else return false;
     }
 
 
-    //que llama el delfín para avisar de cosas y saber los puntos correspondientes
+    // Métodos intermedios que llama el delfín para avisar de cosas y saber los puntos correspondientes (al convertirse en un singleton level manager inncesarios)
     public int RightGuess()
     {
         int plusPoints = DolphinLevelManager.Instance.RightGuess();
@@ -110,6 +114,10 @@ public class DolphinManager : MonoBehaviour
         int floatPoints = DolphinLevelManager.Instance.FloatHit();
         return floatPoints;
     }
+
+    /// <summary>
+    /// Método de inicialización de delfines en el río
+    /// </summary>
     public void Init(int numberDolphins, int divingDolphins, List<Vector3> dolphinPositions, List<Vector2> dolphinXYPositions, float minJumpingTime, float maxJumpingTime, float floatingTime, bool simultSpecialJump, int minSpecialJC, int maxSpecialJC)
     {
         //Creamos en la matriz e instanciamos en la posición correspondiente los delfines colocados
@@ -117,10 +125,11 @@ public class DolphinManager : MonoBehaviour
         {
             GameObject dolphin = GameObject.Instantiate(dolphinPrefab, dolphinPositions[i], Quaternion.identity);
             dolphins.Add(dolphin);
+            surfaceDolphinsList.Add(dolphin);
             dolphin.GetComponent<Drag>().SetIndex(i);
             dolphin.GetComponent<DolphinController>().SetIndex(i);
             dolphins[i].GetComponent<DolphinController>().RegisterDolphinManager(this);
-            dolphin.GetComponent<MatrixCubeInfo>().SetXY((int)dolphinXYPositions[i].y, (int)dolphinXYPositions[i].x);
+            dolphin.GetComponent<MatrixCubeInfo>().SetXY((int)dolphinXYPositions[i].y, (int)dolphinXYPositions[i].x); 
 
         }
         //Los delfines buceadores los mandamos a nadar
@@ -140,17 +149,39 @@ public class DolphinManager : MonoBehaviour
         piruetasSimult = simultSpecialJump;
         minSpecialJumpCount = minSpecialJC;
         maxSpecialJumpCount = maxSpecialJC;
-        GenerateNextJumpingTime();
+
+        GenerateNextJumpingTime(); // Primer salto
     }
 
+    /// <summary>
+    /// Genera el próximo tiempo de salto (normal/especial)
+    /// </summary>
     private void GenerateNextJumpingTime()
     {
         nextJumpingTime = Random.Range(minJumpTime, maxJumpTime);
 
     }
+
+    /// <summary>
+    /// Genera el próximo número de salto en que se realizará una pirueta especial
+    /// </summary>
     private void GenerateNextSpecialJumpCont()
     {
         nextPirueta = Random.Range(minSpecialJumpCount, maxSpecialJumpCount);
+    }
+
+    /// <summary>
+    /// Añadir delfín a grupo de delfines sumergidos
+    /// </summary>
+    public void AddDivingDolphin(GameObject dolphin)
+    {
+        divingDolphinsList.Add(dolphin);
+        surfaceDolphinsList.Remove(dolphin);
+    }
+    private void Awake()
+    {
+        divingDolphinsList = new List<GameObject>();
+        surfaceDolphinsList = new List<GameObject>();
     }
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -164,14 +195,13 @@ public class DolphinManager : MonoBehaviour
         currFloatTime = 0;
         jumpCont = 0;
 
-        //Si hay piruetas simultáneas
+        // Si hay piruetas simultáneas
         if (piruetasSimult) minSpecialJumpCount = 0;
         else if (!piruetasSimult && minSpecialJumpCount < 2) { minSpecialJumpCount = 2; }
 
-        //Generamos el primer salto y cuándo será pirueta especial
+        // Generamos el primer salto y cuándo será pirueta especial
         GenerateNextJumpingTime();
         GenerateNextSpecialJumpCont();
-
     }
 
     // Update is called once per frame
@@ -182,16 +212,15 @@ public class DolphinManager : MonoBehaviour
         {
             currTime = 0;
             GenerateNextJumpingTime();
-            dolphinsToCheck = new List<GameObject>(dolphins);
-            while (dolphinsToCheck.Count != 0 && !Jump()) ;
+            dolphinsToCheck = new List<GameObject>(surfaceDolphinsList);
+            while (dolphinsToCheck.Count != 0 && !Jump()); // Intentamos que salte alguno de los delfines disponibles
         }
 
         currFloatTime += Time.deltaTime;
         if (currFloatTime >= floatTime)
         {
             currFloatTime = 0;
-            dolphinsToFloatCheck = new List<GameObject>(dolphins);
-            while (dolphinsToFloatCheck.Count != 0 && !Float()) ;
+            Float();
         }
     }
 

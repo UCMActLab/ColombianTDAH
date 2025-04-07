@@ -61,7 +61,7 @@ public class configData : ScriptableObject
 
 
     [Header("Jumping Details")]
-    [SerializeField, Tooltip("Time between jumps")] //pasar a rango de tiempos 
+    [SerializeField, Tooltip("Time between jumps")] 
     private float _minTimeBetweenJumps;
     public float MinTimeBetweenJumps { get => _minTimeBetweenJumps; set => _minTimeBetweenJumps = value; }
 
@@ -72,7 +72,7 @@ public class configData : ScriptableObject
     [SerializeField, Tooltip("Can dolphins special jump at the same time?")]
     public bool canSpecialJumpSimultaneously;
 
-    [SerializeField, Tooltip("Count between special jumps")] //pasar a rango de tiempos 
+    [SerializeField, Tooltip("Count between special jumps")] 
     private float _minCountBetweenSpecialJumps;
     public float MinCountBetweenSpecialJumps { get => _minCountBetweenSpecialJumps; set => _minCountBetweenSpecialJumps = value; }
 

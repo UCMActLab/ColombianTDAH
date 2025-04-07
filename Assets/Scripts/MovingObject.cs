@@ -55,14 +55,14 @@ public class MovingObject : MonoBehaviour
             Vector2 oldCubePos = m_CubeInfo.GetXY();
 
             // Solo se borra si tiene posición en el mapa (caso particular: compartir momentáneamente casilla con delfines)
-            if (oldCubePos.x != -1) DolphinLevelManager.Instance.SetOccupation((int)oldCubePos.x, (int)oldCubePos.y, Box.Empty); 
+            //if (oldCubePos.x != -1) DolphinLevelManager.Instance.SetOccupation((int)oldCubePos.x, (int)oldCubePos.y, Box.Empty); 
             m_CubeInfo.SetXY((int)newCubePos.x, (int)newCubePos.y);
 
             // Objeto ocupa nueva casilla en matriz
-            if (DolphinLevelManager.Instance.GetOccupationFromMatrix((int)newCubePos.x, (int)newCubePos.y) == Box.Empty) // Para que no quite la posición al delfín sin querer
-            {
-                DolphinLevelManager.Instance.SetOccupation((int)newCubePos.x, (int)newCubePos.y, type);
-            }
+            //if (DolphinLevelManager.Instance.GetOccupationFromMatrix((int)newCubePos.x, (int)newCubePos.y) == Box.Empty) // Para que no quite la posición al delfín sin querer
+            //{
+            //    DolphinLevelManager.Instance.SetOccupation((int)newCubePos.x, (int)newCubePos.y, type);
+            //}
         }
     }
 

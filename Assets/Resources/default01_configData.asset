@@ -23,10 +23,10 @@ MonoBehaviour:
   - {x: -1, y: -1}
   - {x: -1, y: -1}
   - {x: -1, y: -1}
-  _obstaclesEnabled: 0
+  _obstaclesEnabled: 1
   _minObstacleSpawn: 4
   _maxObstacleSpawn: 5
-  _obstacleSpeed: 25
+  _obstacleSpeed: 4.5
   _increasedSpeedFactor: 2
   _whaleApearingGuests: 3
   _floatsEnabled: 1

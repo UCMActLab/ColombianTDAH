@@ -272,6 +272,7 @@ public class DolphinController : MonoBehaviour
         isAboutToDive = true;
         buceoComponent.enabled = true;
         currentState = DolphinStates.DIVING;
+        dolphinMngr.AddDivingDolphin(gameObject);
         buceoComponent.SetPath(float3.zero);
         EventRegister.Instance.AddToEvnt(Tuple.Create(EventRegister.EventosInfo.DSaleSuperficie, _index.ToString("00")));
         EventRegister.Instance.EvntToJson();

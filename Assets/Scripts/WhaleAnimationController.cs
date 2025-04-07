@@ -13,5 +13,4 @@ public class WhaleAnimationController : MonoBehaviour
             DolphinLevelManager.Instance.SetAllObstacleSpawning(true);
         }
     }
-
 }
