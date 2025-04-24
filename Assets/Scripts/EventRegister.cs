@@ -15,7 +15,9 @@ public class EventRegister : MonoBehaviour
     int whitePixelsFramesDuation = 10;
     int frameCont = 0;
     bool whitePixelsActive;
-    GameObject whitePixels;
+
+    [SerializeField]
+    private GameObject whitePixels = null;
 
     public enum EventosInfo
     {                       //implementado en...
@@ -54,18 +56,10 @@ public class EventRegister : MonoBehaviour
 
         //----------------------------------------------------------------
 
-        // Pinta cuadrado blanco en la esquina
-        Vector3 whitePlanePos = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width - 1, 0, 1));
-
-        // Creacion plano para pixeles blancos de eventos
-        whitePixels = GameObject.CreatePrimitive(PrimitiveType.Plane);
-        whitePixels.GetComponent<Renderer>().material.color = Color.white;
-
-        Transform cubeTransform = whitePixels.transform;
-        cubeTransform.localScale = new Vector3(0.001f, 0.001f, 0.001f); // escala
-        cubeTransform.position = whitePlanePos; // position
-        cubeTransform.rotation = Camera.main.transform.rotation; // rotacion
-        cubeTransform.Rotate(-90, 0, 0);
+        if(whitePixels == null)
+        {
+            whitePixels = GameObject.Find("WhitePixels_EventRegister");
+        }
 
         whitePixels.SetActive(false);
         whitePixelsActive = false;
