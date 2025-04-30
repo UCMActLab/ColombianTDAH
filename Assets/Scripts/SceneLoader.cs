@@ -19,6 +19,9 @@ public class SceneLoader : MonoBehaviour
             Destroy(this.gameObject);
         }
 
+        // Initilize USB plugin
+        MoneLibrary.InitializePlugin("com.beepro.monelib.PluginInstance");
+
         levelId = 01;
         teacherMode = false;
         DontDestroyOnLoad(this.gameObject);

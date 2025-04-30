@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using System;
 using System.Collections.Generic;
 
@@ -123,6 +123,8 @@ public class EventRegister : MonoBehaviour
     public void AddToEvnt(Tuple<EventRegister.EventosInfo, string> evntData)
     {
         auxEvntInfo.Add(evntData);
+        //Para enviar datos por usb, aqu� habra que manejar los tipos de mensajes. He puesto este parse chungo
+        //MoneLibrary.SendUsbData((sbyte)evntData.Item1);
     }
 
     public void EvntToJson()
