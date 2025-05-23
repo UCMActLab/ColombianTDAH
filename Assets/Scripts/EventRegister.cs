@@ -124,7 +124,7 @@ public class EventRegister : MonoBehaviour
     {
         auxEvntInfo.Add(evntData);
         //Para enviar datos por usb, aqu� habra que manejar los tipos de mensajes. He puesto este parse chungo
-        //MoneLibrary.SendUsbData((sbyte)evntData.Item1);
+        MoneLibrary.SendUsbData((sbyte)evntData.Item1);
     }
 
     public void EvntToJson()
