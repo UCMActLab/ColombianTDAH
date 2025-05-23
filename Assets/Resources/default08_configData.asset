@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a355f670193f2e247a0395a1c0be0ea9, type: 3}
   m_Name: default01_configData
   m_EditorClassIdentifier: 
-  configName: default01
-  _nCarriles: 3
-  _nDelfines: 5
+  configName: default08
+  _nCarriles: 6
+  _nDelfines: 8
   _posDelfines:
   - {x: 2, y: 2}
   - {x: 1, y: 0}
@@ -24,28 +24,26 @@ MonoBehaviour:
   - {x: -1, y: -1}
   - {x: -1, y: -1}
   _obstaclesTroncoEnabled: 0
-  _obstaclesBarcaEnabled: 0
-  _floatsEnabled: 0
+  _obstaclesBarcaEnabled: 1
+  _floatsEnabled: 1
   _ballsEnabled: 0
-  _minObstacleSpawn: 0
-  _maxObstacleSpawn: 0
-  _obstacleSpeed: 0
+  _minObstacleSpawn: 3
+  _maxObstacleSpawn: 5
+  _obstacleSpeed: 2.5
   _increasedSpeedFactor: 2
   _whaleApearingGuests: 2
-  _minTimeBetweenJumps: 2
-  _maxTimeBetweenJumps: 4
-  canSpecialJumpSimultaneously: 0
-  _minCountBetweenSpecialJumps: 2
-  _maxCountBetweenSpecialJumps: 4
-  _diffSpeciesEnabled: 0
-  _levelPoints: 1000
-  _rightGuessPoints: 100
-  _rightGuessPointsVel: 120
-  _floatiePoints: 0
-  _floatiePointsVel: 0
+  _minTimeBetweenJumps: 1
+  _maxTimeBetweenJumps: 3
+  canSpecialJumpSimultaneously: 1
+  _minCountBetweenSpecialJumps: 1
+  _maxCountBetweenSpecialJumps: 3
+  _levelPoints: 5800
+  _rightGuessPoints: 120
+  _rightGuessPointsVel: 150
+  _floatiePoints: 35
+  _floatiePointsVel: 45
   _ballPoints: 0
   _ballPointsVel: 0
   _wrongGuessPoints: -10
-  _hitObstacleTroncoPoints: 0
-  _hitObstacleBarcaPoints: 0
+  _hitObstacleBarcaPoints: -25
   _desbloqueado: 1

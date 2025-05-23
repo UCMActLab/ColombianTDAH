@@ -190,7 +190,10 @@ public class DolphinLevelManager : MonoBehaviour
         randomObjectSpawner.EnableFloats(_floatieSpawning);
 
         // Velocidad del fondo
-        _backgroundMovementComp.SetVelocity(_obstacleSpeed / 50);  
+        if (_obstacleSpeed > 0)
+            _backgroundMovementComp.SetVelocity(_obstacleSpeed / 50);
+        else
+            _backgroundMovementComp.SetVelocity(0.2f);
         _dolphinManager.DeactivateIncreasedSpeed(8);
         _dolphinManager.ActivateIncreasedSpeed(_obstacleSpeed);
 
@@ -540,7 +543,7 @@ public class DolphinLevelManager : MonoBehaviour
         posDolphins = levelData.PosDelfines;
 
         _floatieSpawning = levelData.FloatsEnabled;
-        _obstacleSpawning = levelData.ObstaclesEnabled;
+        _obstacleSpawning = levelData.ObstaclesTroncoEnabled; //Ampliar para incluir barcas tmbn
 
         minSpawnTime = levelData.MinObstacleSpawn;
         maxSpawnTime = levelData.MaxObstacleSpawn;
@@ -558,7 +561,7 @@ public class DolphinLevelManager : MonoBehaviour
         _floatiePoints = (int)levelData.FloatiePoints;
         _floatieIncreasedVelPoints = (int)levelData.FloatiePointsVel;
         _wrongSpecialJumpPoints = (int)levelData.WrongGuessPoints;
-        _hitObstaclePoints = (int)levelData.HitObstaclePoints;
+        _hitObstaclePoints = (int)levelData.HitObstacleTroncoPoints; //Ampliar para incluir barcas tmbn
 
         _whaleSpawnNum = levelData.WhaleApearingGuests;
         _increaseVelFactor = levelData.IncreasedSpeedFactor;

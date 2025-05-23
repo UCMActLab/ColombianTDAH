@@ -3,6 +3,7 @@ using UnityEngine.UIElements;
 using System.Collections.Generic;
 using UnityEngine.Windows;
 using System.Linq;
+using UnityEngine.SceneManagement;
 
 
 public class configUi : MonoBehaviour
@@ -16,86 +17,65 @@ public class configUi : MonoBehaviour
 
     VisualElement fase1;
     VisualElement fase2;
-    VisualElement fase3;
+    VisualElement fase3C;
 
+    //Fase1y2
     IntegerField input_carrilesN;
     IntegerField input_delfinesN;
     Button input_fase1Complet;
-    IntegerField input_obstacleMin;
-    IntegerField input_obstacleMax;
-    Toggle input_piruetasSimult;
-    IntegerField input_jumpMin;
-    IntegerField input_jumpMax;
-    IntegerField input_piruetMin;
-    IntegerField input_piruetMax;
-    FloatField input_obstacleVel;
-    IntegerField input_pointMax;
-    IntegerField input_pointPirueta;
-    IntegerField input_pointWrongGuess;
-    IntegerField input_pointChoque;
-    Toggle input_floatiesEnabled;
-    Toggle input_obstaclesEnabled;
-    Button input_guardar;
     VisualElement input_toggleGroup;
     Label text_delfinesRestantes;
+
+    //Fase3
+    //A
+    Toggle input_obstaclesTroncoEnabled;
+    Toggle input_obstaclesBarcaEnabled;
+    Toggle input_floatiesEnabled;
+    Toggle input_ballsEnabled;
+    IntegerField input_obstacleT;
+    IntegerField input_jumpT;
+    Toggle input_piruetasSimult;
+    IntegerField input_piruetMin;
     IntegerField input_whaleRightGuess;
+    Toggle input_diffSpecies;
+
+    //B
+    FloatField input_obstacleVel;
     FloatField input_increasedVelFactor;
+
+    //C
+    IntegerField input_pointPirueta;
     IntegerField input_pointsPiruetaVelocidad;
     IntegerField input_pointsFloatie;
     IntegerField input_pointsFloatieVelocidad;
+    IntegerField input_pointsBall;
+    IntegerField input_pointsBallVelocidad;
+    IntegerField input_pointMax;
+    IntegerField input_pointWrongGuess;
+    IntegerField input_pointChoqueTronco;
+    IntegerField input_pointChoqueBarca;
+
+    Toggle input_desbloqueado;
+    Button input_guardarYjugar;
+    Button input_guardarYvolver;
+
     int delfinesColocados = 0;
     bool hayErrores = true;
     bool mensajeError = false;
 
-
     [SerializeField]
     configData config = null;
+    int levelId = 1;
     string levelInfoPath = "";
 
     private void OnEnable()
     {
-        VisualElement root = GetComponent<UIDocument>().rootVisualElement;
-
-        fase1 = root.Q("Fase1");
-        fase2 = root.Q("Fase2");
-        fase3 = root.Q("Fase3");
-
-        input_carrilesN = root.Q<IntegerField>("carrilesN");
-        input_delfinesN = root.Q<IntegerField>("delfinesN");
-        input_fase1Complet = root.Q<Button>("fase1Complet");
-        input_obstacleMin = root.Q<IntegerField>("obstacleMin");
-        input_obstacleMax = root.Q<IntegerField>("obstacleMax");
-        input_piruetasSimult = root.Q<Toggle>("piruetasSimult");
-        input_jumpMin = root.Q<IntegerField>("jumpMin");
-        input_jumpMax = root.Q<IntegerField>("jumpMax");
-        input_piruetMin = root.Q<IntegerField>("piruetMin");
-        input_piruetMax = root.Q<IntegerField>("piruetMax");
-        input_obstacleVel = root.Q<FloatField>("obstacleVel");
-        input_pointMax = root.Q<IntegerField>("pointMax");
-        input_pointPirueta = root.Q<IntegerField>("pointPirueta");
-        input_pointWrongGuess = root.Q<IntegerField>("pointWrongGuess");
-        input_pointChoque = root.Q<IntegerField>("pointChoque");
-        input_guardar = root.Q<Button>("guardar");
-        input_toggleGroup = root.Q<VisualElement>("toggleGroup");
-        text_delfinesRestantes = root.Q<Label>("delfinesRestantes");
-        input_floatiesEnabled = root.Q<Toggle>("floatEnabled");
-        input_obstaclesEnabled = root.Q<Toggle>("obsEnabled");
-
-        input_whaleRightGuess = root.Q<IntegerField>("whaleRightGuess");
-        input_increasedVelFactor = root.Q<FloatField>("velFactor");
-        input_pointsPiruetaVelocidad = root.Q<IntegerField>("pointPiruetaVelocidad");
-        input_pointsFloatie = root.Q<IntegerField>("pointFlotador");
-        input_pointsFloatieVelocidad = root.Q<IntegerField>("pointFlotadorVelocidad");
-
-        //Debug.Log(input_whaleRightGuess.value + " " + input_increasedVelFactor + " " + input_pointsPiruetaVelocidad + " " + input_pointsFloatie + " " + input_pointsFloatieVelocidad);
-        input_guardar.RegisterCallback<ClickEvent>(GuardarTodo);
-        input_fase1Complet.RegisterCallback<ClickEvent>(Fase1Complet);
-        input_toggleGroup.RegisterCallback<ClickEvent>(DelfinColocado);
+        RegisterElems();
 
         // Busca si tiene que cargar la configuración
         SceneLoader sceneLoader = GameObject.Find("SceneLoader").GetComponent<SceneLoader>();
         bool editMode = sceneLoader.getMode();
-        int levelId = sceneLoader.getLevelId();
+        levelId = sceneLoader.getLevelId();
         string writeDir = System.IO.Path.Combine(Application.persistentDataPath, "configInfo");
         if (!System.IO.Directory.Exists(writeDir))
         {
@@ -115,7 +95,82 @@ public class configUi : MonoBehaviour
         }
     }
 
-    void GuardarTodo(ClickEvent e)
+    private void RegisterElems()
+    {
+        VisualElement root = GetComponent<UIDocument>().rootVisualElement;
+
+        fase1 = root.Q("Fase1");
+        fase2 = root.Q("Fase2");
+        fase3C = root.Q("C");
+
+        input_carrilesN = root.Q<IntegerField>("carrilesN");
+        input_delfinesN = root.Q<IntegerField>("delfinesN");
+        input_fase1Complet = root.Q<Button>("fase1Complet");
+
+        input_obstaclesTroncoEnabled = root.Q<Toggle>("obsTroncoEnabled");
+        input_obstaclesBarcaEnabled = root.Q<Toggle>("obsBarcasEnabled");
+        input_floatiesEnabled = root.Q<Toggle>("floatEnabled");
+        input_ballsEnabled = root.Q<Toggle>("ballsEnabled");
+        input_obstacleT = root.Q<IntegerField>("obstacleT");
+        input_jumpT = root.Q<IntegerField>("jumpT");
+        input_piruetasSimult = root.Q<Toggle>("piruetasSimult");
+        input_piruetMin = root.Q<IntegerField>("piruetMin");
+        input_whaleRightGuess = root.Q<IntegerField>("whaleRightGuess");
+        input_diffSpecies = root.Q<Toggle>("diffSpecies");
+
+        input_obstacleVel = root.Q<FloatField>("obstacleVel");
+        input_increasedVelFactor = root.Q<FloatField>("velFactor");
+
+        input_pointPirueta = root.Q<IntegerField>("pointPirueta");
+        input_pointsPiruetaVelocidad = root.Q<IntegerField>("pointPiruetaVelocidad");
+        input_pointsFloatie = root.Q<IntegerField>("pointFlotador");
+        input_pointsFloatieVelocidad = root.Q<IntegerField>("pointFlotadorVelocidad");
+        input_pointsBall = root.Q<IntegerField>("pointPelota");
+        input_pointsBallVelocidad = root.Q<IntegerField>("pointPelotaVelocidad");
+        input_pointMax = root.Q<IntegerField>("pointMax");
+        input_pointWrongGuess = root.Q<IntegerField>("pointWrongGuess");
+        input_pointChoqueTronco = root.Q<IntegerField>("pointChoqueTronco");
+        input_pointChoqueBarca = root.Q<IntegerField>("pointChoqueBarca");
+
+        input_desbloqueado = root.Q<Toggle>("desbloqueado");
+        input_guardarYjugar = root.Q<Button>("guardarYjugar");
+        input_guardarYvolver = root.Q<Button>("guardarYvolver");
+
+        input_toggleGroup = root.Q<VisualElement>("toggleGroup");
+        text_delfinesRestantes = root.Q<Label>("delfinesRestantes");
+
+        //Debug.Log(input_whaleRightGuess.value + " " + input_increasedVelFactor + " " + input_pointsPiruetaVelocidad + " " + input_pointsFloatie + " " + input_pointsFloatieVelocidad);
+        input_guardarYjugar.RegisterCallback<ClickEvent>(GuardarTodoyJugar);
+        input_guardarYvolver.RegisterCallback<ClickEvent>(GuardarTodoyVolver);
+        input_fase1Complet.RegisterCallback<ClickEvent>(Fase1Complet);
+        input_toggleGroup.RegisterCallback<ClickEvent>(DelfinColocado);
+
+    }
+
+    void GuardarTodoyJugar(ClickEvent e)
+    {
+        if (Guardar())
+        {
+            if (config.Desbloqueado)
+            {
+                ActivateGame(true);
+            }
+            else
+            {
+                Debug.Log("El nivel no está desbloqueado");
+            }
+        }        
+    }
+
+    void GuardarTodoyVolver(ClickEvent e)
+    {
+        if (Guardar())
+        {
+            SceneManager.LoadScene("DolphinLevelSelector");
+        }
+    }
+
+    private bool Guardar()
     {
         if (hayErrores)
         {
@@ -125,8 +180,9 @@ public class configUi : MonoBehaviour
                 VisualTreeAsset uiAsset = Resources.Load<VisualTreeAsset>("UI/errores");
                 VisualElement ui = uiAsset.Instantiate();
                 ui.style.color = new Color(1, 0, 0, 1);
-                fase3.Add(ui);
+                fase3C.Add(ui);
             }
+            return false;
         }
         else
         {
@@ -164,21 +220,30 @@ public class configUi : MonoBehaviour
             config.PosDelfines = posDelfines;
 
             //OBS
-            config.MinObstacleSpawn = input_obstacleMin.value;
-            config.MaxObstacleSpawn = input_obstacleMax.value;
+            config.ObstaclesTroncoEnabled = input_obstaclesTroncoEnabled.value;
+            config.ObstaclesBarcaEnabled = input_obstaclesBarcaEnabled.value;
+            //FLOATS AND BALLS
+            config.FloatsEnabled = input_floatiesEnabled.value;
+            config.BallsEnabled = input_ballsEnabled.value;
+
+            config.MinObstacleSpawn = input_obstacleT.value -1;
+            if (config.MinObstacleSpawn < 1) config.MinObstacleSpawn = 1;
+            config.MaxObstacleSpawn = input_obstacleT.value + 1;
             config.ObstacleSpeed = input_obstacleVel.value;
-            config.ObstaclesEnabled = input_obstaclesEnabled.value;
             config.IncreasedSpeedFactor = input_increasedVelFactor.value;
 
-            //FLOATS
-            config.FloatsEnabled = input_floatiesEnabled.value;
+            // Whale and diff species pirueting
+            config.WhaleApearingGuests = input_whaleRightGuess.value;
+            config.DiffSpeciesEnabled = input_diffSpecies.value;
 
             //JUMP
             config.canSpecialJumpSimultaneously = input_piruetasSimult.value;
-            config.MinTimeBetweenJumps = input_jumpMin.value;
-            config.MaxTimeBetweenJumps = input_jumpMax.value;
-            config.MinCountBetweenSpecialJumps = input_piruetMin.value;
-            config.MaxCountBetweenSpecialJumps = input_piruetMax.value;
+            config.MinTimeBetweenJumps = input_jumpT.value - 1;
+            if (config.MinTimeBetweenJumps < 1) config.MinTimeBetweenJumps = 1;
+            config.MaxTimeBetweenJumps = input_jumpT.value + 1;
+            config.MinCountBetweenSpecialJumps = input_piruetMin.value - 1;
+            if (config.MinCountBetweenSpecialJumps < 1) config.MinCountBetweenSpecialJumps = 1;
+            config.MaxCountBetweenSpecialJumps = input_piruetMin.value + 1;
 
             //POINTS
             config.LevelPoints = input_pointMax.value;
@@ -186,15 +251,18 @@ public class configUi : MonoBehaviour
             config.RightGuessPointsVel = input_pointsPiruetaVelocidad.value;
             config.FloatiePoints = input_pointsFloatie.value;
             config.FloatiePointsVel = input_pointsFloatieVelocidad.value;
+            config.BallPoints = input_pointsBall.value;
+            config.BallPointsVel = input_pointsBallVelocidad.value;
             config.WrongGuessPoints = input_pointWrongGuess.value;
-            config.HitObstaclePoints = input_pointChoque.value;
+            config.HitObstacleTroncoPoints = input_pointChoqueTronco.value;
+            config.HitObstacleBarcaPoints = input_pointChoqueBarca.value;
 
-            // Whale
-            config.WhaleApearingGuests = input_whaleRightGuess.value;
+            config.Desbloqueado = input_desbloqueado.value;
 
             //Guarda la configuración en el json correspondiente
             SaveLevelConfig(config);
-            ActivateGame(true);
+
+            return true;
         }
     }
 
@@ -213,14 +281,23 @@ public class configUi : MonoBehaviour
 
     private void LoadLevelConfig()
     {
+        Debug.Log("Loading level config from " + levelInfoPath);
         if (!System.IO.File.Exists(levelInfoPath))
         {
             Debug.LogError("No existe el archivo de configuración en " + levelInfoPath);
-            Debug.LogError("Cargaremos el default");
+            Debug.Log("Cargaremos el default");
+            string cD = "default" + levelId.ToString("00") + "_configData";
             config = Resources.Load<configData>("default01_configData");
-            Debug.Log(config);
 
-            ActivateGame(true);
+
+            if (config.Desbloqueado)
+            {
+                ActivateGame(true);
+            }
+            else
+            {
+                Debug.Log("El nivel no está desbloqueado");
+            }
         }
         else
         {
@@ -228,9 +305,15 @@ public class configUi : MonoBehaviour
             {
                 string levelInfo = System.IO.File.ReadAllText(levelInfoPath);
                 JsonUtility.FromJsonOverwrite(levelInfo, config);
-                Debug.Log(config);
-
-                ActivateGame(true);
+                
+                if (config.Desbloqueado)
+                {
+                    ActivateGame(true);
+                }
+                else
+                {
+                    Debug.Log("El nivel no está desbloqueado");
+                }
             }
             catch (System.Exception e)
             {
@@ -245,7 +328,7 @@ public class configUi : MonoBehaviour
         if (!hayErrores && mensajeError)
         {
             mensajeError = false;
-            fase3.RemoveAt(fase3.childCount - 1);
+            fase3C.RemoveAt(fase3C.childCount - 1);
         }
     }
 

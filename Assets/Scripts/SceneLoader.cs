@@ -24,26 +24,25 @@ public class SceneLoader : MonoBehaviour
         DontDestroyOnLoad(this.gameObject);
     }
 
-    public static void LoadScene(string name = "dolphin")
+    public static void LoadScene(string name = "DolphinLevel")
     {
+        Debug.Log("Loading scene: " + name);
+        if (name == "dolphin")
+            name = "DolphinLevel";
         if (name == "DolphinLevelSelector")
         {
             teacherMode = false;
         }
-        else if (name == "dolphin")
+        else if (name == "DolphinLevel")
         {
-            
-            if (teacherMode)
-            {
-                name = "DolphinLevel_1";
-                Debug.Log("TEACHER MODE");
-            }
-            else
+            //Solo pasaremos a los dialogos si vamos desde el selector de niveles
+            if (!teacherMode && SceneManager.GetActiveScene().name == "DolphinLevelSelector")
             {
                 name = "Dialogs";
                 Debug.Log("NIÑO MODE");
             }
         }
+
         SceneManager.LoadScene(name);
     }
 
@@ -60,5 +59,10 @@ public class SceneLoader : MonoBehaviour
     public int getLevelId()
     {
         return levelId;
+    }
+
+    public void setLevelId(int id)
+    {
+        levelId = id;
     }
 }
