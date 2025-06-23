@@ -72,16 +72,30 @@ public class configUi : MonoBehaviour
     {
         RegisterElems();
 
-        // Busca si tiene que cargar la configuración
         SceneLoader sceneLoader = GameObject.Find("SceneLoader").GetComponent<SceneLoader>();
         bool editMode = sceneLoader.getMode();
         levelId = sceneLoader.getLevelId();
         string writeDir = System.IO.Path.Combine(Application.persistentDataPath, "configInfo");
-        if (!System.IO.Directory.Exists(writeDir))
+
+        // Busca si tiene alguna configuración personalizada
+        if (System.IO.Directory.Exists(writeDir))
+        {
+            levelInfoPath = System.IO.Path.Combine(writeDir, "configData" + levelId.ToString("00") + ".json");
+            if (!System.IO.File.Exists(levelInfoPath)) //si el directorio existe pero el archivo que necesitamos no, se cargará el default
+            {
+                levelInfoPath = "default" + levelId.ToString("00") + "_configData";
+            }
+        }
+        else if (editMode) //si no existe y se está editando, se crea el directorio
         {
             System.IO.Directory.CreateDirectory(writeDir);
+            levelInfoPath = System.IO.Path.Combine(writeDir, "configData" + levelId.ToString("00") + ".json");
         }
-        levelInfoPath = System.IO.Path.Combine(writeDir, "configData" + levelId.ToString("00") + ".json");
+        else //si no se está editando, se cargará el default
+        {
+            levelInfoPath = "default" + levelId.ToString("00") + "_configData";
+        }
+
 
         if (editMode) //el usuario quiere editar el juego
         {
@@ -282,14 +296,12 @@ public class configUi : MonoBehaviour
     private void LoadLevelConfig()
     {
         Debug.Log("Loading level config from " + levelInfoPath);
-        if (!System.IO.File.Exists(levelInfoPath))
+        if (!System.IO.File.Exists(levelInfoPath)) // si es el default no existirá el archivo ya que no es un path como tal
         {
-            Debug.LogError("No existe el archivo de configuración en " + levelInfoPath);
             Debug.Log("Cargaremos el default");
-            string cD = "default" + levelId.ToString("00") + "_configData";
-            config = Resources.Load<configData>("default01_configData");
+            config = Resources.Load<configData>(levelInfoPath);
 
-
+            // Los niveles por defecto están desbloqueados, pero se hace la comprobación por si acaso
             if (config.Desbloqueado)
             {
                 ActivateGame(true);
