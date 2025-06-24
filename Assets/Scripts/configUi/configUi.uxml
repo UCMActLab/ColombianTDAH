@@ -49,7 +49,7 @@
                     </ui:VisualElement>
                     <ui:VisualElement name="D" style="flex-grow: 1;">
                         <ui:Button text="Guardar y jugar" name="guardarYjugar" style="margin-left: 121px; background-color: rgb(255, 148, 48);" />
-                        <ui:Button text="Guardar y volver" name="guardarYvolver" enable-rich-text="true" enabled="true" style="margin-left: 121px; background-color: rgb(255, 148, 48);" />
+                        <ui:Button text="Guardar y volver" name="guardarYvolver" enable-rich-text="true" enabled="false" style="margin-left: 121px; background-color: rgb(255, 148, 48);" />
                     </ui:VisualElement>
                 </ui:ScrollView>
             </ui:VisualElement>

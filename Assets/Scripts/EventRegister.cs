@@ -8,6 +8,7 @@ public class EventRegister : MonoBehaviour
     [SerializeField] private string WriteDir = "writtenInfo";
     [SerializeField] private string WritePath = "test";
     private string WriteTo = "";
+    private bool canWrite;
 
     private List<Tuple<EventRegister.EventosInfo, string>> auxEvntInfo;
 
@@ -90,6 +91,7 @@ public class EventRegister : MonoBehaviour
         System.IO.StreamWriter file = new System.IO.StreamWriter(WriteTo);
         file.WriteLine("{ " + $"\"{WritePath}\": [");
         file.Close();
+        canWrite = true;
     }
 
     private void CreateDir()
@@ -133,7 +135,7 @@ public class EventRegister : MonoBehaviour
 
         // Events
         System.IO.FileStream fs = new System.IO.FileStream(WriteTo, System.IO.FileMode.Append, System.IO.FileAccess.Write);
-        string text = "{\n" + "    \"Tiempo\": \"" + Time.realtimeSinceStartup.ToString("0.000") + "\"";
+        string text = "{\n" + "    \"Tiempo\": \"" + DateTime.UtcNow.AddHours(-5).ToString("yyyy-MM-dd HH:mm:ss.fff") + "\"";
 
         foreach (var evento in auxEvntInfo)
         {
@@ -195,19 +197,25 @@ public class EventRegister : MonoBehaviour
 
         auxEvntInfo.Clear();
         text += " \n}, ";
-        System.IO.StreamWriter file = new System.IO.StreamWriter(fs);
-        file.WriteLine(text);
-        file.Close();
-        fs.Close();
+
+        if (canWrite)
+        {
+            System.IO.StreamWriter file = new System.IO.StreamWriter(fs);
+            file.WriteLine(text);
+            file.Close();
+            fs.Close();
+        }
     }
 
     public void WriteEnd()
     {
+        Debug.Log("Escribiendo fin del json.");
         System.IO.FileStream fs = new System.IO.FileStream(WriteTo, System.IO.FileMode.Append, System.IO.FileAccess.Write);
         string text = "{\n" + "    \"Time\": \"" + Time.realtimeSinceStartup.ToString("0.000") + "\" , \n    \"Test\": \"Acabado\" } ]}";
         System.IO.StreamWriter file = new System.IO.StreamWriter(fs);
         file.WriteLine(text);
         file.Close();
         fs.Close();
+        canWrite = false;
     }
 }

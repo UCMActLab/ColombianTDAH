@@ -77,35 +77,21 @@ public class configUi : MonoBehaviour
         levelId = sceneLoader.getLevelId();
         string writeDir = System.IO.Path.Combine(Application.persistentDataPath, "configInfo");
 
-        // Busca si tiene alguna configuración personalizada
-        if (System.IO.Directory.Exists(writeDir))
-        {
-            levelInfoPath = System.IO.Path.Combine(writeDir, "configData" + levelId.ToString("00") + ".json");
-            if (!System.IO.File.Exists(levelInfoPath)) //si el directorio existe pero el archivo que necesitamos no, se cargará el default
-            {
-                levelInfoPath = "default" + levelId.ToString("00") + "_configData";
-            }
-        }
-        else if (editMode) //si no existe y se está editando, se crea el directorio
-        {
-            System.IO.Directory.CreateDirectory(writeDir);
-            levelInfoPath = System.IO.Path.Combine(writeDir, "configData" + levelId.ToString("00") + ".json");
-        }
-        else //si no se está editando, se cargará el default
-        {
-            levelInfoPath = "default" + levelId.ToString("00") + "_configData";
-        }
-
-
         if (editMode) //el usuario quiere editar el juego
         {
+            if (!System.IO.Directory.Exists(writeDir))
+            {
+                System.IO.Directory.CreateDirectory(writeDir);
+            }
+            levelInfoPath = System.IO.Path.Combine(writeDir, "configData" + levelId.ToString("00") + ".json");
             // Desactiva Juego
             ActivateGame(false);
         }
         else //se carga el nivel por default
         {
+            levelInfoPath = "default" + levelId.ToString("00") + "_configData";
             // Activa Juego
-            LoadLevelConfig();
+            LoadLevelConfig(true);
         }
     }
 
@@ -293,10 +279,10 @@ public class configUi : MonoBehaviour
         fs.Close();
     }
 
-    private void LoadLevelConfig()
+    private void LoadLevelConfig(bool isDefault)
     {
         Debug.Log("Loading level config from " + levelInfoPath);
-        if (!System.IO.File.Exists(levelInfoPath)) // si es el default no existirá el archivo ya que no es un path como tal
+        if (isDefault) // si es el default no existirá el archivo ya que no es un path como tal
         {
             Debug.Log("Cargaremos el default");
             config = Resources.Load<configData>(levelInfoPath);

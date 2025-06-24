@@ -151,6 +151,8 @@ public class DolphinLevelManager : MonoBehaviour
     /// <param name="config">Archivo de configuración de nivel</param>
     public void InitLevel(configData config)
     {
+        Debug.Log("initLevel: config.wrngPoints: " + config.WrongGuessPoints);
+
         // Carga de configuración
         bool loaded = LoadConfiguration(config);
 
@@ -247,6 +249,7 @@ public class DolphinLevelManager : MonoBehaviour
     }
     private void EndLevel()
     {
+        EventRegister.Instance.WriteEnd();
         _UIManager.showWin();
         _dolphinManager.DeactivateDolphins();
     }
@@ -565,6 +568,8 @@ public class DolphinLevelManager : MonoBehaviour
 
         _whaleSpawnNum = levelData.WhaleApearingGuests;
         _increaseVelFactor = levelData.IncreasedSpeedFactor;
+
+        Debug.Log("Config values were set: ex. _wrongSpecialJumpPoints: " + _wrongSpecialJumpPoints + " de levelData: " + levelData.WrongGuessPoints);
 
         return true;
     }

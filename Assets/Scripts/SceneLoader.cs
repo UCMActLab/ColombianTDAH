@@ -42,8 +42,11 @@ public class SceneLoader : MonoBehaviour
                 Debug.Log("NIÑO MODE");
             }
         }
-
-        SceneManager.LoadScene(name);
+        if (name == "Worlds") //Botón de exit del minijuego
+        {
+            EventRegister.Instance.WriteEnd();
+        }
+            SceneManager.LoadScene(name);
     }
 
     public void setMode(bool mode)
