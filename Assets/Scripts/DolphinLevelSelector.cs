@@ -40,6 +40,11 @@ public class DolphinLevelSelector : MonoBehaviour
         if(_isUnlocked) SceneLoader.LoadScene("DolphinLevel_" + _levelNum);
     }
 
+    public void ChargeLevel(string name)
+    {
+        if (_isUnlocked) SceneLoader.LoadScene(name + _levelNum);
+    }
+
     public bool IsUnlocked() => _isUnlocked;
 
     public void UnlockLevel()
