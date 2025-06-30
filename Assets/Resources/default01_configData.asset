@@ -22,12 +22,9 @@ MonoBehaviour:
   - {x: 2, y: 6}
   - {x: 0, y: 5}
   _obstaclesTroncoEnabled: 0
-  _obstaclesBarcaEnabled: 0
-  _floatsEnabled: 0
-  _ballsEnabled: 0
   _minObstacleSpawn: 0
   _maxObstacleSpawn: 0
-  _obstacleSpeed: 0
+  _obstacleSpeed: 1
   _increasedSpeedFactor: 2
   _whaleApearingGuests: 2
   _minTimeBetweenJumps: 2
@@ -44,6 +41,6 @@ MonoBehaviour:
   _ballPoints: 0
   _ballPointsVel: 0
   _wrongGuessPoints: -10
-  _hitObstacleTroncoPoints: 0
+  _hitObstacleTroncpPoints: 0
   _hitObstacleBarcaPoints: 0
   _desbloqueado: 1

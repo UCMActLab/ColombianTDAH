@@ -48,8 +48,9 @@ public class configUi : MonoBehaviour
     IntegerField input_pointsPiruetaVelocidad;
     IntegerField input_pointsFloatie;
     IntegerField input_pointsFloatieVelocidad;
-    IntegerField input_pointsBall;
+    IntegerField input_pointsBallHit;
     IntegerField input_pointsBallVelocidad;
+    IntegerField input_pointsBallMiss;
     IntegerField input_pointMax;
     IntegerField input_pointWrongGuess;
     IntegerField input_pointChoqueTronco;
@@ -125,7 +126,8 @@ public class configUi : MonoBehaviour
         input_pointsPiruetaVelocidad = root.Q<IntegerField>("pointPiruetaVelocidad");
         input_pointsFloatie = root.Q<IntegerField>("pointFlotador");
         input_pointsFloatieVelocidad = root.Q<IntegerField>("pointFlotadorVelocidad");
-        input_pointsBall = root.Q<IntegerField>("pointPelota");
+        input_pointsBallHit = root.Q<IntegerField>("pointPelotaHit");
+        input_pointsBallMiss = root.Q<IntegerField>("pointPelotaMiss");
         input_pointsBallVelocidad = root.Q<IntegerField>("pointPelotaVelocidad");
         input_pointMax = root.Q<IntegerField>("pointMax");
         input_pointWrongGuess = root.Q<IntegerField>("pointWrongGuess");
@@ -138,8 +140,7 @@ public class configUi : MonoBehaviour
 
         input_toggleGroup = root.Q<VisualElement>("toggleGroup");
         text_delfinesRestantes = root.Q<Label>("delfinesRestantes");
-
-        //Debug.Log(input_whaleRightGuess.value + " " + input_increasedVelFactor + " " + input_pointsPiruetaVelocidad + " " + input_pointsFloatie + " " + input_pointsFloatieVelocidad);
+        
         input_guardarYjugar.RegisterCallback<ClickEvent>(GuardarTodoyJugar);
         input_guardarYvolver.RegisterCallback<ClickEvent>(GuardarTodoyVolver);
         input_fase1Complet.RegisterCallback<ClickEvent>(Fase1Complet);
@@ -186,6 +187,8 @@ public class configUi : MonoBehaviour
         }
         else
         {
+            config.configName = "configData" + levelId.ToString("00");
+
             //RIVER CONFIG
             config.NumCarriles = input_carrilesN.value;
             config.NumDelfines = input_delfinesN.value;
@@ -251,8 +254,10 @@ public class configUi : MonoBehaviour
             config.RightGuessPointsVel = input_pointsPiruetaVelocidad.value;
             config.FloatiePoints = input_pointsFloatie.value;
             config.FloatiePointsVel = input_pointsFloatieVelocidad.value;
-            config.BallPoints = input_pointsBall.value;
-            config.BallPointsVel = input_pointsBallVelocidad.value;
+            config.BallHitPoints = input_pointsBallHit.value;
+            config.BallMissPoints = input_pointsBallMiss.value;
+            //hacer tmbn miss
+            config.BallHitPointsVel = input_pointsBallVelocidad.value;
             config.WrongGuessPoints = input_pointWrongGuess.value;
             config.HitObstacleTroncoPoints = input_pointChoqueTronco.value;
             config.HitObstacleBarcaPoints = input_pointChoqueBarca.value;

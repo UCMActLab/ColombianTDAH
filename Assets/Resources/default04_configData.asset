@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a355f670193f2e247a0395a1c0be0ea9, type: 3}
-  m_Name: default01_configData
+  m_Name: default04_configData
   m_EditorClassIdentifier: 
   configName: default04
   _nCarriles: 4
@@ -25,9 +25,6 @@ MonoBehaviour:
   - {x: 3, y: 5}
   - {x: 3, y: 1}
   _obstaclesTroncoEnabled: 1
-  _obstaclesBarcaEnabled: 0
-  _floatsEnabled: 1
-  _ballsEnabled: 0
   _minObstacleSpawn: 3
   _maxObstacleSpawn: 5
   _obstacleSpeed: 7.5
@@ -38,6 +35,7 @@ MonoBehaviour:
   canSpecialJumpSimultaneously: 1
   _minCountBetweenSpecialJumps: 1
   _maxCountBetweenSpecialJumps: 3
+  _diffSpeciesEnabled: 0
   _levelPoints: 3000
   _rightGuessPoints: 100
   _rightGuessPointsVel: 120
@@ -46,5 +44,6 @@ MonoBehaviour:
   _ballPoints: 0
   _ballPointsVel: 0
   _wrongGuessPoints: -10
-  _hitObstacleTroncoPoints: -20
+  _hitObstacleTroncpPoints: 0
+  _hitObstacleBarcaPoints: 0
   _desbloqueado: 1

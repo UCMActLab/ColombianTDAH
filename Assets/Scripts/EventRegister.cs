@@ -34,6 +34,9 @@ public class EventRegister : MonoBehaviour
         OColision, //...DolphinControler.OnCollisionEnter
         FEntraPantalla, //...RandomObjectSpawner.Spawn
         FSalePantalla,
+        BEntraPantalla, //...BallSpawner.Spawn
+        BTocado,
+        BHundido,
         FColision,  //...DolphinControler.OnCollisionEnter
         RespuestaCorrecta, //...DolphinControler.TryClickDolphin y DolphinLevelManager.RightGuess
         RespuestaIncorrecta, //...DolphinControler.TryClickDolphin y DolphinLevelManager.WrongGuess
@@ -134,84 +137,94 @@ public class EventRegister : MonoBehaviour
         whitePixelsActive = true;
 
         // Events
-        System.IO.FileStream fs = new System.IO.FileStream(WriteTo, System.IO.FileMode.Append, System.IO.FileAccess.Write);
-        string text = "{\n" + "    \"Tiempo\": \"" + DateTime.UtcNow.AddHours(-5).ToString("yyyy-MM-dd HH:mm:ss.fff") + "\"";
-
-        foreach (var evento in auxEvntInfo)
-        {
-            switch (evento.Item1)
-            {
-                case EventosInfo.Inicio:
-                    text += ", \n" + $"    \"Iniciando nivel\": \"{evento.Item2}\"";
-                    break;
-                case EventosInfo.DEntraSuperficie:
-                    text += ", \n" + $"    \"Delfin entrando en la superficie del rio (a flote)\": \"{evento.Item2}\"";
-                    break;
-                case EventosInfo.DSaleSuperficie:
-                    text += ", \n" + $"    \"Delfin saliendo de la superficie del rio (se hunde)\": \"{evento.Item2}\"";
-                    break;
-                case EventosInfo.DSaltoInit:
-                    text += ", \n" + $"    \"Delfin comienza el salto\": \"{evento.Item2}\"";
-                    break;
-                case EventosInfo.DSaltoFin:
-                    text += ", \n" + $"    \"Delfin finaliza el salto\": \"{evento.Item2}\"";
-                    break;
-                case EventosInfo.DPiruetaInit:
-                    text += ", \n" + $"    \"Delfin comienza la pirueta\": \"{evento.Item2}\"";
-                    break;
-                case EventosInfo.DPiruetaFin:
-                    text += ", \n" + $"    \"Delfin finaliza la pirueta\": \"{evento.Item2}\"";
-                    break;
-                case EventosInfo.OEntraPantalla:
-                    text += ", \n" + $"    \"Obstaculo entrando en pantalla\": \"{evento.Item2}\"";
-                    break;
-                case EventosInfo.OSalePantalla:
-                    text += ", \n" + $"    \"Obstaculo saliendo de pantalla\": \"{evento.Item2}\"";
-                    break;
-                case EventosInfo.OColision:
-                    text += ", \n" + $"    \"Delfin colisionando con obstaculo\": \"{evento.Item2}\"";
-                    break;
-                case EventosInfo.FEntraPantalla:
-                    text += ", \n" + $"    \"Flotador entrando en pantalla\": \"{evento.Item2}\"";
-                    break;
-                case EventosInfo.FSalePantalla:
-                    text += ", \n" + $"    \"Flotador saliendo de pantalla\": \"{evento.Item2}\"";
-                    break;
-                case EventosInfo.FColision:
-                    text += ", \n" + $"    \"Delfin colisionando con flotador\": \"{evento.Item2}\"";
-                    break;
-                case EventosInfo.RespuestaCorrecta:
-                    text += ", \n" + $"    \"Respuesta correcta\": \"{evento.Item2}\"";
-                    break;
-                case EventosInfo.RespuestaIncorrecta:
-                    text += ", \n" + $"    \"Respuesta incorrecta\": \"{evento.Item2}\"";
-                    break;
-                case EventosInfo.NPuntos:
-                    text += ", \n" + $"    \"Puntuacion actual\": \"{evento.Item2}\"";
-                    break;
-                case EventosInfo.Vel:
-                    text += ", \n" + $"    \"Velocidad actual\": \"{evento.Item2}\"";
-                    break;
-            }
-        }
-
-        auxEvntInfo.Clear();
-        text += " \n}, ";
-
         if (canWrite)
         {
+            System.IO.FileStream fs = new System.IO.FileStream(WriteTo, System.IO.FileMode.Append, System.IO.FileAccess.Write);
+            string text = "{\n" + "    \"Tiempo\": \"" + DateTime.UtcNow.AddHours(-5).ToString("yyyy-MM-dd HH:mm:ss.fff") + "\"";
+
+            foreach (var evento in auxEvntInfo)
+            {
+                switch (evento.Item1)
+                {
+                    case EventosInfo.Inicio:
+                        text += ", \n" + $"    \"Iniciando nivel\": \"{evento.Item2}\"";
+                        break;
+                    case EventosInfo.DEntraSuperficie:
+                        text += ", \n" + $"    \"Delfin entrando en la superficie del rio (a flote)\": \"{evento.Item2}\"";
+                        break;
+                    case EventosInfo.DSaleSuperficie:
+                        text += ", \n" + $"    \"Delfin saliendo de la superficie del rio (se hunde)\": \"{evento.Item2}\"";
+                        break;
+                    case EventosInfo.DSaltoInit:
+                        text += ", \n" + $"    \"Delfin comienza el salto\": \"{evento.Item2}\"";
+                        break;
+                    case EventosInfo.DSaltoFin:
+                        text += ", \n" + $"    \"Delfin finaliza el salto\": \"{evento.Item2}\"";
+                        break;
+                    case EventosInfo.DPiruetaInit:
+                        text += ", \n" + $"    \"Delfin comienza la pirueta\": \"{evento.Item2}\"";
+                        break;
+                    case EventosInfo.DPiruetaFin:
+                        text += ", \n" + $"    \"Delfin finaliza la pirueta\": \"{evento.Item2}\"";
+                        break;
+                    case EventosInfo.OEntraPantalla:
+                        text += ", \n" + $"    \"Obstaculo entrando en pantalla\": \"{evento.Item2}\"";
+                        break;
+                    case EventosInfo.OSalePantalla:
+                        text += ", \n" + $"    \"Obstaculo saliendo de pantalla\": \"{evento.Item2}\"";
+                        break;
+                    case EventosInfo.OColision:
+                        text += ", \n" + $"    \"Delfin colisionando con obstaculo\": \"{evento.Item2}\"";
+                        break;
+                    case EventosInfo.FEntraPantalla:
+                        text += ", \n" + $"    \"Flotador entrando en pantalla\": \"{evento.Item2}\"";
+                        break;
+                    case EventosInfo.FSalePantalla:
+                        text += ", \n" + $"    \"Flotador saliendo de pantalla\": \"{evento.Item2}\"";
+                        break;
+                    case EventosInfo.FColision:
+                        text += ", \n" + $"    \"Delfin colisionando con flotador\": \"{evento.Item2}\"";
+                        break;
+                    case EventosInfo.BEntraPantalla:
+                        text += ", \n" + $"    \"Pelota entrando en pantalla.\"";
+                        break;
+                    case EventosInfo.BTocado:
+                        text += ", \n" + $"    \"Jugador toca la pelota.\"";
+                        break;
+                    case EventosInfo.BHundido:
+                        text += ", \n" + $"    \"Pelota hundida.\"";
+                        break;
+                    case EventosInfo.RespuestaCorrecta:
+                        text += ", \n" + $"    \"Respuesta correcta\": \"{evento.Item2}\"";
+                        break;
+                    case EventosInfo.RespuestaIncorrecta:
+                        text += ", \n" + $"    \"Respuesta incorrecta\": \"{evento.Item2}\"";
+                        break;
+                    case EventosInfo.NPuntos:
+                        text += ", \n" + $"    \"Puntuacion actual\": \"{evento.Item2}\"";
+                        break;
+                    case EventosInfo.Vel:
+                        text += ", \n" + $"    \"Velocidad actual\": \"{evento.Item2}\"";
+                        break;
+                }
+            }
+                    
+            text += " \n}, ";
+
             System.IO.StreamWriter file = new System.IO.StreamWriter(fs);
             file.WriteLine(text);
             file.Close();
             fs.Close();
         }
+        
+        auxEvntInfo.Clear();
     }
 
     public void WriteEnd()
     {
         Debug.Log("Escribiendo fin del json.");
         System.IO.FileStream fs = new System.IO.FileStream(WriteTo, System.IO.FileMode.Append, System.IO.FileAccess.Write);
-        string text = "{\n" + "    \"Time\": \"" + Time.realtimeSinceStartup.ToString("0.000") + "\" , \n    \"Test\": \"Acabado\" } ]}";
+        string text = "{\n" + "    \"Time\": \"" + DateTime.UtcNow.AddHours(-5).ToString("yyyy-MM-dd HH:mm:ss.fff") + "\" , \n    \"Test\": \"Acabado\" } ]}";
         System.IO.StreamWriter file = new System.IO.StreamWriter(fs);
         file.WriteLine(text);
         file.Close();

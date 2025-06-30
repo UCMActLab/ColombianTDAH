@@ -9,5 +9,10 @@ public class ObstacleDeadZone : MonoBehaviour
         if (movingComp != null) {
             movingComp.DestroyObstacle();
         }
+        ObstaculoPelota obstaculoPelota = other.GetComponent<ObstaculoPelota>();
+        if (obstaculoPelota != null)
+        {
+            obstaculoPelota.DestroyObstacle();
+        }
     }
 }

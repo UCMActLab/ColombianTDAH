@@ -30,11 +30,14 @@ public class configData : ScriptableObject
     [Header("Obstacles Spawning")]
     [SerializeField]
     private bool _obstaclesTroncoEnabled;
+    [SerializeField]
     private bool _obstaclesBarcaEnabled;
     public bool ObstaclesTroncoEnabled { get => _obstaclesTroncoEnabled; set => _obstaclesTroncoEnabled = value; }
     public bool ObstaclesBarcaEnabled { get => _obstaclesBarcaEnabled; set => _obstaclesBarcaEnabled = value; }
+    [SerializeField]
     private bool _floatsEnabled;
     public bool FloatsEnabled { get => _floatsEnabled; set => _floatsEnabled = value; }
+    [SerializeField]
     private bool _ballsEnabled;
     public bool BallsEnabled { get => _ballsEnabled; set => _ballsEnabled = value; }
 
@@ -109,16 +112,15 @@ public class configData : ScriptableObject
     private float _floatiePointsVel; //acertar en flotador con velocidad aumentada
     public float FloatiePointsVel { get => _floatiePointsVel; set => _floatiePointsVel = value; }
 
-
     [SerializeField, Tooltip("Points to add per ball")]
-    private float _ballPoints; //acertar en pelota
-    public float BallPoints { get => _ballPoints; set => _ballPoints = value; }
-
-
+    private float _ballHitPoints; //acertar en pelota
+    public float BallHitPoints { get => _ballHitPoints; set => _ballHitPoints = value; }
     [SerializeField, Tooltip("Points to add per ball with increased velocity")]
-    private float _ballPointsVel; //acertar en pelota con velocidad aumentada
-    public float BallPointsVel { get => _ballPointsVel; set => _ballPointsVel = value; }
-
+    private float _ballHitPointsVel; //acertar en pelota con velocidad aumentada
+    public float BallHitPointsVel { get => _ballHitPointsVel; set => _ballHitPointsVel = value; }
+    [SerializeField, Tooltip("Points to loose per ball")]
+    private float _ballMissPoints; //acertar en pelota
+    public float BallMissPoints { get => _ballMissPoints; set => _ballMissPoints = value; }
 
     [SerializeField, Tooltip("Points to substract per wrong special jump guess")]
     private float _wrongGuessPoints;

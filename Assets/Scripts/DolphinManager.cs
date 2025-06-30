@@ -103,9 +103,9 @@ public class DolphinManager : MonoBehaviour
         return lessPoints;
     }
 
-    public int HitObstacle()
+    public int HitObstacle(Box type)
     {
-        int hitPoints = DolphinLevelManager.Instance.HitObstacle();
+        int hitPoints = DolphinLevelManager.Instance.HitObstacle(type);
         return hitPoints;
     }
 
