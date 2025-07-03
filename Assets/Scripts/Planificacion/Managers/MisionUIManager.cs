@@ -1,25 +1,45 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class MisionUIManager : MonoBehaviour
 {
     [SerializeField]
-    GameObject decisionButtonsGO;
+    GameObject _decisionGO;
+
+    [SerializeField]
+    Slider _timeSlider;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        decisionButtonsGO.SetActive(false);
+        _decisionGO.SetActive(false);
+
+        float answerTime = MisionLevelManager.Instance.GetAnswerTime();
+
+        InitSlider(0, answerTime);
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
+    }
+
+    void InitSlider(float min, float max)
+    {
+        _timeSlider.maxValue = max;
+        _timeSlider.minValue = min;
+        _timeSlider.value = max;
     }
 
     public void ShowDecisionButtons()
     {
-        decisionButtonsGO.SetActive(true);
+        _decisionGO.SetActive(true);
+    }
+
+    public void HideDecisionButtons()
+    {
+        _decisionGO.SetActive(false);
     }
 
     public void YesClicked()
@@ -36,6 +56,12 @@ public class MisionUIManager : MonoBehaviour
 
     void Clicked()
     {
-        decisionButtonsGO.SetActive(false);
+        _decisionGO.SetActive(false);
+        MisionLevelManager.Instance.Answered();
+    }
+
+    public void UpdateSlider(float value)
+    {
+        _timeSlider.value = value;
     }
 }
