@@ -626,6 +626,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8176506881839671058}
   - component: {fileID: 2845190894308613003}
+  - component: {fileID: 4424886556540742316}
   m_Layer: 5
   m_Name: DialogBoxMC
   m_TagString: Untagged
@@ -650,7 +651,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 0.66}
-  m_AnchoredPosition: {x: -0.9001465, y: 158}
+  m_AnchoredPosition: {x: -0.9001465, y: 173}
   m_SizeDelta: {x: -2059.7998, y: -608.3002}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!114 &2845190894308613003
@@ -668,3 +669,15 @@ MonoBehaviour:
   _text: {fileID: 7116589900971135864}
   _endTextPointer: {fileID: 7053497094185152053}
   _talkingObjectAnimator: {fileID: 0}
+--- !u!114 &4424886556540742316
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9207173393832567713}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 77b76f5432a5cf147a706111a904a523, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
