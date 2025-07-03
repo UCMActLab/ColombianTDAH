@@ -42,8 +42,6 @@ public class BallSpawner : MonoBehaviour
     {
         if (_enabled)
         {
-            Debug.Log("Spawning Ball");
-
             Vector3 randomSpawnPosition = new Vector3(UnityEngine.Random.Range(_minZone.x, _maxZone.x), 10.0f, UnityEngine.Random.Range(_minZone.y, _maxZone.y));
 
             GameObject instantiated = Instantiate(_ball, randomSpawnPosition, Quaternion.identity);

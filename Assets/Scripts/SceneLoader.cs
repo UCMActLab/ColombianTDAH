@@ -7,11 +7,14 @@ public class SceneLoader : MonoBehaviour
 
     public int levelId;
     public static bool teacherMode;
+    private bool lastLevelWon;
     
     void Awake()
     {
         if(_instance == null)
         {
+            levelId = 1; // Default level ID
+            lastLevelWon = false; // Default last level won state
             _instance = this;
         }
         else
@@ -19,7 +22,6 @@ public class SceneLoader : MonoBehaviour
             Destroy(this.gameObject);
         }
 
-        levelId = 01;
         teacherMode = false;
         DontDestroyOnLoad(this.gameObject);
     }
@@ -67,5 +69,15 @@ public class SceneLoader : MonoBehaviour
     public void setLevelId(int id)
     {
         levelId = id;
+    }
+
+    public bool getLastLevelWon()
+    {
+        return lastLevelWon;
+    }
+
+    public void setLastLevelWon(bool won)
+    {
+        lastLevelWon = won;
     }
 }

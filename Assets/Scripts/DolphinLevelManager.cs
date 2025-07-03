@@ -12,6 +12,8 @@ public class DolphinLevelManager : MonoBehaviour
     public static DolphinLevelManager Instance { get { return _instance; } }
 
     // RIVER VARIABLES
+    int levelId;
+
     //  Numero de carriles y columnas del rio
     [SerializeField, Tooltip("Carriles del r�o")]
     int railNumber = 3;
@@ -229,7 +231,7 @@ public class DolphinLevelManager : MonoBehaviour
         _dolphinManager.ActivateIncreasedSpeed(_obstacleSpeed);
 
         // Inicialización UI del nivel
-        int levelId = int.Parse(config.configName[config.configName.Length - 1].ToString()); 
+        levelId = int.Parse(config.configName[config.configName.Length - 1].ToString()); 
         // Último caracter del nombre del archivo de configuración es el nivel
         _UIManager.startLevelStats(levelId, _winPoints);
 
@@ -273,6 +275,9 @@ public class DolphinLevelManager : MonoBehaviour
         if (_currentPoints >= _winPoints)
         {
             SetAllObstacleSpawning(false);
+            SceneLoader sceneLoader = GameObject.Find("SceneLoader").GetComponent<SceneLoader>();
+            sceneLoader.setLevelId(levelId);
+            sceneLoader.setLastLevelWon(true);
             EndLevel();
             return true;
         }

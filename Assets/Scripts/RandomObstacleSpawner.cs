@@ -116,7 +116,6 @@ public class RandomObjectSpawner : MonoBehaviour
 
     public void Spawn()
     {
-        Debug.Log("Spawn (object count: " + _objects.Count + ")");
         int randomCarril = UnityEngine.Random.Range(0, _carrilCenetrs.Length);
 
         if (_carrilCenetrs[randomCarril].active && _objects.Count>0)
