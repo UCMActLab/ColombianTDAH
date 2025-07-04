@@ -12,13 +12,15 @@ public class RandomObjectSpawner : MonoBehaviour
     }
 
     [SerializeField]
-    float _posX = 15.0f;
+    float _posX = 12.0f;
 
     //Listas de prefabs disponibles
     [SerializeField]
-    GameObject[] _obstacles;
+    GameObject[] _troncos;
     [SerializeField]
     GameObject _float;
+    [SerializeField]
+    GameObject _boat;
 
     //Lista de objetos de entre los cuales instanciar
     List<GameObject> _objects;
@@ -60,12 +62,37 @@ public class RandomObjectSpawner : MonoBehaviour
         }
     }
 
-    public void EnableObstacles(bool enable)
+    public void EnableBoats(bool enable)
     {
-        if (enable) _objects.AddRange(_obstacles);
+        if (enable)
+        {
+            _objects.Add(_boat);
+            Debug.Log("Barcos habilitados");
+        }
         else
         {
-            foreach (GameObject obj in _objects) //por si hubiera más de un tipo de flotador
+            foreach (GameObject obj in _objects) //por si hubiera más de un tipo de barco
+            {
+                /* AHORA MISMO SOLO FUNC ENABLE = TRUE
+                 * 
+                 * NO SIRVE POR Q BARCOS TMBN SON OBSTACULOS
+                if (obj.GetComponent<Barco>() != null)
+                {
+                    _objects.Remove(obj);
+                }
+                */
+            }
+        }
+    }
+
+    //CUANDO TRONCOS ESTO NO , LISTA TRONCOS NUEVA Y LISTA OBJ PRIVADA?
+    public void EnableTroncos(bool enable)
+    {
+        if (enable) _objects.AddRange(_troncos);
+        else
+        {
+            // ELIMINA TANTO LOS TRONCOS COMO LAS BARCAS
+            foreach (GameObject obj in _objects)
             {
                 if (obj.GetComponent<Obstaculo>() != null)
                 {
@@ -93,11 +120,14 @@ public class RandomObjectSpawner : MonoBehaviour
 
         if (_carrilCenetrs[randomCarril].active && _objects.Count>0)
         {
-            Vector3 randomSpawnPosition = new Vector3(_posX, 0.4f, _carrilCenetrs[randomCarril].CenterPosZ);
-
+            float posY = 0.4f;
             int randomIdPos = UnityEngine.Random.Range(0, _objects.Count);
+            if (_objects[randomIdPos].name.StartsWith("Canoa"))
+                posY = 1.0f;
+            Vector3 randomSpawnPosition = new Vector3(_posX, posY, _carrilCenetrs[randomCarril].CenterPosZ);
             GameObject instantiated = Instantiate(_objects[randomIdPos], randomSpawnPosition, Quaternion.identity);
-            instantiated.transform.Rotate(-90, 0, 0);
+            if (instantiated.name.StartsWith("tronco"))
+                instantiated.transform.Rotate(-90, 0, 0);
             instantiated.GetComponent<MovingObject>().SetVel(_obsVel);
             _spawnedObjects.Add(instantiated);
             if (instantiated.GetComponent<Obstaculo>())

@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum Box { Empty, Dolphin, Obstacle, Floatie } // Tipos de objetos representados en la matriz del río
+public enum Box { Empty, Dolphin, ObstacleTronco, ObstacleBarca, Floatie } // Tipos de objetos representados en la matriz del río
 
 public class DolphinLevelManager : MonoBehaviour
 {
@@ -12,6 +12,8 @@ public class DolphinLevelManager : MonoBehaviour
     public static DolphinLevelManager Instance { get { return _instance; } }
 
     // RIVER VARIABLES
+    int levelId;
+
     //  Numero de carriles y columnas del rio
     [SerializeField, Tooltip("Carriles del r�o")]
     int railNumber = 3;
@@ -48,15 +50,22 @@ public class DolphinLevelManager : MonoBehaviour
     [SerializeField, Tooltip("Points to add per wrong jump guess")]
     int _wrongSpecialJumpPoints;
     [SerializeField, Tooltip("Points to substact per collision with obstacle")]
-    int _hitObstaclePoints;
+    int _hitObstacleToncoPoints;
+    int _hitObstacleBarcaPoints;
 
     // Velocity
     [SerializeField]
     float _increaseVelFactor = 3;
     bool _increasedVelocity = false;
+
     [SerializeField, Tooltip("Points to add when getting through a floatie")]
     int _floatiePoints = 50;
     int _floatieIncreasedVelPoints = 100;
+
+    [SerializeField, Tooltip("Points to add when hitting a ball")]
+    int _ballHitPoints = 50;
+    int _ballMissPoints = 50;
+    int _ballIncreasedVelPoints = 100;
 
     // DolphinTimes
     [SerializeField, Tooltip("Min time between jumps")]
@@ -64,6 +73,7 @@ public class DolphinLevelManager : MonoBehaviour
     [SerializeField, Tooltip("Max time between jumps")]
     float maxJumpTime;
     float currTime;
+    float currBallTime;
     [SerializeField, Tooltip("Min time between special jumps")]
     int minSpecialJumpCount;
     [SerializeField, Tooltip("Max time between special jumps")]
@@ -78,12 +88,20 @@ public class DolphinLevelManager : MonoBehaviour
     float minSpawnTime;
     float maxSpawnTime;
     float nextSpawnTime;
-    bool _obstacleSpawning = true;
+    float nextBallSpawnTime;
+    bool _obstacleTroncoSpawning = true;
+    bool _obstacleBoatSpawning = true;
     float pauseSpawningTime = 5.0f;
     float _obstacleSpeed;
 
     // Para flotadores
     bool _floatieSpawning = true;
+
+    // Para bolas
+    [SerializeField]
+    BallSpawner ballSpawner;
+    bool _ballsSpawning = true;
+
 
     // Managers (queremos instanciar prefabs o hacer un find?)
     [SerializeField]
@@ -122,7 +140,10 @@ public class DolphinLevelManager : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        if (_obstacleSpawning) nextSpawnTime = maxSpawnTime;
+        currTime = 0;
+        currBallTime = 0;
+        if (_obstacleTroncoSpawning || _obstacleBoatSpawning) nextSpawnTime = maxSpawnTime;
+        if (_ballsSpawning) nextBallSpawnTime = maxSpawnTime;
     }
 
     private void OnEnable()
@@ -132,7 +153,7 @@ public class DolphinLevelManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (_obstacleSpawning || _floatieSpawning)
+        if (_obstacleTroncoSpawning || _obstacleBoatSpawning || _floatieSpawning)
         {
             currTime += Time.deltaTime;
             if (currTime >= nextSpawnTime)
@@ -140,6 +161,16 @@ public class DolphinLevelManager : MonoBehaviour
                 nextSpawnTime = UnityEngine.Random.Range(minSpawnTime, maxSpawnTime);
                 currTime = 0;
                 randomObjectSpawner.Spawn();
+            }
+        }
+        if (_ballsSpawning)
+        {
+            currBallTime += Time.deltaTime;
+            if (currBallTime >= nextSpawnTime)
+            {
+                nextBallSpawnTime = UnityEngine.Random.Range(minSpawnTime, maxSpawnTime);
+                currBallTime = 0;
+                ballSpawner.Spawn();
             }
         }
     }
@@ -186,20 +217,27 @@ public class DolphinLevelManager : MonoBehaviour
 
         // Velocidad y habilitación de objetos instanciados (obstáculos, flotadores)
         randomObjectSpawner.SetVel(_obstacleSpeed);
-        randomObjectSpawner.EnableObstacles(_obstacleSpawning);
+        randomObjectSpawner.EnableTroncos(_obstacleTroncoSpawning);
+        randomObjectSpawner.EnableBoats(_obstacleBoatSpawning);
         randomObjectSpawner.EnableFloats(_floatieSpawning);
+        ballSpawner.EnableBalls(_ballsSpawning);
 
         // Velocidad del fondo
-        _backgroundMovementComp.SetVelocity(_obstacleSpeed / 50);  
+        if (_obstacleSpeed > 0)
+            _backgroundMovementComp.SetVelocity(_obstacleSpeed / 50);
+        else
+            _backgroundMovementComp.SetVelocity(0.2f);
         _dolphinManager.DeactivateIncreasedSpeed(8);
         _dolphinManager.ActivateIncreasedSpeed(_obstacleSpeed);
 
         // Inicialización UI del nivel
-        _UIManager.startLevelStats(0, 0);
+        levelId = int.Parse(config.configName[config.configName.Length - 1].ToString()); 
+        // Último caracter del nombre del archivo de configuración es el nivel
+        _UIManager.startLevelStats(levelId, _winPoints);
 
         // Inicialización del Event Register Manager
         EventRegister.Instance.WriteStart();
-        EventRegister.Instance.AddToEvnt(Tuple.Create(EventRegister.EventosInfo.Inicio, "nivel X"));
+        EventRegister.Instance.AddToEvnt(Tuple.Create(EventRegister.EventosInfo.Inicio, "nivel " + levelId.ToString("00")));
         EventRegister.Instance.EvntToJson();
     }
 
@@ -237,6 +275,9 @@ public class DolphinLevelManager : MonoBehaviour
         if (_currentPoints >= _winPoints)
         {
             SetAllObstacleSpawning(false);
+            SceneLoader sceneLoader = GameObject.Find("SceneLoader").GetComponent<SceneLoader>();
+            sceneLoader.setLevelId(levelId);
+            sceneLoader.setLastLevelWon(true);
             EndLevel();
             return true;
         }
@@ -244,6 +285,7 @@ public class DolphinLevelManager : MonoBehaviour
     }
     private void EndLevel()
     {
+        EventRegister.Instance.WriteEnd();
         _UIManager.showWin();
         _dolphinManager.DeactivateDolphins();
     }
@@ -297,13 +339,21 @@ public class DolphinLevelManager : MonoBehaviour
     /// <summary>
     /// Puntos restados por colisión con obstáculo
     /// </summary>
-    public int HitObstacle()
+    public int HitObstacle(Box type)
     {
-        _currentPoints += _hitObstaclePoints;
+        int aux = 0; 
+
+        if (type == Box.ObstacleTronco)
+            aux = _hitObstacleToncoPoints;
+        else if (type == Box.ObstacleBarca)
+            aux = _hitObstacleBarcaPoints;
+
+        _currentPoints += aux;
         if (_currentPoints < 0)
             _currentPoints = 0;
         _UIManager.updatePoints(_currentPoints);
-        return _hitObstaclePoints;
+
+        return aux;
     }
 
     /// <summary>
@@ -322,6 +372,54 @@ public class DolphinLevelManager : MonoBehaviour
         CheckLevelWinCondition();
 
         return pointsToAdd;
+    }
+
+    /// <summary>
+    /// Puntos añadidos por clicar en pelota
+    /// </summary>
+    public int BallHit(Vector3 pos)
+    {
+        int pointsToAdd = _ballHitPoints;
+
+        if (_increasedVelocity)
+            pointsToAdd = _ballIncreasedVelPoints;
+
+        _currentPoints += pointsToAdd;
+        _UIManager.updatePoints(_currentPoints);
+
+        ShowPointsOnBall(pos, pointsToAdd, Color.green);
+
+        CheckLevelWinCondition();
+
+        return pointsToAdd;
+    }
+
+    /// <summary>
+    /// Puntos añadidos por clicar en pelota
+    /// </summary>
+    public int BallMiss(Vector3 pos)
+    {
+        int pointsToAdd = _ballMissPoints;
+        _currentPoints += pointsToAdd;
+        _UIManager.updatePoints(_currentPoints);
+
+        CheckLevelWinCondition();
+
+        ShowPointsOnBall(pos, pointsToAdd, Color.red);
+
+        return pointsToAdd;
+    }
+
+    private void ShowPointsOnBall(Vector3 pos, int points, Color col)
+    {
+        if (points != 0)
+        {
+            //Texto con puntos adquiridos instanciado encima del delfín
+            GameObject pointsTetx = Instantiate(_UIManager._pointsTextPrefab, pos, Quaternion.identity);
+            pointsTetx.GetComponentInChildren<TMPro.TextMeshProUGUI>().SetText(points.ToString());
+            pointsTetx.GetComponentInChildren<TMPro.TextMeshProUGUI>().color = col;
+            Destroy(pointsTetx, _UIManager._pointsTextLifeTime);
+        }
     }
 
     // Crea una casilla en la posicion indicada x,y
@@ -435,14 +533,14 @@ public class DolphinLevelManager : MonoBehaviour
     }
     */
 
-    /// <summary>
-    /// Método que devueleve el punto de la matriz libre más cercano libre
-    /// y potencialmente lo ocupa con el objeto indicado
-    /// </summary>
-    /// <param name="pos">Posición actual del delfín</param>
-    /// <param name="setOcuppation">Si se quiere settear la posición en la matriz automáticamente</param>
-    /// <param name="type">Tipo de objeto a colocar</param>
-    /// <returns></returns>
+        /// <summary>
+        /// Método que devueleve el punto de la matriz libre más cercano libre
+        /// y potencialmente lo ocupa con el objeto indicado
+        /// </summary>
+        /// <param name="pos">Posición actual del delfín</param>
+        /// <param name="setOcuppation">Si se quiere settear la posición en la matriz automáticamente</param>
+        /// <param name="type">Tipo de objeto a colocar</param>
+        /// <returns></returns>
     public Vector2 GetNextAvailableMatrixSpot(Vector3 pos, bool setOcuppation = true, Box type = Box.Dolphin)
     {
         Vector2 nextPos = new Vector3(0, 1);
@@ -504,7 +602,8 @@ public class DolphinLevelManager : MonoBehaviour
     /// </summary>
     public void SetAllObstacleSpawning(bool enabled)
     {
-        _obstacleSpawning = enabled;
+        _obstacleTroncoSpawning = enabled;
+        _obstacleBoatSpawning = enabled;
     }
 
     /// <summary>
@@ -540,7 +639,9 @@ public class DolphinLevelManager : MonoBehaviour
         posDolphins = levelData.PosDelfines;
 
         _floatieSpawning = levelData.FloatsEnabled;
-        _obstacleSpawning = levelData.ObstaclesEnabled;
+        _obstacleTroncoSpawning = levelData.ObstaclesTroncoEnabled;
+        _obstacleBoatSpawning = levelData.ObstaclesBarcaEnabled;
+        _ballsSpawning = levelData.BallsEnabled;
 
         minSpawnTime = levelData.MinObstacleSpawn;
         maxSpawnTime = levelData.MaxObstacleSpawn;
@@ -557,8 +658,12 @@ public class DolphinLevelManager : MonoBehaviour
         _specialJumpIncreasedVelPoints = (int)levelData.RightGuessPointsVel;
         _floatiePoints = (int)levelData.FloatiePoints;
         _floatieIncreasedVelPoints = (int)levelData.FloatiePointsVel;
+        _ballHitPoints = (int)levelData.BallHitPoints;
+        _ballIncreasedVelPoints = (int)levelData.BallHitPointsVel;
+        _ballMissPoints = (int)levelData.BallMissPoints;
         _wrongSpecialJumpPoints = (int)levelData.WrongGuessPoints;
-        _hitObstaclePoints = (int)levelData.HitObstaclePoints;
+        _hitObstacleToncoPoints = (int)levelData.HitObstacleTroncoPoints;
+        _hitObstacleBarcaPoints = (int)levelData.HitObstacleBarcaPoints;
 
         _whaleSpawnNum = levelData.WhaleApearingGuests;
         _increaseVelFactor = levelData.IncreasedSpeedFactor;

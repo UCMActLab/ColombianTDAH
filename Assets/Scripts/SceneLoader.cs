@@ -7,11 +7,14 @@ public class SceneLoader : MonoBehaviour
 
     public int levelId;
     public static bool teacherMode;
+    private bool lastLevelWon;
     
     void Awake()
     {
         if(_instance == null)
         {
+            levelId = 1; // Default level ID
+            lastLevelWon = false; // Default last level won state
             _instance = this;
         }
         else
@@ -19,32 +22,33 @@ public class SceneLoader : MonoBehaviour
             Destroy(this.gameObject);
         }
 
-        levelId = 01;
         teacherMode = false;
         DontDestroyOnLoad(this.gameObject);
     }
 
-    public static void LoadScene(string name = "dolphin")
+    public static void LoadScene(string name = "DolphinLevel")
     {
+        Debug.Log("Loading scene: " + name);
+        if (name == "dolphin")
+            name = "DolphinLevel";
         if (name == "DolphinLevelSelector")
         {
             teacherMode = false;
         }
-        else if (name == "dolphin")
+        else if (name == "DolphinLevel")
         {
-            
-            if (teacherMode)
-            {
-                name = "DolphinLevel_1";
-                Debug.Log("TEACHER MODE");
-            }
-            else
+            //Solo pasaremos a los dialogos si vamos desde el selector de niveles
+            if (!teacherMode && SceneManager.GetActiveScene().name == "DolphinLevelSelector")
             {
                 name = "Dialogs";
                 Debug.Log("NIÑO MODE");
             }
         }
-        SceneManager.LoadScene(name);
+        if (name == "Worlds") //Botón de exit del minijuego
+        {
+            EventRegister.Instance.WriteEnd();
+        }
+            SceneManager.LoadScene(name);
     }
 
     public void setMode(bool mode)
@@ -60,5 +64,20 @@ public class SceneLoader : MonoBehaviour
     public int getLevelId()
     {
         return levelId;
+    }
+
+    public void setLevelId(int id)
+    {
+        levelId = id;
+    }
+
+    public bool getLastLevelWon()
+    {
+        return lastLevelWon;
+    }
+
+    public void setLastLevelWon(bool won)
+    {
+        lastLevelWon = won;
     }
 }

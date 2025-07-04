@@ -1,0 +1,53 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a355f670193f2e247a0395a1c0be0ea9, type: 3}
+  m_Name: default08_configData
+  m_EditorClassIdentifier: 
+  configName: default08
+  _nCarriles: 6
+  _nDelfines: 8
+  _posDelfines:
+  - {x: 4, y: 1}
+  - {x: 5, y: 2}
+  - {x: 1, y: 0}
+  - {x: 3, y: 3}
+  - {x: 5, y: 4}
+  - {x: 2, y: 5}
+  - {x: 1, y: 6}
+  - {x: 0, y: 7}
+  _obstaclesTroncoEnabled: 1
+  _obstaclesBarcaEnabled: 1
+  _floatsEnabled: 0
+  _ballsEnabled: 1
+  _minObstacleSpawn: 3
+  _maxObstacleSpawn: 5
+  _obstacleSpeed: 2.5
+  _increasedSpeedFactor: 2
+  _whaleApearingGuests: 2
+  _minTimeBetweenJumps: 1
+  _maxTimeBetweenJumps: 3
+  canSpecialJumpSimultaneously: 1
+  _minCountBetweenSpecialJumps: 1
+  _maxCountBetweenSpecialJumps: 3
+  _diffSpeciesEnabled: 0
+  _levelPoints: 5800
+  _rightGuessPoints: 120
+  _rightGuessPointsVel: 150
+  _floatiePoints: 35
+  _floatiePointsVel: 45
+  _ballHitPoints: 20
+  _ballHitPointsVel: 30
+  _ballMissPoints: -10
+  _wrongGuessPoints: -10
+  _hitObstacleTroncpPoints: 0
+  _hitObstacleBarcaPoints: -25
+  _desbloqueado: 1

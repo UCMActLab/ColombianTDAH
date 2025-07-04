@@ -93,8 +93,8 @@ public class DolphinController : MonoBehaviour
     void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.GetComponent<Obstaculo>())
-        {
-            OnHitObstacle();
+        {            
+            OnHitObstacle(collision.gameObject.GetComponent<Obstaculo>().GetType());
             EventRegister.Instance.AddToEvnt(Tuple.Create(EventRegister.EventosInfo.OColision, _index.ToString("00")));
             EventRegister.Instance.EvntToJson();
         }
@@ -103,13 +103,13 @@ public class DolphinController : MonoBehaviour
     /// <summary>
     /// Resta de puntos por colisión con obstáculo y sumersión delfín.
     /// </summary>
-    protected void OnHitObstacle()
+    protected void OnHitObstacle(Box type)
     {
         if (canBeDamaged)
         {
             StartCoroutine("PauseDamage");
             Dive();
-            int points = dolphinMngr.HitObstacle();
+            int points = dolphinMngr.HitObstacle(type);
             ShowPointsOnDolphin(points, Color.red);
         }
     }
@@ -383,11 +383,14 @@ public class DolphinController : MonoBehaviour
 
     void ShowPointsOnDolphin(int points, Color col)
     {
-        //Texto con puntos adquiridos instanciado encima del delfín
-        Vector3 offsetHeight = new Vector3(0.0f, 2.0f, 0.0f);
-        GameObject pointsTetx = Instantiate(_pointsTextPrefab, transform.position + offsetHeight, Quaternion.identity);
-        pointsTetx.GetComponentInChildren<TextMeshProUGUI>().SetText(points.ToString());
-        pointsTetx.GetComponentInChildren<TextMeshProUGUI>().color = col;
-        Destroy(pointsTetx, _pointsTextLifeTime);
+        if (points != 0)
+        {
+            //Texto con puntos adquiridos instanciado encima del delfín
+            Vector3 offsetHeight = new Vector3(0.0f, 2.0f, 0.0f);
+            GameObject pointsTetx = Instantiate(_pointsTextPrefab, transform.position + offsetHeight, Quaternion.identity);
+            pointsTetx.GetComponentInChildren<TextMeshProUGUI>().SetText(points.ToString());
+            pointsTetx.GetComponentInChildren<TextMeshProUGUI>().color = col;
+            Destroy(pointsTetx, _pointsTextLifeTime);
+        }
     }
 }

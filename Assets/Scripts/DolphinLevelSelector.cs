@@ -37,7 +37,9 @@ public class DolphinLevelSelector : MonoBehaviour
 
     public void ChargeLevel()
     {
-        if(_isUnlocked) SceneLoader.LoadScene("DolphinLevel_" + _levelNum);
+        SceneLoader sceneLoader = GameObject.Find("SceneLoader").GetComponent<SceneLoader>();
+        sceneLoader.setLevelId(int.Parse(_levelNum));
+        if (_isUnlocked) SceneLoader.LoadScene("DolphinLevel");
     }
 
     public void ChargeLevel(string name)

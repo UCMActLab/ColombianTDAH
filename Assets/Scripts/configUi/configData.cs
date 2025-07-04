@@ -9,7 +9,6 @@ public class configData : ScriptableObject
     //ID
     public string configName;
 
-
     //RIVER CONFIG
     [Header("River Configuration")]
     [Range(1, 6)]
@@ -30,8 +29,18 @@ public class configData : ScriptableObject
     //LEVEL PARAM CONFIG
     [Header("Obstacles Spawning")]
     [SerializeField]
-    private bool _obstaclesEnabled;
-    public bool ObstaclesEnabled { get => _obstaclesEnabled; set => _obstaclesEnabled = value; }
+    private bool _obstaclesTroncoEnabled;
+    [SerializeField]
+    private bool _obstaclesBarcaEnabled;
+    public bool ObstaclesTroncoEnabled { get => _obstaclesTroncoEnabled; set => _obstaclesTroncoEnabled = value; }
+    public bool ObstaclesBarcaEnabled { get => _obstaclesBarcaEnabled; set => _obstaclesBarcaEnabled = value; }
+    [SerializeField]
+    private bool _floatsEnabled;
+    public bool FloatsEnabled { get => _floatsEnabled; set => _floatsEnabled = value; }
+    [SerializeField]
+    private bool _ballsEnabled;
+    public bool BallsEnabled { get => _ballsEnabled; set => _ballsEnabled = value; }
+
     [SerializeField, Tooltip("Time for object spawning")]
     private float _minObstacleSpawn;
     public float MinObstacleSpawn { get => _minObstacleSpawn; set => _minObstacleSpawn = value; }
@@ -54,12 +63,6 @@ public class configData : ScriptableObject
     private int _whaleApearingGuests;
     public int WhaleApearingGuests { get => _whaleApearingGuests; set => _whaleApearingGuests = value; }
 
-    [Header("Floats Spawning")]
-    [SerializeField]
-    private bool _floatsEnabled;
-    public bool FloatsEnabled { get => _floatsEnabled; set => _floatsEnabled = value; }
-
-
     [Header("Jumping Details")]
     [SerializeField, Tooltip("Time between jumps")] 
     private float _minTimeBetweenJumps;
@@ -80,8 +83,11 @@ public class configData : ScriptableObject
     private float _maxCountBetweenSpecialJumps;
     public float MaxCountBetweenSpecialJumps { get => _maxCountBetweenSpecialJumps; set => _maxCountBetweenSpecialJumps = value; }
 
-
-
+    [Header("Different species")]
+    [SerializeField]
+    private bool _diffSpeciesEnabled;
+    public bool DiffSpeciesEnabled { get => _diffSpeciesEnabled; set => _diffSpeciesEnabled = value; }
+   
     [Header("Points")]
     [SerializeField, Tooltip("Necessary points to end level")]
     private float _levelPoints;
@@ -106,12 +112,30 @@ public class configData : ScriptableObject
     private float _floatiePointsVel; //acertar en flotador con velocidad aumentada
     public float FloatiePointsVel { get => _floatiePointsVel; set => _floatiePointsVel = value; }
 
+    [SerializeField, Tooltip("Points to add per ball")]
+    private float _ballHitPoints; //acertar en pelota
+    public float BallHitPoints { get => _ballHitPoints; set => _ballHitPoints = value; }
+    [SerializeField, Tooltip("Points to add per ball with increased velocity")]
+    private float _ballHitPointsVel; //acertar en pelota con velocidad aumentada
+    public float BallHitPointsVel { get => _ballHitPointsVel; set => _ballHitPointsVel = value; }
+    [SerializeField, Tooltip("Points to loose per ball")]
+    private float _ballMissPoints; //acertar en pelota
+    public float BallMissPoints { get => _ballMissPoints; set => _ballMissPoints = value; }
+
     [SerializeField, Tooltip("Points to substract per wrong special jump guess")]
     private float _wrongGuessPoints;
     public float WrongGuessPoints { get => _wrongGuessPoints; set => _wrongGuessPoints = value; }
 
-    [SerializeField, Tooltip("Points to substract when a dolphin hits an obstacle")]
-    private float _hitObstaclePoints; //chocarse con obstáculo
-    public float HitObstaclePoints { get => _hitObstaclePoints; set => _hitObstaclePoints = value; }
+    [SerializeField, Tooltip("Points to substract when a dolphin hits an obstacle (Tronco)")]
+    private float _hitObstacleTroncpPoints; //chocarse con obstáculo
+    public float HitObstacleTroncoPoints { get => _hitObstacleTroncpPoints; set => _hitObstacleTroncpPoints = value; }
+    
+    [SerializeField, Tooltip("Points to substract when a dolphin hits an obstacle (Barca)")]
+    private float _hitObstacleBarcaPoints; //chocarse con obstáculo
+    public float HitObstacleBarcaPoints { get => _hitObstacleBarcaPoints; set => _hitObstacleBarcaPoints = value; }
 
+    [Header("Level unblocked:")]
+    [SerializeField]
+    private bool _desbloqueado;
+    public bool Desbloqueado { get => _desbloqueado; set => _desbloqueado = value; }
 }

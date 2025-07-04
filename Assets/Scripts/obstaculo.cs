@@ -2,10 +2,13 @@ using UnityEngine;
 
 public class Obstaculo : MovingObject
 {
+    [SerializeField]
+    Box _type;
+
     private void Start()
     {
         base.Start();
-        type = Box.Obstacle;
+        type = _type;
         collisionReaction = true;
     }
 
@@ -18,5 +21,10 @@ public class Obstaculo : MovingObject
             // Desactiva Velocidad aumentada
             DolphinLevelManager.Instance.DeactivateIncreasedSpeed();
         }
+    }
+
+    public Box GetType()
+    {
+        return _type;
     }
 }
