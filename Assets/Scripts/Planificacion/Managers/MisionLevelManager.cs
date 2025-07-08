@@ -9,12 +9,20 @@ public class MisionLevelManager : MonoBehaviour
     // UI
     [SerializeField]
     MisionUIManager _misionUIManager;
+    [SerializeField]
+    MapUIManager _mapUIManager;
 
     // Time
     [SerializeField]
     float _answerTime = 10;
     float _timeCont = 0;
     bool _isAnswering = false;
+
+    // Reglas
+    int _stopsN;
+    int _stopMins;
+    int _sleepHours;
+    int _locationFrec;
 
     private void Awake()
     {
@@ -80,4 +88,23 @@ public class MisionLevelManager : MonoBehaviour
 
     // Devuelve valor del tiempo de respuesta
     public float GetAnswerTime() {  return _answerTime; }
+
+    // Carga configuracion escogida
+    public void LoadConfiguration(MisionConfigurationData config)
+    {
+         _stopsN = config.NumStops;
+         _stopMins = config.StopMins;
+         _sleepHours = config.SleepHours;
+         _locationFrec = config.Location;
+
+        SetUIRules();
+    }
+
+    // Cambia reglas UI
+    private void SetUIRules()
+    {
+        _mapUIManager.SetStops(_stopsN, _stopMins);
+        _mapUIManager.SetSleepHours(_sleepHours);
+        _mapUIManager.SetLocationFrec(_locationFrec);
+    }
 }

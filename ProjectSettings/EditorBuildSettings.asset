@@ -30,7 +30,7 @@ EditorBuildSettings:
     path: Assets/Scenes/Minigames/Planificacion/MisionColombia/MC_Level.unity
     guid: e80804ddcd77486428b220bbceae816e
   - enabled: 1
-    path: Assets/Scenes/Minigames/Planificacion/MisionColombia/MC_Mapa1.unity
+    path: Assets/Scenes/Minigames/Planificacion/MisionColombia/MC_Mapa.unity
     guid: bfd9587525ed1a246b5c1d094e226104
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}

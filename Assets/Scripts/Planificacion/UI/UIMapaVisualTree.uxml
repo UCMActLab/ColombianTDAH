@@ -10,7 +10,7 @@
                     <ui:Label text="Configuración sueño:" style="flex-wrap: wrap; font-size: 22px; margin-top: 40px; margin-right: 5px; margin-bottom: 15px; margin-left: 5px; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; -unity-font-style: bold;" />
                     <ui:IntegerField label="Horas:" value="8" name="HorasSueno" style="font-size: 18px; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; border-top-width: 5px; border-right-width: 5px; border-bottom-width: 5px; border-left-width: 5px;" />
                     <ui:Label text="Configuración ubicación:" name="Label" style="flex-wrap: wrap; font-size: 22px; margin-top: 40px; margin-right: 5px; margin-bottom: 15px; margin-left: 5px; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; -unity-font-style: bold;" />
-                    <ui:IntegerField label="Frecuencia de mensaje (horas):" value="8" name="HorasSueno" style="font-size: 18px; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; border-top-width: 5px; border-right-width: 5px; border-bottom-width: 5px; border-left-width: 5px;" />
+                    <ui:IntegerField label="Frecuencia de mensaje (horas):" value="8" name="Ubicacion" style="font-size: 18px; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; border-top-width: 5px; border-right-width: 5px; border-bottom-width: 5px; border-left-width: 5px;" />
                 </ui:VisualElement>
                 <ui:Button text="Confirmar" name="AcceptButton" style="width: 150px; align-self: center; justify-content: center; bottom: 50px; font-size: 20px;" />
             </ui:VisualElement>

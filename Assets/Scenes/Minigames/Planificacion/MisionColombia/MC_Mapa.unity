@@ -1377,7 +1377,7 @@ PrefabInstance:
     - target: {fileID: 2960755514515249226, guid: 598b04a249e2bf24e94007cdad2ee9e3, type: 3}
       propertyPath: dialogPrefab
       value: 
-      objectReference: {fileID: 9207173393832567713, guid: b763683a700dce344af1f376b54f99a7, type: 3}
+      objectReference: {fileID: 9207173393832567713, guid: 7dfa8b5fc00b0b747884a4fda78442e9, type: 3}
     - target: {fileID: 2984248112780461210, guid: 598b04a249e2bf24e94007cdad2ee9e3, type: 3}
       propertyPath: m_LocalPosition.x
       value: 250.57344
@@ -4300,6 +4300,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: af69b04d90d17264c8313e0f636a41d4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  rules:
+  - {fileID: 629948939}
+  - {fileID: 777923516}
+  - {fileID: 304412406}
 --- !u!1 &880240426
 GameObject:
   m_ObjectHideFlags: 0
@@ -4922,7 +4926,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b470a240e4d2678479c93355e865bdc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _startingDialogue: {fileID: 11400000, guid: ee096598abd257a42ab892fb2e641220, type: 2}
+  _startingDialogue: {fileID: 11400000, guid: f5556f9a77940444ba2df3016f2404ee, type: 2}
 --- !u!4 &1030354656
 Transform:
   m_ObjectHideFlags: 0
@@ -9043,6 +9047,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _map: {fileID: 1113168378}
   _dialogs: {fileID: 272594257}
+  _config: {fileID: 11400000, guid: c3f4c45eb6585364ba7841d69f0e688a, type: 2}
 --- !u!1 &2143223884
 GameObject:
   m_ObjectHideFlags: 0
@@ -9187,6 +9192,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 205169871}
     m_Modifications:
+    - target: {fileID: 780008718405975468, guid: 3ae2c4e476b394e4c90f7bdfcd5f324b, type: 3}
+      propertyPath: _mapUIManager
+      value: 
+      objectReference: {fileID: 865071169}
     - target: {fileID: 780008718405975468, guid: 3ae2c4e476b394e4c90f7bdfcd5f324b, type: 3}
       propertyPath: misionUIManager
       value: 
