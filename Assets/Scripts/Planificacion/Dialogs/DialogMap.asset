@@ -13,12 +13,14 @@ MonoBehaviour:
   m_Name: DialogMap
   m_EditorClassIdentifier: 
   texts:
-  - "Andr\xE9s, el conductor, debe llevar un cargamento de pl\xE1tanos desde Popay\xE1n
-    hasta Piendam\xF3."
-  - "El trayecto tarda 12 horas, pero tiene un m\xE1ximo de 24 horas para hacerlo."
-  - "\xA1Parece f\xE1cil! Pero hay reglas que debe seguir para que el cargamento
-    llegue sano, y Andr\xE9s no se canse demasiado."
-  speed: 0
+  - "Andr\xE9s, el conductor, debe llevar un cargamento de"
+  - "pl\xE1tanos desde Popay\xE1n hasta Piendam\xF3."
+  - "El trayecto tarda 12 horas, pero tiene un m\xE1ximo de 24 horas"
+  - para hacerlo.
+  - "\xA1Parece f\xE1cil! Pero hay reglas que debe seguir"
+  - "para que el cargamento llegue sano, y Andr\xE9s "
+  - no se canse demasiado.
+  speed: 0.01
   onStartDialog:
     m_PersistentCalls:
       m_Calls: []

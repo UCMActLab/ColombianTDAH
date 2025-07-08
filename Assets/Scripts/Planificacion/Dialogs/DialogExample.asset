@@ -15,7 +15,7 @@ MonoBehaviour:
   texts:
   - Has encontrado una gasolinera.
   - "\xBFQuieres parar a descansar?"
-  speed: 0
+  speed: 0.01
   onStartDialog:
     m_PersistentCalls:
       m_Calls: []
