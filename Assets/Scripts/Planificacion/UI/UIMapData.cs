@@ -32,7 +32,7 @@ public class UIMapData : MonoBehaviour
             _sleepHours = _document.rootVisualElement.Q<IntegerField>("HorasSueno");
             _location = _document.rootVisualElement.Q<IntegerField>("Ubicacion");
 
-            _acceptButton = _document.rootVisualElement.Q("AcceptButton") as Button;
+            _acceptButton = _document.rootVisualElement.Q("guardarYjugar") as Button;
 
             if (_acceptButton != null)
                 _acceptButton.RegisterCallback<ClickEvent>(OnAcceptClick);
