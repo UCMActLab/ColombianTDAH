@@ -1,4 +1,7 @@
+using System.Collections.Generic;
+using Unity.VisualScripting.FullSerializer;
 using UnityEngine;
+using static UnityEngine.Rendering.STP;
 
 public class MisionLevelManager : MonoBehaviour
 {
@@ -23,6 +26,10 @@ public class MisionLevelManager : MonoBehaviour
     int _stopMins;
     int _sleepHours;
     int _locationFrec;
+
+    // Horas
+    bool [,] _depHours;
+    bool[,] _locHours;
 
     private void Awake()
     {
@@ -98,6 +105,11 @@ public class MisionLevelManager : MonoBehaviour
          _locationFrec = config.Location;
 
         SetUIRules();
+
+        _depHours = config.DepartureHours;
+        _locHours = config.LocationHours;
+
+        SetUIPlanification();
     }
 
     // Cambia reglas UI
@@ -106,5 +118,33 @@ public class MisionLevelManager : MonoBehaviour
         _mapUIManager.SetStops(_stopsN, _stopMins);
         _mapUIManager.SetSleepHours(_sleepHours);
         _mapUIManager.SetLocationFrec(_locationFrec);
+    }
+
+    private void SetUIPlanification()
+    {
+
+        List<string> optiondatas = new List<string>();
+        List<string> optiondatas2 = new List<string>();
+        string auxString = "am";
+
+        for (int i = 1; i <= _depHours.GetLength(1); i++)
+        {
+            for (int j = 1; j <= _depHours.GetLength(0); j++)
+            {
+                if (_depHours[j - 1, i - 1])
+                {
+                    optiondatas.Add(j + " " + auxString);
+                }
+
+                if (_locHours[j - 1, i - 1]){
+                    optiondatas2.Add(j + " " + auxString);
+                }
+            }
+
+            auxString = "pm";
+        }
+
+        _mapUIManager.SetDepartureHours(optiondatas);
+        _mapUIManager.SetLocationHours(optiondatas2);
     }
 }

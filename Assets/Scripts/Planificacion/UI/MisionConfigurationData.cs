@@ -22,6 +22,14 @@ public class MisionConfigurationData : ScriptableObject
     private int _location;
     public int Location { get => _location; set => _location = value; }
 
+    // Matriz horas salida
+    bool[,] _departureHours = new bool[12, 2];
+    public bool[,] DepartureHours { get => _departureHours; set => _departureHours = value; }
+
+    // Matriz horas ubicacion
+    bool[,] _locationHours = new bool[12, 2];
+    public bool[,] LocationHours { get => _locationHours; set => _locationHours = value; }
+
 
     //[Header("Level unblocked:")]
     //[SerializeField]
