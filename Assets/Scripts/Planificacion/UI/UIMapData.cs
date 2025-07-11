@@ -1,3 +1,6 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -5,13 +8,20 @@ public class UIMapData : MonoBehaviour
 {
     UIDocument _document;
     Button _acceptButton;
+
+    // Reglas
     IntegerField _stopNumber;
     IntegerField _stopMins;
     IntegerField _sleepHours;
     IntegerField _location;
 
+    // Planificacion
     Toggle[,] _depHours;
     Toggle[,] _locHours;
+    Toggle[,] _allSleepHours;
+    IntegerField _hourPerSleep;
+
+    TextField _stopNames;
 
 
     [SerializeField]
@@ -38,6 +48,9 @@ public class UIMapData : MonoBehaviour
 
             _depHours = new Toggle[12, 2];
             _locHours = new Toggle[12, 2];
+            _allSleepHours = new Toggle[12, 2];
+            _hourPerSleep = _document.rootVisualElement.Q<IntegerField>("CuantoDormir");
+            _stopNames = _document.rootVisualElement.Q<TextField>("ParadasTextField");
 
             string name = "";
             string timeMode = "am";
@@ -49,6 +62,7 @@ public class UIMapData : MonoBehaviour
 
                     _depHours[j - 1, i - 1] = _document.rootVisualElement.Q<Toggle>(name);
                     _locHours[j - 1, i - 1] = _document.rootVisualElement.Q<Toggle>(name + "L");
+                    _allSleepHours[j - 1, i - 1] = _document.rootVisualElement.Q<Toggle>(name + "S");
                 }
 
                 timeMode = "pm";
@@ -103,11 +117,31 @@ public class UIMapData : MonoBehaviour
                 _config.DepartureHours[j, i] = _depHours[j, i].value;
                 // Horas ubicacion
                 _config.LocationHours[j, i] = _locHours[j, i].value;
+                //Horas dormir
+                _config.AllSleepHours[j, i] = _allSleepHours[j, i].value;
             }
         }
+
+        // Horas por cada parada de dormir
+        _config.HoursPerSleep = _hourPerSleep.value;
+
+        string auxString = _stopNames.value;
+
+        _config.StopsNames = SeparateStopNames(auxString);
 
         // Game Manager
         MisionLevelManager.Instance.LoadConfiguration(_config);
 
+    }
+
+    // Separa un texto y devuelve lista de palabras
+    private List<string> SeparateStopNames(string names)
+    {
+        char[] delimiterChars = {',', '.'};
+        string[] words = names.Split(delimiterChars);
+
+        List<string> wordsList = words.ToList();
+
+        return wordsList;
     }
 }

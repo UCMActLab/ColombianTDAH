@@ -30,6 +30,11 @@ public class MisionLevelManager : MonoBehaviour
     // Horas
     bool [,] _depHours;
     bool[,] _locHours;
+    bool[,] _allSleepHours;
+    int _hourPerSleep;
+
+    // Lista de paradas
+    List<string> _stops;
 
     private void Awake()
     {
@@ -99,6 +104,7 @@ public class MisionLevelManager : MonoBehaviour
     // Carga configuracion escogida
     public void LoadConfiguration(MisionConfigurationData config)
     {
+        // Reglas
          _stopsN = config.NumStops;
          _stopMins = config.StopMins;
          _sleepHours = config.SleepHours;
@@ -106,8 +112,14 @@ public class MisionLevelManager : MonoBehaviour
 
         SetUIRules();
 
+        // Planificacion
         _depHours = config.DepartureHours;
         _locHours = config.LocationHours;
+        _allSleepHours = config.AllSleepHours;
+
+        _hourPerSleep = config.HoursPerSleep;
+
+        _stops = config.StopsNames;
 
         SetUIPlanification();
     }
@@ -125,6 +137,7 @@ public class MisionLevelManager : MonoBehaviour
 
         List<string> optiondatas = new List<string>();
         List<string> optiondatas2 = new List<string>();
+        List<string> optiondatas3 = new List<string>();
         string auxString = "am";
 
         for (int i = 1; i <= _depHours.GetLength(1); i++)
@@ -139,6 +152,11 @@ public class MisionLevelManager : MonoBehaviour
                 if (_locHours[j - 1, i - 1]){
                     optiondatas2.Add(j + " " + auxString);
                 }
+
+                if (_allSleepHours[j - 1, i - 1])
+                {
+                    optiondatas3.Add(j + " " + auxString);
+                }
             }
 
             auxString = "pm";
@@ -146,5 +164,8 @@ public class MisionLevelManager : MonoBehaviour
 
         _mapUIManager.SetDepartureHours(optiondatas);
         _mapUIManager.SetLocationHours(optiondatas2);
+        _mapUIManager.SetAllSleepHours(optiondatas3);
+
+        _mapUIManager.SetStopsNames(_stops);
     }
 }

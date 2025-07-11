@@ -50,12 +50,19 @@ public class MapUIManager : MonoBehaviour
     {
         SetHours(0, optiondatas);
     }
-
-    public void SetLocationHours(List<string> optiondatas)
+    public void SetAllSleepHours(List<string> optiondatas)
     {
         SetHours(1, optiondatas);
     }
 
+    public void SetLocationHours(List<string> optiondatas)
+    {
+        SetHours(2, optiondatas);
+    }
+    public void SetStopsNames(List<string> optiondatas)
+    {
+        SetHours(3, optiondatas);
+    }
 
     private void SetHours(int index, List<string> optiondatas)
     {
