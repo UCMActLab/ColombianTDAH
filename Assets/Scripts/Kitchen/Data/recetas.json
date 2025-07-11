@@ -1,0 +1,410 @@
+{
+    "recetas": [
+        {
+            "nombre": "Aguapanela",
+            "categoria": "Bebida",
+            "ingredientes": [
+                "Panela",
+                "Agua"
+            ],
+            "puestos": [
+                "Olla"
+            ]
+        },
+        {
+            "nombre": "Ajiaco",
+            "categoria": "Sopa",
+            "ingredientes": [
+                "Carne",
+                "Papa",
+                "Yuca",
+                "Crema de leche"
+            ],
+            "puestos": [
+                "Olla a presion",
+                "Tabla de picar"
+            ]
+        },
+        {
+            "nombre": "Arepa",
+            "categoria": "Para picar",
+            "ingredientes": [
+                "Maiz",
+                "Huevo",
+                "Agua"
+            ],
+            "puestos": [
+                "Horno",
+                "Mezcladora"
+            ]
+        },
+        {
+            "nombre": "Arroz",
+            "categoria": "Complementario",
+            "ingredientes": [
+                "Arroz",
+                "Agua"
+            ],
+            "puestos": [
+                "Olla"
+            ]
+        },
+        {
+            "nombre": "Bandeja paisa",
+            "categoria": "Plato fuerte",
+            "ingredientes": [
+                "Arroz",
+                "Carne",
+                "Huevo",
+                "Frijoles",
+                "Platano",
+                "Arepa",
+                "Carne molida",
+                "Aguacate"
+            ],
+            "puestos": [
+                "Sarten",
+                "Olla",
+                "Olla a presion",
+                "Tabla de picar"
+            ]
+        },
+        {
+            "nombre": "Bocadillo",
+            "categoria": "Postre",
+            "ingredientes": [
+                "Guayaba",
+                "Azucar"
+            ],
+            "puestos": [
+                "Olla"
+            ]
+        },
+        {
+            "nombre": "Buñuelos",
+            "categoria": "Para picar",
+            "ingredientes": [
+                "Harina",
+                "Queso"
+            ],
+            "puestos": [
+                "Mezcladora",
+                "Sarten"
+            ]
+        },
+        {
+            "nombre": "Cafe",
+            "categoria": "Bebida",
+            "ingredientes": [
+                "Cafe",
+                "Agua"
+            ],
+            "puestos": [
+                "Olla"
+            ]
+        },
+        {
+            "nombre": "Caldo de costilla",
+            "categoria": "Sopa",
+            "ingredientes": [
+                "Papa",
+                "Cilantro",
+                "Hueso",
+                "Agua",
+                "Yuca"
+            ],
+            "puestos": [
+                "Olla a presion",
+                "Tabla de picar"
+            ]
+        },
+        {
+            "nombre": "Carne a la llanera",
+            "categoria": "Plato fuerte",
+            "ingredientes": [
+                "Carne"
+            ],
+            "puestos": [
+                "Horno"
+            ]
+        },
+        {
+            "nombre": "Carne molida",
+            "categoria": "Complementario",
+            "ingredientes": [
+                "Carne",
+                "Agua"
+            ],
+            "puestos": [
+                "Tabla de picar",
+                "Olla"
+            ]
+        },
+        {
+            "nombre": "Cazuela de marisco",
+            "categoria": "Sopa",
+            "ingredientes": [
+                "Pez",
+                "Papa",
+                "Cebolla",
+                "Tomate",
+                "Marisco"
+            ],
+            "puestos": [
+                "Tabla de picar",
+                "Olla",
+                "Horno"
+            ]
+        },
+        {
+            "nombre": "Chicha",
+            "categoria": "Bebida",
+            "ingredientes": [
+                "Maiz",
+                "Agua",
+                "Azucar"
+            ],
+            "puestos": [
+                "Licuadora"
+            ]
+        },
+        {
+            "nombre": "Cocada",
+            "categoria": "Postre",
+            "ingredientes": [
+                "Coco",
+                "Azucar",
+                "Panela"
+            ],
+            "puestos": [
+                "Olla"
+            ]
+        },
+        {
+            "nombre": "Empanadas",
+            "categoria": "Para picar",
+            "ingredientes": [
+                "Arroz",
+                "Maiz",
+                "Carne",
+                "Papa",
+                "Cebolla",
+                "Tomate",
+                "Aji",
+                "Harina"
+            ],
+            "puestos": [
+                "Mezcladora",
+                "Sarten",
+                "Olla"
+            ]
+        },
+        {
+            "nombre": "Fritanga",
+            "categoria": "Para picar",
+            "ingredientes": [
+                "Papa",
+                "Platano",
+                "Arepa",
+                "Mix vegetales",
+                "Carne",
+                "Pollo",
+                "Huevo"
+            ],
+            "puestos": [
+                "Tabla de picar",
+                "Sarten"
+            ]
+        },
+        {
+            "nombre": "Jugos",
+            "categoria": "Bebida",
+            "ingredientes": [
+                "Frutas",
+                "Agua"
+            ],
+            "puestos": [
+                "Licuadora"
+            ]
+        },
+        {
+            "nombre": "Lechona",
+            "categoria": "Plato fuerte",
+            "ingredientes": [
+                "Arroz",
+                "Carne",
+                "Mix vegetales"
+            ],
+            "puestos": [
+                "Horno",
+                "Olla",
+                "Tabla de picar"
+            ]
+        },
+        {
+            "nombre": "Mazamorra",
+            "categoria": "Bebida",
+            "ingredientes": [
+                "Maiz",
+                "Agua",
+                "Leche"
+            ],
+            "puestos": [
+                "Olla"
+            ]
+        },
+        {
+            "nombre": "Merengon",
+            "categoria": "Postre",
+            "ingredientes": [
+                "Huevo",
+                "Azucar",
+                "Crema de leche",
+                "Fresa"
+            ],
+            "puestos": []
+        },
+        {
+            "nombre": "Mielmesabe",
+            "categoria": "Postre",
+            "ingredientes": [
+                "Coco",
+                "Miel",
+                "Leche"
+            ],
+            "puestos": [
+                "Sarten"
+            ]
+        },
+        {
+            "nombre": "Morcilla",
+            "categoria": "Plato fuerte",
+            "ingredientes": [
+                "Arroz",
+                "Mix vegetales",
+                "Papa",
+                "Cebolla",
+                "Carne",
+                "Arepa"
+            ],
+            "puestos": [
+                "Olla",
+                "Sarten"
+            ]
+        },
+        {
+            "nombre": "Mote de queso",
+            "categoria": "Sopa",
+            "ingredientes": [
+                "Queso",
+                "Limon",
+                "Cebolla",
+                "Hoja"
+            ],
+            "puestos": [
+                "Tabla de picar",
+                "Olla"
+            ]
+        },
+        {
+            "nombre": "Natilla",
+            "categoria": "Postre",
+            "ingredientes": [
+                "Harina",
+                "Azucar",
+                "Panela",
+                "Leche",
+                "Canela"
+            ],
+            "puestos": []
+        },
+        {
+            "nombre": "Pandebonos",
+            "categoria": "Para picar",
+            "ingredientes": [
+                "Harina",
+                "Queso"
+            ],
+            "puestos": [
+                "Horno",
+                "Mezcladora"
+            ]
+        },
+        {
+            "nombre": "Patacon con hogao y carne",
+            "categoria": "Para picar",
+            "ingredientes": [
+                "Cebolla",
+                "Tomate",
+                "Platano",
+                "Carne"
+            ],
+            "puestos": [
+                "Tabla de picar",
+                "Sarten"
+            ]
+        },
+        {
+            "nombre": "Platano calado",
+            "categoria": "Postre",
+            "ingredientes": [
+                "Platano",
+                "Panela"
+            ],
+            "puestos": [
+                "Tabla de picar",
+                "Olla"
+            ]
+        },
+        {
+            "nombre": "Sancocho",
+            "categoria": "Sopa",
+            "ingredientes": [
+                "Arroz",
+                "Carne",
+                "Cebolla",
+                "Tomate",
+                "Yuca",
+                "Papa",
+                "Platano",
+                "Agua",
+                "Huevo",
+                "Carne molida"
+            ],
+            "puestos": [
+                "Tabla de picar",
+                "Olla a presion",
+                "Sarten"
+            ]
+        },
+        {
+            "nombre": "Tamal",
+            "categoria": "Plato fuerte",
+            "ingredientes": [
+                "Arroz",
+                "Carne",
+                "Mix vegetales",
+                "Pollo",
+                "Huevo",
+                "Harina",
+                "Agua"
+            ],
+            "puestos": [
+                "Olla",
+                "Tabla de picar",
+                "Mezcladora"
+            ]
+        },
+        {
+            "nombre": "Viche",
+            "categoria": "Bebida",
+            "ingredientes": [
+                "Viche",
+                "Limon"
+            ],
+            "puestos": [
+                "Licuadora"
+            ]
+        }
+    ]
+}
