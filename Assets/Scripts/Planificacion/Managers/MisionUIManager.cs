@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -9,11 +10,15 @@ public class MisionUIManager : MonoBehaviour
     [SerializeField]
     Slider _timeSlider;
 
+    [SerializeField]
+    TextMeshProUGUI _time;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         _decisionGO.SetActive(false);
 
+        MisionLevelManager.Instance.RegisterUIManager(this);
         float answerTime = MisionLevelManager.Instance.GetAnswerTime();
 
         InitSlider(0, answerTime);
@@ -63,5 +68,17 @@ public class MisionUIManager : MonoBehaviour
     public void UpdateSlider(float value)
     {
         _timeSlider.value = value;
+    }
+
+    public void ChangeTime(string newTime)
+    {
+        string[] separatedTime = newTime.Split(" ");
+
+        if (separatedTime[1][0] == 'a')
+            separatedTime[1] = "AM";
+        else if(separatedTime[1][0] == 'p')
+            separatedTime[1] = "PM";
+
+        _time.text = separatedTime[0] + ":00 " + separatedTime[1];
     }
 }

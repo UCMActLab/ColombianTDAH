@@ -69,4 +69,9 @@ public class MapUIManager : MonoBehaviour
         dropdowns[index].ClearOptions();
         dropdowns[index].AddOptions(optiondatas);
     }
+
+    public void SetStartTime()
+    {
+
+    }
 }

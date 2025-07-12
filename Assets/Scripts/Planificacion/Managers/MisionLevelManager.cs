@@ -36,6 +36,12 @@ public class MisionLevelManager : MonoBehaviour
     // Lista de paradas
     List<string> _stops;
 
+    // DECISIONES
+    string _startTime;
+    List<string> _selectedStops;
+
+
+
     private void Awake()
     {
         // Si no hay instancia de esta clase ya creada se almacena
@@ -44,6 +50,8 @@ public class MisionLevelManager : MonoBehaviour
         // Si esta creada se destruye porque no necesitamos una mas
         else
             Destroy(this.gameObject);
+
+        DontDestroyOnLoad(this.gameObject);
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -101,6 +109,13 @@ public class MisionLevelManager : MonoBehaviour
     // Devuelve valor del tiempo de respuesta
     public float GetAnswerTime() {  return _answerTime; }
 
+    // Guarda referencia UI nivel
+    public void RegisterUIManager(MisionUIManager misionUIManager)
+    {
+        _misionUIManager = misionUIManager;
+        _misionUIManager.ChangeTime(_startTime);
+    }
+
     // Carga configuracion escogida
     public void LoadConfiguration(MisionConfigurationData config)
     {
@@ -132,6 +147,7 @@ public class MisionLevelManager : MonoBehaviour
         _mapUIManager.SetLocationFrec(_locationFrec);
     }
 
+    // Cambia posibles opciones mapa
     private void SetUIPlanification()
     {
 
@@ -167,5 +183,14 @@ public class MisionLevelManager : MonoBehaviour
         _mapUIManager.SetAllSleepHours(optiondatas3);
 
         _mapUIManager.SetStopsNames(_stops);
+    }
+
+    public void SetStartTime(string newTime)
+    {
+        _startTime = newTime;
+    }
+    public void SetSelectedStops(List<string> newSelectedStops)
+    {
+        _selectedStops = newSelectedStops;
     }
 }
