@@ -14,10 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nombre: Arepa
   categoria: Para picar
-  ingredientes:
-  - Maiz
-  - Huevo
-  - Agua
-  puestos:
-  - Horno
-  - Mezcladora
+  ingredientes: 180000001400000000000000
+  puestos: 0600000004000000
+  tiempo_est_segs: 0

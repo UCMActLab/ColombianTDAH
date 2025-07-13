@@ -14,11 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nombre: Patacon con hogao y carne
   categoria: Para picar
-  ingredientes:
-  - Cebolla
-  - Tomate
-  - Platano
-  - Carne
-  puestos:
-  - Tabla de picar
-  - Sarten
+  ingredientes: 0a000000220000001f00000008000000
+  puestos: 0000000003000000
+  tiempo_est_segs: 0

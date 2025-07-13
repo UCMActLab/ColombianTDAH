@@ -14,9 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nombre: "Bu\xF1uelos"
   categoria: Para picar
-  ingredientes:
-  - Harina
-  - Queso
-  puestos:
-  - Mezcladora
-  - Sarten
+  ingredientes: 1200000021000000
+  puestos: 0400000003000000
+  tiempo_est_segs: 0

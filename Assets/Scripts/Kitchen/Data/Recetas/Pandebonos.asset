@@ -14,9 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nombre: Pandebonos
   categoria: Para picar
-  ingredientes:
-  - Harina
-  - Queso
-  puestos:
-  - Horno
-  - Mezcladora
+  ingredientes: 1200000021000000
+  puestos: 0400000006000000
+  tiempo_est_segs: 0

@@ -14,11 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nombre: Ajiaco
   categoria: Sopa
-  ingredientes:
-  - Carne
-  - Papa
-  - Yuca
-  - Crema de leche
-  puestos:
-  - Olla a presion
-  - Tabla de picar
+  ingredientes: 070000001c000000230000000c000000
+  puestos: 0500000000000000
+  tiempo_est_segs: 0

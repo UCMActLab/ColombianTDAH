@@ -14,16 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nombre: Empanadas
   categoria: Para picar
-  ingredientes:
-  - Arroz
-  - Maiz
-  - Carne
-  - Papa
-  - Cebolla
-  - Tomate
-  - Aji
-  - Harina
-  puestos:
-  - Mezcladora
-  - Sarten
-  - Olla
+  ingredientes: 0400000018000000080000001d0000000a000000220000000200000012000000
+  puestos: 040000000300000002000000
+  tiempo_est_segs: 0

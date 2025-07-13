@@ -14,7 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nombre: Carne a la llanera
   categoria: Plato fuerte
-  ingredientes:
-  - Carne
-  puestos:
-  - Horno
+  ingredientes: 08000000
+  puestos: 06000000
+  tiempo_est_segs: 0

@@ -6,6 +6,7 @@ public class RecetaData : ScriptableObject
 {
     public string nombre;
     public string categoria;
-    public List<string> ingredientes = new();
-    public List<string> puestos = new();
+    public List<Ingredientes> ingredientes = new();
+    public List<PuestosDeTrabajo> puestos = new();
+    public int tiempo_est_segs;
 }

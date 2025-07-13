@@ -1,0 +1,104 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bcd1ae13526ec814d94691e95e9a1f93, type: 3}
+  m_Name: Nivelacion
+  m_EditorClassIdentifier: 
+  jornadas:
+  - nombreJornada: Jornada Dia 1
+    puestosActivos: 0000000001000000
+    porcentajeVariacion: 1
+    margenDeError: 1
+    recetasAsignadas:
+    - {fileID: 11400000, guid: 0a47d789bddd471499e1773739517226, type: 2}
+    - {fileID: 11400000, guid: 1cfc9e375784a474184b283e88e561fe, type: 2}
+    - {fileID: 11400000, guid: 8f9f01b191328bb43bfc665a1ffc8b8f, type: 2}
+    - {fileID: 11400000, guid: 7ade49373ab80ec4f873989e9e83f987, type: 2}
+    - {fileID: 11400000, guid: d8be31b67b557864d8625642e9968171, type: 2}
+  - nombreJornada: Jornada Dia 2
+    puestosActivos: 000000000100000002000000
+    porcentajeVariacion: 1
+    margenDeError: 1
+    recetasAsignadas:
+    - {fileID: 11400000, guid: 7ade49373ab80ec4f873989e9e83f987, type: 2}
+    - {fileID: 11400000, guid: 28aa411498d897343bd92f9ae88af525, type: 2}
+    - {fileID: 11400000, guid: 437fa7bd39b2b9d42bc549a6f279b07a, type: 2}
+    - {fileID: 11400000, guid: 1a563ab298d77f64c89a4e6824797bd6, type: 2}
+    - {fileID: 11400000, guid: 0a47d789bddd471499e1773739517226, type: 2}
+    - {fileID: 11400000, guid: 90ca16c3f8873034ba9c76f02187dff3, type: 2}
+    - {fileID: 11400000, guid: 9ecea6a00a303874c8736df6092741d0, type: 2}
+    - {fileID: 11400000, guid: 1cfc9e375784a474184b283e88e561fe, type: 2}
+    - {fileID: 11400000, guid: 8f9f01b191328bb43bfc665a1ffc8b8f, type: 2}
+    - {fileID: 11400000, guid: cf445a37a4e36994fbb128b26f903dd0, type: 2}
+    - {fileID: 11400000, guid: 58b95b87691407746a5f6dc59a96c580, type: 2}
+    - {fileID: 11400000, guid: d8be31b67b557864d8625642e9968171, type: 2}
+    - {fileID: 11400000, guid: 04fa81f16a40aaf4182976fe45347887, type: 2}
+    - {fileID: 11400000, guid: ee383a49a91f61b44a6d8bbd3f9e21d2, type: 2}
+  - nombreJornada: Jornada Dia 3
+    puestosActivos: 000000000300000004000000
+    porcentajeVariacion: 1
+    margenDeError: 1
+    recetasAsignadas:
+    - {fileID: 11400000, guid: a32d4b58c2d3fa547a94f6c0b25c0c2c, type: 2}
+    - {fileID: 11400000, guid: cfc791f511ea8344fb19af5587c88ab5, type: 2}
+    - {fileID: 11400000, guid: bfcf96ba0ba524f4fa9ab9bdb2ded2d7, type: 2}
+    - {fileID: 11400000, guid: d8be31b67b557864d8625642e9968171, type: 2}
+    - {fileID: 11400000, guid: 2e81ad19e421fdd448892106afbe3871, type: 2}
+    - {fileID: 11400000, guid: 8f9f01b191328bb43bfc665a1ffc8b8f, type: 2}
+  - nombreJornada: Jornada Dia 4
+    puestosActivos: 00000000060000000500000003000000
+    porcentajeVariacion: 1
+    margenDeError: 1
+    recetasAsignadas:
+    - {fileID: 11400000, guid: fa1721ae0466b4c4dae086102eba639d, type: 2}
+    - {fileID: 11400000, guid: bfcf96ba0ba524f4fa9ab9bdb2ded2d7, type: 2}
+    - {fileID: 11400000, guid: 8f9f01b191328bb43bfc665a1ffc8b8f, type: 2}
+    - {fileID: 11400000, guid: ea9b89baa5011974ca734a030ce49b4e, type: 2}
+    - {fileID: 11400000, guid: d8be31b67b557864d8625642e9968171, type: 2}
+    - {fileID: 11400000, guid: cfc791f511ea8344fb19af5587c88ab5, type: 2}
+    - {fileID: 11400000, guid: d6a05a9bcbe4cb7438e01011250bce86, type: 2}
+    - {fileID: 11400000, guid: 61756e2c7f54ddb4396ebd16b9dcdb26, type: 2}
+    - {fileID: 11400000, guid: 2e81ad19e421fdd448892106afbe3871, type: 2}
+  - nombreJornada: Jornada Dia 5
+    puestosActivos: 00000000010000000200000003000000040000000500000006000000
+    porcentajeVariacion: 1
+    margenDeError: 1
+    recetasAsignadas:
+    - {fileID: 11400000, guid: 7ade49373ab80ec4f873989e9e83f987, type: 2}
+    - {fileID: 11400000, guid: 58b95b87691407746a5f6dc59a96c580, type: 2}
+    - {fileID: 11400000, guid: fa1721ae0466b4c4dae086102eba639d, type: 2}
+    - {fileID: 11400000, guid: 2e81ad19e421fdd448892106afbe3871, type: 2}
+    - {fileID: 11400000, guid: e1d2aaff790d9f84fbaf9d2345db90d6, type: 2}
+    - {fileID: 11400000, guid: d6a05a9bcbe4cb7438e01011250bce86, type: 2}
+    - {fileID: 11400000, guid: 11dcf4173794cae47867ecb2b0c83e37, type: 2}
+    - {fileID: 11400000, guid: cfc791f511ea8344fb19af5587c88ab5, type: 2}
+    - {fileID: 11400000, guid: d8be31b67b557864d8625642e9968171, type: 2}
+    - {fileID: 11400000, guid: 915e95d8af4f1164590aac44dbf1cfa0, type: 2}
+    - {fileID: 11400000, guid: 1a563ab298d77f64c89a4e6824797bd6, type: 2}
+    - {fileID: 11400000, guid: 90ca16c3f8873034ba9c76f02187dff3, type: 2}
+    - {fileID: 11400000, guid: 437fa7bd39b2b9d42bc549a6f279b07a, type: 2}
+    - {fileID: 11400000, guid: 8f9f01b191328bb43bfc665a1ffc8b8f, type: 2}
+    - {fileID: 11400000, guid: 28aa411498d897343bd92f9ae88af525, type: 2}
+    - {fileID: 11400000, guid: a32d4b58c2d3fa547a94f6c0b25c0c2c, type: 2}
+    - {fileID: 11400000, guid: 04f8f857bee234945b7f5506015a5a81, type: 2}
+    - {fileID: 11400000, guid: e10db7c4332d79a48bf1cb33648596e6, type: 2}
+    - {fileID: 11400000, guid: 0a47d789bddd471499e1773739517226, type: 2}
+    - {fileID: 11400000, guid: ea9b89baa5011974ca734a030ce49b4e, type: 2}
+    - {fileID: 11400000, guid: cf445a37a4e36994fbb128b26f903dd0, type: 2}
+    - {fileID: 11400000, guid: bfcf96ba0ba524f4fa9ab9bdb2ded2d7, type: 2}
+    - {fileID: 11400000, guid: 9ecea6a00a303874c8736df6092741d0, type: 2}
+    - {fileID: 11400000, guid: 59de0909030556343a0afdafb3c0856c, type: 2}
+    - {fileID: 11400000, guid: 04fa81f16a40aaf4182976fe45347887, type: 2}
+    - {fileID: 11400000, guid: ee383a49a91f61b44a6d8bbd3f9e21d2, type: 2}
+    - {fileID: 11400000, guid: d52b02249470f8948a7484f4b386a804, type: 2}
+    - {fileID: 11400000, guid: 61756e2c7f54ddb4396ebd16b9dcdb26, type: 2}
+    - {fileID: 11400000, guid: 1cfc9e375784a474184b283e88e561fe, type: 2}
+    - {fileID: 11400000, guid: d3220d58025272941a191329fb9afe55, type: 2}

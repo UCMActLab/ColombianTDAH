@@ -14,8 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nombre: Viche
   categoria: Bebida
-  ingredientes:
-  - Viche
-  - Limon
-  puestos:
-  - Licuadora
+  ingredientes: 2300000017000000
+  puestos: 01000000
+  tiempo_est_segs: 0

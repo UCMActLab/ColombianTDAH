@@ -14,9 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nombre: Cocada
   categoria: Postre
-  ingredientes:
-  - Coco
-  - Azucar
-  - Panela
-  puestos:
-  - Olla
+  ingredientes: 0c000000050000001c000000
+  puestos: 02000000
+  tiempo_est_segs: 0

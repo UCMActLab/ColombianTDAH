@@ -14,12 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nombre: Caldo de costilla
   categoria: Sopa
-  ingredientes:
-  - Papa
-  - Cilantro
-  - Hueso
-  - Agua
-  - Yuca
-  puestos:
-  - Olla a presion
-  - Tabla de picar
+  ingredientes: 1c0000000a000000140000000000000024000000
+  puestos: 0500000000000000
+  tiempo_est_segs: 0

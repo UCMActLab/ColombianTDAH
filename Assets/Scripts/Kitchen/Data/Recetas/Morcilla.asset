@@ -14,13 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nombre: Morcilla
   categoria: Plato fuerte
-  ingredientes:
-  - Arroz
-  - Mix vegetales
-  - Papa
-  - Cebolla
-  - Carne
-  - Arepa
-  puestos:
-  - Olla
-  - Sarten
+  ingredientes: 040000001b0000001d0000000a0000000800000003000000
+  puestos: 0200000003000000
+  tiempo_est_segs: 0

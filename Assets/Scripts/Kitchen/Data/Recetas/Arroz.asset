@@ -14,8 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nombre: Arroz
   categoria: Complementario
-  ingredientes:
-  - Arroz
-  - Agua
-  puestos:
-  - Olla
+  ingredientes: 0400000000000000
+  puestos: 02000000
+  tiempo_est_segs: 0

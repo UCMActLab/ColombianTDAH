@@ -14,17 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nombre: Bandeja paisa
   categoria: Plato fuerte
-  ingredientes:
-  - Arroz
-  - Carne
-  - Huevo
-  - Frijoles
-  - Platano
-  - Arepa
-  - Carne molida
-  - Aguacate
-  puestos:
-  - Sarten
-  - Olla
-  - Olla a presion
-  - Tabla de picar
+  ingredientes: 0400000008000000140000000e0000001f000000030000000900000001000000
+  puestos: 03000000050000000200000000000000
+  tiempo_est_segs: 0

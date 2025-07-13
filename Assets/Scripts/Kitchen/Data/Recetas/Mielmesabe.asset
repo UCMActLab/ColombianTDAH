@@ -14,9 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nombre: Mielmesabe
   categoria: Postre
-  ingredientes:
-  - Coco
-  - Miel
-  - Leche
-  puestos:
-  - Sarten
+  ingredientes: 0c0000001a00000016000000
+  puestos: 03000000
+  tiempo_est_segs: 0

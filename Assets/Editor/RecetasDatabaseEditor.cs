@@ -1,4 +1,4 @@
-﻿using UnityEditor;
+﻿/*using UnityEditor;
 using UnityEngine;
 using System.IO;
 using System.Collections.Generic;
@@ -47,8 +47,8 @@ public class RecetasDatabaseEditor : Editor
     {
         public string nombre;
         public string categoria;
-        public List<string> ingredientes;
-        public List<string> puestos;
+        public List<Ingredientes> ingredientes;
+        public List<PuestosDeTrabajo> puestos;
     }
 
     [System.Serializable]
@@ -57,3 +57,4 @@ public class RecetasDatabaseEditor : Editor
         public List<RecetaExport> recetas;
     }
 }
+*/

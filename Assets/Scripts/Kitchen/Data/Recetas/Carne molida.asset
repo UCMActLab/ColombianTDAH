@@ -14,9 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nombre: Carne molida
   categoria: Complementario
-  ingredientes:
-  - Carne
-  - Agua
-  puestos:
-  - Tabla de picar
-  - Olla
+  ingredientes: 0800000000000000
+  puestos: 0000000002000000
+  tiempo_est_segs: 0

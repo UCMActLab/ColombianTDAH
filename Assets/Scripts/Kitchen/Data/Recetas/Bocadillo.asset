@@ -14,8 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nombre: Bocadillo
   categoria: Postre
-  ingredientes:
-  - Guayaba
-  - Azucar
-  puestos:
-  - Olla
+  ingredientes: 1100000005000000
+  puestos: 02000000
+  tiempo_est_segs: 0

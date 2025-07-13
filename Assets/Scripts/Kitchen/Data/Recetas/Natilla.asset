@@ -14,10 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nombre: Natilla
   categoria: Postre
-  ingredientes:
-  - Harina
-  - Azucar
-  - Panela
-  - Leche
-  - Canela
-  puestos: []
+  ingredientes: 12000000050000001c0000001600000007000000
+  puestos: 
+  tiempo_est_segs: 0

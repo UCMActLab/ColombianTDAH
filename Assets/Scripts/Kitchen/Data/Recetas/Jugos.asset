@@ -14,8 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nombre: Jugos
   categoria: Bebida
-  ingredientes:
-  - Frutas
-  - Agua
-  puestos:
-  - Licuadora
+  ingredientes: 1000000000000000
+  puestos: 01000000
+  tiempo_est_segs: 0

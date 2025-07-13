@@ -14,8 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nombre: Aguapanela
   categoria: Bebida
-  ingredientes:
-  - Panela
-  - Agua
-  puestos:
-  - Olla
+  ingredientes: 1c00000000000000
+  puestos: 02000000
+  tiempo_est_segs: 0

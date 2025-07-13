@@ -14,9 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nombre: Chicha
   categoria: Bebida
-  ingredientes:
-  - Maiz
-  - Agua
-  - Azucar
-  puestos:
-  - Licuadora
+  ingredientes: 180000000000000005000000
+  puestos: 01000000
+  tiempo_est_segs: 0
