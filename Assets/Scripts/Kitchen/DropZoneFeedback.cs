@@ -37,8 +37,15 @@ public class DropZoneFeedback : MonoBehaviour
         var draggable = other.GetComponent<Draggable>();
         if (draggable != null)
         {
-            rend.material.color = originalColor;
+            ResetColor();
         }
     }
+
+    public void ResetColor()
+    {
+        if (rend != null)
+            rend.material.color = originalColor;
+    }
+
     #endregion
 }
