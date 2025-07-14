@@ -12,6 +12,8 @@ public class DropdownComponent : MonoBehaviour
     {
         _myDropdown = GetComponent<TMP_Dropdown>();
         SetStartTime();
+        SetSelectedStops();
+        SetSelectedSleepHours();
     }
 
     // Guarda hora de salida seleccionada
@@ -21,10 +23,9 @@ public class DropdownComponent : MonoBehaviour
         MisionLevelManager.Instance.SetStartTime(selected);
     }
 
-    // Guarda paradas seleccionadas
-    public void SetSelectedStops()
+    private List<string> GetSelectedOptions()
     {
-        List<string> selectedOpctions = new List<string>();
+        List<string> selectedOptions = new List<string>();
 
         // Logaritmo base 2
         double logValue = Math.Log(_myDropdown.value, 2);
@@ -33,7 +34,7 @@ public class DropdownComponent : MonoBehaviour
         if ((logValue % 1) == 0)
         {
             optionIndex = (int)logValue;
-            selectedOpctions.Add(_myDropdown.options[optionIndex].text);
+            selectedOptions.Add(_myDropdown.options[optionIndex].text);
         }
         // Si tiene decimales significa que hay varias opciones seleccionadas
         else
@@ -46,11 +47,40 @@ public class DropdownComponent : MonoBehaviour
             {
                 // Si es 1 anyado la seleccion correspondiente
                 if (binario[i] == '1')
-                    selectedOpctions.Add(_myDropdown.options[binStringSize - i].text);
+                    selectedOptions.Add(_myDropdown.options[binStringSize - i].text);
             }
         }
 
+        return selectedOptions;
+    }
+
+    // Guarda paradas seleccionadas
+    public void SetSelectedStops()
+    {
         // Guarda en Game Manager los seleccionados
-        MisionLevelManager.Instance.SetSelectedStops(selectedOpctions);
+        MisionLevelManager.Instance.SetSelectedStops(GetSelectedOptions());
+        CheckRules();
+    }
+
+    // Guarda horas de dormir seleccionadas
+    public void SetSelectedSleepHours()
+    {
+        // Guarda en Game Manager
+        MisionLevelManager.Instance.SetSelectedSleepTime(GetSelectedOptions());
+        CheckRules();
+    }
+
+    // Guarda horas de mandar ubicacion seleccionadas
+    public void SetSelectedLocationHours()
+    {
+        // Guarda en Game Manager
+        MisionLevelManager.Instance.SetSelectedLocationHours(GetSelectedOptions());
+        CheckRules();
+    }
+
+    // Comprueba reglas
+    private void CheckRules()
+    {
+        MisionLevelManager.Instance.CheckRules();
     }
 }

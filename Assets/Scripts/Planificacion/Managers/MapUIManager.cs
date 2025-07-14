@@ -12,8 +12,19 @@ public class MapUIManager : MonoBehaviour
     List<TextMeshProUGUI> rules;
 
     [SerializeField]
+    GameObject _warningGO;
+
+    [SerializeField]
     List<TMP_Dropdown> dropdowns;
-    
+
+    [SerializeField]
+    TextMeshProUGUI _stopsExtraMins;
+
+    [SerializeField]
+    TextMeshProUGUI _sleepExtraHours;
+
+    [SerializeField]
+    TextMeshProUGUI _totalTime;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -31,25 +42,28 @@ public class MapUIManager : MonoBehaviour
     {
         SceneManager.LoadScene("MC_Level");
     }
+
     public void SetStops(int number, int minutes)
     {
         rules[0].text = "- " + number + " paradas de " + minutes + " minutos.";
     }
+
     public void SetSleepHours(int hours)
     {
         rules[1].text = "- Dormir " + hours + " horas.";
 
     }
+
     public void SetLocationFrec(int hours)
     {
         rules[2].text = "- Enviar ubicación cada " + hours + " horas.";
-
     }
 
     public void SetDepartureHours(List<string> optiondatas)
     {
         SetHours(0, optiondatas);
     }
+
     public void SetAllSleepHours(List<string> optiondatas)
     {
         SetHours(1, optiondatas);
@@ -59,6 +73,7 @@ public class MapUIManager : MonoBehaviour
     {
         SetHours(2, optiondatas);
     }
+
     public void SetStopsNames(List<string> optiondatas)
     {
         SetHours(3, optiondatas);
@@ -70,8 +85,26 @@ public class MapUIManager : MonoBehaviour
         dropdowns[index].AddOptions(optiondatas);
     }
 
-    public void SetStartTime()
+    public void SetStopExtraMins(int extraMins)
     {
+        _stopsExtraMins.text = "+" + extraMins + "'";
+    }
 
+    public void SetSleepExtraHours(int extraHours)
+    {
+        _sleepExtraHours.text = "+" + extraHours + "h";
+    }
+
+    private void SetTotalTime()
+    {
+        // Recalcla horas totales desde la hora de salida y con la suma extra
+        // Si supera el maximo de horas que puede durar el viaje se pondra en rojo.
+        // Get Total Time del Game Manager 
+        _totalTime.text = "XXh YY'";
+    }
+
+    public void SetWarning(bool enabled)
+    {
+        _warningGO.SetActive(enabled);
     }
 }

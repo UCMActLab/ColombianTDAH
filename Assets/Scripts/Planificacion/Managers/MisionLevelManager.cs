@@ -26,9 +26,10 @@ public class MisionLevelManager : MonoBehaviour
     int _stopMins;
     int _sleepHours;
     int _locationFrec;
+    bool _rules;
 
     // Horas
-    bool [,] _depHours;
+    bool[,] _depHours;
     bool[,] _locHours;
     bool[,] _allSleepHours;
     int _hourPerSleep;
@@ -39,6 +40,8 @@ public class MisionLevelManager : MonoBehaviour
     // DECISIONES
     string _startTime;
     List<string> _selectedStops;
+    List<string> _selectedSleepTimes;
+    List<string> _selectedLocationHours;
 
 
 
@@ -107,7 +110,7 @@ public class MisionLevelManager : MonoBehaviour
     }
 
     // Devuelve valor del tiempo de respuesta
-    public float GetAnswerTime() {  return _answerTime; }
+    public float GetAnswerTime() { return _answerTime; }
 
     // Guarda referencia UI nivel
     public void RegisterUIManager(MisionUIManager misionUIManager)
@@ -120,10 +123,10 @@ public class MisionLevelManager : MonoBehaviour
     public void LoadConfiguration(MisionConfigurationData config)
     {
         // Reglas
-         _stopsN = config.NumStops;
-         _stopMins = config.StopMins;
-         _sleepHours = config.SleepHours;
-         _locationFrec = config.Location;
+        _stopsN = config.NumStops;
+        _stopMins = config.StopMins;
+        _sleepHours = config.SleepHours;
+        _locationFrec = config.Location;
 
         SetUIRules();
 
@@ -165,7 +168,8 @@ public class MisionLevelManager : MonoBehaviour
                     optiondatas.Add(j + " " + auxString);
                 }
 
-                if (_locHours[j - 1, i - 1]){
+                if (_locHours[j - 1, i - 1])
+                {
                     optiondatas2.Add(j + " " + auxString);
                 }
 
@@ -192,5 +196,31 @@ public class MisionLevelManager : MonoBehaviour
     public void SetSelectedStops(List<string> newSelectedStops)
     {
         _selectedStops = newSelectedStops;
+        _mapUIManager.SetStopExtraMins(_selectedStops.Count * _stopMins);
     }
+
+    public void SetSelectedSleepTime(List<string> newSelectedSleepTime)
+    {
+        _selectedSleepTimes = newSelectedSleepTime;
+        _mapUIManager.SetSleepExtraHours(_selectedSleepTimes.Count * _hourPerSleep);
+    }
+
+    public void SetSelectedLocationHours(List<string> newSelectedLocationHours)
+    {
+        _selectedLocationHours = newSelectedLocationHours;
+    }
+
+    public void CheckRules()
+    {
+        Debug.Log("Checkeando");
+        // si tiene seleccionadas paradas minimas
+        if (!(_selectedStops == null || _selectedSleepTimes == null || _selectedLocationHours == null))
+        {
+            _rules = _stopsN <= _selectedStops.Count && _sleepHours <= (_selectedSleepTimes.Count * _hourPerSleep);
+            Debug.Log("Checkeado" +_rules);
+            _mapUIManager.SetWarning(_rules);
+        }
+
+    }
+
 }
