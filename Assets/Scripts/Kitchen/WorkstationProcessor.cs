@@ -1,17 +1,16 @@
 ﻿using UnityEngine;
-using System.Linq;
 
 public class WorkstationProcessor : MonoBehaviour
 {
     #region references
     [SerializeField]
-    public PuestosDeTrabajo workstationType;
+    private PuestosDeTrabajo workstationType;
     [SerializeField]
-    public Transform spawnPoint;
+    private Transform spawnPoint;
     [SerializeField]
-    public AudioClip sonido;
+    private AudioClip sonido;
     [SerializeField]
-    private GameObject processedIngredient;
+    private ProcesamientoDatabase procesamientoDatabase;
 
     private AudioSource audioSource;
     #endregion
@@ -32,25 +31,27 @@ public class WorkstationProcessor : MonoBehaviour
         if (!processed)
         {
             if (other.TryGetComponent(out ProcessableIngredient pi) &&
-            other.TryGetComponent(out Draggable drag) &&
-            !drag.isDragging)
-            {
-                // Aquí habría una lógica de selección de ingrediente a procesar
-                processed = true;
-                StartCoroutine(Procesar(pi.gameObject, null));
+                other.TryGetComponent(out Draggable drag) &&
+                !drag.isDragging)
+            {               
+                var procesamiento = procesamientoDatabase.GetProcesamiento(pi.ingredientType, workstationType);
+                if (procesamiento != null)
+                {
+                    processed = true;
+                    StartCoroutine(Procesar(pi.gameObject, procesamiento));
+                }                
             }
         }
-        
     }
 
-    private System.Collections.IEnumerator Procesar(GameObject ingrediente, RecetaData receta)
+    private System.Collections.IEnumerator Procesar(GameObject ingrediente, ProcesamientoData data)
     {
         if (sonido != null) audioSource.PlayOneShot(sonido);
-        yield return new WaitForSeconds(2.7f); // Aquí habría que poner el tiempo de procesamiento(de momento está de ejemplo)
+        yield return new WaitForSeconds(data.processTime); // Tiempo que dura el procesado
 
-        if (processedIngredient != null)
+        if (data.processedIngredient != null)
         {
-            Instantiate(processedIngredient, spawnPoint.position, spawnPoint.rotation);
+            Instantiate(data.processedIngredient, spawnPoint.position, spawnPoint.rotation);
         }
 
         var feedback = GetComponent<DropZoneFeedback>();
@@ -58,6 +59,7 @@ public class WorkstationProcessor : MonoBehaviour
             feedback.ResetColor();
 
         Destroy(ingrediente);
+        processed = false;
     }
     #endregion
 }

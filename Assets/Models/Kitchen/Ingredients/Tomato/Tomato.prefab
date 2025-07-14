@@ -13,6 +13,8 @@ GameObject:
   - component: {fileID: 8071880060727140420}
   - component: {fileID: 2524201806938718942}
   - component: {fileID: 5551614891526555753}
+  - component: {fileID: -3357087826838996791}
+  - component: {fileID: 1259767357548555349}
   m_Layer: 0
   m_Name: Tomato
   m_TagString: Untagged
@@ -137,3 +139,29 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 526008157260621971, guid: 0b2f9c886fefeaa4eaad4985a6297149, type: 3}
+--- !u!114 &-3357087826838996791
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7711825394073895313}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a32a3964fddf59045ab9be703897c2a9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dragDistance: 18
+--- !u!114 &1259767357548555349
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7711825394073895313}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64fc4017a279b594f864578f1d677c25, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ingredientType: 34
