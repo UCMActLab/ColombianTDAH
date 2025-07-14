@@ -82,6 +82,6 @@ public class LevelKitchenManager : MonoBehaviour
             }
         }
 
-        Debug.Log("✅ Recetas calculadas correctamente para todas las jornadas.");
+        Debug.Log("Recetas calculadas correctamente para todas las jornadas.");
     }
 }
