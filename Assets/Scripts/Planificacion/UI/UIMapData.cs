@@ -37,21 +37,25 @@ public class UIMapData : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        // Guarda referencias
         _document = GetComponent<UIDocument>();
 
         if (_document != null)
         {
+            // Reglas minimo
             _stopNumber = _document.rootVisualElement.Q<IntegerField>("NumeroParadas");
             _stopMins = _document.rootVisualElement.Q<IntegerField>("TiempoParadas");
             _sleepHours = _document.rootVisualElement.Q<IntegerField>("HorasSueno");
             _location = _document.rootVisualElement.Q<IntegerField>("Ubicacion");
 
+            // Planificacion
             _depHours = new Toggle[12, 2];
             _locHours = new Toggle[12, 2];
             _allSleepHours = new Toggle[12, 2];
             _hourPerSleep = _document.rootVisualElement.Q<IntegerField>("CuantoDormir");
             _stopNames = _document.rootVisualElement.Q<TextField>("ParadasTextField");
 
+            // Referencias Toggles horas Salida, Dormir y Ubicacion
             string name = "";
             string timeMode = "am";
             for (int i = 1; i < 3; i++)
@@ -68,6 +72,7 @@ public class UIMapData : MonoBehaviour
                 timeMode = "pm";
             }
 
+            // Callback boton
             _acceptButton = _document.rootVisualElement.Q("guardarYjugar") as Button;
 
             if (_acceptButton != null)
