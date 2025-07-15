@@ -17,15 +17,17 @@ public class MisionLevelManager : MonoBehaviour
 
     // Time
     [SerializeField]
-    float _answerTime = 10;
+    float _answerTime = 10; // Seconds
     float _timeCont = 0;
     bool _isAnswering = false;
 
     // Reglas
-    int _stopsN;
-    int _stopMins;
-    int _sleepHours;
-    int _locationFrec;
+    int _stopsN; // Number
+    int _stopMins; // Mins
+    int _sleepHours; // Hours
+    int _locationFrec; // Hours
+    int _duration; // Hours
+    int _durationMax; // Hours
     bool _rules;
 
     // Horas
@@ -33,6 +35,7 @@ public class MisionLevelManager : MonoBehaviour
     bool[,] _locHours;
     bool[,] _allSleepHours;
     int _hourPerSleep;
+    int _totalDurationMins;
 
     // Lista de paradas
     List<string> _stops;
@@ -61,6 +64,7 @@ public class MisionLevelManager : MonoBehaviour
     void Start()
     {
         _timeCont = _answerTime;
+        _totalDurationMins = 0;
     }
 
     // Update is called once per frame
@@ -127,6 +131,8 @@ public class MisionLevelManager : MonoBehaviour
         _stopMins = config.StopMins;
         _sleepHours = config.SleepHours;
         _locationFrec = config.Location;
+        _duration = config.Duration;
+        _durationMax = config.DurationMax;
 
         SetUIRules();
 
@@ -140,6 +146,8 @@ public class MisionLevelManager : MonoBehaviour
         _stops = config.StopsNames;
 
         SetUIPlanification();
+
+        CheckRules();
     }
 
     // Cambia reglas UI
@@ -212,15 +220,49 @@ public class MisionLevelManager : MonoBehaviour
 
     public void CheckRules()
     {
-        Debug.Log("Checkeando");
-        // si tiene seleccionadas paradas minimas
         if (!(_selectedStops == null || _selectedSleepTimes == null || _selectedLocationHours == null))
         {
-            _rules = _stopsN <= _selectedStops.Count && _sleepHours <= (_selectedSleepTimes.Count * _hourPerSleep);
-            Debug.Log("Checkeado" +_rules);
-            _mapUIManager.SetWarning(_rules);
-        }
+            // Calculo tiempos totales
+            int stopsDuration = _selectedStops.Count * _stopMins; // minutos
+            int sleepDuration = _selectedSleepTimes.Count * _hourPerSleep; // horas
+            _totalDurationMins = _duration * 60 + stopsDuration + sleepDuration * 60; // minutos
+            bool totalTimeCorrect = (_totalDurationMins / 60) < _durationMax;
 
+            // Duracion total en UI
+            _mapUIManager.SetTotalTime((_totalDurationMins / 60), (_totalDurationMins % 60), totalTimeCorrect);
+
+            // Comprobacion reglas
+            _rules = _stopsN <= _selectedStops.Count && _sleepHours <= sleepDuration && totalTimeCorrect;
+
+            // Mensaje aviso reglas UI
+            _mapUIManager.SetWarning(!_rules);
+        }
     }
 
+    private int GetHoursInBetween(string h1, string h2)
+    {
+        int diff;
+        string[] h1Split = h1.Split(' ');
+        string[] h2Split = h2.Split(' ');
+        int num1 = int.Parse(h1Split[0]);
+        int num2 = int.Parse(h2Split[0]);
+        // 1 am 2 am 3 am 4 am 5 am 6 am 7 am 8 am 9 am 10 am 11 am 12 am
+        // 1 pm 2 pm 3 pm 4 pm 5 pm 6 pm 7 pm 8 pm 9 pm 10 pm 11 pm 12 pm
+
+        if (h1Split[1] == "am" && h2Split[1] == "pm")
+        {
+            if (h1Split[0] != h2Split[0])
+            {
+                diff = 12 -  num1 + num2;
+            }
+            else
+                diff = 12;
+        }
+        else
+            diff = num2 - num1;
+
+        Debug.Log("Diff: " + diff);
+
+        return diff;
+    }
 }

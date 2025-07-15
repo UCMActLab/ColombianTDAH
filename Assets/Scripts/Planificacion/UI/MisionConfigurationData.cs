@@ -24,6 +24,13 @@ public class MisionConfigurationData : ScriptableObject
     private int _location;
     public int Location { get => _location; set => _location = value; }
 
+    // Duracion
+    private int _duration;
+    public int Duration { get => _duration; set => _duration = value; }
+
+    private int _durationMax;
+    public int DurationMax { get => _durationMax; set => _durationMax = value; }
+
     // PLANIFICACION
     // Matriz horas salida
     private bool[,] _departureHours = new bool[12, 2];

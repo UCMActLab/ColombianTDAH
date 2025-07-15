@@ -15,6 +15,8 @@ public class UIMapData : MonoBehaviour
     IntegerField _stopMins;
     IntegerField _sleepHours;
     IntegerField _location;
+    IntegerField _duration;
+    IntegerField _durationMax;
 
     // Planificacion
     Toggle[,] _depHours;
@@ -48,6 +50,8 @@ public class UIMapData : MonoBehaviour
             _stopMins = _document.rootVisualElement.Q<IntegerField>("TiempoParadas");
             _sleepHours = _document.rootVisualElement.Q<IntegerField>("HorasSueno");
             _location = _document.rootVisualElement.Q<IntegerField>("Ubicacion");
+            _duration = _document.rootVisualElement.Q<IntegerField>("Duracion");
+            _durationMax = _document.rootVisualElement.Q<IntegerField>("DuracionMax");
 
             // Planificacion
             _depHours = new Toggle[12, 2];
@@ -112,6 +116,10 @@ public class UIMapData : MonoBehaviour
 
         // Ubicacion
         _config.Location = _location.value;
+
+        // Duracion
+        _config.Duration = _duration.value;
+        _config.DurationMax = _durationMax.value;
 
         // CONFIGURACION PLANIFICACION
         // Horas

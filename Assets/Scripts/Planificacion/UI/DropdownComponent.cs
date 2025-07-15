@@ -14,6 +14,7 @@ public class DropdownComponent : MonoBehaviour
         SetStartTime();
         SetSelectedStops();
         SetSelectedSleepHours();
+        SetSelectedLocationHours();
     }
 
     // Guarda hora de salida seleccionada

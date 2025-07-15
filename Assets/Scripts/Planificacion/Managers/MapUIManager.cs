@@ -43,66 +43,80 @@ public class MapUIManager : MonoBehaviour
         SceneManager.LoadScene("MC_Level");
     }
 
+    // Actualiza paradas minimas en reglas UI
     public void SetStops(int number, int minutes)
     {
         rules[0].text = "- " + number + " paradas de " + minutes + " minutos.";
     }
 
+    // Actualiza horas de suenyo minimas reglas UI
     public void SetSleepHours(int hours)
     {
         rules[1].text = "- Dormir " + hours + " horas.";
 
     }
 
+    // Actualiza horas minimas entre mensaje de ubicacion en reglas UI
     public void SetLocationFrec(int hours)
     {
         rules[2].text = "- Enviar ubicación cada " + hours + " horas.";
     }
 
+    // Actualiza opciones horas de salida en la UI
     public void SetDepartureHours(List<string> optiondatas)
     {
         SetHours(0, optiondatas);
     }
 
+    // Actualiza opciones horas de dormir en la UI
     public void SetAllSleepHours(List<string> optiondatas)
     {
         SetHours(1, optiondatas);
     }
 
+    // Actualiza opciones horas de ubicacion en la UI
     public void SetLocationHours(List<string> optiondatas)
     {
         SetHours(2, optiondatas);
     }
 
+    // Actualiza opciones paradas en la UI
     public void SetStopsNames(List<string> optiondatas)
     {
         SetHours(3, optiondatas);
     }
 
+    // Actualiza opciones del Dropbox
     private void SetHours(int index, List<string> optiondatas)
     {
         dropdowns[index].ClearOptions();
         dropdowns[index].AddOptions(optiondatas);
     }
 
+    // Actualiza en la UI minutos extra por parada
     public void SetStopExtraMins(int extraMins)
     {
         _stopsExtraMins.text = "+" + extraMins + "'";
     }
 
+    // Actualiza en la UI horas extra por dormir
     public void SetSleepExtraHours(int extraHours)
     {
         _sleepExtraHours.text = "+" + extraHours + "h";
     }
 
-    private void SetTotalTime()
+    // Actualiza duracion de viaje total en la UI
+    public void SetTotalTime(int totalHours, int totalMins, bool correct)
     {
-        // Recalcla horas totales desde la hora de salida y con la suma extra
-        // Si supera el maximo de horas que puede durar el viaje se pondra en rojo.
-        // Get Total Time del Game Manager 
-        _totalTime.text = "XXh YY'";
+        _totalTime.text = totalHours + "h " + totalMins + "'";
+
+        if (correct)
+            _totalTime.color = Color.cyan;
+        else 
+            _totalTime.color = Color.red;
     }
 
+    // Activa o desactiva mensaje de aviso
     public void SetWarning(bool enabled)
     {
         _warningGO.SetActive(enabled);
