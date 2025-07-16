@@ -22,6 +22,7 @@ public class DropdownComponent : MonoBehaviour
     {
         string selected = _myDropdown.options[_myDropdown.value].text;
         MisionLevelManager.Instance.SetStartTime(selected);
+        CheckRules();
     }
 
     private List<string> GetSelectedOptions()
