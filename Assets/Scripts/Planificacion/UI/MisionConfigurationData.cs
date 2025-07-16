@@ -51,6 +51,11 @@ public class MisionConfigurationData : ScriptableObject
     List<string> _stopsNames;
     public List<string> StopsNames { get => _stopsNames; set => _stopsNames = value; }
 
+    // EJECUCION
+    // Tiempo respuesta
+    private int _answerTime;
+    public int AnswerTime { get => _answerTime; set => _answerTime = value; }
+
 
     //[Header("Level unblocked:")]
     //[SerializeField]

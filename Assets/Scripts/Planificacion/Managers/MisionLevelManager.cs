@@ -16,7 +16,6 @@ public class MisionLevelManager : MonoBehaviour
     MapUIManager _mapUIManager;
 
     // Time
-    [SerializeField]
     float _answerTime = 10; // Seconds
     float _timeCont = 0;
     bool _isAnswering = false;
@@ -150,6 +149,10 @@ public class MisionLevelManager : MonoBehaviour
         SetUIPlanification();
 
         CheckRules();
+
+        // Ejecucion
+        _answerTime = config.AnswerTime;
+        _timeCont = _answerTime;
     }
 
     // Cambia reglas UI

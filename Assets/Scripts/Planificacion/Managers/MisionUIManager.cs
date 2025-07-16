@@ -24,12 +24,7 @@ public class MisionUIManager : MonoBehaviour
         InitSlider(0, answerTime);
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
+    // Inicializa valores del slider
     void InitSlider(float min, float max)
     {
         _timeSlider.maxValue = max;
@@ -37,39 +32,46 @@ public class MisionUIManager : MonoBehaviour
         _timeSlider.value = max;
     }
 
+    // Activa botones de respuesta
     public void ShowDecisionButtons()
     {
         _decisionGO.SetActive(true);
     }
 
+    // Desactiva botones de respuesta
     public void HideDecisionButtons()
     {
         _decisionGO.SetActive(false);
     }
 
+    // Respuesta si
     public void YesClicked()
     {
         Debug.Log("YEEES");
         Clicked();
     }
 
+    // Respuesta no
     public void NoClicked()
     {
         Debug.Log("NOOO");
         Clicked();
     }
 
+    // Desactiva pregunta y botones de respuesta
     void Clicked()
     {
         _decisionGO.SetActive(false);
         MisionLevelManager.Instance.Answered();
     }
 
+    // Actualiza el valor del slider
     public void UpdateSlider(float value)
     {
         _timeSlider.value = value;
     }
 
+    // Cambia tiempo de la hora
     public void ChangeTime(string newTime)
     {
         string[] separatedTime = newTime.Split(" ");

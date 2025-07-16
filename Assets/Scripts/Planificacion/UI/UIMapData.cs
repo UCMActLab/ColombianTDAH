@@ -26,6 +26,9 @@ public class UIMapData : MonoBehaviour
 
     TextField _stopNames;
 
+    // Ejecucion
+    IntegerField _answerTime;
+
 
     [SerializeField]
     GameObject _map;
@@ -76,6 +79,9 @@ public class UIMapData : MonoBehaviour
 
                 timeMode = "pm";
             }
+
+            // Ejecucion
+            _answerTime = _document.rootVisualElement.Q<IntegerField>("TiempoRespuesta");
 
             // Callback boton
             _acceptButton = _document.rootVisualElement.Q("guardarYjugar") as Button;
@@ -142,6 +148,10 @@ public class UIMapData : MonoBehaviour
         string auxString = _stopNames.value;
 
         _config.StopsNames = SeparateStopNames(auxString);
+
+        // CONFIGURACION EJECUCION
+        // Tiempo de respuesta en segundos
+        _config.AnswerTime = _answerTime.value;
 
         // Game Manager
         MisionLevelManager.Instance.LoadConfiguration(_config);
