@@ -36,6 +36,7 @@ public class MisionLevelManager : MonoBehaviour
     bool[,] _allSleepHours;
     int _hourPerSleep;
     int _totalDurationMins;
+    int _totalSleepHours;
 
     // Lista de paradas
     List<string> _stops;
@@ -209,8 +210,23 @@ public class MisionLevelManager : MonoBehaviour
 
     public void SetSelectedSleepTime(List<string> newSelectedSleepTime)
     {
+        _totalSleepHours = 0;
         _selectedSleepTimes = newSelectedSleepTime;
-        _mapUIManager.SetSleepExtraHours(_selectedSleepTimes.Count * _hourPerSleep);
+
+        for (int i = 0; i < _selectedSleepTimes.Count; i++)
+        {
+            if (i != (_selectedSleepTimes.Count - 1))
+            {
+                int hBetween = GetHoursInBetween(_selectedSleepTimes[i], _selectedSleepTimes[i + 1]);
+                if (hBetween < _hourPerSleep)
+                    _totalSleepHours += hBetween;
+                else
+                    _totalSleepHours += _hourPerSleep;
+            }
+            else
+                _totalSleepHours += _hourPerSleep;
+        }
+        _mapUIManager.SetSleepExtraHours(_totalSleepHours);
     }
 
     public void SetSelectedLocationHours(List<string> newSelectedLocationHours)
@@ -224,15 +240,15 @@ public class MisionLevelManager : MonoBehaviour
         {
             // Calculo tiempos totales
             int stopsDuration = _selectedStops.Count * _stopMins; // minutos
-            int sleepDuration = _selectedSleepTimes.Count * _hourPerSleep; // horas
-            _totalDurationMins = _duration * 60 + stopsDuration + sleepDuration * 60; // minutos
+            //int sleepDuration = _selectedSleepTimes.Count * _hourPerSleep; // horas
+            _totalDurationMins = _duration * 60 + stopsDuration + _totalSleepHours * 60; // minutos
             bool totalTimeCorrect = (_totalDurationMins / 60) < _durationMax;
 
             // Duracion total en UI
             _mapUIManager.SetTotalTime((_totalDurationMins / 60), (_totalDurationMins % 60), totalTimeCorrect);
 
             // Comprobacion reglas
-            _rules = _stopsN <= _selectedStops.Count && _sleepHours <= sleepDuration && totalTimeCorrect;
+            _rules = _stopsN <= _selectedStops.Count && _sleepHours <= _totalSleepHours && totalTimeCorrect;
 
             // Mensaje aviso reglas UI
             _mapUIManager.SetWarning(!_rules);
@@ -253,7 +269,7 @@ public class MisionLevelManager : MonoBehaviour
         {
             if (h1Split[0] != h2Split[0])
             {
-                diff = 12 -  num1 + num2;
+                diff = 12 - num1 + num2;
             }
             else
                 diff = 12;
@@ -261,7 +277,7 @@ public class MisionLevelManager : MonoBehaviour
         else
             diff = num2 - num1;
 
-        Debug.Log("Diff: " + diff);
+        Debug.Log("Diff " + h1 + " y " + h2 + ": " + diff);
 
         return diff;
     }
