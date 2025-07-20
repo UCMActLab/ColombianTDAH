@@ -63,19 +63,7 @@ public class LevelKitchenManager : MonoBehaviour
 
         foreach (JornadaData jornada in nivelacionData.jornadas)
         {
-            // Filtrar recetas que pueden hacerse con los puestos activos de la jornada
-            List<RecetaData> recetasCompatibles = recetasDatabase.recetas
-                .Where(receta => receta.puestos.All(p => jornada.puestosActivos.Contains(p)))
-                .ToList();
-
-            int cantidadSeleccionada = Mathf.CeilToInt(recetasCompatibles.Count * jornada.porcentajeVariacion);
-
-            jornada.recetasAsignadas = recetasCompatibles
-                .OrderBy(r => Random.value)
-                .Take(cantidadSeleccionada)
-                .ToList();
-
-            Debug.Log($"Jornada '{jornada.nombreJornada}': {jornada.recetasAsignadas.Count}/{recetasCompatibles.Count} recetas asignadas.");
+            Debug.Log($"Jornada '{jornada.nombreJornada}': {jornada.recetasAsignadas.Count} recetas asignadas.");
             foreach (RecetaData receta in jornada.recetasAsignadas)
             {
                 Debug.Log(receta.nombre);
