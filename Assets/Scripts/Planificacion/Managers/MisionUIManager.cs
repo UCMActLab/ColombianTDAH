@@ -1,3 +1,5 @@
+using NUnit.Framework;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -12,6 +14,9 @@ public class MisionUIManager : MonoBehaviour
 
     [SerializeField]
     TextMeshProUGUI _time;
+
+    [SerializeField]
+    PlanificationList _planificationListComp;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -82,5 +87,27 @@ public class MisionUIManager : MonoBehaviour
             separatedTime[1] = "PM";
 
         _time.text = separatedTime[0] + ":00 " + separatedTime[1];
+    }
+
+    public void SetStartTime(string newTime)
+    {
+        _planificationListComp.SetDepartureTime(newTime);
+
+        ChangeTime(newTime);
+    }
+
+    public void SetStops(List<string> stops)
+    {
+        _planificationListComp.SetStops(stops);
+    }
+
+    public void SetSleepHours(List<string> sleepHours)
+    {
+        _planificationListComp.SetSleepHours(sleepHours);
+    }
+
+    public void SetLocationHours(List<string> locationHours)
+    {
+        _planificationListComp.SetLocationHours(locationHours);
     }
 }

@@ -3760,6 +3760,8 @@ MonoBehaviour:
   _decisionGO: {fileID: 1711119448}
   _timeSlider: {fileID: 802102120}
   _time: {fileID: 1524694202}
+  _planificationStartTime: {fileID: 3504630707562118379}
+  _planificationListComp: {fileID: 3504630707562118380}
 --- !u!1 &1293983833
 GameObject:
   m_ObjectHideFlags: 0
@@ -5925,9 +5927,21 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6030985745788972818, guid: 68dc4d0bc01260f4aba7f7c12c02574a, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 93
+      objectReference: {fileID: 0}
+    - target: {fileID: 6556048314529833423, guid: 68dc4d0bc01260f4aba7f7c12c02574a, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: baeadea05577cd443bf5703a12f22cc5, type: 3}
     - target: {fileID: 7308468622840610301, guid: 68dc4d0bc01260f4aba7f7c12c02574a, type: 3}
       propertyPath: m_Name
       value: PlanPrefab
+      objectReference: {fileID: 0}
+    - target: {fileID: 7527546579275756219, guid: 68dc4d0bc01260f4aba7f7c12c02574a, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 161
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -5939,6 +5953,28 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 3719162855659598151, guid: 68dc4d0bc01260f4aba7f7c12c02574a, type: 3}
   m_PrefabInstance: {fileID: 3504630707562118377}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &3504630707562118379 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2847517535278614255, guid: 68dc4d0bc01260f4aba7f7c12c02574a, type: 3}
+  m_PrefabInstance: {fileID: 3504630707562118377}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &3504630707562118380 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3046005239545905038, guid: 68dc4d0bc01260f4aba7f7c12c02574a, type: 3}
+  m_PrefabInstance: {fileID: 3504630707562118377}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9f885b73a38163c4ab53ff107eea49da, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

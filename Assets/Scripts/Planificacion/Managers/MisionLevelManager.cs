@@ -121,7 +121,10 @@ public class MisionLevelManager : MonoBehaviour
     public void RegisterUIManager(MisionUIManager misionUIManager)
     {
         _misionUIManager = misionUIManager;
-        _misionUIManager.ChangeTime(_startTime);
+        _misionUIManager.SetStartTime(_startTime);
+        _misionUIManager.SetStops(_selectedStops);
+        _misionUIManager.SetSleepHours(_selectedSleepTimes);
+        _misionUIManager.SetLocationHours(_selectedLocationHours);
     }
 
     // Carga configuracion escogida
