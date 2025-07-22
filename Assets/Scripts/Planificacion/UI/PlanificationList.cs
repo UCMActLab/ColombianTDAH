@@ -26,25 +26,28 @@ public class PlanificationList : MonoBehaviour
 
     public void SetDepartureTime(string newTime)
     {
-        _departureText.GetComponentInChildren<TextMeshProUGUI>().text = newTime;
+        _departureText.transform.GetChild(0).GetComponentInChildren<TextMeshProUGUI>().text = newTime;
     }
 
     public void SetStops(List<string> stops)
     {
-        RemoveChildren(_stopsText);
-        AddText(stops, _stopsText);
+        SetSelected(stops, _stopsText);
     }
 
     public void SetSleepHours(List<string> sleepHours)
     {
-        RemoveChildren(_sleepText);
-        AddText(sleepHours, _sleepText);
+        SetSelected(sleepHours, _sleepText);
     }
 
     public void SetLocationHours(List<string> locationHours)
     {
-        RemoveChildren(_locationText);
-        AddText(locationHours, _locationText);
+        SetSelected(locationHours, _locationText);
+    }
+
+    private void SetSelected(List<string> selectedList, GameObject gObject)
+    {
+        RemoveChildren(gObject);
+        AddText(selectedList, gObject);
     }
 
     private void AddText(List<string> namesToAdd, GameObject gObject)
