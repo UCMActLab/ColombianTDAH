@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d4fa4ddff8d3210439be91a15234c4bd, type: 3}
   m_Name: Patacon con hogao y carne
   m_EditorClassIdentifier: 
-  nombre: Patacon con hogao y carne
+  nombre: Patacon hogao carne
   categoria: Para picar
   ingredientes: 0a000000220000001f00000008000000
   puestos: 0000000003000000

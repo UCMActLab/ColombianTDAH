@@ -17,6 +17,8 @@ public class UINivelacionData : MonoBehaviour
     private Label labelMargen;
     private ScrollView recetasScroll;
     private VisualElement toolbarJornadas;
+    private TextField fieldTerapeuta;
+    private TextField fieldPaciente;
 
     private void OnEnable()
     {
@@ -27,6 +29,8 @@ public class UINivelacionData : MonoBehaviour
         labelMargen = root.Q<Label>("label-margen");
         recetasScroll = root.Q<ScrollView>("recetas-scroll");
         toolbarJornadas = root.Q<VisualElement>("toolbar-jornadas");
+        fieldTerapeuta = root.Q<TextField>("field-terapeuta");
+        fieldPaciente = root.Q<TextField>("field-paciente");
 
         for (int i = 0; i < 5; i++)
         {
@@ -40,6 +44,21 @@ public class UINivelacionData : MonoBehaviour
             GuardarRecetasSeleccionadas();
             SceneManager.LoadScene("KitchenLevelSelector");
         };
+
+        
+
+        fieldTerapeuta.value = nivelacionData.nombre_terapeuta;
+        fieldPaciente.value = nivelacionData.nombre_paciente;
+
+        fieldTerapeuta.RegisterValueChangedCallback(evt =>
+        {
+            nivelacionData.nombre_terapeuta = evt.newValue;
+        });
+
+        fieldPaciente.RegisterValueChangedCallback(evt =>
+        {
+            nivelacionData.nombre_paciente = evt.newValue;
+        });
 
         SeleccionarJornada(0);
     }
@@ -55,7 +74,7 @@ public class UINivelacionData : MonoBehaviour
         {
             var btn = toolbarJornadas.Q<Button>($"btn-j{i + 1}");
             btn.text = (i == index) ? $"Jornada {i + 1}" : $"J{i + 1}";
-            btn.style.fontSize = (i == index) ? 18 : 14;
+            btn.style.fontSize = (i == index) ? 30 : 26;
         }
 
         ActualizarUI();
