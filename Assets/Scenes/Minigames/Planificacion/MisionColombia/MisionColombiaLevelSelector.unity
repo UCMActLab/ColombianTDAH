@@ -51480,7 +51480,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2457208613219185686, guid: 2a2ce21847dae5644967bd6bacdc75b6, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_StringArgument
-      value: Atencion
+      value: Planificacion
       objectReference: {fileID: 0}
     - target: {fileID: 2897619817496206551, guid: 2a2ce21847dae5644967bd6bacdc75b6, type: 3}
       propertyPath: m_Pivot.x
