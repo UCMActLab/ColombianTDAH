@@ -42,4 +42,4 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 437fa7bd39b2b9d42bc549a6f279b07a, type: 2}
   - {fileID: 11400000, guid: 61756e2c7f54ddb4396ebd16b9dcdb26, type: 2}
   - {fileID: 11400000, guid: e1d2aaff790d9f84fbaf9d2345db90d6, type: 2}
-  - {fileID: 11400000, guid: 7ade49373ab80ec4f873989e9e83f987, type: 2}
+  factorDeTiempo: 6

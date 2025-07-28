@@ -16,4 +16,4 @@ MonoBehaviour:
   categoria: Bebida
   ingredientes: 180000000000000016000000
   puestos: 02000000
-  tiempo_est_segs: 0
+  tiempo_est_segs: 4500

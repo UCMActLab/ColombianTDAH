@@ -16,4 +16,4 @@ MonoBehaviour:
   categoria: Postre
   ingredientes: 0c0000001a00000016000000
   puestos: 03000000
-  tiempo_est_segs: 0
+  tiempo_est_segs: 3000

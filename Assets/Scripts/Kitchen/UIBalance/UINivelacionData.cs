@@ -2,6 +2,8 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using UnityEngine.SceneManagement;
 using System.Linq;
+using System;
+using System.Collections.Generic;
 
 public class UINivelacionData : MonoBehaviour
 {
@@ -17,8 +19,10 @@ public class UINivelacionData : MonoBehaviour
     private Label labelMargen;
     private ScrollView recetasScroll;
     private VisualElement toolbarJornadas;
-    private TextField fieldTerapeuta;
-    private TextField fieldPaciente;
+    //private TextField fieldTerapeuta;
+    //private TextField fieldPaciente;
+    private Label labelTiempoTotal;
+
 
     private void OnEnable()
     {
@@ -29,8 +33,11 @@ public class UINivelacionData : MonoBehaviour
         labelMargen = root.Q<Label>("label-margen");
         recetasScroll = root.Q<ScrollView>("recetas-scroll");
         toolbarJornadas = root.Q<VisualElement>("toolbar-jornadas");
-        fieldTerapeuta = root.Q<TextField>("field-terapeuta");
-        fieldPaciente = root.Q<TextField>("field-paciente");
+        //fieldTerapeuta = root.Q<TextField>("field-terapeuta");
+        //fieldPaciente = root.Q<TextField>("field-paciente");
+        labelTiempoTotal = root.Q<Label>("label-tiempo-total");
+
+        jornadaActual = nivelacionData.jornadas[0];
 
         for (int i = 0; i < 5; i++)
         {
@@ -45,9 +52,9 @@ public class UINivelacionData : MonoBehaviour
             SceneManager.LoadScene("KitchenLevelSelector");
         };
 
-        
 
-        fieldTerapeuta.value = nivelacionData.nombre_terapeuta;
+
+        /*fieldTerapeuta.value = nivelacionData.nombre_terapeuta;
         fieldPaciente.value = nivelacionData.nombre_paciente;
 
         fieldTerapeuta.RegisterValueChangedCallback(evt =>
@@ -58,9 +65,18 @@ public class UINivelacionData : MonoBehaviour
         fieldPaciente.RegisterValueChangedCallback(evt =>
         {
             nivelacionData.nombre_paciente = evt.newValue;
-        });
+        });*/
 
-        SeleccionarJornada(0);
+        jornadaActual = nivelacionData.jornadas[0];
+
+        for (int i = 0; i < 5; i++)
+        {
+            var btn = toolbarJornadas.Q<Button>($"btn-j{i + 1}");
+            btn.text = (i == 0) ? $"Jornada {i + 1}" : $"J{i + 1}";
+            btn.style.fontSize = (i == 0) ? 30 : 26;
+        }
+
+        ActualizarUI();
     }
 
     private void SeleccionarJornada(int index)
@@ -90,7 +106,9 @@ public class UINivelacionData : MonoBehaviour
         {
             jornadaActual.margenDeError = evt.newValue;
             labelMargen.text = evt.newValue.ToString("F1") + "x";
+            ActualizarTiempoTotal();
         });
+
 
         // Puestos activos
         puestosContainer.Clear();
@@ -101,22 +119,38 @@ public class UINivelacionData : MonoBehaviour
             toggle.RegisterValueChangedCallback(evt =>
             {
                 if (evt.newValue && !jornadaActual.puestosActivos.Contains(puesto))
+                {
                     jornadaActual.puestosActivos.Add(puesto);
+                    ActualizarRecetasPuestos(puesto, true);
+                }
                 else if (!evt.newValue)
+                {
                     jornadaActual.puestosActivos.Remove(puesto);
+                    ActualizarRecetasPuestos(puesto, false);
+                }
 
-                ActualizarRecetas();
+                GuardarRecetasSeleccionadas();
+                ActualizarTiempoTotal();
             });
             puestosContainer.Add(toggle);
         }
 
         // Recetas disponibles
-        ActualizarRecetas();
+        ActualizarRecetasPuestos();
     }
 
-    private void ActualizarRecetas()
+
+    private void ActualizarRecetasPuestos(PuestosDeTrabajo puesto = PuestosDeTrabajo.TablaDePicar, bool added = false)
     {
         recetasScroll.Clear();
+
+        List<PuestosDeTrabajo> puestosActivosAntes = jornadaActual.puestosActivos
+            .Where(p => p != puesto)
+            .ToList();
+
+        var recetasFiltradasAntes = recetasDatabase.recetas
+            .Where(r => r.puestos.All(p => puestosActivosAntes.Contains(p)))
+            .ToList();
 
         var recetasFiltradas = recetasDatabase.recetas
             .Where(r => r.puestos.All(p => jornadaActual.puestosActivos.Contains(p)))
@@ -131,7 +165,15 @@ public class UINivelacionData : MonoBehaviour
         {
             var receta = recetasFiltradas[i];
             var toggle = new Toggle(receta.nombre);
-            toggle.value = jornadaActual.recetasAsignadas.Contains(receta);
+            if (added)
+            {
+                if (!recetasFiltradasAntes.Contains(receta))
+                {
+                    toggle.value = true;
+                }
+                else toggle.value = jornadaActual.recetasAsignadas.Contains(receta);
+            }
+            else toggle.value = jornadaActual.recetasAsignadas.Contains(receta);
 
             toggle.RegisterValueChangedCallback(evt =>
             {
@@ -139,6 +181,9 @@ public class UINivelacionData : MonoBehaviour
                     jornadaActual.recetasAsignadas.Add(receta);
                 else if (!evt.newValue && jornadaActual.recetasAsignadas.Contains(receta))
                     jornadaActual.recetasAsignadas.Remove(receta);
+
+                GuardarRecetasSeleccionadas();
+                ActualizarTiempoTotal();
             });
 
             if (i % 2 == 0) col1.Add(toggle);
@@ -152,6 +197,9 @@ public class UINivelacionData : MonoBehaviour
         row.Add(col2);
 
         recetasScroll.Add(row);
+
+
+        ActualizarTiempoTotal();
     }
 
     private void GuardarRecetasSeleccionadas()
@@ -171,4 +219,19 @@ public class UINivelacionData : MonoBehaviour
             }
         }
     }
+
+    private void ActualizarTiempoTotal()
+    {
+        if (jornadaActual == null) return;
+
+        float multiplicador = jornadaActual.margenDeError;
+        int tiempoTotalSegundos = Mathf.CeilToInt((jornadaActual.recetasAsignadas.Sum(r => r.tiempo_est_segs) * multiplicador) / recetasDatabase.factorDeTiempo);
+
+        int horas = tiempoTotalSegundos / 3600;
+        int minutos = (tiempoTotalSegundos % 3600) / 60;
+        int segundos = tiempoTotalSegundos % 60;
+
+        labelTiempoTotal.text = $"Tiempo total: {horas}h {minutos}m {segundos}s ({tiempoTotalSegundos}s)";
+    }
+
 }

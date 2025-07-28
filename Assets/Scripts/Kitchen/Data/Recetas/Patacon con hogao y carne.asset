@@ -16,4 +16,4 @@ MonoBehaviour:
   categoria: Para picar
   ingredientes: 0a000000220000001f00000008000000
   puestos: 0000000003000000
-  tiempo_est_segs: 0
+  tiempo_est_segs: 1800

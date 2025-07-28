@@ -5,4 +5,5 @@ using UnityEngine;
 public class RecetasDatabase : ScriptableObject
 {
     public List<RecetaData> recetas = new();
+    public float factorDeTiempo;
 }
