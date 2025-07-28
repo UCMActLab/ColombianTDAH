@@ -23,11 +23,12 @@
                 </engine:VisualElement>
                 <engine:Label text="Puestos Activos" class="label" />
                 <engine:VisualElement name="puestos-container" style="flex-direction: column; gap: 3px;" />
-                <engine:Label text="Tiempo límite" name="tiempo-limite" class="label" style="margin-top: 20px;" />
-                <engine:Label name="label-tiempo-total" text="Tiempo total: 0h 0m (0s)" />
-                <engine:VisualElement style="flex-direction: row; align-items: center;">
-                    <engine:Slider name="slider-margen" low-value="0.5" high-value="3" value="1.0" style="flex-grow: 1;" />
-                    <engine:Label name="label-margen" text="1.0x" style="margin-left: 10px; width: 40px;" />
+                <engine:VisualElement name="tiempo-config" style="margin-top: 10px;">
+                    <engine:Label name="label-tiempo-manual" text="Tiempo: 15m 0s" />
+                    <engine:Slider name="slider-tiempo-manual" low-value="600" high-value="1800" value="900" />
+                    <engine:Label name="label-dificultad" text="Dificultad: 1.0x" />
+                    <engine:Slider name="slider-dificultad" low-value="0.25" high-value="3.0" value="1.0" />
+                    <engine:Label name="label-tiempo-total" text="Tiempo final: 15m 0s" style="margin-top: 10px;" class="label"/>
                 </engine:VisualElement>
             </engine:VisualElement>
             <engine:VisualElement name="recetas-panel" style="flex-direction: column; flex-grow: 1;">

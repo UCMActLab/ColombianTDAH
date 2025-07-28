@@ -15,8 +15,11 @@ public class UINivelacionData : MonoBehaviour
     private int jornadaIndex = 0;
 
     private VisualElement puestosContainer;
-    private Slider sliderMargen;
-    private Label labelMargen;
+    private Slider sliderTiempoManual;
+    private Label labelTiempoManual;
+
+    private Slider sliderDificultad;
+    private Label labelDificultad;
     private ScrollView recetasScroll;
     private VisualElement toolbarJornadas;
     //private TextField fieldTerapeuta;
@@ -29,8 +32,10 @@ public class UINivelacionData : MonoBehaviour
         root = GetComponent<UIDocument>().rootVisualElement;
 
         puestosContainer = root.Q<VisualElement>("puestos-container");
-        sliderMargen = root.Q<Slider>("slider-margen");
-        labelMargen = root.Q<Label>("label-margen");
+        sliderTiempoManual = root.Q<Slider>("slider-tiempo-manual");
+        labelTiempoManual = root.Q<Label>("label-tiempo-manual");
+        sliderDificultad = root.Q<Slider>("slider-dificultad");
+        labelDificultad = root.Q<Label>("label-dificultad");
         recetasScroll = root.Q<ScrollView>("recetas-scroll");
         toolbarJornadas = root.Q<VisualElement>("toolbar-jornadas");
         //fieldTerapeuta = root.Q<TextField>("field-terapeuta");
@@ -53,7 +58,17 @@ public class UINivelacionData : MonoBehaviour
         };
 
 
+        sliderTiempoManual.RegisterValueChangedCallback(evt =>
+        {
+            jornadaActual.tiempoBaseManual = Mathf.RoundToInt(evt.newValue);
+            ActualizarEtiquetasTiempo();
+        });
 
+        sliderDificultad.RegisterValueChangedCallback(evt =>
+        {
+            jornadaActual.margenDeError = evt.newValue;
+            ActualizarEtiquetasTiempo();
+        });
         /*fieldTerapeuta.value = nivelacionData.nombre_terapeuta;
         fieldPaciente.value = nivelacionData.nombre_paciente;
 
@@ -98,17 +113,10 @@ public class UINivelacionData : MonoBehaviour
 
     private void ActualizarUI()
     {
-        // Slider margen
-        sliderMargen.SetValueWithoutNotify(jornadaActual.margenDeError);
-        labelMargen.text = jornadaActual.margenDeError.ToString("F1") + "x";
+        sliderTiempoManual.SetValueWithoutNotify(jornadaActual.tiempoBaseManual);
+        sliderDificultad.SetValueWithoutNotify(jornadaActual.margenDeError);
 
-        sliderMargen.RegisterValueChangedCallback(evt =>
-        {
-            jornadaActual.margenDeError = evt.newValue;
-            labelMargen.text = evt.newValue.ToString("F1") + "x";
-            ActualizarTiempoTotal();
-        });
-
+        ActualizarEtiquetasTiempo();
 
         // Puestos activos
         puestosContainer.Clear();
@@ -130,7 +138,6 @@ public class UINivelacionData : MonoBehaviour
                 }
 
                 GuardarRecetasSeleccionadas();
-                ActualizarTiempoTotal();
             });
             puestosContainer.Add(toggle);
         }
@@ -183,7 +190,6 @@ public class UINivelacionData : MonoBehaviour
                     jornadaActual.recetasAsignadas.Remove(receta);
 
                 GuardarRecetasSeleccionadas();
-                ActualizarTiempoTotal();
             });
 
             if (i % 2 == 0) col1.Add(toggle);
@@ -197,9 +203,6 @@ public class UINivelacionData : MonoBehaviour
         row.Add(col2);
 
         recetasScroll.Add(row);
-
-
-        ActualizarTiempoTotal();
     }
 
     private void GuardarRecetasSeleccionadas()
@@ -220,18 +223,22 @@ public class UINivelacionData : MonoBehaviour
         }
     }
 
-    private void ActualizarTiempoTotal()
+
+    private void ActualizarEtiquetasTiempo()
     {
-        if (jornadaActual == null) return;
+        int baseSegundos = jornadaActual.tiempoBaseManual;
+        float dificultad = jornadaActual.margenDeError;
 
-        float multiplicador = jornadaActual.margenDeError;
-        int tiempoTotalSegundos = Mathf.CeilToInt((jornadaActual.recetasAsignadas.Sum(r => r.tiempo_est_segs) * multiplicador) / recetasDatabase.factorDeTiempo);
+        int totalSegundos = Mathf.CeilToInt(baseSegundos * dificultad);
 
-        int horas = tiempoTotalSegundos / 3600;
-        int minutos = (tiempoTotalSegundos % 3600) / 60;
-        int segundos = tiempoTotalSegundos % 60;
+        int minutosBase = baseSegundos / 60;
+        int segundosBase = baseSegundos % 60;
 
-        labelTiempoTotal.text = $"Tiempo total: {horas}h {minutos}m {segundos}s ({tiempoTotalSegundos}s)";
+        int minutosTotal = totalSegundos / 60;
+        int segundosTotal = totalSegundos % 60;
+
+        labelTiempoManual.text = $"Tiempo: {minutosBase}m {segundosBase}s";
+        labelDificultad.text = $"Dificultad: {dificultad:F1}x";
+        labelTiempoTotal.text = $"Tiempo final: {minutosTotal}m {segundosTotal}s";
     }
-
 }
