@@ -15,6 +15,10 @@ public class MisionLevelManager : MonoBehaviour
     [SerializeField]
     MapUIManager _mapUIManager;
 
+    // Audio
+    [SerializeField]
+    SoundManager _soundManager;
+
     // Time
     float _answerTime = 10; // Seconds
     float _timeCont = 0;
@@ -331,5 +335,9 @@ public class MisionLevelManager : MonoBehaviour
             diff = num2 - num1;
 
         return diff;
+    }
+
+    public void ClickSound() {
+        _soundManager.Click();
     }
 }
