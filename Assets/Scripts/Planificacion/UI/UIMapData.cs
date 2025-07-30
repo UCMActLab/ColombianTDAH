@@ -8,7 +8,7 @@ using UnityEngine.UIElements;
 public class UIMapData : MonoBehaviour
 {
     UIDocument _document;
-    Button _acceptButton;
+    Button _nextButton;
 
     // Reglas
     IntegerField _stopNumber;
@@ -29,12 +29,8 @@ public class UIMapData : MonoBehaviour
     // Ejecucion
     IntegerField _answerTime;
 
-
     [SerializeField]
-    GameObject _map;
-
-    [SerializeField]
-    GameObject _dialogs;
+    GameObject uiQuestionDoc;
 
     // Scriptable Object
     [SerializeField]
@@ -84,30 +80,26 @@ public class UIMapData : MonoBehaviour
             _answerTime = _document.rootVisualElement.Q<IntegerField>("TiempoRespuesta");
 
             // Callback boton
-            _acceptButton = _document.rootVisualElement.Q("guardarYjugar") as Button;
+            _nextButton = _document.rootVisualElement.Q("Siguiente") as Button;
 
-            if (_acceptButton != null)
-                _acceptButton.RegisterCallback<ClickEvent>(OnAcceptClick);
+            if (_nextButton != null)
+                _nextButton.RegisterCallback<ClickEvent>(OnNextClick);
         }
 
-        if (_map != null)
-            _map.SetActive(false);
 
-        if (_dialogs != null)
-            _dialogs.SetActive(false);
     }
 
     private void OnDisable()
     {
-        _acceptButton.UnregisterCallback<ClickEvent>(OnAcceptClick);
+        _nextButton.UnregisterCallback<ClickEvent>(OnNextClick);
     }
 
-    private void OnAcceptClick(ClickEvent ce)
+    private void OnNextClick(ClickEvent ce)
     {
         SaveConfiguration();
-        _document.enabled = false;
-        _map.SetActive(true);
-        _dialogs.SetActive(true);
+        uiQuestionDoc.SetActive(true);
+        uiQuestionDoc.GetComponent<UIConfigQuestion>().Init(_config.StopsNames);
+        gameObject.SetActive(false);
     }
 
     private void SaveConfiguration()
@@ -161,7 +153,7 @@ public class UIMapData : MonoBehaviour
     // Separa un texto y devuelve lista de palabras
     private List<string> SeparateStopNames(string names)
     {
-        char[] delimiterChars = {',', '.'};
+        char[] delimiterChars = { ',', '.' };
         string[] words = names.Split(delimiterChars);
 
         List<string> wordsList = words.ToList();
