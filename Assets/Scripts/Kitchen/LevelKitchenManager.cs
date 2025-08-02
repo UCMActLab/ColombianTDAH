@@ -3,6 +3,19 @@ using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
 
+public enum TurnoEstado
+{
+    Bloqueado,
+    Activo,
+    Completado
+}
+
+public enum Turno
+{
+    Manana,
+    Tarde,
+    Noche
+}
 public enum PuestosDeTrabajo
 {
     TablaDePicar,
@@ -30,6 +43,8 @@ public class LevelKitchenManager : MonoBehaviour
     [Header("Configuración")]
     public RecetasDatabase recetasDatabase;
     public NivelacionData nivelacionData;
+
+    private int jornadaActual = 1;
 
     private void Awake()
     {
@@ -71,5 +86,10 @@ public class LevelKitchenManager : MonoBehaviour
         }
 
         Debug.Log("Recetas calculadas correctamente para todas las jornadas.");
+    }
+
+    public void SetJornada(int newValue)
+    {
+        jornadaActual = newValue;
     }
 }
