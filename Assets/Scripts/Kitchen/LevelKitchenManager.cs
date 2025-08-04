@@ -18,12 +18,12 @@ public enum Turno
 }
 public enum PuestosDeTrabajo
 {
-    TablaDePicar,
+    Tabla_De_Picar,
     Licuadora,
     Olla,
     Sarten,
     Mezcladora,
-    OllaAPresion,
+    Olla_A_Presion,
     Horno
 }
 

@@ -18,13 +18,15 @@ public class UINivelacionData : MonoBehaviour
     private Slider sliderTiempoManual;
     private Label labelTiempoManual;
 
-    private Slider sliderDificultad;
     private Label labelDificultad;
     private ScrollView recetasScroll;
     private VisualElement toolbarJornadas;
     //private TextField fieldTerapeuta;
     //private TextField fieldPaciente;
     private Label labelTiempoTotal;
+
+    private Toggle toggleFacil, toggleNormal, toggleDificil, toggleMuyDificil;
+    private float[] valueToggles = { 1.5f, 1.0f, 0.75f, 0.5f };
 
 
     private void OnEnable()
@@ -34,13 +36,16 @@ public class UINivelacionData : MonoBehaviour
         puestosContainer = root.Q<VisualElement>("puestos-container");
         sliderTiempoManual = root.Q<Slider>("slider-tiempo-manual");
         labelTiempoManual = root.Q<Label>("label-tiempo-manual");
-        sliderDificultad = root.Q<Slider>("slider-dificultad");
         labelDificultad = root.Q<Label>("label-dificultad");
         recetasScroll = root.Q<ScrollView>("recetas-scroll");
         toolbarJornadas = root.Q<VisualElement>("toolbar-jornadas");
         //fieldTerapeuta = root.Q<TextField>("field-terapeuta");
         //fieldPaciente = root.Q<TextField>("field-paciente");
         labelTiempoTotal = root.Q<Label>("label-tiempo-total");
+        toggleFacil = root.Q<Toggle>("toggle-facil");
+        toggleNormal = root.Q<Toggle>("toggle-normal");
+        toggleDificil = root.Q<Toggle>("toggle-dificil");
+        toggleMuyDificil = root.Q<Toggle>("toggle-muydificil");
 
         jornadaActual = nivelacionData.jornadas[0];
 
@@ -64,11 +69,27 @@ public class UINivelacionData : MonoBehaviour
             ActualizarEtiquetasTiempo();
         });
 
-        sliderDificultad.RegisterValueChangedCallback(evt =>
+
+        Action<Toggle, float> configurarDificultad = (toggle, factor) =>
         {
-            jornadaActual.margenDeError = evt.newValue;
-            ActualizarEtiquetasTiempo();
-        });
+            toggle.RegisterValueChangedCallback(evt =>
+            {
+                if (evt.newValue)
+                {
+                    jornadaActual.margenDeError = factor;
+                    toggleFacil.value = (toggle == toggleFacil);
+                    toggleNormal.value = (toggle == toggleNormal);
+                    toggleDificil.value = (toggle == toggleDificil);
+                    toggleMuyDificil.value = (toggle == toggleMuyDificil);
+                    ActualizarEtiquetasTiempo();
+                }
+            });
+        };
+
+        configurarDificultad(toggleFacil, valueToggles[0]);
+        configurarDificultad(toggleNormal, valueToggles[1]);
+        configurarDificultad(toggleDificil, valueToggles[2]);
+        configurarDificultad(toggleMuyDificil, valueToggles[3]);
         /*fieldTerapeuta.value = nivelacionData.nombre_terapeuta;
         fieldPaciente.value = nivelacionData.nombre_paciente;
 
@@ -114,7 +135,11 @@ public class UINivelacionData : MonoBehaviour
     private void ActualizarUI()
     {
         sliderTiempoManual.SetValueWithoutNotify(jornadaActual.tiempoBaseManual);
-        sliderDificultad.SetValueWithoutNotify(jornadaActual.margenDeError);
+
+        toggleFacil.SetValueWithoutNotify(jornadaActual.margenDeError == valueToggles[0]);
+        toggleNormal.SetValueWithoutNotify(jornadaActual.margenDeError == valueToggles[1]);
+        toggleDificil.SetValueWithoutNotify(jornadaActual.margenDeError == valueToggles[2]);
+        toggleMuyDificil.SetValueWithoutNotify(jornadaActual.margenDeError == valueToggles[3]);
 
         ActualizarEtiquetasTiempo();
 
@@ -122,7 +147,8 @@ public class UINivelacionData : MonoBehaviour
         puestosContainer.Clear();
         foreach (var puesto in System.Enum.GetValues(typeof(PuestosDeTrabajo)).Cast<PuestosDeTrabajo>())
         {
-            var toggle = new Toggle(puesto.ToString());
+            var toggle = new Toggle(puesto.ToString().Replace("_", " "));
+
             toggle.value = jornadaActual.puestosActivos.Contains(puesto);
             toggle.RegisterValueChangedCallback(evt =>
             {
@@ -147,7 +173,7 @@ public class UINivelacionData : MonoBehaviour
     }
 
 
-    private void ActualizarRecetasPuestos(PuestosDeTrabajo puesto = PuestosDeTrabajo.TablaDePicar, bool added = false)
+    private void ActualizarRecetasPuestos(PuestosDeTrabajo puesto = PuestosDeTrabajo.Tabla_De_Picar, bool added = false)
     {
         recetasScroll.Clear();
 
@@ -238,7 +264,6 @@ public class UINivelacionData : MonoBehaviour
         int segundosTotal = totalSegundos % 60;
 
         labelTiempoManual.text = $"Tiempo: {minutosBase}m {segundosBase}s";
-        labelDificultad.text = $"Dificultad: {dificultad:F1}x";
-        labelTiempoTotal.text = $"Tiempo final: {minutosTotal}m {segundosTotal}s";
+        labelTiempoTotal.text = $"Tiempo aproximado por turno: {minutosTotal}m {segundosTotal}s";
     }
 }

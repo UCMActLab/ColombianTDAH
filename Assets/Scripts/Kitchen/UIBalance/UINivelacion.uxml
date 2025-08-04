@@ -24,11 +24,16 @@
                 <engine:Label text="Puestos Activos" class="label" />
                 <engine:VisualElement name="puestos-container" style="flex-direction: column; gap: 3px;" />
                 <engine:VisualElement name="tiempo-config" style="margin-top: 10px;">
-                    <engine:Label name="label-tiempo-manual" text="Tiempo: 15m 0s" />
-                    <engine:Slider name="slider-tiempo-manual" low-value="600" high-value="1800" value="900" />
-                    <engine:Label name="label-dificultad" text="Dificultad: 1.0x" />
-                    <engine:Slider name="slider-dificultad" low-value="0.25" high-value="3.0" value="1.0" />
-                    <engine:Label name="label-tiempo-total" text="Tiempo final: 15m 0s" style="margin-top: 10px;" class="label"/>
+                    <engine:Label name="label-tiempo-manual" text="Tiempo: 15m 0s" class="label" />
+                    <engine:Slider name="slider-tiempo-manual" low-value="180" high-value="900" value="180" />
+                    <engine:Label name="label-dificultad" text="Dificultad" class="label" />
+                    <engine:VisualElement name="dificultad-container" style="flex-direction: row; justify-content: space-between;">
+                        <engine:Toggle name="toggle-facil" text="Fácil" />
+                        <engine:Toggle name="toggle-normal" text="Normal" />
+                        <engine:Toggle name="toggle-dificil" text="Difícil" />
+                        <engine:Toggle name="toggle-muydificil" text="Muy Difícil" />
+                    </engine:VisualElement>
+                    <engine:Label name="label-tiempo-total" text="Tiempo aproximado por turno: 15m 0s" style="margin-top: 10px;" class="label"/>
                 </engine:VisualElement>
             </engine:VisualElement>
             <engine:VisualElement name="recetas-panel" style="flex-direction: column; flex-grow: 1;">
