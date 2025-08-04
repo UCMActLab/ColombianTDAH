@@ -4,15 +4,20 @@ public class WorkstationProcessor : MonoBehaviour
 {
     #region references
     [SerializeField]
-    private PuestosDeTrabajo workstationType;
+    public PuestosDeTrabajo workstationType;
     [SerializeField]
-    private Transform spawnPoint;
+    public Transform spawnPoint;
     [SerializeField]
     private AudioClip sonido;
     [SerializeField]
     private ProcesamientoDatabase procesamientoDatabase;
+    [SerializeField]
+    private GameObject objAnim; // Objeto con animación
+    [SerializeField] 
+    private Animator animator;
 
     private AudioSource audioSource;
+    
     #endregion
 
     #region properties
@@ -26,27 +31,44 @@ public class WorkstationProcessor : MonoBehaviour
         processed = false;
     }
 
-    void OnTriggerStay(Collider other)
+    // Lo dejo comentado por si lo necesito más tarde
+    //void OnTriggerStay(Collider other)
+    //{
+    //    if (!processed &&
+    //        other.TryGetComponent(out ProcessableIngredient pi) &&
+    //        other.TryGetComponent(out Draggable drag) &&
+    //        !drag.isDragging)
+    //    {
+    //        processed = true;
+    //        var procesamiento = procesamientoDatabase.GetProcesamiento(pi.ingredientType, workstationType);
+    //        StartCoroutine(Procesar(pi.gameObject, procesamiento));
+    //    }
+    //}
+
+    public void StartProcessing(GameObject ingrediente)
     {
-        if (!processed)
+        if (!processed && ingrediente.TryGetComponent(out ProcessableIngredient pi))
         {
-            if (other.TryGetComponent(out ProcessableIngredient pi) &&
-                other.TryGetComponent(out Draggable drag) &&
-                !drag.isDragging)
-            {               
-                var procesamiento = procesamientoDatabase.GetProcesamiento(pi.ingredientType, workstationType);
-                if (procesamiento != null)
-                {
-                    processed = true;
-                    StartCoroutine(Procesar(pi.gameObject, procesamiento));
-                }                
+            var procesamiento = procesamientoDatabase.GetProcesamiento(pi.ingredientType, workstationType);
+            if (procesamiento != null)
+            {
+                processed = true;
+                StartCoroutine(Procesar(ingrediente, procesamiento));
             }
         }
     }
 
     private System.Collections.IEnumerator Procesar(GameObject ingrediente, ProcesamientoData data)
     {
-        if (sonido != null) audioSource.PlayOneShot(sonido);
+        objAnim.SetActive(true);
+
+        if (animator != null) animator.SetBool("IsProcessing", true);
+
+        if (sonido != null) {
+            audioSource.clip = sonido;
+            audioSource.loop = true;
+            audioSource.Play();
+        }
         yield return new WaitForSeconds(data.processTime); // Tiempo que dura el procesado
 
         if (data.processedIngredient != null)
@@ -54,10 +76,13 @@ public class WorkstationProcessor : MonoBehaviour
             Instantiate(data.processedIngredient, spawnPoint.position, spawnPoint.rotation);
         }
 
-        var feedback = GetComponent<DropZoneFeedback>();
-        if (feedback != null)
-            feedback.ResetColor();
+        if (animator != null) animator.SetBool("IsProcessing", false);
 
+        audioSource.Stop();
+        audioSource.loop = false;
+        audioSource.clip = null;
+
+        objAnim.SetActive(false);
         Destroy(ingrediente);
         processed = false;
     }

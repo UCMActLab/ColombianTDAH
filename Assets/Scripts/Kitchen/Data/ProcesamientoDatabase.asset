@@ -14,3 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   processable:
   - {fileID: 11400000, guid: 7409685fc5c7f9741baf045703c13cd9, type: 2}
+  - {fileID: 11400000, guid: f91c293480d7f9948954f852636374d4, type: 2}
+  - {fileID: 11400000, guid: 59bc389f976334f4296a11f839296324, type: 2}
