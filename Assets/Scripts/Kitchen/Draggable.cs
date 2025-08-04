@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Draggable : MonoBehaviour
 {
@@ -8,12 +9,16 @@ public class Draggable : MonoBehaviour
 
     #region properties
     [HideInInspector]
-    public bool isDragging { get; private set; } // Booleano para saber si el objeto está siendo arrastrado
+    public bool isDragging { get; private set; }
     #endregion
 
     #region parameters
     [SerializeField]
-    private float dragDistance; // Distancia constante desde la cámara
+    private float dragDistance = 5f; // Puedes ajustar la distancia predeterminada
+
+    [Header("Events")]
+    public UnityEvent onStartDragging;
+    public UnityEvent onStopDragging;
     #endregion
 
     #region methods
@@ -36,12 +41,13 @@ public class Draggable : MonoBehaviour
     void OnMouseDown()
     {
         isDragging = true;
+        onStartDragging?.Invoke();
     }
 
     void OnMouseUp()
     {
         isDragging = false;
+        onStopDragging?.Invoke();
     }
-
     #endregion
 }

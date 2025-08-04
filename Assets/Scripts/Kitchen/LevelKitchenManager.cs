@@ -2,6 +2,8 @@
 using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine.SceneManagement;
+using System.Collections;
 
 public enum TurnoEstado
 {
@@ -39,12 +41,21 @@ public class LevelKitchenManager : MonoBehaviour
 
     static public LevelKitchenManager Instance { get { return _instance; } }
 
+    private string[] escenasPermitidas = { "KitchenLevel", "KitchenLevelSelector", "KitchenBalanceTerapeuta" };
 
     [Header("Configuración")]
     public RecetasDatabase recetasDatabase;
     public NivelacionData nivelacionData;
 
+    private GameObject libroDeRecetas;
+
     private int jornadaActual = 1;
+
+    private Transform bookTargetTransform;
+    private float moveDuration = 1.5f;
+    private string openAnimation = "Open";
+    private GameObject[] lights;
+
 
     private void Awake()
     {
@@ -54,8 +65,11 @@ public class LevelKitchenManager : MonoBehaviour
         }
         else
         {
-            Destroy(this.gameObject);
+            Destroy(gameObject);
         }
+
+        DontDestroyOnLoad(gameObject);
+        SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
     private void Start()
@@ -67,6 +81,81 @@ public class LevelKitchenManager : MonoBehaviour
     {
         
     }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        bool escenaPermitida = false;
+
+        foreach (string nombre in escenasPermitidas)
+        {
+            if (scene.name == nombre)
+            {
+                escenaPermitida = true;
+                break;
+            }
+        }
+
+        if (!escenaPermitida)
+        {
+            Destroy(gameObject);
+        }
+
+        if (scene.name == escenasPermitidas[0]) // KitchenLevel
+        {
+            Draggable input = libroDeRecetas.GetComponent<Draggable>();
+
+            if (input != null)
+            {
+                input.onStartDragging.AddListener(OnBookClicked);
+            }
+            else
+            {
+                Debug.LogWarning("No se encontró el componente OnMouseInputRecieved.");
+            }
+
+            AnimatorManager.Instance.SetAnimatorLibro();
+        }
+    }
+
+    private void OnBookClicked()
+    {
+        Debug.Log("Libro clickado");
+        libroDeRecetas.GetComponent<Draggable>().enabled = false;
+
+        bookTargetTransform = GameObject.Find("LibroPos").transform;
+        AnimatorManager.Instance.PlayAndPauseAt(openAnimation, 0.8f);
+
+        foreach (GameObject l in lights)
+        {
+            l.SetActive(true);
+        }
+        
+        // Iniciar el movimiento con rotación
+        StartCoroutine(MoverLibro(libroDeRecetas.transform, bookTargetTransform.position, bookTargetTransform.rotation, moveDuration));
+    }
+
+    private IEnumerator MoverLibro(Transform objeto, Vector3 destinoPos, Quaternion destinoRot, float duracion)
+    {
+        Vector3 origenPos = objeto.position;
+        Quaternion origenRot = objeto.rotation;
+
+        float tiempo = 0f;
+
+        while (tiempo < duracion)
+        {
+            float t = tiempo / duracion;
+            objeto.position = Vector3.Lerp(origenPos, destinoPos, t);
+            objeto.rotation = Quaternion.Slerp(origenRot, destinoRot, t);
+            tiempo += Time.deltaTime;
+            yield return null;
+        }
+
+        // Asegurar posición/rotación final
+        objeto.position = destinoPos;
+        objeto.rotation = destinoRot;
+    }
+
+
 
     public void CalcularRecetasPorJornada()
     {
@@ -91,5 +180,20 @@ public class LevelKitchenManager : MonoBehaviour
     public void SetJornada(int newValue)
     {
         jornadaActual = newValue;
+    }
+
+    public GameObject GetLibro()
+    {
+        return libroDeRecetas;
+    }
+
+    public void SetLibro(GameObject l)
+    {
+        libroDeRecetas = l;
+    }
+
+    public void SetLights(GameObject[] ls)
+    {
+        lights = ls;
     }
 }
