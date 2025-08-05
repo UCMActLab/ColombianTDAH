@@ -17,6 +17,13 @@ public class BallSpawner : MonoBehaviour
     [SerializeField]
     Vector2 _maxZone;
 
+
+
+    //velocidades de los objetos (solo para la pausa)
+    private Dictionary<Rigidbody, Vector3> _linearVelocities = new Dictionary<Rigidbody, Vector3>();
+    private Dictionary<Rigidbody, Vector3> _angularVelocities = new Dictionary<Rigidbody, Vector3>();
+
+
     private void Awake()
     {
         _spawnedObjects = new List<GameObject>();
@@ -58,6 +65,55 @@ public class BallSpawner : MonoBehaviour
             EventRegister.Instance.EvntToJson();
         }
 
+    }
+
+    // Quita las fisicas de los objetos para pausarlos y guarda la velocidad que tuvieran para ponersela al despausar
+    public void PauseObjects(bool pause)
+    {
+        for (int i = 0; i < _spawnedObjects.Count; i++)
+        {
+            GameObject obj = _spawnedObjects[i];
+            if (obj == null) continue; //siguiente iteracion
+
+            Rigidbody rb = obj.GetComponent<Rigidbody>();
+            if (rb == null) continue; 
+
+            if (pause)
+            {
+                // guardar velocidades
+                if (!_linearVelocities.ContainsKey(rb))
+                {
+                    _linearVelocities[rb] = rb.linearVelocity;
+                    _angularVelocities[rb] = rb.angularVelocity;
+                }
+
+                // quitamos fisicas
+                rb.isKinematic = true;
+            }
+            else //si no esta pausado
+            {
+                // volvemos a usar fisicas
+                rb.isKinematic = false;
+
+                // restaurar velocidades si estaban guardadas
+                if (_linearVelocities.TryGetValue(rb, out Vector3 vel))
+                {
+                    rb.linearVelocity = vel;
+                }
+
+                if (_angularVelocities.TryGetValue(rb, out Vector3 angVel))
+                {
+                    rb.angularVelocity = angVel;
+                }
+            }
+        }
+
+        // si se esta continuando el juego hacemos clear de la lista porque ya no sirve hasta la proxima pausa
+        if (!pause)
+        {
+            _linearVelocities.Clear();
+            _angularVelocities.Clear();
+        }
     }
 
 }

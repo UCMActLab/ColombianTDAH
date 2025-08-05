@@ -127,6 +127,10 @@ public class DolphinLevelManager : MonoBehaviour
     //SavedfromUI
     [SerializeField]
     configData levelData;
+
+    // Saber si el juego esta pausado
+    private bool _isPaused = false;
+
     private void Awake()
     {
         // Si no hay instancia de esta clase ya creada se almacena
@@ -153,6 +157,8 @@ public class DolphinLevelManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (_isPaused) return; //si esta pausado no spawnea
+
         if (_obstacleTroncoSpawning || _obstacleBoatSpawning || _floatieSpawning)
         {
             currTime += Time.deltaTime;
@@ -729,11 +735,14 @@ public class DolphinLevelManager : MonoBehaviour
     /// </summary>
     public void Pause(bool pause)
     {
+        _isPaused = pause;
         SetAllObstacleSpawning(!pause); // no spawnea obstaculos
         randomObjectSpawner.PauseObjects(pause); // pausa objetos
         _dolphinManager.PauseDolphins(pause); // pausa delfines
+        ballSpawner.PauseObjects(pause);
         _dolphinManager.enabled = !pause; // para manager delfines
         _backgroundMovementComp.enabled = !pause; // pausa fondo
+
 
         // Pausa animaciones de animales
         for (int i = 0;i < _animals.Count; i++) {
