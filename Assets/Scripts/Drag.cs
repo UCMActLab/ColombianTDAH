@@ -12,7 +12,7 @@ public class Drag : MonoBehaviour
     [SerializeField]
     float _raycastDistance = 10.0f;
     [SerializeField]
-    float _delayDragTime = 0.05f;
+    float _delayDragTime = 0.02f;
     float clickTime = 0.0f;
 
     static bool _isDragging = false;
@@ -45,23 +45,20 @@ public class Drag : MonoBehaviour
                 clickTime = Time.time;
                 _dolphinClicked = true;
             }
-        }
-        if (Input.GetMouseButton(0) && !_isDragging && _dolphinClicked)
-        {
-            // Si mantiene pulsado encima del delfin
-            if (IsDolphinHit())
-            {
-                // Si pasa el tiempo del delay arrastra
-                if (Time.time - clickTime > _delayDragTime)
-                {
-                    DragObject();
-                }
-            }
-            // Si no mantiene pulsado sobre el delfin el contador se reinicia
             else
             {
                 _dolphinClicked = false;
             }
+        }
+        if (Input.GetMouseButton(0) && !_isDragging && _dolphinClicked)
+        {
+
+            // Si pasa el tiempo del delay arrastra (aunque no este en el momento pulsando sobre el delfin sobre el que pulso)
+            if (Time.time - clickTime > _delayDragTime)
+            {
+                DragObject();
+            }
+         
 
         }
         if (Input.GetMouseButtonUp(0) && _dolphinClicked)
