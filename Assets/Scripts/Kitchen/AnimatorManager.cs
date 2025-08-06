@@ -3,6 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+public enum ObjetosAnim
+{
+    Libro
+}
+
 public class AnimatorManager : MonoBehaviour
 {
     /// <summary>
@@ -16,8 +21,8 @@ public class AnimatorManager : MonoBehaviour
     static public AnimatorManager Instance { get { return _instance; } }
 
 
-    Animator animatorLibro;
-    private string currentAnimation = "";
+    private Dictionary<ObjetosAnim, Animator> animators = new Dictionary<ObjetosAnim, Animator>();
+    private Dictionary<ObjetosAnim, string> currentAnimations = new Dictionary<ObjetosAnim, string>();
 
     /// <summary>
     /// Animator Manager instance initialization
@@ -48,49 +53,48 @@ public class AnimatorManager : MonoBehaviour
 
     }
 
-    public void ChangeAnimation(string newAnim, float crossfade = 0.2f)
+    public void ChangeAnimation(ObjetosAnim ob, string newAnim, float crossfade = 0.2f)
     {
-        if (currentAnimation != newAnim)
+        if (currentAnimations[ob] != newAnim)
         {
-            animatorLibro.speed = 1f;
-            animatorLibro.CrossFade(newAnim, crossfade);
-            currentAnimation = newAnim;
+            animators[ob].speed = 1f;
+            animators[ob].CrossFade(newAnim, crossfade);
+            currentAnimations[ob] = newAnim;
         }
     }
 
-    public void PlayAndPauseAt(string animName, float pauseAtNormalizedTime)
+    public void PlayAndPauseAt(ObjetosAnim ob, string animName, float pauseAtNormalizedTime)
     {
-        animatorLibro.speed = 1f;
-        animatorLibro.CrossFade(animName, 0); // Empieza desde el principio
-        StartCoroutine(PauseAnimationAt(animName, pauseAtNormalizedTime));
+        animators[ob].speed = 1f;
+        animators[ob].CrossFade(animName, 0); // Empieza desde el principio
+        StartCoroutine(PauseAnimationAt(ob, animName, pauseAtNormalizedTime));
     }
 
-    private IEnumerator PauseAnimationAt(string animName, float targetNormalizedTime)
+    private IEnumerator PauseAnimationAt(ObjetosAnim ob, string animName, float targetNormalizedTime)
     {
         yield return null;
 
         while (true)
         {
-            AnimatorStateInfo state = animatorLibro.GetCurrentAnimatorStateInfo(0);
+            AnimatorStateInfo state = animators[ob].GetCurrentAnimatorStateInfo(0);
             if (state.IsName(animName) && state.normalizedTime >= targetNormalizedTime)
             {
-                animatorLibro.speed = 0f;
+                animators[ob].speed = 0f;
                 break;
             }
             yield return null;
         }
     }
 
-
-
-
-    public void SetApplyRootMotion(bool newValue)
+    public void SetApplyRootMotion(ObjetosAnim ob, bool newValue)
     {
-        animatorLibro.applyRootMotion = newValue;
+        animators[ob].applyRootMotion = newValue;
     }
 
-    public void SetAnimatorLibro()
+
+
+    public void SetAnimator(ObjetosAnim ob, Animator anim)
     {
-        animatorLibro = LevelKitchenManager.Instance.GetLibro().GetComponent<Animator>();
+        animators[ob] = anim;
     }
 }

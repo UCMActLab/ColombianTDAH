@@ -98,6 +98,8 @@ public class LevelKitchenManager : MonoBehaviour
         if (!escenaPermitida)
         {
             Destroy(gameObject);
+            Destroy(AnimatorManager.Instance.gameObject);
+            Destroy(SoundManager.Instance.gameObject);
         }
 
         if (scene.name == escenasPermitidas[0]) // KitchenLevel
@@ -113,7 +115,7 @@ public class LevelKitchenManager : MonoBehaviour
                 Debug.LogWarning("No se encontró el componente OnMouseInputRecieved.");
             }
 
-            AnimatorManager.Instance.SetAnimatorLibro();
+            
         }
     }
 
@@ -123,7 +125,7 @@ public class LevelKitchenManager : MonoBehaviour
         libroDeRecetas.GetComponent<Draggable>().enabled = false;
 
         bookTargetTransform = GameObject.Find("LibroPos").transform;
-        AnimatorManager.Instance.PlayAndPauseAt(openAnimation, 0.8f);
+        AnimatorManager.Instance.PlayAndPauseAt(ObjetosAnim.Libro, openAnimation, 0.8f);
 
         foreach (GameObject l in lights)
         {
