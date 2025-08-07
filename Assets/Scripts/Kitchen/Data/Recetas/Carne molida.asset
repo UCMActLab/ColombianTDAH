@@ -16,4 +16,4 @@ MonoBehaviour:
   categoria: Complementario
   ingredientes: 0800000000000000
   puestos: 0000000002000000
-  tiempo_est_segs: 1500
+  tiempo_est_segs: 75

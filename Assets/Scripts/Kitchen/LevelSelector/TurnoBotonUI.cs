@@ -38,10 +38,10 @@ public class TurnoBotonUI : MonoBehaviour // Clase para el comportamiento de los
         spriteLuna = Resources.Load<Sprite>("kitchen/luna");
         spriteCandado = Resources.Load<Sprite>("kitchen/candado");
 
-        Configurar(TurnoEstado.Activo);
+        Configurar();
     }
 
-    public void Configurar(TurnoEstado estado)
+    public void Configurar()
     {
         switch (tipoTurno)
         {
@@ -109,6 +109,13 @@ public class TurnoBotonUI : MonoBehaviour // Clase para el comportamiento de los
         animando = false;
 
         LevelKitchenManager.Instance.SetJornada(jornada);
+        LevelKitchenManager.Instance.SetTurno(tipoTurno);
+
+        int baseSegundos = LevelKitchenManager.Instance.GetNivelacionData().jornadas[jornada].tiempoBaseManual;
+        float dificultad = LevelKitchenManager.Instance.GetNivelacionData().jornadas[jornada].margenDeError;
+
+        LevelKitchenManager.Instance.SetTiempoPorTurno(Mathf.CeilToInt(baseSegundos * dificultad));
+
         SceneManager.LoadScene("KitchenLevel");
     }
 

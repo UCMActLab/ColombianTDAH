@@ -16,4 +16,4 @@ MonoBehaviour:
   categoria: Plato fuerte
   ingredientes: 04000000080000001b00000020000000120000001400000000000000
   puestos: 000000000200000004000000
-  tiempo_est_segs: 9000
+  tiempo_est_segs: 450
