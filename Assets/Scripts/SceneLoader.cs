@@ -46,9 +46,16 @@ public class SceneLoader : MonoBehaviour
         }
         if (name == "Worlds") //Botón de exit del minijuego
         {
-            EventRegister.Instance.WriteEnd();
+            if (EventRegister.Instance != null)
+            {
+                EventRegister.Instance.WriteEnd();
+            }
+            else
+            {
+                Debug.LogWarning("EventRegister.Instance es null, SceneLoader.LoadScene() del boton de Atras de Worlds");
+            }
         }
-            SceneManager.LoadScene(name);
+        SceneManager.LoadScene(name);
     }
 
     public void setMode(bool mode)
