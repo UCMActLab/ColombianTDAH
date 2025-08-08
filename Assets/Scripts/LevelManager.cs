@@ -38,7 +38,7 @@ public class DolphinLevelSelectorManager : MonoBehaviour
         SceneLoader sceneLoader = GameObject.Find("SceneLoader").GetComponent<SceneLoader>();
         if (sceneLoader.getLastLevelWon())
         {
-            UnlockUntil((sceneLoader.getLevelId() + 1).ToString());
+            UnlockUntil((sceneLoader.getLevelId()).ToString());
         }
         else
         {
