@@ -3,7 +3,13 @@ using UnityEngine;
 
 public enum ObjetosSound
 {
-    Tabla
+    Tabla_De_Picar,
+    Mezcladora,
+    Licuadora,
+    Horno,
+    Olla,
+    Olla_A_Presion,
+    Sarten
 }
 
 /// <summary>
@@ -77,6 +83,38 @@ public class SoundManager : MonoBehaviour
             Debug.LogWarning("Clip (" + clipName + ") no existente en este objeto: " + ob.ToString());
         }
     }
+
+    public void PlayLoop(ObjetosSound ob, string clipName)
+    {
+        if (!sources.ContainsKey(ob))
+        {
+            Debug.LogWarning($"[SoundManager] No hay AudioSource registrado para {ob}");
+            return;
+        }
+
+        if (!clips.ContainsKey(ob) || !clips[ob].ContainsKey(clipName))
+        {
+            Debug.LogWarning($"[SoundManager] Clip '{clipName}' no encontrado para {ob}");
+            return;
+        }
+
+        var src = sources[ob];
+        src.loop = true;
+        src.clip = clips[ob][clipName];
+        src.Play();
+    }
+
+    public void StopLoop(ObjetosSound ob)
+    {
+        if (!sources.ContainsKey(ob))
+            return;
+
+        var src = sources[ob];
+        src.loop = false;
+        src.Stop();
+        src.clip = null;
+    }
+
 
 
     public void SetAudioSource(ObjetosSound ob, AudioSource source)

@@ -1,89 +1,145 @@
 ﻿using UnityEngine;
+using System.Collections;
+using System.Linq;
 
 public class WorkstationProcessor : MonoBehaviour
 {
     #region references
-    [SerializeField]
-    public PuestosDeTrabajo workstationType;
-    [SerializeField]
-    public Transform spawnPoint;
-    [SerializeField]
-    private AudioClip sonido;
-    [SerializeField]
-    private ProcesamientoDatabase procesamientoDatabase;
-    [SerializeField]
-    private GameObject objAnim; // Objeto con animación
-    [SerializeField] 
-    private Animator animator;
+    [Header("Workstation")]
+    [SerializeField] public PuestosDeTrabajo workstationType;
+    [Header("Spawn of ingredients")]
+    [SerializeField] public Transform spawnPoint;
 
-    private AudioSource audioSource;
-    
+    [Header("Animation")]
+    [SerializeField] private GameObject objAnim; // Objeto visible que tiene animación
+    [SerializeField] private ObjetosAnim animKey;
+    [SerializeField] private string idleAnim = "Idle";
+    [SerializeField] private string processingAnim = "Processing";
+    [SerializeField] private float animTime;
+
+    [Header("Sounds")]  
+    [SerializeField] private ObjetosSound soundKey;
+    [SerializeField] private string processingSfxName = "";
+
+    [Header("Databases")]
+    [SerializeField] private ProcesamientoDatabase procesamientoDatabase;
+    [SerializeField] private RecetasDatabase recetasDatabase;
+
+    [Header("Inventario (solo modo receta)")]
+    [SerializeField] private WorkstationInventory inventory;
+    [SerializeField] private int capacity = 6;
     #endregion
 
     #region properties
     private bool processed;
+    [SerializeField] private bool immediateSingleProcess;
     #endregion
 
     #region methods
     void Start()
     {
-        audioSource = GetComponent<AudioSource>();
         processed = false;
     }
 
-    // Lo dejo comentado por si lo necesito más tarde
-    //void OnTriggerStay(Collider other)
+    //public void StartProcessing(GameObject ingrediente)
     //{
-    //    if (!processed &&
-    //        other.TryGetComponent(out ProcessableIngredient pi) &&
-    //        other.TryGetComponent(out Draggable drag) &&
-    //        !drag.isDragging)
+    //    if (!processed && ingrediente.TryGetComponent(out ProcessableIngredient pi))
     //    {
-    //        processed = true;
     //        var procesamiento = procesamientoDatabase.GetProcesamiento(pi.ingredientType, workstationType);
-    //        StartCoroutine(Procesar(pi.gameObject, procesamiento));
+    //        if (procesamiento != null)
+    //        {
+    //            processed = true;
+    //            StartCoroutine(Procesar(ingrediente, procesamiento));
+    //        }
     //    }
     //}
 
-    public void StartProcessing(GameObject ingrediente)
+    public void OnItemPlaced(ProcessableIngredient pi)
     {
-        if (!processed && ingrediente.TryGetComponent(out ProcessableIngredient pi))
+        if (processed || pi == null) return;
+
+        if (immediateSingleProcess)
         {
-            var procesamiento = procesamientoDatabase.GetProcesamiento(pi.ingredientType, workstationType);
-            if (procesamiento != null)
-            {
-                processed = true;
-                StartCoroutine(Procesar(ingrediente, procesamiento));
-            }
+            var pdata = procesamientoDatabase.GetProcesamiento(pi.ingredientType, workstationType);
+            if (pdata == null) { Destroy(pi.gameObject); return; }
+            StartCoroutine(ProcessImmediate(pi.gameObject, pdata));
+            return;
+        }
+
+        // Modo receta
+        if (!inventory.TryAdd(pi.ingredientType, capacity))
+        {
+            Destroy(pi.gameObject); // No cabe
+            return;
+        }
+
+        var recipe = FindMatchingRecipe();
+        Destroy(pi.gameObject);
+
+        if (recipe != null)
+        {
+            inventory.ConsumeFor(recipe);
+            StartCoroutine(ProcessRecipe(recipe));
         }
     }
 
-    private System.Collections.IEnumerator Procesar(GameObject ingrediente, ProcesamientoData data)
+    private RecetaData FindMatchingRecipe()
     {
-        objAnim.SetActive(true);
+        if (recetasDatabase == null || recetasDatabase.recetas == null) return null;
+        // Filtramos solo recetas que se pueden hacer en esta estación
+        var candidates = recetasDatabase.recetas.Where(r => r.puestos != null && r.puestos.Contains(workstationType));
+        foreach (var r in candidates)
+            if (inventory.Meets(r)) return r;
+        return null;
+    }
 
-        if (animator != null) animator.SetBool("IsProcessing", true);
+    private IEnumerator ProcessImmediate(GameObject ingredienteGO, ProcesamientoData data)
+    {
+        processed = true;
 
-        if (sonido != null) {
-            audioSource.clip = sonido;
-            audioSource.loop = true;
-            audioSource.Play();
-        }
-        yield return new WaitForSeconds(data.processTime); // Tiempo que dura el procesado
+        // Animación
+        AnimatorManager.Instance.PlayAndPauseAt(animKey, processingAnim, animTime);
 
-        if (data.processedIngredient != null)
-        {
+        // Sonido
+        if (!string.IsNullOrEmpty(processingSfxName))
+            SoundManager.Instance.PlayLoop(soundKey, processingSfxName);
+
+        yield return new WaitForSeconds(data.processTime); // Esperamos
+
+        // Spawn ingrediente procesado
+        if (data.processedIngredient)
             Instantiate(data.processedIngredient, spawnPoint.position, spawnPoint.rotation);
-        }
 
-        if (animator != null) animator.SetBool("IsProcessing", false);
+        // Fin anim & sonido
+        AnimatorManager.Instance.PlayAndPauseAt(animKey, idleAnim, 0f);
+        if (!string.IsNullOrEmpty(processingSfxName))
+            SoundManager.Instance.StopLoop(soundKey);
 
-        audioSource.Stop();
-        audioSource.loop = false;
-        audioSource.clip = null;
+        Destroy(ingredienteGO);
+        processed = false;
+    }
 
-        objAnim.SetActive(false);
-        Destroy(ingrediente);
+    private IEnumerator ProcessRecipe(RecetaData recipe)
+    {
+        processed = true;
+
+        // Anim & sonido inicio
+        AnimatorManager.Instance.PlayAndPauseAt(animKey, processingAnim, animTime);
+        if (!string.IsNullOrEmpty(processingSfxName))
+            SoundManager.Instance.PlayLoop(soundKey, processingSfxName);
+
+        yield return new WaitForSeconds(recipe.tiempo_est_segs); // Esperamos
+
+        // Spawn resultado de la receta
+        //if (recipe.resultado)
+        //    Instantiate(recipe.resultado, spawnPoint.position, spawnPoint.rotation);
+        Debug.Log("Receta Completada");
+
+        // Fin anim & sonido
+        AnimatorManager.Instance.PlayAndPauseAt(animKey, idleAnim, 0f);
+        if (!string.IsNullOrEmpty(processingSfxName))
+            SoundManager.Instance.StopLoop(soundKey);
+
         processed = false;
     }
     #endregion

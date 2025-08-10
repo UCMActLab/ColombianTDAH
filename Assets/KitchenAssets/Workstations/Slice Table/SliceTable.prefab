@@ -97,6 +97,7 @@ GameObject:
   - component: {fileID: 6038126814182789545}
   - component: {fileID: 8300811541911990111}
   - component: {fileID: 5460003008564723189}
+  - component: {fileID: 6811832593219486547}
   - component: {fileID: 8325056774146061708}
   m_Layer: 15
   m_Name: SliceTable
@@ -158,10 +159,30 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   workstationType: 0
   spawnPoint: {fileID: 6547802389502503202}
-  sonido: {fileID: 8300000, guid: af84d42af4375e34d92c2a931444e2b1, type: 3}
-  procesamientoDatabase: {fileID: 11400000, guid: 7192775063d47bd4b92eae36ccd81741, type: 2}
   objAnim: {fileID: 2295524168284519233}
-  animator: {fileID: 3410503238994926136}
+  animKey: 1
+  idleAnim: Idle
+  processingAnim: Processing
+  animTime: 4
+  soundKey: 0
+  processingSfxName: knife_cutting
+  procesamientoDatabase: {fileID: 11400000, guid: 7192775063d47bd4b92eae36ccd81741, type: 2}
+  recetasDatabase: {fileID: 11400000, guid: 500188bf1c71ba0498684343da787a59, type: 2}
+  inventory: {fileID: 6811832593219486547}
+  capacity: 1
+  immediateSingleProcess: 1
+--- !u!114 &6811832593219486547
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1888054859941292664}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 499ebe61710b1344085c9e214efed62c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!82 &8325056774146061708
 AudioSource:
   m_ObjectHideFlags: 0
@@ -177,7 +198,7 @@ AudioSource:
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
-  Loop: 0
+  Loop: 1
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
@@ -430,7 +451,7 @@ Transform:
   m_GameObject: {fileID: 2773237394259857635}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.067, z: 0}
+  m_LocalPosition: {x: 0, y: 0.15, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

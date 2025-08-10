@@ -5,7 +5,14 @@ using UnityEngine.SceneManagement;
 
 public enum ObjetosAnim
 {
-    Libro
+    Libro,
+    Tabla_De_Picar,
+    Mezcladora,
+    Licuadora,
+    Horno,
+    Olla,
+    Olla_A_Presion,
+    Sarten
 }
 
 public class AnimatorManager : MonoBehaviour

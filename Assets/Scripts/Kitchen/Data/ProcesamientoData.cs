@@ -6,6 +6,5 @@ public class ProcesamientoData : ScriptableObject
     public Ingredientes ingredient;
     public PuestosDeTrabajo workstation;
     public GameObject processedIngredient;
-    public float processTime = 2f;
-    //public AudioClip processSound;
+    public float processTime;
 }

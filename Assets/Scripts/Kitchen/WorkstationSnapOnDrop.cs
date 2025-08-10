@@ -35,7 +35,7 @@ public class WorkstationSnapOnDrop : MonoBehaviour
                     transform.position = processor.spawnPoint.position;
                     transform.rotation = processor.spawnPoint.rotation;
 
-                    processor.StartProcessing(gameObject); // Comenzamos el proceso
+                    processor.OnItemPlaced(processableIngredient);
                 }
             }
         }

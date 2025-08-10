@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ingredient: 29
   workstation: 0
-  processedIngredient: {fileID: 0}
+  processedIngredient: {fileID: 4707323422197260422, guid: 8a4e234285ba477449e86403a3153b13, type: 3}
   processTime: 2
