@@ -37,7 +37,7 @@ public class WorkstationDetector : MonoBehaviour
         }
         else
         {
-            ClearCurrentWorkstation();
+            RemoveOverlay();
         }
     }
 
@@ -109,7 +109,7 @@ public class WorkstationDetector : MonoBehaviour
         originalMaterials.Clear();
     }
 
-    private void ClearCurrentWorkstation()
+    public void ClearCurrentWorkstation()
     {
         if (currentWorkstation != null)
         {

@@ -21,9 +21,10 @@ public class WorkstationSnapOnDrop : MonoBehaviour
         // Solo actuamos cuando soltamos el objeto
         if (!draggable.isDragging && raycaster.GetCurrentWorkstation() != null)
         {
+            
             Transform station = raycaster.GetCurrentWorkstation();
             var processor = station.GetComponent<WorkstationProcessor>();
-
+            
             if (processor != null)
             {
                 // Comprobamos si se puede procesar en esta workstation
@@ -34,7 +35,7 @@ public class WorkstationSnapOnDrop : MonoBehaviour
                     // Movemos ingrediente al spawn point
                     transform.position = processor.spawnPoint.position;
                     transform.rotation = processor.spawnPoint.rotation;
-
+                    
                     processor.OnItemPlaced(processableIngredient);
                 }
             }

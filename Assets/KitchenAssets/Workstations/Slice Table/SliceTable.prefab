@@ -98,6 +98,7 @@ GameObject:
   - component: {fileID: 8300811541911990111}
   - component: {fileID: 5460003008564723189}
   - component: {fileID: 6811832593219486547}
+  - component: {fileID: 1891024652572066071}
   - component: {fileID: 8325056774146061708}
   m_Layer: 15
   m_Name: SliceTable
@@ -183,6 +184,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 499ebe61710b1344085c9e214efed62c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!95 &1891024652572066071
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1888054859941292664}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 9cda457ac3728414282b764fae45d352, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!82 &8325056774146061708
 AudioSource:
   m_ObjectHideFlags: 0
@@ -375,7 +398,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3902261324615396128}
-  - component: {fileID: 3410503238994926136}
   m_Layer: 0
   m_Name: kitchen_knife
   m_TagString: Untagged
@@ -404,28 +426,6 @@ Transform:
   - {fileID: 5993973023867556655}
   m_Father: {fileID: 6038126814182789545}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!95 &3410503238994926136
-Animator:
-  serializedVersion: 7
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2295524168284519233}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 9cda457ac3728414282b764fae45d352, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_AnimatePhysics: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &2773237394259857635
 GameObject:
   m_ObjectHideFlags: 0
