@@ -749,4 +749,9 @@ public class DolphinLevelManager : MonoBehaviour
             _animals[i].GetComponent<Animator>().enabled = !pause;
         }
     }
+
+    public bool IsPaused()
+    {
+        return _isPaused;
+    }
 }

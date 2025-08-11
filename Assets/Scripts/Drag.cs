@@ -36,6 +36,8 @@ public class Drag : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (DolphinLevelManager.Instance.IsPaused()) return;
+
         // Click izquierdo
         if (Input.GetMouseButtonDown(0))
         {

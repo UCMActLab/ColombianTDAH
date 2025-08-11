@@ -359,6 +359,9 @@ public class DolphinController : MonoBehaviour
     /// </summary>
     public void TryClickDolphin()
     {
+
+        if (DolphinLevelManager.Instance.IsPaused()) return;
+
         if (currentState == DolphinStates.SPECIALJUMPING) //RIGHT GUESS SPECIAL JUMP
         {
             // Dolphin sound
