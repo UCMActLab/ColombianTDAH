@@ -109,7 +109,7 @@ public class WorkstationDetector : MonoBehaviour
         originalMaterials.Clear();
     }
 
-    public void ClearCurrentWorkstation()
+    private void ClearCurrentWorkstation()
     {
         if (currentWorkstation != null)
         {
