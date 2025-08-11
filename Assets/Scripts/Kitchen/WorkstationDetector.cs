@@ -139,5 +139,15 @@ public class WorkstationDetector : MonoBehaviour
         return false;
     }
 
+    void OnDisable()
+    {
+        ClearCurrentWorkstation();
+    }
+
+    void OnDestroy()
+    {
+        ClearCurrentWorkstation();
+    }
+
     #endregion
 }

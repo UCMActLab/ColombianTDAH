@@ -914,7 +914,7 @@ MonoBehaviour:
   processingAnim: Processing
   animTime: 4
   soundKey: 1
-  processingSfxName: knife_cutting
+  processingSfxName: Mixer
   procesamientoDatabase: {fileID: 11400000, guid: 7192775063d47bd4b92eae36ccd81741, type: 2}
   recetasDatabase: {fileID: 11400000, guid: 500188bf1c71ba0498684343da787a59, type: 2}
   inventory: {fileID: 3734823362380548346}

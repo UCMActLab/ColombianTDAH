@@ -135,7 +135,7 @@ MonoBehaviour:
   processingAnim: Processing
   animTime: 0
   soundKey: 5
-  processingSfxName: 
+  processingSfxName: PressureCooker
   procesamientoDatabase: {fileID: 11400000, guid: 7192775063d47bd4b92eae36ccd81741, type: 2}
   recetasDatabase: {fileID: 11400000, guid: 500188bf1c71ba0498684343da787a59, type: 2}
   inventory: {fileID: 5273535308578060801}

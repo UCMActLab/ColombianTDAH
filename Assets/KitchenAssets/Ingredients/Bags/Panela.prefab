@@ -98,8 +98,8 @@ GameObject:
   - component: {fileID: 9122442288671225509}
   - component: {fileID: 408588558132683867}
   - component: {fileID: 7144827603667702766}
-  - component: {fileID: 4687491877115152603}
   - component: {fileID: 3966068830592874587}
+  - component: {fileID: 4687491877115152603}
   - component: {fileID: 6171599852686586149}
   m_Layer: 0
   m_Name: Panela
@@ -192,6 +192,19 @@ MonoBehaviour:
   onStopDragging:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &3966068830592874587
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6355749721434328858}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64fc4017a279b594f864578f1d677c25, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ingredientType: 28
 --- !u!114 &4687491877115152603
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -212,19 +225,6 @@ MonoBehaviour:
   raycastDistance: 12
   overlayGreen: {fileID: 2100000, guid: 829a32be13f78cf419f424b5fcdf3382, type: 2}
   overlayRed: {fileID: 2100000, guid: cf95e01a94a287b4daa15ac9c30eec86, type: 2}
---- !u!114 &3966068830592874587
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6355749721434328858}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 64fc4017a279b594f864578f1d677c25, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ingredientType: 28
 --- !u!114 &6171599852686586149
 MonoBehaviour:
   m_ObjectHideFlags: 0

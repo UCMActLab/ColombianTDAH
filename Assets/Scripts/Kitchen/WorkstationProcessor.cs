@@ -96,11 +96,10 @@ public class WorkstationProcessor : MonoBehaviour
     private IEnumerator ProcessImmediate(GameObject ingredienteGO, ProcesamientoData data)
     {
         processed = true;
+        // Anim & sonido inicio
+        if (GetComponent<Animator>() != null)
+            AnimatorManager.Instance.PlayAndPauseAt(animKey, processingAnim, animTime);
 
-        // Animación
-        AnimatorManager.Instance.PlayAndPauseAt(animKey, processingAnim, animTime);
-
-        // Sonido
         if (!string.IsNullOrEmpty(processingSfxName))
             SoundManager.Instance.PlayLoop(soundKey, processingSfxName);
 
@@ -111,7 +110,8 @@ public class WorkstationProcessor : MonoBehaviour
             Instantiate(data.processedIngredient, spawnPoint.position, spawnPoint.rotation);
 
         // Fin anim & sonido
-        AnimatorManager.Instance.PlayAndPauseAt(animKey, idleAnim, 0f);
+        if (GetComponent<Animator>() != null)
+            AnimatorManager.Instance.PlayAndPauseAt(animKey, idleAnim, 0f);
         if (!string.IsNullOrEmpty(processingSfxName))
             SoundManager.Instance.StopLoop(soundKey);
 
@@ -124,7 +124,8 @@ public class WorkstationProcessor : MonoBehaviour
         processed = true;
 
         // Anim & sonido inicio
-        AnimatorManager.Instance.PlayAndPauseAt(animKey, processingAnim, animTime);
+        if (GetComponent<Animator>() != null)
+            AnimatorManager.Instance.PlayAndPauseAt(animKey, processingAnim, animTime);
         if (!string.IsNullOrEmpty(processingSfxName))
             SoundManager.Instance.PlayLoop(soundKey, processingSfxName);
 
@@ -136,7 +137,8 @@ public class WorkstationProcessor : MonoBehaviour
         Debug.Log("Receta Completada");
 
         // Fin anim & sonido
-        AnimatorManager.Instance.PlayAndPauseAt(animKey, idleAnim, 0f);
+        if (GetComponent<Animator>() != null)
+            AnimatorManager.Instance.PlayAndPauseAt(animKey, idleAnim, 0f);
         if (!string.IsNullOrEmpty(processingSfxName))
             SoundManager.Instance.StopLoop(soundKey);
 
