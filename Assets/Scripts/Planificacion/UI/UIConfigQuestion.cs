@@ -14,9 +14,9 @@ public class UIConfigQuestion : MonoBehaviour
     GameObject _dialogs;
 
     VisualElement _questionsVisualElement;
+    VisualElement _userQuestionsVisualElement;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    void Awake()
     {
         // Guarda referencias
         _document = GetComponent<UIDocument>();
@@ -24,6 +24,7 @@ public class UIConfigQuestion : MonoBehaviour
         if (_document != null)
         {
             _questionsVisualElement = _document.rootVisualElement.Q<VisualElement>("ParadasPreg");
+            _userQuestionsVisualElement = _document.rootVisualElement.Q<VisualElement>("ParadasUsuario");
 
             // Callback boton
             _acceptButton = _document.rootVisualElement.Q("guardarYjugar") as Button;
@@ -32,15 +33,52 @@ public class UIConfigQuestion : MonoBehaviour
                 _acceptButton.RegisterCallback<ClickEvent>(OnSaveClick);
 
         }
+
     }
     public void Init(List<string> stops)
-    {       
-        // Creo textField necesarios
-        //for (int i = 0; i < stops.Count; i++) {
-        //    TextField textField = new TextField(stops[i]);
-        //    textField.name = stops[i] + "TF";
-        //    _questionsVisualElement.Add(textField);
+    {
+
+        //delfinesColocados = 0;
+        //input_toggleGroup.Clear(); //Borramos los carriles
+        //int n = input_carrilesN.value;
+        //if (n > 6) n = 6;
+        //for (int i = 0; i < n; i++)
+        //{
+        //    VisualTreeAsset uiAsset = Resources.Load<VisualTreeAsset>("Planificacion/UI/carrilToggles");
+        //    VisualElement ui = uiAsset.Instantiate();
+
+        //    for (int j = 0; j < ui.childCount; j++)
+        //    {
+        //        ui[j].name = "Toggle" + i.ToString() + j.ToString();
+        //    }
+
+        //    input_toggleGroup.Add(ui);
         //}
+        /////////////////////////////////////////
+        // Creo textField necesarios
+        //_questionsVisualElement.Clear();
+
+        VisualTreeAsset uiAsset = Resources.Load<VisualTreeAsset>("Planificacion/UI/QuestionField");
+        VisualTreeAsset toggleUIAsset = Resources.Load<VisualTreeAsset>("Planificacion/UI/Toggle");
+
+        for (int i = 0; i < stops.Count; i++)
+        {
+            // Preguntas TextField
+            VisualElement ui = uiAsset.Instantiate();
+
+            TextField textField = (TextField)ui[0];
+            textField.name = stops[i] + "TF";
+            textField.label = stops[i];
+            _questionsVisualElement.Add(textField);
+            
+
+            // Toggles
+            VisualElement toggleUI = toggleUIAsset.Instantiate();
+            Toggle toggle = (Toggle)toggleUI[0];
+            toggle.name = stops[i] + "Toggle";
+            toggle.label = stops[i];
+            _userQuestionsVisualElement.Add(toggle);
+        }
     }
 
     private void OnDisable()
