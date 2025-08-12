@@ -57,8 +57,16 @@ public class PacienteConfig : MonoBehaviour
     private void OnDisable()
     {
         gameObject.SetActive(false);
-        edificios.SetActive(true);
-        ui.SetActive(true);
+
+        if (edificios != null)
+        {
+            edificios.SetActive(true);
+        }
+
+        if (ui != null)
+        {
+            ui.SetActive(true);
+        }
 
     }
 
