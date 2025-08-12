@@ -29,9 +29,7 @@ public class PacienteConfig : MonoBehaviour
         }
         else
         {
-            gameObject.SetActive(true);
             edificios.SetActive(false);
-
         }
     }
 
@@ -56,7 +54,6 @@ public class PacienteConfig : MonoBehaviour
     }
     private void OnDisable()
     {
-        gameObject.SetActive(false);
 
         if (edificios != null)
         {
@@ -67,6 +64,7 @@ public class PacienteConfig : MonoBehaviour
         {
             ui.SetActive(true);
         }
+        gameObject.SetActive(false);
 
     }
 
@@ -85,8 +83,9 @@ public class PacienteConfig : MonoBehaviour
         Debug.Log($"Evento PacienteInfo. Datos guardados: Paciente={paciente}, Terapeuta={terapeuta}");
 
         //desactivar el canvas actual y ponemos las casas de fondo
-        gameObject.SetActive(false);
         edificios.SetActive(true);
+        gameObject.SetActive(false);
+
 
     }
 }
