@@ -36,8 +36,8 @@ public class UIConfigQuestion : MonoBehaviour
                 _acceptButton.RegisterCallback<ClickEvent>(OnSaveClick);
 
         }
-
     }
+
     public void Init(List<string> stops, MisionConfigurationData config)
     {
         // Guardo referencia al ScriptableObject
@@ -88,23 +88,17 @@ public class UIConfigQuestion : MonoBehaviour
     // Guarda la informacion en el Scriptable Object
     private void SaveData()
     {
-        //Dictionary<string, string> q = new Dictionary<string, string>();
+        Dictionary<string, string> q = new Dictionary<string, string>();
 
-        //Debug.Log(_config.StopsNames[1]);
-        //TextField textF = _document.rootVisualElement.Q<TextField>("MiradorTF");
-        //Debug.Log(textF.text);
+        for (int i = 0; i < _config.StopsNames.Count; i++)
+        {
+            TextField textF = _questionsVisualElement.Q<TextField>((_config.StopsNames[i] + "TF"));
+            Debug.Log(textF == null);
+            q.Add(_config.StopsNames[i], textF.value);
+        }
 
-        //for (int i = 0; i < _config.StopsNames.Count; i++)
-        //{
+        _config.Questions = q;
 
-        //    TextField textF = _document.rootVisualElement.Q<TextField>((_config.StopsNames[i] + "TF"));
-        //    Debug.Log(textF == null);
-        //    //q.Add(_config.StopsNames[i], textF.value);
-        //    //Debug.Log(textF.value);
-        //}
-
-
-        //_config.Questions = q;
+        MisionLevelManager.Instance.LoadQuestions(q);
     }
-
 }

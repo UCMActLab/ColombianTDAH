@@ -51,7 +51,8 @@ public class MisionLevelManager : MonoBehaviour
     List<string> _selectedSleepTimes;
     List<string> _selectedLocationHours;
 
-
+    // Preguntas
+    Dictionary<string, string> _questions = new Dictionary<string, string>();
 
     private void Awake()
     {
@@ -129,6 +130,11 @@ public class MisionLevelManager : MonoBehaviour
         _misionUIManager.SetStops(_selectedStops);
         _misionUIManager.SetSleepHours(_selectedSleepTimes);
         _misionUIManager.SetLocationHours(_selectedLocationHours);
+    }
+
+    // Carga las preguntas de las paradas
+    public void LoadQuestions(Dictionary<string, string> q) {
+        _questions = q;
     }
 
     // Carga configuracion escogida
