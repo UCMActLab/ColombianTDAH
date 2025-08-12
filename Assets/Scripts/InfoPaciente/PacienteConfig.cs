@@ -14,6 +14,8 @@ public class PacienteConfig : MonoBehaviour
     [SerializeField] 
     private GameObject edificios;
 
+    EventRegister.InfoSesion infoSesion;
+
     private void Start()
     {
         if (EventRegister.Instance.PacientInfoIsRegistered)
@@ -29,13 +31,22 @@ public class PacienteConfig : MonoBehaviour
     }
     public void OnAceptarClicked()
     {
-        string paciente = pacienteInput.text;
-        string terapeuta = terapeutaInput.text;
+        string paciente = string.IsNullOrWhiteSpace(pacienteInput.text) ? "TEMP" : pacienteInput.text;
+        string terapeuta = string.IsNullOrWhiteSpace(terapeutaInput.text) ? "TEMP" : terapeutaInput.text;
 
-        EventRegister.Instance.AddEventSafe(EventRegister.EventosInfo.PacienteInfo, $"Paciente: {paciente}, Terapeuta: {terapeuta}");
+        infoSesion = new EventRegister.InfoSesion(paciente, terapeuta, "TEMP");
+        //infoSesion.nombreTerapeuta = terapeuta;
+        //infoSesion.nombrePaciente = paciente;
+        //infoSesion.nombreJuego = "TEMP";
+        //infoSesion.fechaHora = DateTime.UtcNow;
+
+        EventRegister.Instance.SetInfoSesion(infoSesion);
+
         EventRegister.Instance.PacientInfoIsRegistered = true; //se pone a true el bool de que se ha registrado
 
-        EventRegister.Instance.WriteEnd();
+        //EventRegister.Instance.AddEventSafe(EventRegister.EventosInfo.PacienteInfo, $"Paciente: {paciente}, Terapeuta: {terapeuta}");
+
+        //EventRegister.Instance.WriteEnd();
 
         Debug.Log($"Evento PacienteInfo. Datos guardados: Paciente={paciente}, Terapeuta={terapeuta}");
 

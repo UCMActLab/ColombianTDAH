@@ -29,6 +29,37 @@ public class EventRegister : MonoBehaviour
         set => pacientInfoIsRegistered = value;
     }
 
+    private InfoSesion infoSesion;
+
+    public InfoSesion GetInfoSesion()
+    {
+        return infoSesion;
+    }
+
+    public void SetInfoSesion(InfoSesion value)
+    {
+        infoSesion = value;
+    }
+
+    //infosesion esta hecho para crear el nombre del archivo, que sera "{paciente}-{terapeuta}-{juego}-{fechaStr}.json"
+    public struct InfoSesion
+    {
+        public string nombrePaciente;
+        public string nombreTerapeuta;
+        public string nombreJuego;
+        public DateTime fechaHora;
+
+        public InfoSesion(string paciente, string terapeuta, string nombreJuego)
+        {
+            this.nombrePaciente = paciente;
+            this.nombreTerapeuta = terapeuta;
+            this.nombreJuego = nombreJuego;
+            this.fechaHora = DateTime.UtcNow;
+        }
+
+        
+    }
+
     public enum EventosInfo
     {                       //implementado en...
         Inicio, //...DolphinLevelManager.InitLevel
@@ -52,7 +83,7 @@ public class EventRegister : MonoBehaviour
         NPuntos, //...DolphinControler.TryClickDolphin, DolphinLevelManager.RightGuess y DolphinLevelManager.WrongGuess
         Vel,
         Fin,
-        PacienteInfo
+        PacienteInfo //...PacienteConfig.OnAceptarClicked o en este mismo usando addPacienteInfoEvent
     }
 
     static private EventRegister _instance;
@@ -96,7 +127,7 @@ public class EventRegister : MonoBehaviour
     }
 
     //hecho post juego porque convenia iniciar en otra parte
-    public void AddEventSafe(EventosInfo evento, string info)
+    public void AddInitialEventSafe(EventosInfo evento, string info)
     {
         if (!canWrite)
         {
@@ -108,18 +139,27 @@ public class EventRegister : MonoBehaviour
     }
 
     //hecho post juego porque convenia iniciar en otra parte
-    public void AddEvent(EventosInfo evento, string info)
+    public void AddInitialEvent(EventosInfo evento, string info)
     {
-
-        WriteStart(); // Inicia si no está iniciado
-
+        addInitialPacienteInfoEvent(); //mete la primera linea de la info paciente
         AddToEvnt(new Tuple<EventosInfo, string>(evento, info));
         EvntToJson(); // lo escribe ya directamente
     }
 
+    //se va a usar al empezar a escribir (que tiene que ser cuando el jugador entra a un juego y se haga set del nombreJuego taambien)
+    //para que este al principio del json
+    public void addInitialPacienteInfoEvent()
+    {
+        WritePath = GetFileNameFromInfoSesion(infoSesion);
+        AddInitialEventSafe(EventosInfo.PacienteInfo, $"Paciente: {infoSesion.nombrePaciente}, Terapeuta: {infoSesion.nombreTerapeuta}");
+
+    }
 
     public void WriteStart()
     {
+
+        WriteEnd();//cerramos archivo si habia alguno abierto
+
         auxEvntInfo = new List<Tuple<EventRegister.EventosInfo, string>>();
         CreateDir();
 
@@ -279,5 +319,23 @@ public class EventRegister : MonoBehaviour
 
         // Restaurar base sin extensión para el próximo uso
         WritePath = System.IO.Path.GetFileNameWithoutExtension(WritePath);
+    }
+
+    //para sacar el nombre del archivo segun los datos
+    public string GetFileNameFromInfoSesion(InfoSesion infoS)
+    {
+        string pac = infoS.nombrePaciente.Replace(" ", "_");
+        string ter = infoS.nombreTerapeuta.Replace(" ", "_");
+        string juego = infoS.nombreJuego.Replace(" ", "_");
+
+        string fechaStr = infoS.fechaHora.ToString("yyyy-MM-dd-HH-mm");
+
+        return $"{pac}-{ter}-{juego}-{fechaStr}.json";
+    }
+
+
+    void OnApplicationQuit()
+    {
+        WriteEnd();
     }
 }

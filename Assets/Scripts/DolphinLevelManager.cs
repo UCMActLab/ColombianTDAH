@@ -244,7 +244,8 @@ public class DolphinLevelManager : MonoBehaviour
         // Inicialización del Event Register Manager si no esta ya inicializado (que deberia estarlo)
         if (EventRegister.Instance != null)
         {
-            EventRegister.Instance.AddEvent(EventRegister.EventosInfo.Inicio, "nivel " + levelId.ToString("00"));
+
+            EventRegister.Instance.AddInitialEvent(EventRegister.EventosInfo.Inicio, "nivel " + levelId.ToString("00"));
             Debug.Log("se pudo iniciar el evento Inicio en DolphinLevelManager.");
 
         }
@@ -298,7 +299,7 @@ public class DolphinLevelManager : MonoBehaviour
     }
     private void EndLevel()
     {
-        EventRegister.Instance.WriteEnd();
+        //EventRegister.Instance.WriteEnd();
         _UIManager.showWin();
         _dolphinManager.DeactivateDolphins();
     }
