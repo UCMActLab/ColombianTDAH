@@ -241,10 +241,17 @@ public class DolphinLevelManager : MonoBehaviour
         // Último caracter del nombre del archivo de configuración es el nivel
         _UIManager.startLevelStats(levelId, _winPoints);
 
-        // Inicialización del Event Register Manager
-        EventRegister.Instance.WriteStart();
-        EventRegister.Instance.AddToEvnt(Tuple.Create(EventRegister.EventosInfo.Inicio, "nivel " + levelId.ToString("00")));
-        EventRegister.Instance.EvntToJson();
+        // Inicialización del Event Register Manager si no esta ya inicializado (que deberia estarlo)
+        if (EventRegister.Instance != null)
+        {
+            EventRegister.Instance.AddEvent(EventRegister.EventosInfo.Inicio, "nivel " + levelId.ToString("00"));
+            Debug.Log("se pudo iniciar el evento Inicio en DolphinLevelManager.");
+
+        }
+        else
+        {
+            Debug.LogWarning("EventRegister.Instance es null. No se pudo iniciar el evento Inicio en DolphinLevelManager.");
+        }
     }
 
     /// <summary>

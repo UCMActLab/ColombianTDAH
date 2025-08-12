@@ -20,6 +20,15 @@ public class EventRegister : MonoBehaviour
     [SerializeField]
     private GameObject whitePixels = null;
 
+
+    //esto es para guardar si has introducido ya el nombre del paciente/terapeuta en PacienteConfig.cs
+    private bool pacientInfoIsRegistered;
+    public bool PacientInfoIsRegistered
+    {
+        get => pacientInfoIsRegistered;
+        set => pacientInfoIsRegistered = value;
+    }
+
     public enum EventosInfo
     {                       //implementado en...
         Inicio, //...DolphinLevelManager.InitLevel
@@ -42,27 +51,29 @@ public class EventRegister : MonoBehaviour
         RespuestaIncorrecta, //...DolphinControler.TryClickDolphin y DolphinLevelManager.WrongGuess
         NPuntos, //...DolphinControler.TryClickDolphin, DolphinLevelManager.RightGuess y DolphinLevelManager.WrongGuess
         Vel,
-        Fin
+        Fin,
+        PacienteInfo
     }
 
     static private EventRegister _instance;
     public static EventRegister Instance { get { return _instance; } }
 
-
     void Awake()
     {
-        // Si no hay instancia de esta clase ya creada se almacena
         if (_instance == null)
-            _instance = this;
-        // Si esta creada se destruyee
-        else
-            Destroy(this.gameObject);
-
-        //----------------------------------------------------------------
-
-        if(whitePixels == null)
         {
-            whitePixels = GameObject.Find("WhitePixels_EventRegister");
+            _instance = this;
+            DontDestroyOnLoad(gameObject); 
+        }
+        else
+        {
+            Destroy(gameObject);
+            return;
+        }
+
+        if (whitePixels == null)
+        {
+            Debug.Log("No hay white pixels");
         }
 
         whitePixels.SetActive(false);
@@ -84,19 +95,46 @@ public class EventRegister : MonoBehaviour
         }
     }
 
+    //hecho post juego porque convenia iniciar en otra parte
+    public void AddEventSafe(EventosInfo evento, string info)
+    {
+        if (!canWrite)
+        {
+            WriteStart(); // Inicia si no está iniciado
+        }
+
+        AddToEvnt(new Tuple<EventosInfo, string>(evento, info));
+        EvntToJson(); // lo escribe ya directamente
+    }
+
+    //hecho post juego porque convenia iniciar en otra parte
+    public void AddEvent(EventosInfo evento, string info)
+    {
+
+        WriteStart(); // Inicia si no está iniciado
+
+        AddToEvnt(new Tuple<EventosInfo, string>(evento, info));
+        EvntToJson(); // lo escribe ya directamente
+    }
+
+
     public void WriteStart()
     {
         auxEvntInfo = new List<Tuple<EventRegister.EventosInfo, string>>();
         CreateDir();
+
+        // Quitar extensión por si WritePath viene con .json de un uso anterior
+        WritePath = System.IO.Path.GetFileNameWithoutExtension(WritePath);
+
         IncrementPath();
         WriteTo = System.IO.Path.Combine(WriteDir, WritePath);
+
         Debug.Log($"nuevo path: {WriteTo}");
         System.IO.StreamWriter file = new System.IO.StreamWriter(WriteTo);
         file.WriteLine("{ " + $"\"{WritePath}\": [");
         file.Close();
         canWrite = true;
     }
-
     private void CreateDir()
     {
         WriteDir = System.IO.Path.Combine(Application.persistentDataPath, WriteDir);
@@ -109,20 +147,23 @@ public class EventRegister : MonoBehaviour
     private void IncrementPath()
     {
         int it = 1;
-        string ogPath = WritePath;
-        while (System.IO.File.Exists(System.IO.Path.Combine(WriteDir, WritePath) + ".json") && it < 100)
+
+        // Nombre base sin extensión y sin corchetes
+        string baseName = System.IO.Path.GetFileNameWithoutExtension(WritePath);
+        int bracketIndex = baseName.IndexOf('[');
+        if (bracketIndex >= 0)
+            baseName = baseName.Substring(0, bracketIndex);
+
+        string candidate = baseName + ".json";
+
+        // Mientras exista, generamos [01], [02]...
+        while (System.IO.File.Exists(System.IO.Path.Combine(WriteDir, candidate)) && it < 100)
         {
-            if (!WritePath.EndsWith("]"))
-            {
-                WritePath += "[01]";
-            }
-            else
-            {
-                WritePath = ogPath + "[" + it.ToString("00") + "]";
-            }
+            candidate = $"{baseName}[{it:00}].json";
             it++;
         }
-        WritePath += ".json";
+
+        WritePath = candidate; // Esto ya incluye la extensión .json
     }
 
     public void AddToEvnt(Tuple<EventRegister.EventosInfo, string> evntData)
@@ -206,6 +247,9 @@ public class EventRegister : MonoBehaviour
                     case EventosInfo.Vel:
                         text += ", \n" + $"    \"Velocidad actual\": \"{evento.Item2}\"";
                         break;
+                    case EventosInfo.PacienteInfo:
+                        text += ", \n" + $"    \"Paciente y terapeuta\": \"{evento.Item2}\"";
+                        break;
                 }
             }
                     
@@ -222,6 +266,8 @@ public class EventRegister : MonoBehaviour
 
     public void WriteEnd()
     {
+        if (!canWrite) return; //si no está empezada la escritura que tampoco pueda finalizarse
+
         Debug.Log("Escribiendo fin del json.");
         System.IO.FileStream fs = new System.IO.FileStream(WriteTo, System.IO.FileMode.Append, System.IO.FileAccess.Write);
         string text = "{\n" + "    \"Time\": \"" + DateTime.UtcNow.AddHours(-5).ToString("yyyy-MM-dd HH:mm:ss.fff") + "\" , \n    \"Test\": \"Acabado\" } ]}";
@@ -230,5 +276,8 @@ public class EventRegister : MonoBehaviour
         file.Close();
         fs.Close();
         canWrite = false;
+
+        // Restaurar base sin extensión para el próximo uso
+        WritePath = System.IO.Path.GetFileNameWithoutExtension(WritePath);
     }
 }
