@@ -14,7 +14,7 @@ public class Draggable : MonoBehaviour
 
     #region parameters
     [SerializeField]
-    private float dragDistance = 5f; // Puedes ajustar la distancia predeterminada
+    private float dragDistance = 4.5f; // Puedes ajustar la distancia predeterminada
 
     [Header("Events")]
     public UnityEvent onStartDragging;

@@ -2999,50 +2999,6 @@ AudioSource:
   m_CorrespondingSourceObject: {fileID: 8325056774146061708, guid: 229fa674cdf75e9489962ccde670e7ae, type: 3}
   m_PrefabInstance: {fileID: 1676942407}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1662737628
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1662737630}
-  - component: {fileID: 1662737629}
-  m_Layer: 0
-  m_Name: IngredientSpawnManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!114 &1662737629
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1662737628}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5cab9a7f4efacd8449efe04bc0a992e8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!4 &1662737630
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1662737628}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.7059122, y: 1.4930634, z: 0.58964694}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1676942407
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3423,7 +3379,7 @@ MonoBehaviour:
   panSource: {fileID: 7936048887277139460}
   panClip: {fileID: 8300000, guid: b65ecea14de240d46968716690b31273, type: 3}
   ovenSource: {fileID: 5208348167252063204}
-  ovenClip: {fileID: 8300000, guid: 997035e6e194eed479ec170b6cb0b9d1, type: 3}
+  ovenClip: {fileID: 8300000, guid: f636c82bf2763244c9dfe5a3aba37090, type: 3}
 --- !u!4 &1894923663
 Transform:
   m_ObjectHideFlags: 0
@@ -3617,7 +3573,7 @@ Transform:
   m_GameObject: {fileID: 1947899463}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -4.197, y: -1.77, z: -3.39}
+  m_LocalPosition: {x: -4.197, y: -1.77, z: -3.355}
   m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -4481,4 +4437,3 @@ SceneRoots:
   - {fileID: 157030766}
   - {fileID: 1092826597}
   - {fileID: 2029760023}
-  - {fileID: 1662737630}

@@ -95,7 +95,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6939546724988672811}
-  - component: {fileID: 1758752732317942424}
+  - component: {fileID: 36552091159726869}
   - component: {fileID: 2524201806938718942}
   - component: {fileID: -3357087826838996791}
   - component: {fileID: 1259767357548555349}
@@ -124,8 +124,8 @@ Transform:
   - {fileID: 5395350688273622498}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!64 &1758752732317942424
-MeshCollider:
+--- !u!65 &36552091159726869
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -142,10 +142,9 @@ MeshCollider:
   m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 1
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 526008157260621971, guid: 0b2f9c886fefeaa4eaad4985a6297149, type: 3}
+  serializedVersion: 3
+  m_Size: {x: 0.4555411, y: 0.4362681, z: 0.45795023}
+  m_Center: {x: -0.000000049670536, y: 0.14936493, z: -0.0012046471}
 --- !u!54 &2524201806938718942
 Rigidbody:
   m_ObjectHideFlags: 0

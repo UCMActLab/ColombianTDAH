@@ -9,8 +9,6 @@ public class IngredientSpawnManager : MonoBehaviour
     {
         get
         {
-            if (_instance == null)
-                _instance = FindObjectOfType<IngredientSpawnManager>();
             return _instance;
         }
     }
@@ -21,12 +19,16 @@ public class IngredientSpawnManager : MonoBehaviour
 
     private void Awake()
     {
-        if (_instance != null && _instance != this)
+        if (_instance == null)
+        {
+            _instance = this;
+            
+        }
+        else
         {
             Destroy(gameObject);
-            return;
         }
-        _instance = this;
+
         DontDestroyOnLoad(gameObject);
     }
 

@@ -126,7 +126,7 @@ public class WorkstationProcessor : MonoBehaviour
         if (!string.IsNullOrEmpty(processingSfxName))
             SoundManager.Instance.PlayLoop(soundKey, processingSfxName);
 
-        yield return new WaitForSeconds(recipe.tiempo_est_segs); // Esperamos
+        yield return new WaitForSeconds(5f); // Esperamos(hay que cambiar el tiempo)
 
         // Spawn resultado de la receta
         //if (recipe.resultado)
