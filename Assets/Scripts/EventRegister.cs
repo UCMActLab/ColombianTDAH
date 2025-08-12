@@ -30,6 +30,13 @@ public class EventRegister : MonoBehaviour
         set => pacientInfoIsRegistered = value;
     }
 
+    public enum TipoJuego
+    {
+        DefaultGame,
+        Delfines,
+        MisionColombia
+    }
+
     private InfoSesion infoSesion;
 
     public InfoSesion GetInfoSesion()
@@ -40,6 +47,8 @@ public class EventRegister : MonoBehaviour
     public void SetInfoSesion(InfoSesion value)
     {
         infoSesion = value;
+        PacientInfoIsRegistered = true; //se pone a true el bool de que se ha registrado
+
     }
 
     //infosesion esta hecho para crear el nombre del archivo, que sera "{paciente}-{terapeuta}-{juego}-{fechaStr}.json"
@@ -47,10 +56,10 @@ public class EventRegister : MonoBehaviour
     {
         public string nombrePaciente;
         public string nombreTerapeuta;
-        public string nombreJuego;
+        public TipoJuego nombreJuego;
         public DateTime fechaHora;
 
-        public InfoSesion(string paciente, string terapeuta, string nombreJuego)
+        public InfoSesion(string paciente, string terapeuta, TipoJuego nombreJuego)
         {
             this.nombrePaciente = paciente;
             this.nombreTerapeuta = terapeuta;
@@ -140,18 +149,19 @@ public class EventRegister : MonoBehaviour
     }
 
     //hecho post juego porque convenia iniciar en otra parte
-    public void AddInitialEvent(EventosInfo evento, string info)
+    //ESTE ES EL METODO QUE HAY QUE USAR AL EMPEZAR TU JUEGO PARA HACER EL EVENTO DE INICIO
+    public void AddInitialEvent(EventosInfo evento, string info, TipoJuego juego)
     {
-        addInitialPacienteInfoEvent(); //mete la primera linea de la info paciente
+        addInitialPacienteInfoEvent(juego); //mete la primera linea de la info paciente
         AddToEvnt(new Tuple<EventosInfo, string>(evento, info));
         EvntToJson(); // lo escribe ya directamente
     }
 
     //se va a usar al empezar a escribir (que tiene que ser cuando el jugador entra a un juego y se haga set del nombreJuego taambien)
     //para que este al principio del json
-    public void addInitialPacienteInfoEvent()
+    public void addInitialPacienteInfoEvent(TipoJuego juego)
     {
-        infoSesion.nombreJuego = SceneManager.GetActiveScene().name;
+        infoSesion.nombreJuego = juego;
         WritePath = GetFileNameFromInfoSesion(infoSesion);
         AddInitialEventSafe(EventosInfo.PacienteInfo, $"Paciente: {infoSesion.nombrePaciente}, Terapeuta: {infoSesion.nombreTerapeuta}");
 
@@ -328,7 +338,7 @@ public class EventRegister : MonoBehaviour
     {
         string pac = infoS.nombrePaciente.Replace(" ", "_");
         string ter = infoS.nombreTerapeuta.Replace(" ", "_");
-        string juego = infoS.nombreJuego.Replace(" ", "_");
+        string juego = infoS.nombreJuego.ToString().Replace(" ", "_"); //enum a string
 
         string fechaStr = infoS.fechaHora.ToString("yyyy-MM-dd-HH-mm");
 

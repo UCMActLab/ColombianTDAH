@@ -245,7 +245,7 @@ public class DolphinLevelManager : MonoBehaviour
         if (EventRegister.Instance != null)
         {
 
-            EventRegister.Instance.AddInitialEvent(EventRegister.EventosInfo.Inicio, "nivel " + levelId.ToString("00"));
+            EventRegister.Instance.AddInitialEvent(EventRegister.EventosInfo.Inicio, "nivel " + levelId.ToString("00"), EventRegister.TipoJuego.Delfines);
             Debug.Log("se pudo iniciar el evento Inicio en DolphinLevelManager.");
 
         }
