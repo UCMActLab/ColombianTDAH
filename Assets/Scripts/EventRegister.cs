@@ -1,6 +1,7 @@
-using UnityEngine;
 using System;
 using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class EventRegister : MonoBehaviour
 {
@@ -150,6 +151,7 @@ public class EventRegister : MonoBehaviour
     //para que este al principio del json
     public void addInitialPacienteInfoEvent()
     {
+        infoSesion.nombreJuego = SceneManager.GetActiveScene().name;
         WritePath = GetFileNameFromInfoSesion(infoSesion);
         AddInitialEventSafe(EventosInfo.PacienteInfo, $"Paciente: {infoSesion.nombrePaciente}, Terapeuta: {infoSesion.nombreTerapeuta}");
 
