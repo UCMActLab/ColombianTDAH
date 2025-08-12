@@ -98,7 +98,7 @@ public class UIMapData : MonoBehaviour
     {
         SaveConfiguration();
         uiQuestionDoc.SetActive(true);
-        uiQuestionDoc.GetComponent<UIConfigQuestion>().Init(_config.StopsNames, _config);
+        uiQuestionDoc.GetComponent<UIConfigQuestion>().Init(_config.StopsNames);
         gameObject.SetActive(false);
     }
 
