@@ -93,7 +93,6 @@ public class UIConfigQuestion : MonoBehaviour
         for (int i = 0; i < _config.StopsNames.Count; i++)
         {
             TextField textF = _questionsVisualElement.Q<TextField>((_config.StopsNames[i] + "TF"));
-            Debug.Log(textF == null);
             q.Add(_config.StopsNames[i], textF.value);
         }
 
