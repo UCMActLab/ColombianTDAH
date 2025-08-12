@@ -56,9 +56,6 @@ public class MisionConfigurationData : ScriptableObject
     private int _answerTime;
     public int AnswerTime { get => _answerTime; set => _answerTime = value; }
 
-    // Preguntas
-    private Dictionary<string, string> _questions;
-    public Dictionary<string, string> Questions { get => _questions; set => _questions = value; }
 
     //[Header("Level unblocked:")]
     //[SerializeField]

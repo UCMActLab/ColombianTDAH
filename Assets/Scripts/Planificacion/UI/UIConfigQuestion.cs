@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using UnityEditor.Overlays;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -16,9 +15,6 @@ public class UIConfigQuestion : MonoBehaviour
 
     VisualElement _questionsVisualElement;
     VisualElement _userQuestionsVisualElement;
-
-    // ScriptableObject para guardar informacion
-    MisionConfigurationData _config = null;
 
     void Awake()
     {
@@ -39,10 +35,28 @@ public class UIConfigQuestion : MonoBehaviour
         }
 
     }
-    public void Init(List<string> stops, MisionConfigurationData config)
+    public void Init(List<string> stops)
     {
-        // Referencia a scriptable object
-        _config = config;
+
+        //delfinesColocados = 0;
+        //input_toggleGroup.Clear(); //Borramos los carriles
+        //int n = input_carrilesN.value;
+        //if (n > 6) n = 6;
+        //for (int i = 0; i < n; i++)
+        //{
+        //    VisualTreeAsset uiAsset = Resources.Load<VisualTreeAsset>("Planificacion/UI/carrilToggles");
+        //    VisualElement ui = uiAsset.Instantiate();
+
+        //    for (int j = 0; j < ui.childCount; j++)
+        //    {
+        //        ui[j].name = "Toggle" + i.ToString() + j.ToString();
+        //    }
+
+        //    input_toggleGroup.Add(ui);
+        //}
+        /////////////////////////////////////////
+        // Creo textField necesarios
+        //_questionsVisualElement.Clear();
 
         VisualTreeAsset uiAsset = Resources.Load<VisualTreeAsset>("Planificacion/UI/QuestionField");
         VisualTreeAsset toggleUIAsset = Resources.Load<VisualTreeAsset>("Planificacion/UI/Toggle");
@@ -78,27 +92,10 @@ public class UIConfigQuestion : MonoBehaviour
         gameObject.SetActive(false);
 
         // Guardo
-        SaveData();
 
         // Empieza nivel activando mapa y dialogos
         _map.SetActive(true);
         _dialogs.SetActive(true);
-    }
-
-    // Guarda la informacion en el Scriptable Object
-    private void SaveData()
-    {
-        Dictionary<string, string> q = new Dictionary<string, string>();
-
-        for(int i = 0; i < _config.StopsNames.Count; i++)
-        {
-            TextField textF = _document.rootVisualElement.Q<TextField>(_config.StopsNames[i] + "TF");
-            q.Add(_config.StopsNames[i], textF.value);
-            Debug.Log(textF.value);
-        }
-
-
-        _config.Questions = q;
     }
 
 }
