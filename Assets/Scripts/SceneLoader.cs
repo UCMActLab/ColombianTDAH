@@ -38,7 +38,7 @@ public class SceneLoader : MonoBehaviour
         else if (name == "DolphinLevel")
         {
             //Solo pasaremos a los dialogos si vamos desde el selector de niveles
-            if (!teacherMode && SceneManager.GetActiveScene().name == "DolphinLevelSelector")
+            if (!teacherMode && SceneManager.GetActiveScene().name == "DolphinLevelSelector" && _instance.getLevelId() == 1)
             {
                 name = "Dialogs";
                 Debug.Log("NIÑO MODE");
