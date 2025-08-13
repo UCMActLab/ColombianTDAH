@@ -14,6 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nombre: Aguapanela
   categoria: Bebida
-  ingredientes: 1c00000000000000
+  ingredientes: 2400000000000000
   puestos: 02000000
   tiempo_est_segs: 30
+  processedRecipe: {fileID: 2244577606202969946, guid: ce79dbb34713241978debb72446fa860, type: 3}
+  esIntermedia: 0

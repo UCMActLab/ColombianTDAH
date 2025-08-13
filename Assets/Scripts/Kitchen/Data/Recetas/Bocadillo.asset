@@ -14,6 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nombre: Bocadillo
   categoria: Postre
-  ingredientes: 1100000005000000
+  ingredientes: 1600000007000000
   puestos: 02000000
   tiempo_est_segs: 210
+  processedRecipe: {fileID: 0}
+  esIntermedia: 0

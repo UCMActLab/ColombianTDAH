@@ -14,6 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nombre: Cazuela de marisco
   categoria: Sopa
-  ingredientes: 1e0000001d0000000a0000002200000019000000
-  puestos: 000000000200000006000000
+  ingredientes: 28000000260000000e0000002e0000001e000000
+  puestos: 02000000
   tiempo_est_segs: 210
+  processedRecipe: {fileID: 2244577606202969946, guid: ce79dbb34713241978debb72446fa860, type: 3}
+  esIntermedia: 0

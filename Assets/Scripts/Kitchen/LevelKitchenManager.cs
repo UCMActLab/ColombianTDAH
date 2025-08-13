@@ -31,8 +31,10 @@ public enum PuestosDeTrabajo
 
 public enum Ingredientes
 {
-    Agua, Aguacate, Aji, Arepa, Arroz, Azucar, Cafe, Canela, Carne, CarneMolida, Cebolla, Cilantro, Coco, CremaDeLeche, Frijoles, Fresa, Frutas, Guayaba, Harina,
-    Hojas, Huevo, Hueso, Leche, Limon, Maiz, Mariscos, Miel, MixVegetales, Panela, Papa, Pez, Platano, Pollo, Queso, Tomate, Viche, Yuca
+    Agua, Aguacate, AguacatePicado, Aji, Arepa, Arroz, ArrozCocido, Azucar, Cafe, Canela, Carne, CarneCocinada, CarneMolida, Cebolla, CebollaPicada, 
+    Cilantro, Coco, CocoPicado, Frijoles, FrijolesCocidos, FresaPicada, Guayaba, GuayabaPicada, Harina, Huevo, Hueso, Leche, Limon, LimonPicado, Maiz, Mariscos,
+    MasaArroz, MasaLeche, MasaMaíz, MasaQueso, Miel, Panela, Papa, PapaPicada, Pez, PezFileteado, Platano, PlatanoPicado, Pollo, Queso, Tomate, 
+    TomatePicado, Yuca, YucaPicada, MixVegetales, Hojas
 }
 
 public class LevelKitchenManager : MonoBehaviour

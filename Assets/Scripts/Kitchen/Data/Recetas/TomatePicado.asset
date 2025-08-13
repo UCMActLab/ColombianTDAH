@@ -10,10 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d4fa4ddff8d3210439be91a15234c4bd, type: 3}
-  m_Name: Viche
+  m_Name: TomatePicado
   m_EditorClassIdentifier: 
-  nombre: Viche
-  categoria: Bebida
-  ingredientes: 2300000017000000
-  puestos: 01000000
-  tiempo_est_segs: 0
+  nombre: TomatePicado
+  categoria: Complementario
+  ingredientes: 2d000000
+  puestos: 00000000
+  tiempo_est_segs: 30
+  processedRecipe: {fileID: 4765448792543101060, guid: 067e7211da1e8b846a631c9404421b3d, type: 3}
+  esIntermedia: 1

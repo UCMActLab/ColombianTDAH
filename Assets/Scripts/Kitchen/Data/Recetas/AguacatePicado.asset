@@ -10,10 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d4fa4ddff8d3210439be91a15234c4bd, type: 3}
-  m_Name: Jugos
+  m_Name: AguacatePicado
   m_EditorClassIdentifier: 
-  nombre: Jugos
-  categoria: Bebida
-  ingredientes: 1000000000000000
-  puestos: 01000000
-  tiempo_est_segs: 15
+  nombre: AguacatePicado
+  categoria: Complementario
+  ingredientes: 01000000
+  puestos: 00000000
+  tiempo_est_segs: 30
+  processedRecipe: {fileID: 7897278045790282846, guid: 0ea800877bb0b3f41bc5a05cce71e076, type: 3}
+  esIntermedia: 1

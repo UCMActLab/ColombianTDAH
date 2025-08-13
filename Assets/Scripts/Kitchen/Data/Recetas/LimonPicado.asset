@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d4fa4ddff8d3210439be91a15234c4bd, type: 3}
-  m_Name: Pandebonos
+  m_Name: LimonPicado
   m_EditorClassIdentifier: 
-  nombre: Pandebonos
-  categoria: Para picar
-  ingredientes: 22000000
-  puestos: 06000000
-  tiempo_est_segs: 105
-  processedRecipe: {fileID: 2244577606202969946, guid: ce79dbb34713241978debb72446fa860, type: 3}
-  esIntermedia: 0
+  nombre: LimonPicado
+  categoria: Complementario
+  ingredientes: 1b000000
+  puestos: 00000000
+  tiempo_est_segs: 30
+  processedRecipe: {fileID: 4550755194953821507, guid: 9b6e6e7525185544081770d4f922d3e6, type: 3}
+  esIntermedia: 1

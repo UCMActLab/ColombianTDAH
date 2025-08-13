@@ -14,6 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nombre: Tamal
   categoria: Plato fuerte
-  ingredientes: 04000000080000001b00000020000000120000001400000000000000
-  puestos: 000000000200000004000000
+  ingredientes: 1f0000000a0000002b000000200000003100000018000000
+  puestos: 02000000
   tiempo_est_segs: 450
+  processedRecipe: {fileID: 2244577606202969946, guid: ce79dbb34713241978debb72446fa860, type: 3}
+  esIntermedia: 0

@@ -14,6 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nombre: Empanadas
   categoria: Para picar
-  ingredientes: 0400000018000000080000001d0000000a000000220000000200000012000000
-  puestos: 040000000300000002000000
+  ingredientes: 0e000000260000000b000000030000002e00000021000000
+  puestos: 03000000
   tiempo_est_segs: 180
+  processedRecipe: {fileID: 2244577606202969946, guid: ce79dbb34713241978debb72446fa860, type: 3}
+  esIntermedia: 0

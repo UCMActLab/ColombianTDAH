@@ -14,6 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nombre: Mazamorra
   categoria: Bebida
-  ingredientes: 180000000000000016000000
+  ingredientes: 000000001d0000001a000000
   puestos: 02000000
   tiempo_est_segs: 225
+  processedRecipe: {fileID: 2244577606202969946, guid: ce79dbb34713241978debb72446fa860, type: 3}
+  esIntermedia: 0

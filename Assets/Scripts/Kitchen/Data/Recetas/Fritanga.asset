@@ -14,6 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nombre: Fritanga
   categoria: Para picar
-  ingredientes: 1d0000001f000000030000001b000000080000002000000014000000
-  puestos: 0000000003000000
+  ingredientes: 2a000000260000000b0000002b0000001800000031000000
+  puestos: 03000000
   tiempo_est_segs: 270
+  processedRecipe: {fileID: 2244577606202969946, guid: ce79dbb34713241978debb72446fa860, type: 3}
+  esIntermedia: 0

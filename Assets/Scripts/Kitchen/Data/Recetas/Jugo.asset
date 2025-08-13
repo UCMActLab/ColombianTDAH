@@ -10,10 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d4fa4ddff8d3210439be91a15234c4bd, type: 3}
-  m_Name: Arroz
+  m_Name: Jugo
   m_EditorClassIdentifier: 
-  nombre: Arroz
-  categoria: Complementario
-  ingredientes: 0400000000000000
-  puestos: 02000000
-  tiempo_est_segs: 90
+  nombre: Jugo
+  categoria: Bebida
+  ingredientes: 1c00000000000000
+  puestos: 01000000
+  tiempo_est_segs: 15
+  processedRecipe: {fileID: 2244577606202969946, guid: ce79dbb34713241978debb72446fa860, type: 3}
+  esIntermedia: 0
