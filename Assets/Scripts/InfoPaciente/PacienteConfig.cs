@@ -17,6 +17,8 @@ public class PacienteConfig : MonoBehaviour
     [SerializeField]
     private GameObject ui;
 
+    [SerializeField]
+    private TextMeshProUGUI idText;
 
     EventRegister.InfoSesion infoSesion;
 
@@ -76,16 +78,22 @@ public class PacienteConfig : MonoBehaviour
         //todavia no le ponemos el juego porque no ha entrado a ninguno, se pondra al
         infoSesion = new EventRegister.InfoSesion(paciente, terapeuta, EventRegister.TipoJuego.DefaultGame); 
 
-
         EventRegister.Instance.SetInfoSesion(infoSesion);
 
-
-        Debug.Log($"Evento PacienteInfo. Datos guardados: Paciente={paciente}, Terapeuta={terapeuta}");
+        string id = EventRegister.Instance.GetPatientID();
+        ChangeIDText(id);
+        Debug.Log($"Evento PacienteInfo. Datos guardados: Paciente={paciente}, Terapeuta={terapeuta}, id = {id}");
 
         //desactivar el canvas actual y ponemos las casas de fondo
         edificios.SetActive(true);
         gameObject.SetActive(false);
 
+
+    }
+
+    public void ChangeIDText(string id)
+    {
+        idText.text = id;
 
     }
 }

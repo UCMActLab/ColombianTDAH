@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Security.Cryptography;
 using System.Text;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -49,6 +50,7 @@ public class EventRegister : MonoBehaviour
         PacientInfoIsRegistered = true; //se pone a true el bool de que se ha registrado
         infoSesion.nombrePaciente = CleanString(infoSesion.nombrePaciente);
         infoSesion.nombreTerapeuta = CleanString(infoSesion.nombreTerapeuta);
+        infoSesion.idPaciente = GenerarIDPaciente(infoSesion.nombrePaciente);
 
     }
 
@@ -57,6 +59,7 @@ public class EventRegister : MonoBehaviour
     {
         public string nombrePaciente;
         public string nombreTerapeuta;
+        public string idPaciente;
         public TipoJuego nombreJuego;
         public DateTime fechaHora;
 
@@ -64,6 +67,7 @@ public class EventRegister : MonoBehaviour
         {
             this.nombrePaciente = paciente;
             this.nombreTerapeuta = terapeuta;
+            this.idPaciente = "";
             this.nombreJuego = nombreJuego;
             this.fechaHora = DateTime.UtcNow.AddHours(-5);
         }
@@ -154,18 +158,18 @@ public class EventRegister : MonoBehaviour
     public void AddInitialEvent(EventosInfo evento, string info, TipoJuego juego)
     {
         currentGamePlaying = juego;
-        addInitialPacienteInfoEvent(juego); //mete la primera linea de la info paciente
+        AddInitialPacienteInfoEvent(juego); //mete la primera linea de la info paciente
         AddToEvnt(new Tuple<EventosInfo, string>(evento, info));
         EvntToJson(); // lo escribe ya directamente
     }
 
     //se va a usar al empezar a escribir (que tiene que ser cuando el jugador entra a un juego y se haga set del nombreJuego taambien)
     //para que este al principio del json
-    public void addInitialPacienteInfoEvent(TipoJuego juego)
+    public void AddInitialPacienteInfoEvent(TipoJuego juego)
     {
         infoSesion.nombreJuego = juego;
         WritePath = GetFileNameFromInfoSesion(infoSesion);
-        AddInitialEventSafe(EventosInfo.PacienteInfo, $"Paciente: {infoSesion.nombrePaciente}, Terapeuta: {infoSesion.nombreTerapeuta}");
+        AddInitialEventSafe(EventosInfo.PacienteInfo, $"Paciente: {infoSesion.idPaciente}, Terapeuta: {infoSesion.nombreTerapeuta}");
 
     }
 
@@ -180,9 +184,9 @@ public class EventRegister : MonoBehaviour
         // Quitar extensión por si WritePath viene con .json de un uso anterior
         WritePath = System.IO.Path.GetFileNameWithoutExtension(WritePath);
 
-        //IncrementPath();
+        IncrementPath();
         //  extensión .json 
-        WritePath += ".json";
+       // WritePath += ".json";
 
 
         WriteTo = System.IO.Path.Combine(WriteDir, WritePath);
@@ -212,12 +216,13 @@ public class EventRegister : MonoBehaviour
         if (bracketIndex >= 0)
             baseName = baseName.Substring(0, bracketIndex);
 
-        string candidate = baseName + ".json";
+        //string candidate = baseName + ".json";
+        string candidate = $"{baseName}_{it:00}.json"; // Empieza directamente en [01]
 
         // Mientras exista, generamos [01], [02]...
         while (System.IO.File.Exists(System.IO.Path.Combine(WriteDir, candidate)) && it < 100)
         {
-            candidate = $"{baseName}[{it:00}].json";
+            candidate = $"{baseName}_{it:00}.json";
             it++;
         }
 
@@ -345,10 +350,10 @@ public class EventRegister : MonoBehaviour
         string pac = CleanString(infoS.nombrePaciente);
         string ter = CleanString(infoS.nombreTerapeuta);
         string juego = infoS.nombreJuego.ToString(); // enum a string
+        string fechaStr = infoS.fechaHora.ToString("yyyy-MM-dd");
+        string id = infoS.idPaciente; 
 
-        string fechaStr = infoS.fechaHora.ToString("yyyy-MM-dd-HH-mm");
-
-        return $"{pac}-{ter}-{juego}-{fechaStr}.json";
+        return $"{id}_{juego}_{fechaStr}.json";
     }
 
     //no sé si prefiero avisar de que no pongan cosas raras porque sera nombre de archivo o hacer esto xd
@@ -404,5 +409,31 @@ public class EventRegister : MonoBehaviour
     void OnApplicationQuit()
     {
         WriteEnd();
+    }
+
+    public static string GenerarIDPaciente(string nombrePaciente, string seed = "R3V3RS3ENG!")
+    {
+        // concatenamos datos para evitar que sea solo el nombre y se pueda averiguar
+        string input = nombrePaciente.Trim().ToLower()
+                     + seed;
+
+        // en principio asumo que sirve con MD5
+        using (MD5 md5 = MD5.Create())
+        {
+            byte[] hashBytes = md5.ComputeHash(Encoding.UTF8.GetBytes(input));
+
+            // base64 y limpiamos caracteres que pueden dar problemas en nombres de archivo
+            string id = Convert.ToBase64String(hashBytes)
+                                .Replace("/", "_")
+                                .Replace("+", "-")
+                                .Substring(0, 8);  //nos quedamos con el 8 caracteres
+
+            return id;
+        }
+    }
+
+    public string GetPatientID()
+    {
+        return infoSesion.idPaciente;
     }
 }
