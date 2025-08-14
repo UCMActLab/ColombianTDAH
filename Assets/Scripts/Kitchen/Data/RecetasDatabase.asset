@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: RecetasDatabase
   m_EditorClassIdentifier: 
   recetas:
+  - {fileID: 11400000, guid: 50ed9ab6ce413b043ae21ac52dbd2cf0, type: 2}
   - {fileID: 11400000, guid: cf445a37a4e36994fbb128b26f903dd0, type: 2}
   - {fileID: 11400000, guid: ea9b89baa5011974ca734a030ce49b4e, type: 2}
   - {fileID: 11400000, guid: 11dcf4173794cae47867ecb2b0c83e37, type: 2}
@@ -23,7 +24,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 04fa81f16a40aaf4182976fe45347887, type: 2}
   - {fileID: 11400000, guid: d6a05a9bcbe4cb7438e01011250bce86, type: 2}
   - {fileID: 11400000, guid: fa1721ae0466b4c4dae086102eba639d, type: 2}
-  - {fileID: 11400000, guid: 90ca16c3f8873034ba9c76f02187dff3, type: 2}
+  - {fileID: 11400000, guid: f9019ca1b16cf504f82c5016a96f79ad, type: 2}
   - {fileID: 11400000, guid: d52b02249470f8948a7484f4b386a804, type: 2}
   - {fileID: 11400000, guid: 0a47d789bddd471499e1773739517226, type: 2}
   - {fileID: 11400000, guid: 1a563ab298d77f64c89a4e6824797bd6, type: 2}
@@ -42,4 +43,18 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 437fa7bd39b2b9d42bc549a6f279b07a, type: 2}
   - {fileID: 11400000, guid: 61756e2c7f54ddb4396ebd16b9dcdb26, type: 2}
   - {fileID: 11400000, guid: e1d2aaff790d9f84fbaf9d2345db90d6, type: 2}
-  factorDeTiempo: 20
+  - {fileID: 11400000, guid: bbdda311f425b4a438c67867431747f3, type: 2}
+  - {fileID: 11400000, guid: dafce0113eb01634cbaa6e04a2ec71d9, type: 2}
+  - {fileID: 11400000, guid: 5b884df9f8830ae48bfb11d8d4a8bd3e, type: 2}
+  - {fileID: 11400000, guid: 231090bb3cbd6674c8b1416622dbf988, type: 2}
+  - {fileID: 11400000, guid: fcfcf3e420b19f74a95cb68405704b7f, type: 2}
+  - {fileID: 11400000, guid: e705f977406ebd84cb8446f4fa811ed0, type: 2}
+  - {fileID: 11400000, guid: 04458cbbeaf819d49bfa6d674024bdfc, type: 2}
+  - {fileID: 11400000, guid: 905b490e21e6f4945ba95b03f4dc002b, type: 2}
+  - {fileID: 11400000, guid: accba3ed2f329e845b20c602eb6215fc, type: 2}
+  - {fileID: 11400000, guid: a5a3828d73977da41ac3a89a16175928, type: 2}
+  - {fileID: 11400000, guid: ba9e6919715ae024bb8eab03f86404b9, type: 2}
+  - {fileID: 11400000, guid: 9926d51d4eba678478c0b55245f75fbd, type: 2}
+  - {fileID: 11400000, guid: 111f2fc3ee8334e4abe45d0c696afc16, type: 2}
+  - {fileID: 11400000, guid: 700cccbccdd2d6548bbe2a7430b5083c, type: 2}
+  - {fileID: 11400000, guid: 74d5d2d0bfee80e4f8deda694fc7b94b, type: 2}

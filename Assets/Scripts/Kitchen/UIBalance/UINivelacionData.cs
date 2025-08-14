@@ -58,7 +58,7 @@ public class UINivelacionData : MonoBehaviour
 
         root.Q<Button>("btn-comenzar").clicked += () =>
         {
-            GuardarRecetasSeleccionadas();
+            GuardarRecetasSeleccionadas();  
             SceneManager.LoadScene("KitchenLevelSelector");
         };
 
@@ -250,7 +250,6 @@ public class UINivelacionData : MonoBehaviour
             }
         }
     }
-
 
     private void ActualizarEtiquetasTiempo()
     {

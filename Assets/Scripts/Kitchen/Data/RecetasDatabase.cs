@@ -13,9 +13,22 @@ public class RecetasDatabase : ScriptableObject
         IEnumerable<RecetaData> seleccion
     )
     {
-        return recetas
-            .Where(r => r.puestos.Contains(puesto) && r.ingredientes.Contains(entrada))
-            .Where(r => r.esIntermedia || seleccion.Contains(r)) // Intermedias siempre; finales solo si están seleccionadas
-            .FirstOrDefault();
+        if (recetas == null) return null;
+
+        // La selección se usa SOLO como filtro adicional
+        var seleccionSet = new HashSet<RecetaData>(seleccion.Where(s => s != null));
+
+        // Todas las recetas
+        var candidatas = recetas.Where(r =>
+            r != null &&
+            r.puestos != null && r.puestos.Contains(puesto) &&
+            r.ingredientes != null && r.ingredientes.Contains(entrada))
+            .ToList(); ;
+        foreach (var receta in candidatas)
+        {
+            Debug.Log($"[DEBUG] Receta candidata: {receta.nombre}, esIntermedia: {receta.esIntermedia}");
+        }
+
+        return candidatas.FirstOrDefault(r => r.esIntermedia || seleccionSet.Contains(r));
     }
 }

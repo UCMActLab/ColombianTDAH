@@ -30,14 +30,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2297375401516605763}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.000000021855694, y: 0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
   m_LocalPosition: {x: -0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.7, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8137925204388580546}
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
 --- !u!65 &7754076282729998014
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -117,7 +117,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 64fc4017a279b594f864578f1d677c25, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ingredientType: 42
+  ingredientType: 44
 --- !u!114 &5924178710070069404
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -133,7 +133,6 @@ MonoBehaviour:
   workstationLayer:
     serializedVersion: 2
     m_Bits: 32768
-  procesamientoDatabase: {fileID: 11400000, guid: 7192775063d47bd4b92eae36ccd81741, type: 2}
   recetasDatabase: {fileID: 11400000, guid: 500188bf1c71ba0498684343da787a59, type: 2}
   raycastDistance: 12
   overlayGreen: {fileID: 2100000, guid: 829a32be13f78cf419f424b5fcdf3382, type: 2}
