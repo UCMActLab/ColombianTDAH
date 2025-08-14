@@ -53,20 +53,20 @@ public class EscenaKitchenLevelSetup : MonoBehaviour
         AnimatorManager.Instance.SetAnimator(ObjetosAnim.Horno, oven.GetComponent<Animator>());
 
         // Sonidos
-        SoundManager.Instance.SetAudioSource(ObjetosSound.Mezcladora, mixerSource);
-        SoundManager.Instance.SetClip(ObjetosSound.Mezcladora, mixerClip);
-        SoundManager.Instance.SetAudioSource(ObjetosSound.Tabla_De_Picar, sliceTableSource);
-        SoundManager.Instance.SetClip(ObjetosSound.Tabla_De_Picar, sliceTableClip);
-        SoundManager.Instance.SetAudioSource(ObjetosSound.Olla, potSource);
-        SoundManager.Instance.SetClip(ObjetosSound.Olla, potClip);
-        SoundManager.Instance.SetAudioSource(ObjetosSound.Licuadora, blenderSource);
-        SoundManager.Instance.SetClip(ObjetosSound.Licuadora, blenderClip);
-        SoundManager.Instance.SetAudioSource(ObjetosSound.Olla_A_Presion, pressureCookerSource);
-        SoundManager.Instance.SetClip(ObjetosSound.Olla_A_Presion, pressureCookerClip);
-        SoundManager.Instance.SetAudioSource(ObjetosSound.Sarten, panSource);
-        SoundManager.Instance.SetClip(ObjetosSound.Sarten, panClip);
-        SoundManager.Instance.SetAudioSource(ObjetosSound.Horno, ovenSource);
-        SoundManager.Instance.SetClip(ObjetosSound.Horno, ovenClip);
+        KitchenSoundManager.Instance.SetAudioSource(ObjetosSound.Mezcladora, mixerSource);
+        KitchenSoundManager.Instance.SetClip(ObjetosSound.Mezcladora, mixerClip);
+        KitchenSoundManager.Instance.SetAudioSource(ObjetosSound.Tabla_De_Picar, sliceTableSource);
+        KitchenSoundManager.Instance.SetClip(ObjetosSound.Tabla_De_Picar, sliceTableClip);
+        KitchenSoundManager.Instance.SetAudioSource(ObjetosSound.Olla, potSource);
+        KitchenSoundManager.Instance.SetClip(ObjetosSound.Olla, potClip);
+        KitchenSoundManager.Instance.SetAudioSource(ObjetosSound.Licuadora, blenderSource);
+        KitchenSoundManager.Instance.SetClip(ObjetosSound.Licuadora, blenderClip);
+        KitchenSoundManager.Instance.SetAudioSource(ObjetosSound.Olla_A_Presion, pressureCookerSource);
+        KitchenSoundManager.Instance.SetClip(ObjetosSound.Olla_A_Presion, pressureCookerClip);
+        KitchenSoundManager.Instance.SetAudioSource(ObjetosSound.Sarten, panSource);
+        KitchenSoundManager.Instance.SetClip(ObjetosSound.Sarten, panClip);
+        KitchenSoundManager.Instance.SetAudioSource(ObjetosSound.Horno, ovenSource);
+        KitchenSoundManager.Instance.SetClip(ObjetosSound.Horno, ovenClip);
 
     }
 

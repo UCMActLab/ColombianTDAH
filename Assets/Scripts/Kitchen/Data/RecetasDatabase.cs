@@ -9,19 +9,13 @@ public class RecetasDatabase : ScriptableObject
 
     public RecetaData GetRecetaValida(
         Ingredientes entrada,
-        PuestosDeTrabajo puesto
-        // Probablemente hay que añadir algo para cuando se eligen las recetas en la UI
+        PuestosDeTrabajo puesto,
+        IEnumerable<RecetaData> seleccion
     )
     {
-        var candidatas = recetas
+        return recetas
             .Where(r => r.puestos.Contains(puesto) && r.ingredientes.Contains(entrada))
-            .Where(r => r.esIntermedia); // Probablemente hay que añadir algo para cuando se eligen las recetas en la UI
-
-        return candidatas.FirstOrDefault();
-    }
-
-    public IEnumerable<RecetaData> GetRecetasMostrables()
-    {
-        return recetas.Where(r => !r.esIntermedia);
+            .Where(r => r.esIntermedia || seleccion.Contains(r)) // Intermedias siempre; finales solo si están seleccionadas
+            .FirstOrDefault();
     }
 }

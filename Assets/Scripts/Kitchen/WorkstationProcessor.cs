@@ -1,12 +1,15 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Linq;
+using System.Collections.Generic;
+using UnityEngine.UIElements;
 
 public class WorkstationProcessor : MonoBehaviour
 {
     #region references
     [Header("Workstation")]
     [SerializeField] public PuestosDeTrabajo workstationType;
+    [SerializeField] private float workstationTime = 5f;
     [Header("Spawn of ingredients")]
     [SerializeField] public Transform spawnPoint;
 
@@ -22,7 +25,6 @@ public class WorkstationProcessor : MonoBehaviour
     [SerializeField] private string processingSfxName = "";
 
     [Header("Databases")]
-    [SerializeField] private ProcesamientoDatabase procesamientoDatabase;
     [SerializeField] private RecetasDatabase recetasDatabase;
 
     [Header("Inventario (solo modo receta)")]
@@ -41,39 +43,39 @@ public class WorkstationProcessor : MonoBehaviour
         processed = false;
     }
 
-    //public void StartProcessing(GameObject ingrediente)
-    //{
-    //    if (!processed && ingrediente.TryGetComponent(out ProcessableIngredient pi))
-    //    {
-    //        var procesamiento = procesamientoDatabase.GetProcesamiento(pi.ingredientType, workstationType);
-    //        if (procesamiento != null)
-    //        {
-    //            processed = true;
-    //            StartCoroutine(Procesar(ingrediente, procesamiento));
-    //        }
-    //    }
-    //}
-
     public void OnItemPlaced(ProcessableIngredient pi)
     {
         if (processed || pi == null) return;
 
+        // Lo que se selecciona para cada jornada
+        var seleccion = LevelKitchenManager.Instance != null
+            ? LevelKitchenManager.Instance.GetRecetasSeleccionadasActuales()
+            : Enumerable.Empty<RecetaData>();
+
         if (immediateSingleProcess)
         {
-            var pdata = procesamientoDatabase.GetProcesamiento(pi.ingredientType, workstationType);
-            if (pdata == null) { Destroy(pi.gameObject); return; }
-            StartCoroutine(ProcessImmediate(pi.gameObject, pdata));
+            // Buscamos receta válida para (ingrediente + estación) respetando la regla:
+            // intermedia => siempre; final => solo si está en 'seleccion'
+            var receta = recetasDatabase.GetRecetaValida(pi.ingredientType, workstationType, seleccion);
+            if (receta == null)
+            {
+                // No se puede procesar aquí (no seleccionada y no intermedia)
+                Destroy(pi.gameObject);
+                return;
+            }
+
+            StartCoroutine(ProcessImmediate(pi.gameObject, receta));
             return;
         }
 
         // Modo receta
-        if (!inventory.TryAdd(pi.ingredientType, capacity))
+        if(!inventory.TryAdd(pi.ingredientType, capacity))
         {
             Destroy(pi.gameObject); // No cabe
             return;
         }
 
-        var recipe = FindMatchingRecipe();
+        var recipe = FindMatchingRecipe(seleccion);
         Destroy(pi.gameObject);
 
         if (recipe != null)
@@ -83,40 +85,44 @@ public class WorkstationProcessor : MonoBehaviour
         }
     }
 
-    private RecetaData FindMatchingRecipe()
+    private RecetaData FindMatchingRecipe(IEnumerable<RecetaData> seleccion)
     {
         if (recetasDatabase == null || recetasDatabase.recetas == null) return null;
-        // Filtramos solo recetas que se pueden hacer en esta estación
-        var candidates = recetasDatabase.recetas.Where(r => r.puestos != null && r.puestos.Contains(workstationType));
+
+        var candidates = recetasDatabase.recetas
+            .Where(r => r.puestos != null && r.puestos.Contains(workstationType))
+            .Where(r => r.esIntermedia || seleccion.Contains(r)); 
+
         foreach (var r in candidates)
             if (inventory.Meets(r)) return r;
+
         return null;
     }
 
-    private IEnumerator ProcessImmediate(GameObject ingredienteGO, ProcesamientoData data)
+    private IEnumerator ProcessImmediate(GameObject ingredienteGO, RecetaData data)
     {
         processed = true;
         // Anim & sonido inicio      
         AnimatorManager.Instance.PlayAndPauseAt(animKey, processingAnim, animTime);
         if (!string.IsNullOrEmpty(processingSfxName))
-            SoundManager.Instance.PlayLoop(soundKey, processingSfxName);
+            KitchenSoundManager.Instance.PlayLoop(soundKey, processingSfxName);
 
-        yield return new WaitForSeconds(data.processTime); // Esperamos
+        yield return new WaitForSeconds(workstationTime); // Esperamos
 
         // Spawn ingrediente procesado
-        if (data.processedIngredient)
-            Instantiate(data.processedIngredient, spawnPoint.position, spawnPoint.rotation);
+        if (data.processedRecipe != null)
+            Instantiate(data.processedRecipe, spawnPoint.position, spawnPoint.rotation);
 
         // Fin anim & sonido
         AnimatorManager.Instance.PlayAndPauseAt(animKey, idleAnim, 0f);
         if (!string.IsNullOrEmpty(processingSfxName))
-            SoundManager.Instance.StopLoop(soundKey);
+            KitchenSoundManager.Instance.StopLoop(soundKey);
 
         Destroy(ingredienteGO);
         processed = false;
     }
 
-    private IEnumerator ProcessRecipe(RecetaData recipe)
+    private IEnumerator ProcessRecipe(RecetaData data)
     {
         processed = true;
 
@@ -124,20 +130,20 @@ public class WorkstationProcessor : MonoBehaviour
         if (GetComponent<Animator>() != null)
             AnimatorManager.Instance.PlayAndPauseAt(animKey, processingAnim, animTime);
         if (!string.IsNullOrEmpty(processingSfxName))
-            SoundManager.Instance.PlayLoop(soundKey, processingSfxName);
+            KitchenSoundManager.Instance.PlayLoop(soundKey, processingSfxName);
 
         yield return new WaitForSeconds(5f); // Esperamos(hay que cambiar el tiempo)
 
         // Spawn resultado de la receta
-        //if (recipe.resultado)
-        //    Instantiate(recipe.resultado, spawnPoint.position, spawnPoint.rotation);
+        //if (data.processedRecipe)
+        //    Instantiate(data.processedRecipe, spawnPoint.position, spawnPoint.rotation);
         Debug.Log("Receta Completada");
 
         // Fin anim & sonido
         if (GetComponent<Animator>() != null)
             AnimatorManager.Instance.PlayAndPauseAt(animKey, idleAnim, 0f);
         if (!string.IsNullOrEmpty(processingSfxName))
-            SoundManager.Instance.StopLoop(soundKey);
+            KitchenSoundManager.Instance.StopLoop(soundKey);
 
         processed = false;
     }

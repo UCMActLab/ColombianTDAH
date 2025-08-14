@@ -15,12 +15,12 @@ public enum ObjetosSound
 /// <summary>
 /// SoundManager singleton para gestionar los sonidos del juego.
 /// </summary>
-public class SoundManager : MonoBehaviour
+public class KitchenSoundManager : MonoBehaviour
 {
     /// <summary>Instancia publica de SoundManager.</summary>
-    private static SoundManager _instance = null;
+    private static KitchenSoundManager _instance = null;
 
-    static public SoundManager Instance { get { return _instance; } }
+    static public KitchenSoundManager Instance { get { return _instance; } }
 
     private Dictionary<ObjetosSound, AudioSource> sources = new Dictionary<ObjetosSound, AudioSource>();
     private Dictionary<ObjetosSound, Dictionary<string, AudioClip>> clips = new Dictionary<ObjetosSound, Dictionary<string, AudioClip>>();

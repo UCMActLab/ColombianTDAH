@@ -33,9 +33,9 @@ public enum PuestosDeTrabajo
 public enum Ingredientes
 {
     Agua, Aguacate, AguacatePicado, Aji, Arepa, Arroz, ArrozCocido, Azucar, Cafe, Canela, Carne, CarneCocinada, CarneMolida, Cebolla, CebollaPicada, 
-    Cilantro, Coco, CocoPicado, Frijoles, FrijolesCocidos, FresaPicada, Guayaba, GuayabaPicada, Harina, Huevo, Hueso, Leche, Limon, LimonPicado, Maiz, Mariscos,
-    MasaArroz, MasaLeche, MasaMaíz, MasaQueso, Miel, Panela, Papa, PapaPicada, Pez, PezFileteado, Platano, PlatanoPicado, Pollo, Queso, Tomate, 
-    TomatePicado, Yuca, YucaPicada, MixVegetales, Hojas
+    Cilantro, Coco, CocoPicado, Frijoles, FrijolesCocidos, Fresa,FresaPicada, Guayaba, GuayabaPicada, Harina, Hojas, Huevo, Hueso, Leche, Limon, LimonPicado, Maiz, Mariscos,
+    MasaArroz, MasaLeche, MasaMaíz, MasaQueso, Miel, MixVegetales, Panela, Papa, PapaPicada, Pez, PezFileteado, Platano, PlatanoPicado, Pollo, Queso, Tomate, 
+    TomatePicado, Yuca, YucaPicada
 }
 
 public class LevelKitchenManager : MonoBehaviour
@@ -106,7 +106,7 @@ public class LevelKitchenManager : MonoBehaviour
         {
             Destroy(gameObject);
             Destroy(AnimatorManager.Instance.gameObject);
-            Destroy(SoundManager.Instance.gameObject);
+            Destroy(KitchenSoundManager.Instance.gameObject);
         }
 
         if (scene.name == escenasPermitidas[0]) // KitchenLevel
@@ -274,6 +274,11 @@ public class LevelKitchenManager : MonoBehaviour
         }
 
         Debug.Log("Recetas calculadas correctamente para todas las jornadas.");
+    }
+
+    public IEnumerable<RecetaData> GetRecetasSeleccionadasActuales()
+    {
+        return nivelacionData.jornadas[jornadaActual].recetasAsignadas;
     }
 
     public void SetJornada(int newValue)

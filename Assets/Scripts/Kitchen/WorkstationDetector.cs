@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class WorkstationDetector : MonoBehaviour
@@ -6,10 +7,10 @@ public class WorkstationDetector : MonoBehaviour
     #region references
     [SerializeField] 
     private LayerMask workstationLayer; // Capa para las workstations
-    [SerializeField] private ProcesamientoDatabase procesamientoDatabase;
     [SerializeField] private RecetasDatabase recetasDatabase;
     private Draggable draggable; // Referencia al script Draggable del objeto
     private Transform currentWorkstation;
+    private WorkstationProcessor currentProcessor;
     private ProcessableIngredient processableIngredient;
     private List<Renderer> currentRenderers = new List<Renderer>();
     private List<Material[]> originalMaterials = new List<Material[]>();
@@ -35,10 +36,6 @@ public class WorkstationDetector : MonoBehaviour
         {
             DetectWorkstation();
         }
-        else
-        {
-            RemoveOverlay();
-        }
     }
 
     private void DetectWorkstation()
@@ -51,22 +48,22 @@ public class WorkstationDetector : MonoBehaviour
 
             if (hitTransform != currentWorkstation)
             {
-                RemoveOverlay(); // Quitamos overlay anterior
-
+                ForceClearOverlay();
+                
                 currentWorkstation = hitTransform;
+                currentProcessor = currentWorkstation.GetComponentInParent<WorkstationProcessor>();
 
-                var processor = currentWorkstation.GetComponent<WorkstationProcessor>();
-                if (processor != null && processableIngredient != null)
+                if (currentProcessor != null && processableIngredient != null)
                 {
-                    bool canProcess = CanProcessHere(processableIngredient.ingredientType, processor.workstationType);
-
+                    bool canProcess = CanProcessHere(processableIngredient.ingredientType, currentProcessor.workstationType);
                     ApplyOverlay(canProcess ? overlayGreen : overlayRed);
                 }
             }
         }
         else
         {
-            ClearCurrentWorkstation();
+            // Si no apuntas a estación, no hay target.
+            ForceClearOverlay();
         }
     }
 
@@ -75,18 +72,27 @@ public class WorkstationDetector : MonoBehaviour
         currentRenderers.Clear();
         originalMaterials.Clear();
 
-        // Obtenemos todos los renderers de la workstation (incluyendo hijos)
-        Renderer[] renderers = currentWorkstation.GetComponentsInChildren<Renderer>();
+        if (currentWorkstation == null || overlayMat == null) return;
+
+        currentRenderers.Clear();
+        originalMaterials.Clear();
+
+        // Todos los renderers de la estación (incluye hijos)
+        Renderer[] renderers = currentProcessor != null
+            ? currentProcessor.GetComponentsInChildren<Renderer>(true)
+            : currentWorkstation.GetComponentsInChildren<Renderer>(true);
 
         foreach (Renderer rend in renderers)
         {
+            if (rend == null) continue;
+
             currentRenderers.Add(rend);
 
-            // Guardamos materiales originales
-            originalMaterials.Add(rend.materials);
+            // Guardamos array original exacto
+            Material[] mats = rend.materials;
+            originalMaterials.Add(mats);
 
-            // Creamos array nuevo con overlay añadido al final
-            var mats = rend.materials;
+            // Añadimos overlay al final
             var newMats = new Material[mats.Length + 1];
             mats.CopyTo(newMats, 0);
             newMats[mats.Length] = overlayMat;
@@ -99,54 +105,50 @@ public class WorkstationDetector : MonoBehaviour
         // Restauramos materiales originales a cada renderer
         for (int i = 0; i < currentRenderers.Count; i++)
         {
-            if (currentRenderers[i] != null)
+            if (currentRenderers[i] != null && originalMaterials.Count > i && originalMaterials[i] != null)
             {
                 currentRenderers[i].materials = originalMaterials[i];
             }
         }
-
         currentRenderers.Clear();
         originalMaterials.Clear();
     }
 
-    private void ClearCurrentWorkstation()
+    public void ForceClearOverlay()
     {
-        if (currentWorkstation != null)
-        {
-            RemoveOverlay();
-            currentWorkstation = null;
-        }
+        RemoveOverlay();
+        currentProcessor = null;
+        currentWorkstation = null;
     }
 
     public Transform GetCurrentWorkstation() => currentWorkstation;
 
+    public bool TryGetCurrentProcessor(out WorkstationProcessor processor)
+    {
+        processor = currentProcessor;
+        return processor != null;
+    }
+
     public bool CanProcessHere(Ingredientes ingrediente, PuestosDeTrabajo puesto)
     {
-        // Caso 1: Proceso inmediato
-        if (procesamientoDatabase.GetProcesamiento(ingrediente, puesto) != null)
-            return true;
+        if (recetasDatabase == null) return false;
 
-        // Caso 2: Proceso por receta
-        if (recetasDatabase != null)
-        {
-            foreach (var receta in recetasDatabase.recetas)
-            {
-                if (receta.puestos.Contains(puesto) && receta.ingredientes.Contains(ingrediente))
-                    return true;
-            }
-        }
+        var seleccion = (LevelKitchenManager.Instance != null)
+            ? LevelKitchenManager.Instance.GetRecetasSeleccionadasActuales()
+            : Enumerable.Empty<RecetaData>();
 
-        return false;
+        var receta = recetasDatabase.GetRecetaValida(ingrediente, puesto, seleccion);
+        return receta != null;
     }
 
     void OnDisable()
     {
-        ClearCurrentWorkstation();
+        ForceClearOverlay();
     }
 
     void OnDestroy()
     {
-        ClearCurrentWorkstation();
+        ForceClearOverlay();
     }
 
     #endregion

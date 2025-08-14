@@ -182,10 +182,12 @@ public class UINivelacionData : MonoBehaviour
             .ToList();
 
         var recetasFiltradasAntes = recetasDatabase.recetas
+            .Where(r => !r.esIntermedia)
             .Where(r => r.puestos.All(p => puestosActivosAntes.Contains(p)))
             .ToList();
 
         var recetasFiltradas = recetasDatabase.recetas
+            .Where(r => !r.esIntermedia)
             .Where(r => r.puestos.All(p => jornadaActual.puestosActivos.Contains(p)))
             .ToList();
 
