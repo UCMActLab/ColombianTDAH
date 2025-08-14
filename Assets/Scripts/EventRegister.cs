@@ -1,6 +1,9 @@
-using UnityEngine;
 using System;
 using System.Collections.Generic;
+using System.Text;
+using UnityEngine;
+using UnityEngine.SceneManagement;
+using static UnityEditor.PlayerSettings;
 
 public class EventRegister : MonoBehaviour
 {
@@ -29,6 +32,13 @@ public class EventRegister : MonoBehaviour
         set => pacientInfoIsRegistered = value;
     }
 
+    public enum TipoJuego
+    {
+        DefaultGame,
+        Delfines,
+        MisionColombia
+    }
+
     private InfoSesion infoSesion;
 
     public InfoSesion GetInfoSesion()
@@ -39,6 +49,10 @@ public class EventRegister : MonoBehaviour
     public void SetInfoSesion(InfoSesion value)
     {
         infoSesion = value;
+        PacientInfoIsRegistered = true; //se pone a true el bool de que se ha registrado
+        infoSesion.nombrePaciente = CleanString(infoSesion.nombrePaciente);
+        infoSesion.nombreTerapeuta = CleanString(infoSesion.nombreTerapeuta);
+
     }
 
     //infosesion esta hecho para crear el nombre del archivo, que sera "{paciente}-{terapeuta}-{juego}-{fechaStr}.json"
@@ -46,15 +60,15 @@ public class EventRegister : MonoBehaviour
     {
         public string nombrePaciente;
         public string nombreTerapeuta;
-        public string nombreJuego;
+        public TipoJuego nombreJuego;
         public DateTime fechaHora;
 
-        public InfoSesion(string paciente, string terapeuta, string nombreJuego)
+        public InfoSesion(string paciente, string terapeuta, TipoJuego nombreJuego)
         {
             this.nombrePaciente = paciente;
             this.nombreTerapeuta = terapeuta;
             this.nombreJuego = nombreJuego;
-            this.fechaHora = DateTime.UtcNow;
+            this.fechaHora = DateTime.UtcNow.AddHours(-5);
         }
 
         
@@ -139,17 +153,19 @@ public class EventRegister : MonoBehaviour
     }
 
     //hecho post juego porque convenia iniciar en otra parte
-    public void AddInitialEvent(EventosInfo evento, string info)
+    //ESTE ES EL METODO QUE HAY QUE USAR AL EMPEZAR TU JUEGO PARA HACER EL EVENTO DE INICIO
+    public void AddInitialEvent(EventosInfo evento, string info, TipoJuego juego)
     {
-        addInitialPacienteInfoEvent(); //mete la primera linea de la info paciente
+        addInitialPacienteInfoEvent(juego); //mete la primera linea de la info paciente
         AddToEvnt(new Tuple<EventosInfo, string>(evento, info));
         EvntToJson(); // lo escribe ya directamente
     }
 
     //se va a usar al empezar a escribir (que tiene que ser cuando el jugador entra a un juego y se haga set del nombreJuego taambien)
     //para que este al principio del json
-    public void addInitialPacienteInfoEvent()
+    public void addInitialPacienteInfoEvent(TipoJuego juego)
     {
+        infoSesion.nombreJuego = juego;
         WritePath = GetFileNameFromInfoSesion(infoSesion);
         AddInitialEventSafe(EventosInfo.PacienteInfo, $"Paciente: {infoSesion.nombrePaciente}, Terapeuta: {infoSesion.nombreTerapeuta}");
 
@@ -166,7 +182,11 @@ public class EventRegister : MonoBehaviour
         // Quitar extensión por si WritePath viene con .json de un uso anterior
         WritePath = System.IO.Path.GetFileNameWithoutExtension(WritePath);
 
-        IncrementPath();
+        //IncrementPath();
+        //  extensión .json 
+        WritePath += ".json";
+
+
         WriteTo = System.IO.Path.Combine(WriteDir, WritePath);
 
         Debug.Log($"nuevo path: {WriteTo}");
@@ -324,15 +344,64 @@ public class EventRegister : MonoBehaviour
     //para sacar el nombre del archivo segun los datos
     public string GetFileNameFromInfoSesion(InfoSesion infoS)
     {
-        string pac = infoS.nombrePaciente.Replace(" ", "_");
-        string ter = infoS.nombreTerapeuta.Replace(" ", "_");
-        string juego = infoS.nombreJuego.Replace(" ", "_");
+        string pac = CleanString(infoS.nombrePaciente);
+        string ter = CleanString(infoS.nombreTerapeuta);
+        string juego = infoS.nombreJuego.ToString(); // enum a string
 
         string fechaStr = infoS.fechaHora.ToString("yyyy-MM-dd-HH-mm");
 
         return $"{pac}-{ter}-{juego}-{fechaStr}.json";
     }
 
+    //no sé si prefiero avisar de que no pongan cosas raras porque sera nombre de archivo o hacer esto xd
+    private string CleanString(string input)
+    {
+        if (string.IsNullOrEmpty(input))
+            return string.Empty;
+
+        // 1. Quitar tildes y acentos
+        string normalized = input.Normalize(System.Text.NormalizationForm.FormD);
+        StringBuilder sb = new StringBuilder();
+
+        foreach (char c in normalized)
+        {
+            System.Globalization.UnicodeCategory uc = System.Globalization.CharUnicodeInfo.GetUnicodeCategory(c);
+            if (uc != System.Globalization.UnicodeCategory.NonSpacingMark)
+            {
+                sb.Append(c);
+            }
+        }
+
+        string cleanInput = sb.ToString();
+
+        // 2. Sustituir ñ por n
+        cleanInput = cleanInput.Replace('ñ', 'n').Replace('Ñ', 'N');
+
+        // 3. Quitar caracteres invalidos del sistema de archivos
+        char[] invalidChars = System.IO.Path.GetInvalidFileNameChars();
+        foreach (char invalidChar in invalidChars)
+        {
+            cleanInput = cleanInput.Replace(invalidChar.ToString(), "");
+        }
+
+        // 4. Reemplazar espacios y puntos por "_"
+        cleanInput = cleanInput.Replace(" ", "_").Replace(".", "_");
+
+        cleanInput = cleanInput.Replace("@", "a");
+
+        // 5. Filtrar solo letras, numeros y "_-"
+        StringBuilder finalSb = new StringBuilder();
+        foreach (char c in cleanInput)
+        {
+            //  @, +, `, ^, &, etc se descarta, que esos no cuentan como caracteres raros en windows y todavia siguen
+            if (char.IsLetterOrDigit(c) || c == '_' || c == '-')
+            {
+                finalSb.Append(c);
+            }
+        }
+
+        return finalSb.ToString();
+    }
 
     void OnApplicationQuit()
     {
