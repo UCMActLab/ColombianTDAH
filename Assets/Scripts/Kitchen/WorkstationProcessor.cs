@@ -132,7 +132,7 @@ public class WorkstationProcessor : MonoBehaviour
         if (!string.IsNullOrEmpty(processingSfxName))
             KitchenSoundManager.Instance.PlayLoop(soundKey, processingSfxName);
 
-        yield return new WaitForSeconds(5f); // Esperamos(hay que cambiar el tiempo)
+        yield return new WaitForSeconds(workstationTime); // Esperamos
 
         // Spawn resultado de la receta
         if (data.processedRecipe)

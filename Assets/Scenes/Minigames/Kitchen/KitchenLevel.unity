@@ -3927,7 +3927,7 @@ MonoBehaviour:
   panSource: {fileID: 7936048887277139460}
   panClip: {fileID: 8300000, guid: b65ecea14de240d46968716690b31273, type: 3}
   ovenSource: {fileID: 5208348167252063204}
-  ovenClip: {fileID: 8300000, guid: f636c82bf2763244c9dfe5a3aba37090, type: 3}
+  ovenClip: {fileID: 8300000, guid: c87a0fdc1de6ba74b8ac9c24487bf85a, type: 3}
 --- !u!4 &1894923663
 Transform:
   m_ObjectHideFlags: 0
@@ -4792,11 +4792,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8875095375189514759, guid: bc0e27d9a9df09c4990b3594c1309b55, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.104195595
+      value: 0.386
       objectReference: {fileID: 0}
     - target: {fileID: 8875095375189514759, guid: bc0e27d9a9df09c4990b3594c1309b55, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 3.8808348
+      value: 3.879
       objectReference: {fileID: 0}
     - target: {fileID: 8875095375189514759, guid: bc0e27d9a9df09c4990b3594c1309b55, type: 3}
       propertyPath: m_LocalRotation.w
@@ -4808,19 +4808,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8875095375189514759, guid: bc0e27d9a9df09c4990b3594c1309b55, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 1
+      value: 0.9345275
       objectReference: {fileID: 0}
     - target: {fileID: 8875095375189514759, guid: bc0e27d9a9df09c4990b3594c1309b55, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: -0.35589102
       objectReference: {fileID: 0}
     - target: {fileID: 8875095375189514759, guid: bc0e27d9a9df09c4990b3594c1309b55, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
+      value: 41.696
       objectReference: {fileID: 0}
     - target: {fileID: 8875095375189514759, guid: bc0e27d9a9df09c4990b3594c1309b55, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
+      value: 180
       objectReference: {fileID: 0}
     - target: {fileID: 8875095375189514759, guid: bc0e27d9a9df09c4990b3594c1309b55, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
@@ -4843,7 +4843,7 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
 --- !u!82 &5208348167252063204 stripped
 AudioSource:
-  m_CorrespondingSourceObject: {fileID: 2918475856782997890, guid: bc0e27d9a9df09c4990b3594c1309b55, type: 3}
+  m_CorrespondingSourceObject: {fileID: 5762538560919847418, guid: bc0e27d9a9df09c4990b3594c1309b55, type: 3}
   m_PrefabInstance: {fileID: 5208348167252063201}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &6096483900577097420
