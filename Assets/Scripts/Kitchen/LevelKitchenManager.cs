@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine.SceneManagement;
 using System.Collections;
+using TMPro;
 
 public enum TurnoEstado
 {
@@ -53,12 +54,14 @@ public class LevelKitchenManager : MonoBehaviour
 
     private int jornadaActual = 1; //nivelacionData.jornadas[jornadaActual].recetasAsignadas
     private Turno turnoActual = Turno.Manana;
-    private int tiempoPorTurnoActual;
+    private int tiempoPorTurnoTotal;
     private List<RecetaData> recetasToDo;
 
     private Transform bookTargetTransform;
     private float moveDuration = 1.5f;
     private GameObject[] lights;
+
+    private Reloj contador;
 
 
     private void Awake()
@@ -119,7 +122,7 @@ public class LevelKitchenManager : MonoBehaviour
                 Debug.LogWarning("No se encontró el componente OnMouseInputRecieved.");
             }
 
-            recetasToDo = CalcularRecetasTurno(nivelacionData.jornadas[jornadaActual].recetasAsignadas, tiempoPorTurnoActual, Mathf.CeilToInt(tiempoPorTurnoActual * 0.1f));
+            recetasToDo = CalcularRecetasTurno(nivelacionData.jornadas[jornadaActual].recetasAsignadas, tiempoPorTurnoTotal, Mathf.CeilToInt(tiempoPorTurnoTotal * 0.1f));
 
             foreach (RecetaData receta in recetasToDo)
             {
@@ -129,6 +132,9 @@ public class LevelKitchenManager : MonoBehaviour
             {
                 Debug.Log("RECETA JORNADA: " + receta.nombre);
             }*/
+
+            contador.SetTiempoInicial(tiempoPorTurnoTotal);
+            contador.Reanudar();
         }
     }
 
@@ -282,7 +288,7 @@ public class LevelKitchenManager : MonoBehaviour
 
     public void SetTiempoPorTurno(int newValue)
     {
-        tiempoPorTurnoActual = newValue;
+        tiempoPorTurnoTotal = newValue;
     }
 
     public GameObject GetLibro()
@@ -302,5 +308,10 @@ public class LevelKitchenManager : MonoBehaviour
 
     public NivelacionData GetNivelacionData() {
         return nivelacionData;
+    }
+
+    public void SetContador(Reloj cont)
+    {
+        contador = cont;
     }
 }

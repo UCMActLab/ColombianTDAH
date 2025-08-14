@@ -1,7 +1,10 @@
+using TMPro;
 using UnityEngine;
 
 public class EscenaKitchenLevelSetup : MonoBehaviour
 {
+    [SerializeField] private Reloj contador;
+
     [Header("Luces y libro")]
     [SerializeField] private GameObject[] lights;
     [SerializeField] private GameObject libroDeRecetas;
@@ -37,6 +40,7 @@ public class EscenaKitchenLevelSetup : MonoBehaviour
     {
         LevelKitchenManager.Instance.SetLibro(libroDeRecetas);
         LevelKitchenManager.Instance.SetLights(lights);
+        LevelKitchenManager.Instance.SetContador(contador);
 
         // Animators
         AnimatorManager.Instance.SetAnimator(ObjetosAnim.Libro, libroDeRecetas.GetComponent<Animator>());
