@@ -907,6 +907,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   workstationType: 4
+  workstationTime: 5
   spawnPoint: {fileID: 288043276554652644}
   objAnim: {fileID: 2129227855013709090}
   animKey: 2
@@ -915,7 +916,6 @@ MonoBehaviour:
   animTime: 4
   soundKey: 1
   processingSfxName: Mixer
-  procesamientoDatabase: {fileID: 11400000, guid: 7192775063d47bd4b92eae36ccd81741, type: 2}
   recetasDatabase: {fileID: 11400000, guid: 500188bf1c71ba0498684343da787a59, type: 2}
   inventory: {fileID: 3734823362380548346}
   capacity: 6
@@ -2748,7 +2748,7 @@ Transform:
   m_GameObject: {fileID: 5942693574890271178}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.356, y: 0.729, z: 0}
+  m_LocalPosition: {x: 0.088, y: 0.447, z: -0.364}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

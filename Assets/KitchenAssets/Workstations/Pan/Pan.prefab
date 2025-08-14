@@ -24,9 +24,9 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1660732244736790873}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.6622117, y: -0.24767722, z: -0.24759078, w: 0.66244286}
-  m_LocalPosition: {x: -0.07096791, y: 0.04054698, z: 0.019156452}
-  m_LocalScale: {x: 0.024420021, y: 0.02442002, z: 0.024420016}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.00025, y: -0.02034, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6278575940233311958}
@@ -158,6 +158,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   workstationType: 3
+  workstationTime: 5
   spawnPoint: {fileID: 1528364514395177426}
   objAnim: {fileID: 0}
   animKey: 7
@@ -166,7 +167,6 @@ MonoBehaviour:
   animTime: 0
   soundKey: 6
   processingSfxName: Pan
-  procesamientoDatabase: {fileID: 11400000, guid: 7192775063d47bd4b92eae36ccd81741, type: 2}
   recetasDatabase: {fileID: 11400000, guid: 500188bf1c71ba0498684343da787a59, type: 2}
   inventory: {fileID: 6522536289652498451}
   capacity: 6

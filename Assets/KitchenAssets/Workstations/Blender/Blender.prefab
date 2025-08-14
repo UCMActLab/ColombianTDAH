@@ -25,7 +25,7 @@ Transform:
   m_GameObject: {fileID: 582248914332099323}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.3799995, y: -3.4699838, z: -4.6599708}
+  m_LocalPosition: {x: -167, y: 14, z: -7}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -162,6 +162,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   workstationType: 1
+  workstationTime: 5
   spawnPoint: {fileID: 248527662137353068}
   objAnim: {fileID: 0}
   animKey: 3
@@ -170,7 +171,6 @@ MonoBehaviour:
   animTime: 0
   soundKey: 2
   processingSfxName: Blender
-  procesamientoDatabase: {fileID: 11400000, guid: 7192775063d47bd4b92eae36ccd81741, type: 2}
   recetasDatabase: {fileID: 11400000, guid: 500188bf1c71ba0498684343da787a59, type: 2}
   inventory: {fileID: 5793700819262268948}
   capacity: 6

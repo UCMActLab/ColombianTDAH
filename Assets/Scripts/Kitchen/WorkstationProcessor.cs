@@ -135,8 +135,8 @@ public class WorkstationProcessor : MonoBehaviour
         yield return new WaitForSeconds(5f); // Esperamos(hay que cambiar el tiempo)
 
         // Spawn resultado de la receta
-        //if (data.processedRecipe)
-        //    Instantiate(data.processedRecipe, spawnPoint.position, spawnPoint.rotation);
+        if (data.processedRecipe)
+            Instantiate(data.processedRecipe, spawnPoint.position, spawnPoint.rotation);
         Debug.Log("Receta Completada");
 
         // Fin anim & sonido

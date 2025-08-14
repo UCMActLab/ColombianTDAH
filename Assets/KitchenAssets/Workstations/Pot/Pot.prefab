@@ -125,6 +125,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   workstationType: 2
+  workstationTime: 5
   spawnPoint: {fileID: 7205862992319583800}
   objAnim: {fileID: 0}
   animKey: 5
@@ -133,7 +134,6 @@ MonoBehaviour:
   animTime: 0
   soundKey: 4
   processingSfxName: Pot
-  procesamientoDatabase: {fileID: 11400000, guid: 7192775063d47bd4b92eae36ccd81741, type: 2}
   recetasDatabase: {fileID: 11400000, guid: 500188bf1c71ba0498684343da787a59, type: 2}
   inventory: {fileID: 6118130472359438172}
   capacity: 6
@@ -272,7 +272,7 @@ Transform:
   m_GameObject: {fileID: 8324284835123253289}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0.102, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
