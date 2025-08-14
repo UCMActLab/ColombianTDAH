@@ -3,6 +3,7 @@ using Unity.VisualScripting.FullSerializer;
 using UnityEngine;
 using static UnityEngine.Rendering.STP;
 
+
 public class MisionLevelManager : MonoBehaviour
 {
     // Singleton
@@ -20,6 +21,13 @@ public class MisionLevelManager : MonoBehaviour
     SoundManager _soundManager;
 
     // Time
+    float _playTimeCont = 0;
+    float _auxCont = 0; // Contador aparicion paradas en ejecucion
+    bool _paused = true;
+    HourMinSec t1;
+    HourMinSec t2;
+
+    // Ask Time
     float _answerTime = 10; // Seconds
     float _timeCont = 0;
     bool _isAnswering = false;
@@ -71,6 +79,7 @@ public class MisionLevelManager : MonoBehaviour
     {
         _timeCont = _answerTime;
         _totalDurationMins = 0;
+
     }
 
     // Update is called once per frame
@@ -78,6 +87,11 @@ public class MisionLevelManager : MonoBehaviour
     {
         // Actualiza contador tiempo
         if (_isAnswering) UpdateTime();
+
+        if (!_paused)
+        {
+            _playTimeCont += Time.deltaTime;
+        }
     }
 
     // Activa botones y slider tiempo
@@ -215,6 +229,7 @@ public class MisionLevelManager : MonoBehaviour
         _mapUIManager.SetStopsNames(_stops);
     }
 
+    // Set Time. "X am/X pm"
     public void SetStartTime(string newTime)
     {
         _startTime = newTime;
