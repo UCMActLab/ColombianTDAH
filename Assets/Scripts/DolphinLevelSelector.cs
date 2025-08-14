@@ -37,14 +37,26 @@ public class DolphinLevelSelector : MonoBehaviour
 
     public void ChargeLevel()
     {
-        SceneLoader sceneLoader = GameObject.Find("SceneLoader").GetComponent<SceneLoader>();
-        sceneLoader.setLevelId(int.Parse(_levelNum));
+        if(SceneLoader.Instance.getLevelId() < int.Parse(_levelNum)) //si el nivel al que entramos es mayor se cambia (probablemente con acceso a edicion)
+            SceneLoader.Instance.setLevelId(int.Parse(_levelNum));
         if (_isUnlocked) SceneLoader.LoadScene("DolphinLevel");
     }
-
     public void ChargeLevel(string name)
     {
         if (_isUnlocked) SceneLoader.LoadScene(name);
+    }
+
+    public void ChargeLevelByEnumValue(int tipoJuegoEnumValue)
+    {
+
+        if (SceneLoader.Instance.getLevelId(tipoJuegoEnumValue) < int.Parse(_levelNum)) //si el nivel al que entramos es mayor se cambia (probablemente con acceso a edicion)
+            SceneLoader.Instance.setLevelId(int.Parse(_levelNum), tipoJuegoEnumValue);
+
+        string escenaIntro = SceneLoader.Instance.getIntroScene(tipoJuegoEnumValue);
+
+        Debug.Log($"[ChargeLevel] Tipo de juego: {tipoJuegoEnumValue} Cargando escena: {escenaIntro}");
+
+        if (_isUnlocked) SceneLoader.LoadScene(escenaIntro);
     }
 
     public bool IsUnlocked() => _isUnlocked;

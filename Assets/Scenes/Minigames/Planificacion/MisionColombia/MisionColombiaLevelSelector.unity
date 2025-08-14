@@ -55474,11 +55474,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2258024196884028703, guid: 57255bf6ebdf2d94ca54e118c981375e, type: 3}
       propertyPath: onClickRecieved.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 5
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 2258024196884028703, guid: 57255bf6ebdf2d94ca54e118c981375e, type: 3}
       propertyPath: onClickRecieved.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
-      value: 1
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 2258024196884028703, guid: 57255bf6ebdf2d94ca54e118c981375e, type: 3}
       propertyPath: onClickRecieved.m_PersistentCalls.m_Calls.Array.data[0].m_Target
@@ -55487,14 +55487,14 @@ PrefabInstance:
     - target: {fileID: 2258024196884028703, guid: 57255bf6ebdf2d94ca54e118c981375e, type: 3}
       propertyPath: onClickRecieved.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 4924427114498128267}
     - target: {fileID: 2258024196884028703, guid: 57255bf6ebdf2d94ca54e118c981375e, type: 3}
       propertyPath: onClickRecieved.m_PersistentCalls.m_Calls.Array.data[1].m_CallState
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 2258024196884028703, guid: 57255bf6ebdf2d94ca54e118c981375e, type: 3}
       propertyPath: onClickRecieved.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: ChargeLevel
+      value: ChargeLevelByEnumValue
       objectReference: {fileID: 0}
     - target: {fileID: 2258024196884028703, guid: 57255bf6ebdf2d94ca54e118c981375e, type: 3}
       propertyPath: onClickRecieved.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
@@ -55509,7 +55509,15 @@ PrefabInstance:
       value: DolphinLevelSelector, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 2258024196884028703, guid: 57255bf6ebdf2d94ca54e118c981375e, type: 3}
+      propertyPath: onClickRecieved.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_IntArgument
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2258024196884028703, guid: 57255bf6ebdf2d94ca54e118c981375e, type: 3}
       propertyPath: onClickRecieved.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_StringArgument
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2258024196884028703, guid: 57255bf6ebdf2d94ca54e118c981375e, type: 3}
+      propertyPath: onClickRecieved.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_StringArgument
       value: MC_Mapa
       objectReference: {fileID: 0}
     - target: {fileID: 2258024196884028703, guid: 57255bf6ebdf2d94ca54e118c981375e, type: 3}

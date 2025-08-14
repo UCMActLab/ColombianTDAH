@@ -23,14 +23,12 @@ public class EventRegister : MonoBehaviour
     [SerializeField]
     private GameObject whitePixels = null;
 
-
-    //esto es para guardar si has introducido ya el nombre del paciente/terapeuta en PacienteConfig.cs
+    private TipoJuego currentGamePlaying;
     private bool pacientInfoIsRegistered;
-    public bool PacientInfoIsRegistered
-    {
-        get => pacientInfoIsRegistered;
-        set => pacientInfoIsRegistered = value;
-    }
+    public TipoJuego CurrentGamePlaying { get => currentGamePlaying; set => currentGamePlaying = value; }
+    public bool PacientInfoIsRegistered { get => pacientInfoIsRegistered; set => pacientInfoIsRegistered = value; }
+
+    private InfoSesion infoSesion;
 
     public enum TipoJuego
     {
@@ -39,7 +37,6 @@ public class EventRegister : MonoBehaviour
         MisionColombia
     }
 
-    private InfoSesion infoSesion;
 
     public InfoSesion GetInfoSesion()
     {
@@ -156,6 +153,7 @@ public class EventRegister : MonoBehaviour
     //ESTE ES EL METODO QUE HAY QUE USAR AL EMPEZAR TU JUEGO PARA HACER EL EVENTO DE INICIO
     public void AddInitialEvent(EventosInfo evento, string info, TipoJuego juego)
     {
+        currentGamePlaying = juego;
         addInitialPacienteInfoEvent(juego); //mete la primera linea de la info paciente
         AddToEvnt(new Tuple<EventosInfo, string>(evento, info));
         EvntToJson(); // lo escribe ya directamente
