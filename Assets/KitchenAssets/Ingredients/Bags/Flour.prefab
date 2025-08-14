@@ -102,7 +102,7 @@ GameObject:
   - component: {fileID: 3500994266120949842}
   - component: {fileID: 3505203399427144140}
   m_Layer: 0
-  m_Name: Dough
+  m_Name: Flour
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -203,7 +203,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 64fc4017a279b594f864578f1d677c25, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ingredientType: 18
+  ingredientType: 23
 --- !u!114 &3500994266120949842
 MonoBehaviour:
   m_ObjectHideFlags: 0

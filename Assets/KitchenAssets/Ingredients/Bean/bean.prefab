@@ -64,7 +64,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -3072155499180562189, guid: bd41c5f242883594b81f6a0fc08c3d5e, type: 3}
+  - {fileID: -364905699845747727, guid: 5a88e13854966324e8fec06246eeed8b, type: 3}
   - {fileID: -364905699845747727, guid: bd41c5f242883594b81f6a0fc08c3d5e, type: 3}
   - {fileID: -6443035220513836574, guid: bd41c5f242883594b81f6a0fc08c3d5e, type: 3}
   m_StaticBatchInfo:
@@ -152,7 +152,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -3072155499180562189, guid: bd41c5f242883594b81f6a0fc08c3d5e, type: 3}
+  - {fileID: -364905699845747727, guid: 5a88e13854966324e8fec06246eeed8b, type: 3}
   - {fileID: -364905699845747727, guid: bd41c5f242883594b81f6a0fc08c3d5e, type: 3}
   - {fileID: -6443035220513836574, guid: bd41c5f242883594b81f6a0fc08c3d5e, type: 3}
   m_StaticBatchInfo:
@@ -192,7 +192,7 @@ GameObject:
   - component: {fileID: 7228616536601066388}
   - component: {fileID: 7912914834469102592}
   m_Layer: 0
-  m_Name: bean
+  m_Name: Bean
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -295,7 +295,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 64fc4017a279b594f864578f1d677c25, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ingredientType: 14
+  ingredientType: 18
 --- !u!114 &7228616536601066388
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -392,7 +392,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -3072155499180562189, guid: bd41c5f242883594b81f6a0fc08c3d5e, type: 3}
+  - {fileID: -364905699845747727, guid: 5a88e13854966324e8fec06246eeed8b, type: 3}
   - {fileID: -364905699845747727, guid: bd41c5f242883594b81f6a0fc08c3d5e, type: 3}
   - {fileID: -6443035220513836574, guid: bd41c5f242883594b81f6a0fc08c3d5e, type: 3}
   m_StaticBatchInfo:
