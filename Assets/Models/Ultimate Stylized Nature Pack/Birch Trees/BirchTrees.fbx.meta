@@ -18,17 +18,17 @@ ModelImporter:
       type: UnityEngine:Texture2D
       assembly: UnityEngine.CoreModule
       name: BirchTree_Bark
-    second: {fileID: 2800000, guid: 30afba3f81c8f5f468d1eba04ad8d174, type: 3}
+    second: {fileID: 2800000, guid: 3485186451a38604bb44629aa2e23496, type: 3}
   - first:
       type: UnityEngine:Texture2D
       assembly: UnityEngine.CoreModule
       name: BirchTree_Bark_Normal
-    second: {fileID: 2800000, guid: d74a216cc07d36941a8ad557d91c710a, type: 3}
+    second: {fileID: 2800000, guid: 49258bf6b13120f4d9990b38be045f66, type: 3}
   - first:
       type: UnityEngine:Texture2D
       assembly: UnityEngine.CoreModule
       name: BirchTree_Leaves
-    second: {fileID: 2800000, guid: 02e54577cbb5cf94e84f2c9c6e24c96d, type: 3}
+    second: {fileID: 2800000, guid: a5f13dc4325b7dd41877f32960b4340c, type: 3}
   materials:
     materialImportMode: 2
     materialName: 0

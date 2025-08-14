@@ -127,6 +127,10 @@ public class DolphinLevelManager : MonoBehaviour
     //SavedfromUI
     [SerializeField]
     configData levelData;
+
+    // Saber si el juego esta pausado
+    private bool _isPaused = false;
+
     private void Awake()
     {
         // Si no hay instancia de esta clase ya creada se almacena
@@ -153,6 +157,8 @@ public class DolphinLevelManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (_isPaused) return; //si esta pausado no spawnea
+
         if (_obstacleTroncoSpawning || _obstacleBoatSpawning || _floatieSpawning)
         {
             currTime += Time.deltaTime;
@@ -235,10 +241,18 @@ public class DolphinLevelManager : MonoBehaviour
         // Último caracter del nombre del archivo de configuración es el nivel
         _UIManager.startLevelStats(levelId, _winPoints);
 
-        // Inicialización del Event Register Manager
-        EventRegister.Instance.WriteStart();
-        EventRegister.Instance.AddToEvnt(Tuple.Create(EventRegister.EventosInfo.Inicio, "nivel " + levelId.ToString("00")));
-        EventRegister.Instance.EvntToJson();
+        // Inicialización del Event Register Manager si no esta ya inicializado (que deberia estarlo)
+        if (EventRegister.Instance != null)
+        {
+
+            EventRegister.Instance.AddInitialEvent(EventRegister.EventosInfo.Inicio, "nivel " + levelId.ToString("00"), EventRegister.TipoJuego.Delfines);
+            Debug.Log("se pudo iniciar el evento Inicio en DolphinLevelManager.");
+
+        }
+        else
+        {
+            Debug.LogWarning("EventRegister.Instance es null. No se pudo iniciar el evento Inicio en DolphinLevelManager.");
+        }
     }
 
     /// <summary>
@@ -276,7 +290,7 @@ public class DolphinLevelManager : MonoBehaviour
         {
             SetAllObstacleSpawning(false);
             SceneLoader sceneLoader = GameObject.Find("SceneLoader").GetComponent<SceneLoader>();
-            sceneLoader.setLevelId(levelId);
+            sceneLoader.setLevelId(levelId+1); 
             sceneLoader.setLastLevelWon(true);
             EndLevel();
             return true;
@@ -285,7 +299,7 @@ public class DolphinLevelManager : MonoBehaviour
     }
     private void EndLevel()
     {
-        EventRegister.Instance.WriteEnd();
+        //EventRegister.Instance.WriteEnd();
         _UIManager.showWin();
         _dolphinManager.DeactivateDolphins();
     }
@@ -729,15 +743,23 @@ public class DolphinLevelManager : MonoBehaviour
     /// </summary>
     public void Pause(bool pause)
     {
+        _isPaused = pause;
         SetAllObstacleSpawning(!pause); // no spawnea obstaculos
         randomObjectSpawner.PauseObjects(pause); // pausa objetos
         _dolphinManager.PauseDolphins(pause); // pausa delfines
+        ballSpawner.PauseObjects(pause);
         _dolphinManager.enabled = !pause; // para manager delfines
         _backgroundMovementComp.enabled = !pause; // pausa fondo
+
 
         // Pausa animaciones de animales
         for (int i = 0;i < _animals.Count; i++) {
             _animals[i].GetComponent<Animator>().enabled = !pause;
         }
+    }
+
+    public bool IsPaused()
+    {
+        return _isPaused;
     }
 }

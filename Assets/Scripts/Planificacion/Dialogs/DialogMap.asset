@@ -1,0 +1,41 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 102e424747460d8439ec950a69044bbc, type: 3}
+  m_Name: DialogMap
+  m_EditorClassIdentifier: 
+  texts:
+  - "Andr\xE9s, el conductor, debe llevar un cargamento de"
+  - "pl\xE1tanos desde Popay\xE1n hasta Piendam\xF3."
+  - "El trayecto tarda 12 horas, pero tiene un m\xE1ximo de 24 horas"
+  - para hacerlo.
+  - "\xA1Parece f\xE1cil! Pero hay reglas que debe seguir"
+  - "para que el cargamento llegue sano, y Andr\xE9s "
+  - no se canse demasiado.
+  speed: 0.01
+  onStartDialog:
+    m_PersistentCalls:
+      m_Calls: []
+  onFinishDialog:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: MisionLevelManager, Assembly-CSharp
+        m_MethodName: 
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: DolphinLevel_1
+          m_BoolArgument: 0
+        m_CallState: 2

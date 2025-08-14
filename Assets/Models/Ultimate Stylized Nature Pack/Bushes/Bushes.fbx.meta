@@ -3,7 +3,27 @@ guid: 0c6c792aa27458841a76796a667eb898
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Bush_Leaves
+    second: {fileID: 2100000, guid: b55d77d0a4ffb464d88215f4594cc022, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Flowers
+    second: {fileID: 2100000, guid: 480a05e0fc2d54940955873e5a8c2027, type: 2}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Bush_Leaves
+    second: {fileID: 2800000, guid: 162f345bc2235034196393a33156825e, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Flowers
+    second: {fileID: 2800000, guid: a56af2229966a664baa71bb94918b5db, type: 3}
   materials:
     materialImportMode: 2
     materialName: 0

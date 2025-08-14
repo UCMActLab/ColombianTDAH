@@ -1,6 +1,9 @@
-using UnityEngine;
 using System;
 using System.Collections.Generic;
+using System.Text;
+using UnityEngine;
+using UnityEngine.SceneManagement;
+using static UnityEditor.PlayerSettings;
 
 public class EventRegister : MonoBehaviour
 {
@@ -19,6 +22,54 @@ public class EventRegister : MonoBehaviour
 
     [SerializeField]
     private GameObject whitePixels = null;
+
+    private TipoJuego currentGamePlaying;
+    private bool pacientInfoIsRegistered;
+    public TipoJuego CurrentGamePlaying { get => currentGamePlaying; set => currentGamePlaying = value; }
+    public bool PacientInfoIsRegistered { get => pacientInfoIsRegistered; set => pacientInfoIsRegistered = value; }
+
+    private InfoSesion infoSesion;
+
+    public enum TipoJuego
+    {
+        DefaultGame,
+        Delfines,
+        MisionColombia
+    }
+
+
+    public InfoSesion GetInfoSesion()
+    {
+        return infoSesion;
+    }
+
+    public void SetInfoSesion(InfoSesion value)
+    {
+        infoSesion = value;
+        PacientInfoIsRegistered = true; //se pone a true el bool de que se ha registrado
+        infoSesion.nombrePaciente = CleanString(infoSesion.nombrePaciente);
+        infoSesion.nombreTerapeuta = CleanString(infoSesion.nombreTerapeuta);
+
+    }
+
+    //infosesion esta hecho para crear el nombre del archivo, que sera "{paciente}-{terapeuta}-{juego}-{fechaStr}.json"
+    public struct InfoSesion
+    {
+        public string nombrePaciente;
+        public string nombreTerapeuta;
+        public TipoJuego nombreJuego;
+        public DateTime fechaHora;
+
+        public InfoSesion(string paciente, string terapeuta, TipoJuego nombreJuego)
+        {
+            this.nombrePaciente = paciente;
+            this.nombreTerapeuta = terapeuta;
+            this.nombreJuego = nombreJuego;
+            this.fechaHora = DateTime.UtcNow.AddHours(-5);
+        }
+
+        
+    }
 
     public enum EventosInfo
     {                       //implementado en...
@@ -42,27 +93,29 @@ public class EventRegister : MonoBehaviour
         RespuestaIncorrecta, //...DolphinControler.TryClickDolphin y DolphinLevelManager.WrongGuess
         NPuntos, //...DolphinControler.TryClickDolphin, DolphinLevelManager.RightGuess y DolphinLevelManager.WrongGuess
         Vel,
-        Fin
+        Fin,
+        PacienteInfo //...PacienteConfig.OnAceptarClicked o en este mismo usando addPacienteInfoEvent
     }
 
     static private EventRegister _instance;
     public static EventRegister Instance { get { return _instance; } }
 
-
     void Awake()
     {
-        // Si no hay instancia de esta clase ya creada se almacena
         if (_instance == null)
-            _instance = this;
-        // Si esta creada se destruyee
-        else
-            Destroy(this.gameObject);
-
-        //----------------------------------------------------------------
-
-        if(whitePixels == null)
         {
-            whitePixels = GameObject.Find("WhitePixels_EventRegister");
+            _instance = this;
+            DontDestroyOnLoad(gameObject); 
+        }
+        else
+        {
+            Destroy(gameObject);
+            return;
+        }
+
+        if (whitePixels == null)
+        {
+            Debug.Log("No hay white pixels");
         }
 
         whitePixels.SetActive(false);
@@ -84,19 +137,62 @@ public class EventRegister : MonoBehaviour
         }
     }
 
+    //hecho post juego porque convenia iniciar en otra parte
+    public void AddInitialEventSafe(EventosInfo evento, string info)
+    {
+        if (!canWrite)
+        {
+            WriteStart(); // Inicia si no está iniciado
+        }
+
+        AddToEvnt(new Tuple<EventosInfo, string>(evento, info));
+        EvntToJson(); // lo escribe ya directamente
+    }
+
+    //hecho post juego porque convenia iniciar en otra parte
+    //ESTE ES EL METODO QUE HAY QUE USAR AL EMPEZAR TU JUEGO PARA HACER EL EVENTO DE INICIO
+    public void AddInitialEvent(EventosInfo evento, string info, TipoJuego juego)
+    {
+        currentGamePlaying = juego;
+        addInitialPacienteInfoEvent(juego); //mete la primera linea de la info paciente
+        AddToEvnt(new Tuple<EventosInfo, string>(evento, info));
+        EvntToJson(); // lo escribe ya directamente
+    }
+
+    //se va a usar al empezar a escribir (que tiene que ser cuando el jugador entra a un juego y se haga set del nombreJuego taambien)
+    //para que este al principio del json
+    public void addInitialPacienteInfoEvent(TipoJuego juego)
+    {
+        infoSesion.nombreJuego = juego;
+        WritePath = GetFileNameFromInfoSesion(infoSesion);
+        AddInitialEventSafe(EventosInfo.PacienteInfo, $"Paciente: {infoSesion.nombrePaciente}, Terapeuta: {infoSesion.nombreTerapeuta}");
+
+    }
+
     public void WriteStart()
     {
+
+        WriteEnd();//cerramos archivo si habia alguno abierto
+
         auxEvntInfo = new List<Tuple<EventRegister.EventosInfo, string>>();
         CreateDir();
-        IncrementPath();
+
+        // Quitar extensión por si WritePath viene con .json de un uso anterior
+        WritePath = System.IO.Path.GetFileNameWithoutExtension(WritePath);
+
+        //IncrementPath();
+        //  extensión .json 
+        WritePath += ".json";
+
+
         WriteTo = System.IO.Path.Combine(WriteDir, WritePath);
+
         Debug.Log($"nuevo path: {WriteTo}");
         System.IO.StreamWriter file = new System.IO.StreamWriter(WriteTo);
         file.WriteLine("{ " + $"\"{WritePath}\": [");
         file.Close();
         canWrite = true;
     }
-
     private void CreateDir()
     {
         WriteDir = System.IO.Path.Combine(Application.persistentDataPath, WriteDir);
@@ -109,20 +205,23 @@ public class EventRegister : MonoBehaviour
     private void IncrementPath()
     {
         int it = 1;
-        string ogPath = WritePath;
-        while (System.IO.File.Exists(System.IO.Path.Combine(WriteDir, WritePath) + ".json") && it < 100)
+
+        // Nombre base sin extensión y sin corchetes
+        string baseName = System.IO.Path.GetFileNameWithoutExtension(WritePath);
+        int bracketIndex = baseName.IndexOf('[');
+        if (bracketIndex >= 0)
+            baseName = baseName.Substring(0, bracketIndex);
+
+        string candidate = baseName + ".json";
+
+        // Mientras exista, generamos [01], [02]...
+        while (System.IO.File.Exists(System.IO.Path.Combine(WriteDir, candidate)) && it < 100)
         {
-            if (!WritePath.EndsWith("]"))
-            {
-                WritePath += "[01]";
-            }
-            else
-            {
-                WritePath = ogPath + "[" + it.ToString("00") + "]";
-            }
+            candidate = $"{baseName}[{it:00}].json";
             it++;
         }
-        WritePath += ".json";
+
+        WritePath = candidate; // Esto ya incluye la extensión .json
     }
 
     public void AddToEvnt(Tuple<EventRegister.EventosInfo, string> evntData)
@@ -206,6 +305,9 @@ public class EventRegister : MonoBehaviour
                     case EventosInfo.Vel:
                         text += ", \n" + $"    \"Velocidad actual\": \"{evento.Item2}\"";
                         break;
+                    case EventosInfo.PacienteInfo:
+                        text += ", \n" + $"    \"Paciente y terapeuta\": \"{evento.Item2}\"";
+                        break;
                 }
             }
                     
@@ -222,6 +324,8 @@ public class EventRegister : MonoBehaviour
 
     public void WriteEnd()
     {
+        if (!canWrite) return; //si no está empezada la escritura que tampoco pueda finalizarse
+
         Debug.Log("Escribiendo fin del json.");
         System.IO.FileStream fs = new System.IO.FileStream(WriteTo, System.IO.FileMode.Append, System.IO.FileAccess.Write);
         string text = "{\n" + "    \"Time\": \"" + DateTime.UtcNow.AddHours(-5).ToString("yyyy-MM-dd HH:mm:ss.fff") + "\" , \n    \"Test\": \"Acabado\" } ]}";
@@ -230,5 +334,75 @@ public class EventRegister : MonoBehaviour
         file.Close();
         fs.Close();
         canWrite = false;
+
+        // Restaurar base sin extensión para el próximo uso
+        WritePath = System.IO.Path.GetFileNameWithoutExtension(WritePath);
+    }
+
+    //para sacar el nombre del archivo segun los datos
+    public string GetFileNameFromInfoSesion(InfoSesion infoS)
+    {
+        string pac = CleanString(infoS.nombrePaciente);
+        string ter = CleanString(infoS.nombreTerapeuta);
+        string juego = infoS.nombreJuego.ToString(); // enum a string
+
+        string fechaStr = infoS.fechaHora.ToString("yyyy-MM-dd-HH-mm");
+
+        return $"{pac}-{ter}-{juego}-{fechaStr}.json";
+    }
+
+    //no sé si prefiero avisar de que no pongan cosas raras porque sera nombre de archivo o hacer esto xd
+    private string CleanString(string input)
+    {
+        if (string.IsNullOrEmpty(input))
+            return string.Empty;
+
+        // 1. Quitar tildes y acentos
+        string normalized = input.Normalize(System.Text.NormalizationForm.FormD);
+        StringBuilder sb = new StringBuilder();
+
+        foreach (char c in normalized)
+        {
+            System.Globalization.UnicodeCategory uc = System.Globalization.CharUnicodeInfo.GetUnicodeCategory(c);
+            if (uc != System.Globalization.UnicodeCategory.NonSpacingMark)
+            {
+                sb.Append(c);
+            }
+        }
+
+        string cleanInput = sb.ToString();
+
+        // 2. Sustituir ñ por n
+        cleanInput = cleanInput.Replace('ñ', 'n').Replace('Ñ', 'N');
+
+        // 3. Quitar caracteres invalidos del sistema de archivos
+        char[] invalidChars = System.IO.Path.GetInvalidFileNameChars();
+        foreach (char invalidChar in invalidChars)
+        {
+            cleanInput = cleanInput.Replace(invalidChar.ToString(), "");
+        }
+
+        // 4. Reemplazar espacios y puntos por "_"
+        cleanInput = cleanInput.Replace(" ", "_").Replace(".", "_");
+
+        cleanInput = cleanInput.Replace("@", "a");
+
+        // 5. Filtrar solo letras, numeros y "_-"
+        StringBuilder finalSb = new StringBuilder();
+        foreach (char c in cleanInput)
+        {
+            //  @, +, `, ^, &, etc se descarta, que esos no cuentan como caracteres raros en windows y todavia siguen
+            if (char.IsLetterOrDigit(c) || c == '_' || c == '-')
+            {
+                finalSb.Append(c);
+            }
+        }
+
+        return finalSb.ToString();
+    }
+
+    void OnApplicationQuit()
+    {
+        WriteEnd();
     }
 }

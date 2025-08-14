@@ -13,4 +13,9 @@ public class OptionsMenu : MonoBehaviour
         gameObject.SetActive(!gameObject.activeSelf);
         DolphinLevelManager.Instance.Pause(gameObject.activeSelf); // pausa el juego
     }
+
+    public void ToggleWithoutPause()
+    {
+        gameObject.SetActive(!gameObject.activeSelf);
+    }
 }

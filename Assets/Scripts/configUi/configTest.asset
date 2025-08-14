@@ -16,15 +16,30 @@ MonoBehaviour:
   _nCarriles: 1
   _nDelfines: 1
   _posDelfines: []
+  _obstaclesTroncoEnabled: 0
+  _obstaclesBarcaEnabled: 0
+  _floatsEnabled: 0
+  _ballsEnabled: 0
   _minObstacleSpawn: 0
   _maxObstacleSpawn: 0
   _obstacleSpeed: 1
+  _increasedSpeedFactor: 0.1
+  _whaleApearingGuests: 0
   _minTimeBetweenJumps: 0
   _maxTimeBetweenJumps: 0
   canSpecialJumpSimultaneously: 0
-  _minTimeBetweenSpecialJumps: 0
-  _maxTimeBetweenSpecialJumps: 0
+  _minCountBetweenSpecialJumps: 0
+  _maxCountBetweenSpecialJumps: 0
+  _diffSpeciesEnabled: 0
   _levelPoints: 0
   _rightGuessPoints: 0
+  _rightGuessPointsVel: 0
+  _floatiePoints: 0
+  _floatiePointsVel: 0
+  _ballHitPoints: 0
+  _ballHitPointsVel: 0
+  _ballMissPoints: 0
   _wrongGuessPoints: 0
-  _hitObstaclePoints: 0
+  _hitObstacleTroncpPoints: 0
+  _hitObstacleBarcaPoints: 0
+  _desbloqueado: 0

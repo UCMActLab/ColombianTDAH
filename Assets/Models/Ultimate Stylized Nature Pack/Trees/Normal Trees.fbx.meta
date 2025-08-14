@@ -3,7 +3,32 @@ guid: c1dd0cacc243e8d4687993b507e3ab5d
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: NormalTree_Bark
+    second: {fileID: 2100000, guid: 3571a1619021fe248b6bae5670c25574, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: NormalTree_Leaves
+    second: {fileID: 2100000, guid: 59a3c48188ddf054ebffcc998c4802ea, type: 2}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: NormalTree_Bark
+    second: {fileID: 2800000, guid: 55cf8b1f9db71604595475a1c3e42bc7, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: NormalTree_Bark_Normal
+    second: {fileID: 2800000, guid: 731fdc4b14428c245b9e070601d621ae, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: NormalTree_Leaves
+    second: {fileID: 2800000, guid: bc2494b34a0f999419206c8ea3ed77e6, type: 3}
   materials:
     materialImportMode: 2
     materialName: 0
