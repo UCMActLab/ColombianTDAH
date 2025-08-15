@@ -23,7 +23,7 @@ public class MisionLevelManager : MonoBehaviour
     // Time
     float _playTimeCont = 0;
     float _auxCont = 0; // Contador aparicion paradas en ejecucion
-    float _realSegsPerStop = 7.5f;
+    float _realSegsPerStop = 0.5f;
     bool _paused = true;
     HourMinSec _gameClock;
 
@@ -94,6 +94,9 @@ public class MisionLevelManager : MonoBehaviour
             if (_auxCont > _realSegsPerStop) {
 
                 _gameClock += new HourMinSec(0, _stopMins, 0);
+                Debug.Log(_gameClock.GetString());
+
+                _misionUIManager.ChangeTime(_gameClock);
 
                 _auxCont = 0;
             }
@@ -372,7 +375,8 @@ public class MisionLevelManager : MonoBehaviour
         return diff;
     }
 
-    public void ClickSound() {
+    public void AcceptPlanning() {
+        _paused = false;
         _soundManager.Click();
     }
 }

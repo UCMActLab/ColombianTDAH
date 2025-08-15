@@ -40,7 +40,7 @@ public class MapUIManager : MonoBehaviour
 
     public void ConfirmPlanification()
     {
-        MisionLevelManager.Instance.ClickSound();
+        MisionLevelManager.Instance.AcceptPlanning();
         SceneManager.LoadScene("MC_Level");
     }
 

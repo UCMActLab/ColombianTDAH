@@ -10,9 +10,9 @@ public class HourMinSec
     // Constructoras
     public HourMinSec(int h, int m, int s)
     {
-        Hours = h % 24;
-        Minutes = m % 60;
-        Seconds = s % 60;
+        Hours = h;
+        Minutes = m;
+        Seconds = s;
     }
 
     public HourMinSec()
