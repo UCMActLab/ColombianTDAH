@@ -23,10 +23,9 @@ public class MisionLevelManager : MonoBehaviour
     // Time
     float _playTimeCont = 0;
     float _auxCont = 0; // Contador aparicion paradas en ejecucion
+    float _realSegsPerStop = 7.5f;
     bool _paused = true;
     HourMinSec _gameClock;
-    HourMinSec t1;
-    HourMinSec t2;
 
     // Ask Time
     float _answerTime = 10; // Seconds
@@ -80,7 +79,6 @@ public class MisionLevelManager : MonoBehaviour
     {
         _timeCont = _answerTime;
         _totalDurationMins = 0;
-
     }
 
     // Update is called once per frame
@@ -92,6 +90,15 @@ public class MisionLevelManager : MonoBehaviour
         if (!_paused)
         {
             _playTimeCont += Time.deltaTime;
+
+            if (_auxCont > _realSegsPerStop) {
+
+                _gameClock += new HourMinSec(0, _stopMins, 0);
+
+                _auxCont = 0;
+            }
+            else
+            _auxCont += Time.deltaTime;
         }
     }
 
