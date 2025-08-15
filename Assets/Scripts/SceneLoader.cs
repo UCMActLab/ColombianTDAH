@@ -21,9 +21,10 @@ public class SceneLoader : MonoBehaviour
     }
 
     public static bool teacherMode;
+    public static bool defaultConfig;
 
     //saber si se ha hecho el dialogo de los delfines o no
-   // private static bool dialogSeen = false;
+    // private static bool dialogSeen = false;
     private Dictionary<TipoJuego, GameSceneData> juegos = new Dictionary<TipoJuego, GameSceneData>();
 
     // Configuracion de cada juego
@@ -110,6 +111,16 @@ public class SceneLoader : MonoBehaviour
     public bool getMode()
     {
         return teacherMode;
+    }
+
+    public void setIsDefaultConfig(bool isDefault)
+    {
+        defaultConfig = isDefault;
+    }
+
+    public bool getIsDefaultConfig()
+    {
+        return defaultConfig;
     }
 
     //getters y setters tanto en int como con enum
