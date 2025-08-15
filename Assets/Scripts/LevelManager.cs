@@ -34,18 +34,8 @@ public class DolphinLevelSelectorManager : MonoBehaviour
             }
         }
 
-        Debug.Log("DolphinLevelSelectorManager Awake called.");
-        SceneLoader sceneLoader = GameObject.Find("SceneLoader").GetComponent<SceneLoader>();
-        if (sceneLoader.getLastLevelWon())
-        {
-            UnlockUntil((sceneLoader.getLevelId()).ToString());
-        }
-        else
-        {
-            UnlockUntil((sceneLoader.getLevelId()).ToString());
-        }
-        //Lo devolvemos al default
-        sceneLoader.setLastLevelWon(false);
+        UnlockUntil((SceneLoader.Instance.getMaxLevelId()).ToString());
+
     }
 
     private void Update()

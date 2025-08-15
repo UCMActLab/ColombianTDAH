@@ -290,8 +290,7 @@ public class DolphinLevelManager : MonoBehaviour
         {
             SetAllObstacleSpawning(false);
             SceneLoader sceneLoader = GameObject.Find("SceneLoader").GetComponent<SceneLoader>();
-            sceneLoader.setLevelId(levelId+1); 
-            sceneLoader.setLastLevelWon(true);
+            sceneLoader.setMaxLevelId(levelId+1); 
             EndLevel();
             return true;
         }

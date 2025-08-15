@@ -1588,19 +1588,7 @@ MonoBehaviour:
       m_Calls: []
   m_OnValueChanged:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 644556242}
-        m_TargetAssemblyTypeName: PacienteConfig, Assembly-CSharp
-        m_MethodName: ChangeIDText
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
   m_OnTouchScreenKeyboardStatusChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -4506,6 +4494,14 @@ PrefabInstance:
     - target: {fileID: 2600883112276645482, guid: 1366887b1065e6745991118e67354de4, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3943387981955276583, guid: 1366887b1065e6745991118e67354de4, type: 3}
+      propertyPath: delfinesData.maxLevelIdUnlocked
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3943387981955276583, guid: 1366887b1065e6745991118e67354de4, type: 3}
+      propertyPath: misionColombiaData.maxLevelIdUnlocked
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6192254700363383496, guid: 1366887b1065e6745991118e67354de4, type: 3}
       propertyPath: m_Name

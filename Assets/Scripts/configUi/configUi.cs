@@ -75,9 +75,10 @@ public class configUi : MonoBehaviour
 
         SceneLoader sceneLoader = GameObject.Find("SceneLoader").GetComponent<SceneLoader>();
         bool editMode = sceneLoader.getMode();
-        levelId = sceneLoader.getLevelId();
+        levelId = sceneLoader.getCurrentLevelId();
         string writeDir = System.IO.Path.Combine(Application.persistentDataPath, "configInfo");
 
+        Debug.Log("LEVEL ID " + levelId);
         if (editMode) //el usuario quiere editar el juego
         {
             if (!System.IO.Directory.Exists(writeDir))
@@ -85,6 +86,8 @@ public class configUi : MonoBehaviour
                 System.IO.Directory.CreateDirectory(writeDir);
             }
             levelInfoPath = System.IO.Path.Combine(writeDir, "configData" + levelId.ToString("00") + ".json");
+            SetUIFromJSONFull();
+
             // Desactiva Juego
             ActivateGame(false);
         }
@@ -286,6 +289,7 @@ public class configUi : MonoBehaviour
 
     private void LoadLevelConfig(bool isDefault)
     {
+
         Debug.Log("Loading level config from " + levelInfoPath);
         if (isDefault) // si es el default no existirá el archivo ya que no es un path como tal
         {
@@ -304,13 +308,21 @@ public class configUi : MonoBehaviour
         }
         else
         {
+            Debug.Log("INTENTANDO LEER DE DE JSON");
+            string writeDir = System.IO.Path.Combine(Application.persistentDataPath, "configInfo");
+            levelInfoPath = System.IO.Path.Combine(writeDir, "configData" + levelId.ToString("00") + ".json");
+
             try
             {
+                Debug.Log("LEYENDO DE desde el JSON desde el path persistente");
+
                 string levelInfo = System.IO.File.ReadAllText(levelInfoPath);
                 JsonUtility.FromJsonOverwrite(levelInfo, config);
                 
                 if (config.Desbloqueado)
                 {
+
+
                     ActivateGame(true);
                 }
                 else
@@ -391,4 +403,92 @@ public class configUi : MonoBehaviour
         canvasObject.SetActive(enable);
         if (enable) DolphinLevelManager.Instance.InitLevel(config);
     }
+
+    private void SetUIFromJSONFull()
+    {
+
+        Debug.Log("SetUIFromJSONFull Before " + levelInfoPath);
+
+        string writeDir = System.IO.Path.Combine(Application.persistentDataPath, "configInfo");
+        levelInfoPath = System.IO.Path.Combine(writeDir, "configData" + levelId.ToString("00") + ".json");
+
+        Debug.Log("SetUIFromJSONFull after " + levelInfoPath);
+
+        string levelInfo = System.IO.File.ReadAllText(levelInfoPath);
+        JsonUtility.FromJsonOverwrite(levelInfo, config);
+        SetUIFromJSON();
+    }
+    private void SetUIFromJSON()
+    {
+        Debug.Log("SetUIFromJSON");
+
+        input_carrilesN.value = config.NumCarriles;
+        input_delfinesN.value = config.NumDelfines;
+        //input_fase1Complet = config.fa;
+
+        input_obstaclesTroncoEnabled.value = config.ObstaclesTroncoEnabled;
+        input_obstaclesBarcaEnabled.value = config.ObstaclesBarcaEnabled;
+        input_floatiesEnabled.value = config.FloatsEnabled;
+        input_ballsEnabled.value = config.BallsEnabled;
+        input_obstacleT.value = (int)config.MinObstacleSpawn;
+        input_jumpT.value = (int)config.MinTimeBetweenJumps;
+        input_piruetasSimult.value = config.canSpecialJumpSimultaneously;
+        input_piruetMin.value = (int)config.MinCountBetweenSpecialJumps;
+        input_whaleRightGuess.value = config.WhaleApearingGuests;
+        input_diffSpecies.value = config.DiffSpeciesEnabled;
+
+        input_obstacleVel.value = config.ObstacleSpeed;
+        input_increasedVelFactor.value = config.IncreasedSpeedFactor;
+
+        input_pointPirueta.value = (int)config.RightGuessPoints;
+        input_pointsPiruetaVelocidad.value = (int)config.RightGuessPointsVel;
+        input_pointsFloatie.value = (int)config.FloatiePoints;
+        input_pointsFloatieVelocidad.value = (int)config.FloatiePointsVel;
+        input_pointsBallHit.value = (int)config.BallHitPoints;
+        input_pointsBallMiss.value = (int)config.BallMissPoints;
+        input_pointsBallVelocidad.value = (int)config.BallHitPointsVel;
+        input_pointMax.value = (int)config.LevelPoints;
+        input_pointWrongGuess.value = (int)config.WrongGuessPoints;
+        input_pointChoqueTronco.value = (int)config.HitObstacleTroncoPoints;
+        input_pointChoqueBarca.value = (int)config.HitObstacleBarcaPoints;
+
+        input_desbloqueado.value = config.Desbloqueado;
+
+
+        //// IntegerFields
+        //input_carrilesN.value = config.NumCarriles;
+        //input_delfinesN.value = config.NumDelfines;
+        //input_whaleRightGuess.value = config.WhaleApearingGuests;
+
+        //// Toggles
+        //input_obstaclesTroncoEnabled.value = config.ObstaclesTroncoEnabled;
+        //input_obstaclesBarcaEnabled.value = config.ObstaclesBarcaEnabled;
+        //input_floatiesEnabled.value = config.FloatsEnabled;
+        //input_ballsEnabled.value = config.BallsEnabled;
+        //input_piruetasSimult.value = config.canSpecialJumpSimultaneously;
+        //input_diffSpecies.value = config.DiffSpeciesEnabled;
+        //input_desbloqueado.value = config.Desbloqueado;
+
+        //// Tiempos y velocidades
+        //input_obstacleT.value = (int)config.MinObstacleSpawn;
+        //input_jumpT.value = (int)config.MinTimeBetweenJumps;
+        //input_piruetMin.value = (int)config.MinCountBetweenSpecialJumps;
+        //input_obstacleVel.value = config.ObstacleSpeed;
+        //input_increasedVelFactor.value = config.IncreasedSpeedFactor;
+
+        //// Puntos
+        //input_pointPirueta.value = (int)config.RightGuessPoints;
+        //input_pointsPiruetaVelocidad.value = (int)config.RightGuessPointsVel;
+        //input_pointsFloatie.value = (int)config.FloatiePoints;
+        //input_pointsFloatieVelocidad.value = (int)config.FloatiePointsVel;
+        //input_pointsBallHit.value = (int)config.BallHitPoints;
+        //input_pointsBallVelocidad.value = (int)config.BallHitPointsVel;
+        //input_pointsBallMiss.value = (int)config.BallMissPoints;
+        //input_pointMax.value = (int)config.LevelPoints;
+        //input_pointWrongGuess.value = (int)config.WrongGuessPoints;
+        //input_pointChoqueTronco.value = (int)config.HitObstacleTroncoPoints;
+        //input_pointChoqueBarca.value = (int)config.HitObstacleBarcaPoints;
+    }
+
+  
 }

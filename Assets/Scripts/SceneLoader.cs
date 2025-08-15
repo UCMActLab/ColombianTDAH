@@ -16,9 +16,8 @@ public class SceneLoader : MonoBehaviour
         public string selectorScene;
         public string levelScene;
         public string introScene;
-        public int levelId;
-        public bool lastLevelWon;
-
+        public int currentLevelId;
+        public int maxLevelIdUnlocked;
     }
 
     public static bool teacherMode;
@@ -35,7 +34,8 @@ public class SceneLoader : MonoBehaviour
         selectorScene = "DolphinLevelSelector",
         levelScene = "DolphinLevel",
         introScene = "Dialogs",
-        levelId = 1
+        currentLevelId = 1,
+        maxLevelIdUnlocked = 1
     };
 
     [SerializeField]
@@ -44,7 +44,8 @@ public class SceneLoader : MonoBehaviour
         selectorScene = "MisionColombiaLevelSelector",
         levelScene = "MC_Level",
         introScene = "MC_Mapa",
-        levelId = 1
+        currentLevelId = 1,
+        maxLevelIdUnlocked = 1
     };
 
     void Awake()
@@ -79,7 +80,7 @@ public class SceneLoader : MonoBehaviour
         else if (name == "DolphinLevel")
         {
             //Solo pasaremos a los dialogos si vamos desde el selector de niveles
-            if (!teacherMode && SceneManager.GetActiveScene().name == "DolphinLevelSelector" && _instance.getLevelId() == 1)
+            if (!teacherMode && SceneManager.GetActiveScene().name == "DolphinLevelSelector" && _instance.getCurrentLevelId() == 1)
             { 
 
                 //dialogSeen = true;
@@ -101,10 +102,6 @@ public class SceneLoader : MonoBehaviour
 
         SceneManager.LoadScene(name);
     }
-
-  
-
-
     public void setMode(bool mode)
     {
         teacherMode = mode;
@@ -116,23 +113,6 @@ public class SceneLoader : MonoBehaviour
     }
 
     //getters y setters tanto en int como con enum
-    public bool getLastLevelWon(TipoJuego tipo = TipoJuego.Delfines)
-    {
-        return juegos[tipo].lastLevelWon;
-    }
-    public bool getLastLevelWon(int tipoJuegoEnum)
-    {
-        return getLastLevelWon(ParseTipoJuego(tipoJuegoEnum));
-    }
-
-    public void setLastLevelWon(bool won, TipoJuego tipo = TipoJuego.Delfines)
-    {
-        juegos[tipo].lastLevelWon = won;
-    }
-    public void setLastLevelWon(bool won, int tipoJuegoEnum)
-    {
-        setLastLevelWon(won, ParseTipoJuego(tipoJuegoEnum));
-    }
 
     // SelectorScene
     public string getSelectorScene(TipoJuego tipo = TipoJuego.Delfines)
@@ -192,22 +172,40 @@ public class SceneLoader : MonoBehaviour
     }
 
     // LevelId
-    public int getLevelId(TipoJuego tipo = TipoJuego.Delfines)
+    public int getCurrentLevelId(TipoJuego tipo = TipoJuego.Delfines)
     {
-        return juegos[tipo].levelId;
+        return juegos[tipo].currentLevelId;
     }
-    public int getLevelId(int tipoJuegoEnum)
+    public int getCurrentLevelId(int tipoJuegoEnum)
     {
-        return getLevelId(ParseTipoJuego(tipoJuegoEnum));
+        return getCurrentLevelId(ParseTipoJuego(tipoJuegoEnum));
     }
 
-    public void setLevelId(int id, TipoJuego tipo = TipoJuego.Delfines)
+    public void setCurrentLevelId(int id, TipoJuego tipo = TipoJuego.Delfines)
     {
-        juegos[tipo].levelId = id;
+        juegos[tipo].currentLevelId = id;
     }
-    public void setLevelId(int id, int tipoJuegoEnum)
+    public void setCurrentLevelId(int id, int tipoJuegoEnum)
     {
-        setLevelId(id, ParseTipoJuego(tipoJuegoEnum));
+        setCurrentLevelId(id, ParseTipoJuego(tipoJuegoEnum));
+    }
+    // LevelId
+    public int getMaxLevelId(TipoJuego tipo = TipoJuego.Delfines)
+    {
+        return juegos[tipo].maxLevelIdUnlocked;
+    }
+    public int getMaxLevelId(int tipoJuegoEnum)
+    {
+        return getMaxLevelId(ParseTipoJuego(tipoJuegoEnum));
+    }
+
+    public void setMaxLevelId(int id, TipoJuego tipo = TipoJuego.Delfines)
+    {
+        juegos[tipo].maxLevelIdUnlocked = id;
+    }
+    public void setMaxLevelId(int id, int tipoJuegoEnum)
+    {
+        setMaxLevelId(id, ParseTipoJuego(tipoJuegoEnum));
     }
 
     //para pasar de int a enum
