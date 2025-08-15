@@ -9,17 +9,13 @@ public class LoadingToggleListener : MonoBehaviour
     {
         myToggle = GetComponent<Toggle>();
         myToggle.onValueChanged.AddListener(OnToggleChanged);
+
+        SceneLoader.Instance.setIsDefaultConfig(false); //lo reeseteamos
+
     }
 
     private void OnToggleChanged(bool isOn)
     {
-        if (SceneLoader.Instance != null)
-        {
-            SceneLoader.Instance.setIsDefaultConfig(isOn);
-        }
-        else
-        {
-            Debug.LogWarning("wtf no hay sceneloader para LoadingToggleListener.OnToggleChanged.");
-        }
+        SceneLoader.Instance.setIsDefaultConfig(isOn);
     }
 }
