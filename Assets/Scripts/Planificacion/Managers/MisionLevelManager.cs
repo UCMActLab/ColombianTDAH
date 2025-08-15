@@ -3,6 +3,7 @@ using Unity.VisualScripting.FullSerializer;
 using UnityEngine;
 using static UnityEngine.Rendering.STP;
 
+
 public class MisionLevelManager : MonoBehaviour
 {
     // Singleton
@@ -20,6 +21,13 @@ public class MisionLevelManager : MonoBehaviour
     SoundManager _soundManager;
 
     // Time
+    float _playTimeCont = 0;
+    float _auxCont = 0; // Contador aparicion paradas en ejecucion
+    float _realSegsPerStop = 7.5f;
+    bool _paused = true;
+    HourMinSec _gameClock;
+
+    // Ask Time
     float _answerTime = 10; // Seconds
     float _timeCont = 0;
     bool _isAnswering = false;
@@ -78,6 +86,20 @@ public class MisionLevelManager : MonoBehaviour
     {
         // Actualiza contador tiempo
         if (_isAnswering) UpdateTime();
+
+        if (!_paused)
+        {
+            _playTimeCont += Time.deltaTime;
+
+            if (_auxCont > _realSegsPerStop) {
+
+                _gameClock += new HourMinSec(0, _stopMins, 0);
+
+                _auxCont = 0;
+            }
+            else
+            _auxCont += Time.deltaTime;
+        }
     }
 
     // Activa botones y slider tiempo
@@ -126,7 +148,7 @@ public class MisionLevelManager : MonoBehaviour
     public void RegisterUIManager(MisionUIManager misionUIManager)
     {
         _misionUIManager = misionUIManager;
-        _misionUIManager.SetStartTime(_startTime);
+        _misionUIManager.SetStartTime(_gameClock);
         _misionUIManager.SetStops(_selectedStops);
         _misionUIManager.SetSleepHours(_selectedSleepTimes);
         _misionUIManager.SetLocationHours(_selectedLocationHours);
@@ -215,9 +237,16 @@ public class MisionLevelManager : MonoBehaviour
         _mapUIManager.SetStopsNames(_stops);
     }
 
+    // Set Time. "X am/X pm"
     public void SetStartTime(string newTime)
     {
         _startTime = newTime;
+        string[] timeSplit = newTime.Split(' ');
+        int aux = 0;
+        if (timeSplit[1] == "pm")
+            aux = 12;
+        string auxString = timeSplit[0];
+        _gameClock = new HourMinSec(int.Parse(auxString) + aux, 0, 0);
     }
 
     public void SetSelectedStops(List<string> newSelectedStops)
