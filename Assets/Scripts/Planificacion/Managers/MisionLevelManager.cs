@@ -24,6 +24,7 @@ public class MisionLevelManager : MonoBehaviour
     float _playTimeCont = 0;
     float _auxCont = 0; // Contador aparicion paradas en ejecucion
     bool _paused = true;
+    HourMinSec _gameClock;
     HourMinSec t1;
     HourMinSec t2;
 
@@ -140,7 +141,7 @@ public class MisionLevelManager : MonoBehaviour
     public void RegisterUIManager(MisionUIManager misionUIManager)
     {
         _misionUIManager = misionUIManager;
-        _misionUIManager.SetStartTime(_startTime);
+        _misionUIManager.SetStartTime(_gameClock);
         _misionUIManager.SetStops(_selectedStops);
         _misionUIManager.SetSleepHours(_selectedSleepTimes);
         _misionUIManager.SetLocationHours(_selectedLocationHours);
@@ -233,6 +234,12 @@ public class MisionLevelManager : MonoBehaviour
     public void SetStartTime(string newTime)
     {
         _startTime = newTime;
+        string[] timeSplit = newTime.Split(' ');
+        int aux = 0;
+        if (timeSplit[1] == "pm")
+            aux = 12;
+        string auxString = timeSplit[0];
+        _gameClock = new HourMinSec(int.Parse(auxString) + aux, 0, 0);
     }
 
     public void SetSelectedStops(List<string> newSelectedStops)
