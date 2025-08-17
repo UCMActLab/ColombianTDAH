@@ -27,6 +27,8 @@ public class WorkstationProcessor : MonoBehaviour
     [Header("Databases")]
     [SerializeField] private RecetasDatabase recetasDatabase;
 
+    [SerializeField] private ProgressBar progressBar;
+
     [Header("Inventario (solo modo receta)")]
     [SerializeField] private WorkstationInventory inventory;
     [SerializeField] private int capacity = 6;
@@ -107,8 +109,11 @@ public class WorkstationProcessor : MonoBehaviour
         if (!string.IsNullOrEmpty(processingSfxName))
             KitchenSoundManager.Instance.PlayLoop(soundKey, processingSfxName);
 
+        progressBar.HandleStart(workstationTime);
+
         yield return new WaitForSeconds(workstationTime); // Esperamos
 
+        progressBar.HandleEnd();
         // Spawn ingrediente procesado
         if (data.processedRecipe != null)
             Instantiate(data.processedRecipe, spawnPoint.position, spawnPoint.rotation);
@@ -132,7 +137,11 @@ public class WorkstationProcessor : MonoBehaviour
         if (!string.IsNullOrEmpty(processingSfxName))
             KitchenSoundManager.Instance.PlayLoop(soundKey, processingSfxName);
 
+        progressBar.HandleStart(workstationTime);
+
         yield return new WaitForSeconds(workstationTime); // Esperamos
+
+        progressBar.HandleEnd();
 
         // Spawn resultado de la receta
         if (data.processedRecipe)
