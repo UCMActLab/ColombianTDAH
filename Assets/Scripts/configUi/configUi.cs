@@ -87,7 +87,8 @@ public class configUi : MonoBehaviour
             }
             levelInfoPath = System.IO.Path.Combine(writeDir, "configData" + levelId.ToString("00") + ".json");
             
-            if(!sceneLoader.getIsDefaultConfig())SetUIFromJSONFull();
+            //si el usuario quiere usar la plantilla default del config o quiere que se ponga la ultima que guardo
+            if(!sceneLoader.getIsDefaultConfig())SetUIFromJSONFull(); 
 
             // Desactiva Juego
             ActivateGame(false);

@@ -8,6 +8,8 @@ public class DolphinLevelSelectorManager : MonoBehaviour
     private bool[] _levelsUnlocked;
     private int _lastUnlocked;
 
+    [SerializeField]
+    int currentGameType = 1;
     private void Awake()
     {
         if (_levelSelectors.Length == 0)
@@ -34,7 +36,8 @@ public class DolphinLevelSelectorManager : MonoBehaviour
             }
         }
 
-        UnlockUntil((SceneLoader.Instance.getMaxLevelId()).ToString());
+        //EventRegister.Instance.CurrentGamePlaying
+        UnlockUntil((SceneLoader.Instance.getMaxLevelId(currentGameType)).ToString());
 
     }
 
