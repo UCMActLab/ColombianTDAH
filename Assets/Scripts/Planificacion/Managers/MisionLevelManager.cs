@@ -82,6 +82,9 @@ public class MisionLevelManager : MonoBehaviour
     {
         _timeCont = _answerTime;
         _totalDurationMins = 0;
+
+        // Cambia imagen del mapa dependiendo del nivel
+        SetMapImage(SceneLoader.Instance.getCurrentLevelId(EventRegister.TipoJuego.MisionColombia));
     }
 
     // Update is called once per frame
@@ -390,6 +393,6 @@ public class MisionLevelManager : MonoBehaviour
     // Cambia imagen del mapa
     public void SetMapImage(int index)
     {
-        _mapUIManager.SetMapImage(index);
+        _mapUIManager.SetMapImage(index-1);
     }
 }
