@@ -55,7 +55,7 @@ public class DolphinLevelSelector : MonoBehaviour
         if (SceneLoader.Instance.getMaxLevelId(tipoJuegoEnumValue) < int.Parse(_levelNum)) //si el nivel al que entramos es mayor se cambia (probablemente con acceso a edicion)
             SceneLoader.Instance.setMaxLevelId(int.Parse(_levelNum), tipoJuegoEnumValue);
 
-        SceneLoader.Instance.setCurrentLevelId(int.Parse(_levelNum));
+        SceneLoader.Instance.setCurrentLevelId(int.Parse(_levelNum), (EventRegister.TipoJuego)tipoJuegoEnumValue);
 
         string escenaIntro = SceneLoader.Instance.getIntroScene(tipoJuegoEnumValue);
 
