@@ -4,7 +4,6 @@ using System.Security.Cryptography;
 using System.Text;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using static UnityEditor.PlayerSettings;
 
 public class EventRegister : MonoBehaviour
 {
