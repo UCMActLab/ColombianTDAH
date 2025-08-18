@@ -4296,6 +4296,10 @@ MonoBehaviour:
   _stopsExtraMins: {fileID: 1077940726}
   _sleepExtraHours: {fileID: 1434868174}
   _totalTime: {fileID: 1092358575}
+  _mapImages:
+  - {fileID: 21300000, guid: 0ffc5084978ed544397687c055dad6f6, type: 3}
+  - {fileID: 21300000, guid: 82110bbdf8c74c44dadcbf0c9acbeb91, type: 3}
+  _mapActualImage: {fileID: 1467250439}
 --- !u!1 &880240426
 GameObject:
   m_ObjectHideFlags: 0

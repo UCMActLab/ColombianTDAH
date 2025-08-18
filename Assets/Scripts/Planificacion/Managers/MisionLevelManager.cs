@@ -23,9 +23,12 @@ public class MisionLevelManager : MonoBehaviour
     // Time
     float _playTimeCont = 0;
     float _auxCont = 0; // Contador aparicion paradas en ejecucion
-    float _realSegsPerStop = 0.5f;
-    bool _paused = true;
+    float _realSegsPerStop = 7.5f;
     HourMinSec _gameClock;
+
+    // Estados
+    bool _paused = true;
+    bool _sleeping = false;
 
     // Ask Time
     float _answerTime = 10; // Seconds
@@ -84,14 +87,16 @@ public class MisionLevelManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // Actualiza contador tiempo
-        if (_isAnswering) UpdateTime();
 
         if (!_paused)
         {
+            // Actualiza contador tiempo
+            if (_isAnswering) UpdateTime();
+
             _playTimeCont += Time.deltaTime;
 
-            if (_auxCont > _realSegsPerStop) {
+            if (_auxCont > _realSegsPerStop)
+            {
 
                 _gameClock += new HourMinSec(0, _stopMins, 0);
                 Debug.Log(_gameClock.GetString());
@@ -101,7 +106,7 @@ public class MisionLevelManager : MonoBehaviour
                 _auxCont = 0;
             }
             else
-            _auxCont += Time.deltaTime;
+                _auxCont += Time.deltaTime;
         }
     }
 
@@ -158,7 +163,8 @@ public class MisionLevelManager : MonoBehaviour
     }
 
     // Carga las preguntas de las paradas
-    public void LoadQuestions(Dictionary<string, string> q) {
+    public void LoadQuestions(Dictionary<string, string> q)
+    {
         _questions = q;
     }
 
@@ -375,8 +381,15 @@ public class MisionLevelManager : MonoBehaviour
         return diff;
     }
 
-    public void AcceptPlanning() {
+    public void AcceptPlanning()
+    {
         _paused = false;
         _soundManager.Click();
+    }
+
+    // Cambia imagen del mapa
+    public void SetMapImage(int index)
+    {
+        _mapUIManager.SetMapImage(index);
     }
 }
