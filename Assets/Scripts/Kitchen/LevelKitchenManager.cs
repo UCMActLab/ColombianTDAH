@@ -45,6 +45,7 @@ public class LevelKitchenManager : MonoBehaviour
     static public LevelKitchenManager Instance { get { return _instance; } }
 
     private string[] escenasPermitidas = { "KitchenLevel", "KitchenLevelSelector", "KitchenBalanceTerapeuta" };
+    [SerializeField] private string victorySceneName = "KitchenEnd";
 
     [Header("Configuración")]
     [SerializeField] private RecetasDatabase recetasDatabase;
@@ -62,6 +63,9 @@ public class LevelKitchenManager : MonoBehaviour
     private GameObject[] lights;
 
     private Reloj contador;
+
+    // Contador de recetas del turno: receta final -> cuántas faltan
+    private Dictionary<RecetaData, int> recetasRestantes = new();
 
 
     private void Awake()
@@ -107,6 +111,7 @@ public class LevelKitchenManager : MonoBehaviour
             Destroy(gameObject);
             Destroy(AnimatorManager.Instance.gameObject);
             Destroy(KitchenSoundManager.Instance.gameObject);
+            Destroy(IngredientSpawnManager.Instance.gameObject);
         }
 
         if (scene.name == escenasPermitidas[0]) // KitchenLevel
@@ -132,6 +137,14 @@ public class LevelKitchenManager : MonoBehaviour
             {
                 Debug.Log("RECETA JORNADA: " + receta.nombre);
             }*/
+
+            recetasRestantes = recetasToDo
+                               .Where(r => r != null && !r.esIntermedia)
+                               .GroupBy(r => r)
+                               .ToDictionary(g => g.Key, g => g.Count());
+
+            foreach (var kv in recetasRestantes)
+                Debug.Log($"[Objetivo] {kv.Key.nombre} x{kv.Value}");
 
             contador.SetTiempoInicial(tiempoPorTurnoTotal);
             contador.Reanudar();
@@ -279,6 +292,50 @@ public class LevelKitchenManager : MonoBehaviour
         }
 
         Debug.Log("Recetas calculadas correctamente para todas las jornadas.");
+    }
+
+    public void RegisterDelivery(RecetaData receta)
+    {
+        if (receta == null) return;
+        if (receta.esIntermedia) return; // las intermedias NO cuentan para victoria
+        if (recetasRestantes == null || recetasRestantes.Count == 0)
+        {
+            Debug.LogWarning("[LevelKitchenManager] No hay objetivos activos para este turno.");
+            return;
+        }
+
+        if (recetasRestantes.TryGetValue(receta, out int restantes))
+        {
+            if (restantes > 0)
+            {
+                recetasRestantes[receta] = restantes - 1;
+                Debug.Log($"Entregado: {receta.nombre}. Restan {recetasRestantes[receta]}.");
+
+                // ¿hemos cumplido todos los objetivos?
+                if (recetasRestantes.Values.All(v => v <= 0))
+                {
+                    OnVictory();
+                }
+            }
+            else
+            {
+                // Entrega extra/no solicitada (puedes ignorar o dar puntos bonus)
+                Debug.Log($"Entrega extra no requerida: {receta.nombre}");
+            }
+        }
+        else
+        {
+            // No estaba en los objetivos del turno (receta no pedida)
+            Debug.Log($"Receta no pedida: {receta.nombre}");
+        }
+    }
+
+    private void OnVictory()
+    {
+        Debug.Log("¡Todas las recetas entregadas! VICTORIA");
+        // contador?.Pausar(); // si quieres parar el reloj aquí
+        if (!string.IsNullOrEmpty(victorySceneName))
+            SceneManager.LoadScene(victorySceneName);
     }
 
     public IEnumerable<RecetaData> GetRecetasSeleccionadasActuales()

@@ -121,7 +121,11 @@ public class WorkstationProcessor : MonoBehaviour
         progressBar.HandleEnd();
         // Spawn ingrediente procesado
         if (data.processedRecipe != null)
+        {
             Instantiate(data.processedRecipe, spawnPoint.position, spawnPoint.rotation);
+            Debug.Log("Ingrediente Procesado");
+        }
+            
 
         // Fin anim & sonido
         AnimatorManager.Instance.PlayAndPauseAt(animKey, idleAnim, 0f);
@@ -153,8 +157,14 @@ public class WorkstationProcessor : MonoBehaviour
 
         // Spawn resultado de la receta
         if (data.processedRecipe)
-            Instantiate(data.processedRecipe, spawnPoint.position, spawnPoint.rotation);
-        Debug.Log("Receta Completada");
+        {
+            var go = Instantiate(data.processedRecipe, spawnPoint.position, spawnPoint.rotation);
+            if (!data.esIntermedia)
+            {
+                var cd = go.GetComponent<CompletedRecipe>() ?? go.AddComponent<CompletedRecipe>();
+                cd.receta = data;
+            }
+        }
 
         // Fin anim & sonido
         if (GetComponent<Animator>() != null)

@@ -18,7 +18,6 @@ public class WorkstationSnapOnDrop : MonoBehaviour
         draggable = GetComponent<Draggable>();
         raycaster = GetComponent<WorkstationDetector>();
         processable = GetComponent<ProcessableIngredient>();
-        processable = GetComponent<ProcessableIngredient>();
 
         if (draggable == null) Debug.LogError("[WorkstationSnapOnDrop] Falta Draggable.");
         if (raycaster == null) Debug.LogError("[WorkstationSnapOnDrop] Falta WorkstationDetector.");
