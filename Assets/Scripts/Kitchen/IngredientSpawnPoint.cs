@@ -19,7 +19,7 @@ public class IngredientSpawnPoint : MonoBehaviour
     private void Awake()
     {
         if (spawnTransform == null) spawnTransform = this.transform;
-        IngredientSpawnManager.Instance.Register(this);
+        IngredientSpawnManager.Instance?.Register(this);
     }
 
     private void Start()
@@ -29,8 +29,7 @@ public class IngredientSpawnPoint : MonoBehaviour
 
     private void OnDestroy()
     {
-        if (IngredientSpawnManager.HasInstance)
-            IngredientSpawnManager.Instance.Unregister(this);
+        IngredientSpawnManager.Instance?.Unregister(this);
     }
 
     public void SpawnNow()
@@ -48,46 +47,29 @@ public class IngredientSpawnPoint : MonoBehaviour
             spawnTransform.position,
             spawnTransform.rotation);
 
-        // Adjuntamos notificador para ver si se destruye
-        var notifier = currentInstance.GetComponent<DespawnNotifier>();
-        if (notifier == null)
-            notifier = currentInstance.AddComponent<DespawnNotifier>();
-
-        notifier.OnDespawned += HandleDespawned;
+        var ret = currentInstance.GetComponent<IngredientSpawn>();
+        if (ret == null) ret = currentInstance.AddComponent<IngredientSpawn>();
+        ret.Init(this, spawnTransform);
     }
 
-    private void HandleDespawned()
+    public void ScheduleReactivate(IngredientSpawn ret)
     {
-        currentInstance = null;
-        if (!isRespawning)
-            StartCoroutine(RespawnAfterDelay());
+        StartCoroutine(ReactivateRoutine(ret, respawnDelay));
     }
 
-    private IEnumerator RespawnAfterDelay()
+    IEnumerator ReactivateRoutine(IngredientSpawn ret, float delay)
     {
-        isRespawning = true;
-        yield return new WaitForSeconds(respawnDelay);
-        isRespawning = false;
-        SpawnNow();
-    }
+        yield return new WaitForSeconds(delay);
+        if (ret == null) yield break;
 
-    public void ForceRespawn()
-    {
-        if (currentInstance != null)
+        // Reposicionamos y activamos el objeto
+        if (spawnTransform != null)
         {
-            // Desuscribir para evitar dobles llamadas
-            var notifier = currentInstance.GetComponent<DespawnNotifier>();
-            if (notifier != null) notifier.OnDespawned -= HandleDespawned;
-
-            Destroy(currentInstance);
-            currentInstance = null;
+            ret.transform.SetPositionAndRotation(spawnTransform.position, spawnTransform.rotation);
         }
-
-        StopAllCoroutines();
-        isRespawning = false;
-        SpawnNow();
+        ret.gameObject.SetActive(true);
     }
 
-    public bool HasLiveInstance => currentInstance != null;
+    public bool HasLiveInstance => currentInstance != null && currentInstance.activeInHierarchy;
     public GameObject CurrentInstance => currentInstance;
 }

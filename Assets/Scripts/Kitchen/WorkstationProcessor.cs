@@ -62,7 +62,8 @@ public class WorkstationProcessor : MonoBehaviour
             if (receta == null)
             {
                 // No se puede procesar aquí (no seleccionada y no intermedia)
-                Destroy(pi.gameObject);
+                var retInv = pi.GetComponent<IngredientSpawn>();
+                if (retInv) retInv.ReturnToSpawn();
                 return;
             }
 
@@ -73,12 +74,16 @@ public class WorkstationProcessor : MonoBehaviour
         // Modo receta
         if(!inventory.TryAdd(pi.ingredientType, capacity))
         {
-            Destroy(pi.gameObject); // No cabe
+            var retFull = pi.GetComponent<IngredientSpawn>();
+            if (retFull) retFull.ReturnToSpawn();
             return;
         }
 
         var recipe = FindMatchingRecipe(seleccion);
-        Destroy(pi.gameObject);
+
+        var ret = pi.GetComponent<IngredientSpawn>();
+        if (ret != null) ret.ConsumeAndScheduleRespawn(); 
+        else pi.gameObject.SetActive(false);
 
         if (recipe != null)
         {
@@ -123,7 +128,10 @@ public class WorkstationProcessor : MonoBehaviour
         if (!string.IsNullOrEmpty(processingSfxName))
             KitchenSoundManager.Instance.StopLoop(soundKey);
 
-        Destroy(ingredienteGO);
+        var ret = ingredienteGO.GetComponent<IngredientSpawn>();
+        if (ret != null) ret.ConsumeAndScheduleRespawn(); 
+        else ingredienteGO.SetActive(false); // fallback
+        //Destroy(ingredienteGO);
         processed = false;
     }
 

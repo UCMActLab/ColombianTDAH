@@ -57,17 +57,6 @@ public class IngredientSpawnManager : MonoBehaviour
             if (!sp.HasLiveInstance) sp.SpawnNow();
     }
 
-    public void ForceRespawnAll()
-    {
-        foreach (var sp in byType.Values) sp.ForceRespawn();
-    }
-
-    public void ForceRespawn(Ingredientes tipo)
-    {
-        if (byType.TryGetValue(tipo, out var sp)) sp.ForceRespawn();
-        else Debug.LogWarning($"No hay spawn registrado para {tipo}.");
-    }
-
     public GameObject GetLiveInstance(Ingredientes tipo)
     {
         if (byType.TryGetValue(tipo, out var sp))

@@ -48,6 +48,8 @@ public class WorkstationSnapOnDrop : MonoBehaviour
         if (!raycaster.TryGetCurrentProcessor(out processor) || processor == null)
         {
             raycaster.ForceClearOverlay();
+            var ret = GetComponent<IngredientSpawn>();
+            if (ret) ret.ReturnToSpawn();
             return;
         }
 
@@ -56,6 +58,8 @@ public class WorkstationSnapOnDrop : MonoBehaviour
         if (!canProcess)
         {
             raycaster.ForceClearOverlay();
+            var ret = GetComponent<IngredientSpawn>();
+            if (ret) ret.ReturnToSpawn(); 
             return;
         }
 
