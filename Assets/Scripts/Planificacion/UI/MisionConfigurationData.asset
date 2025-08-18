@@ -13,3 +13,19 @@ MonoBehaviour:
   m_Name: MisionConfigurationData
   m_EditorClassIdentifier: 
   configName: 
+  _nStops: 0
+  _stopMins: 0
+  _sleepHours: 0
+  _location: 0
+  _duration: 0
+  _durationMax: 0
+  _hoursPerSleep: 0
+  _stopsNames: []
+  _answerTime: 0
+  questn:
+    list:
+    - Key: 
+      Value: 
+    - Key: 
+      Value: 
+  _desbloqueado: 0

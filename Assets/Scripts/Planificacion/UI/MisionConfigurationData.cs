@@ -73,6 +73,8 @@ public class MisionConfigurationData : ScriptableObject
     private Dictionary<string, string> _questions;
     public Dictionary<string, string> Questions { get => _questions; set => _questions = value; }
 
+    public SerializableDictionary<string, string> questn = new SerializableDictionary<string, string>();
+
 
     // Desbloqueo
     [SerializeField]

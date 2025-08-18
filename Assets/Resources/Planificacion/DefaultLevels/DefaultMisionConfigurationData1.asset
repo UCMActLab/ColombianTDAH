@@ -25,4 +25,12 @@ MonoBehaviour:
   - Gasolinera
   - "Restaurante t\xEDpico"
   _answerTime: 10
+  questn:
+    list:
+    - Key: Hotel
+      Value: "\xBFQuieres parar a dormir?"
+    - Key: Gasolinera
+      Value: "\xBFEchamos gasolina?"
+    - Key: Res
+      Value: edfced
   _desbloqueado: 1
