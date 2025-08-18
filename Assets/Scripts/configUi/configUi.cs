@@ -86,7 +86,8 @@ public class configUi : MonoBehaviour
                 System.IO.Directory.CreateDirectory(writeDir);
             }
             levelInfoPath = System.IO.Path.Combine(writeDir, "configData" + levelId.ToString("00") + ".json");
-            SetUIFromJSONFull();
+            
+            if(!sceneLoader.getIsDefaultConfig())SetUIFromJSONFull();
 
             // Desactiva Juego
             ActivateGame(false);
@@ -411,6 +412,9 @@ public class configUi : MonoBehaviour
 
         string writeDir = System.IO.Path.Combine(Application.persistentDataPath, "configInfo");
         levelInfoPath = System.IO.Path.Combine(writeDir, "configData" + levelId.ToString("00") + ".json");
+
+        // Verificar si el archivo existe antes de leerlo
+        if (!System.IO.File.Exists(levelInfoPath)) return;
 
         Debug.Log("SetUIFromJSONFull after " + levelInfoPath);
 
