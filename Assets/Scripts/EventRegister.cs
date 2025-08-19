@@ -47,26 +47,22 @@ public class EventRegister : MonoBehaviour
     {
         infoSesion = value;
         PacientInfoIsRegistered = true; //se pone a true el bool de que se ha registrado
-        infoSesion.nombrePaciente = CleanString(infoSesion.nombrePaciente);
-        infoSesion.nombreTerapeuta = CleanString(infoSesion.nombreTerapeuta);
-        infoSesion.idPaciente = GenerarIDPaciente(infoSesion.nombrePaciente);
-
+        infoSesion.idPaciente = CleanString(infoSesion.idPaciente);
+        infoSesion.numeroSesion = CleanString(infoSesion.numeroSesion);
     }
 
-    //infosesion esta hecho para crear el nombre del archivo, que sera "{paciente}-{terapeuta}-{juego}-{fechaStr}.json"
+    //infosesion esta hecho para crear el nombre del archivo, que sera "$"{id}_{juego}_{fechaStr}_{numSesion}.json"
     public struct InfoSesion
     {
-        public string nombrePaciente;
-        public string nombreTerapeuta;
         public string idPaciente;
+        public string numeroSesion;
         public TipoJuego nombreJuego;
         public DateTime fechaHora;
 
-        public InfoSesion(string paciente, string terapeuta, TipoJuego nombreJuego)
+        public InfoSesion(string paciente, string numSesion, TipoJuego nombreJuego)
         {
-            this.nombrePaciente = paciente;
-            this.nombreTerapeuta = terapeuta;
-            this.idPaciente = "";
+            this.idPaciente = paciente;
+            this.numeroSesion = numSesion;
             this.nombreJuego = nombreJuego;
             this.fechaHora = DateTime.UtcNow.AddHours(-5);
         }
@@ -168,7 +164,7 @@ public class EventRegister : MonoBehaviour
     {
         infoSesion.nombreJuego = juego;
         WritePath = GetFileNameFromInfoSesion(infoSesion);
-        AddInitialEventSafe(EventosInfo.PacienteInfo, $"Paciente: {infoSesion.idPaciente}, Terapeuta: {infoSesion.nombreTerapeuta}");
+        AddInitialEventSafe(EventosInfo.PacienteInfo, $"Paciente: {infoSesion.idPaciente}, Numero sesion: {infoSesion.numeroSesion}");
 
     }
 
@@ -216,7 +212,7 @@ public class EventRegister : MonoBehaviour
             baseName = baseName.Substring(0, bracketIndex);
 
         //string candidate = baseName + ".json";
-        string candidate = $"{baseName}_{it:00}.json"; // Empieza directamente en [01]
+        string candidate = $"{baseName}.json"; // Empieza directamente en [01]
 
         // Mientras exista, generamos [01], [02]...
         while (System.IO.File.Exists(System.IO.Path.Combine(WriteDir, candidate)) && it < 100)
@@ -310,7 +306,7 @@ public class EventRegister : MonoBehaviour
                         text += ", \n" + $"    \"Velocidad actual\": \"{evento.Item2}\"";
                         break;
                     case EventosInfo.PacienteInfo:
-                        text += ", \n" + $"    \"Paciente y terapeuta\": \"{evento.Item2}\"";
+                        text += ", \n" + $"    \"Paciente y numero de sesion\": \"{evento.Item2}\"";
                         break;
                 }
             }
@@ -346,13 +342,13 @@ public class EventRegister : MonoBehaviour
     //para sacar el nombre del archivo segun los datos
     public string GetFileNameFromInfoSesion(InfoSesion infoS)
     {
-        string pac = CleanString(infoS.nombrePaciente);
-        string ter = CleanString(infoS.nombreTerapeuta);
+        string id = CleanString(infoS.idPaciente);
+        string numSesion = CleanString(infoS.numeroSesion);
         string juego = infoS.nombreJuego.ToString(); // enum a string
         string fechaStr = infoS.fechaHora.ToString("yyyy-MM-dd");
-        string id = infoS.idPaciente; 
 
-        return $"{id}_{juego}_{fechaStr}.json";
+
+        return $"{id}_{juego}_{fechaStr}_{numSesion}.json";
     }
 
     //no sé si prefiero avisar de que no pongan cosas raras porque sera nombre de archivo o hacer esto xd
@@ -410,26 +406,6 @@ public class EventRegister : MonoBehaviour
         WriteEnd();
     }
 
-    public static string GenerarIDPaciente(string nombrePaciente, string seed = "R3V3RS3ENG!")
-    {
-        // concatenamos datos para evitar que sea solo el nombre y se pueda averiguar
-        string input = nombrePaciente.Trim().ToLower()
-                     + seed;
-
-        // en principio asumo que sirve con MD5
-        using (MD5 md5 = MD5.Create())
-        {
-            byte[] hashBytes = md5.ComputeHash(Encoding.UTF8.GetBytes(input));
-
-            // base64 y limpiamos caracteres que pueden dar problemas en nombres de archivo
-            string id = Convert.ToBase64String(hashBytes)
-                                .Replace("/", "_")
-                                .Replace("+", "-")
-                                .Substring(0, 8);  //nos quedamos con el 8 caracteres
-
-            return id;
-        }
-    }
 
     public string GetPatientID()
     {

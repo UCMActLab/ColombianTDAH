@@ -89,17 +89,6 @@ public class SceneLoader : MonoBehaviour
                 Debug.Log("NI�O MODE");
             }
         }
-        if (name == "Worlds") //Bot�n de exit del minijuego
-        {
-            if (EventRegister.Instance != null)
-            {
-                EventRegister.Instance.WriteEnd();
-            }
-            else
-            {
-                Debug.LogWarning("EventRegister.Instance es null, SceneLoader.LoadScene() del boton de Atras de Worlds");
-            }
-        }
 
         SceneManager.LoadScene(name);
     }
