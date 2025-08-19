@@ -53,6 +53,12 @@ public class LevelKitchenManager : MonoBehaviour
 
     private GameObject libroDeRecetas;
 
+    private GameObject tablon;
+    private GameObject recetasColgadas;
+
+    private Transform cameraInitPos;
+    private Transform cameraTablonPos;
+
     private int jornadaActual = 1; //nivelacionData.jornadas[jornadaActual].recetasAsignadas
     private Turno turnoActual = Turno.Manana;
     private int tiempoPorTurnoTotal;
@@ -116,7 +122,12 @@ public class LevelKitchenManager : MonoBehaviour
 
         if (scene.name == escenasPermitidas[0]) // KitchenLevel
         {
+            cameraInitPos = Camera.main.transform;
+
+            Draggable tab = tablon.GetComponent<Draggable>();
             Draggable input = libroDeRecetas.GetComponent<Draggable>();
+
+            RecipeBoard rec = recetasColgadas.GetComponent<RecipeBoard>();
 
             if (input != null)
             {
@@ -124,19 +135,28 @@ public class LevelKitchenManager : MonoBehaviour
             }
             else
             {
-                Debug.LogWarning("No se encontró el componente OnMouseInputRecieved.");
+                Debug.LogWarning("No se encontró el componente Draggable en libro.");
+            }
+
+            if (tab != null)
+            {
+                tab.onStartDragging.AddListener(OnTabClicked);
+            }
+            else
+            {
+                Debug.LogWarning("No se encontró el componente Draggable en tablon.");
             }
 
             recetasToDo = CalcularRecetasTurno(nivelacionData.jornadas[jornadaActual].recetasAsignadas, tiempoPorTurnoTotal, Mathf.CeilToInt(tiempoPorTurnoTotal * 0.1f));
 
-            foreach (RecetaData receta in recetasToDo)
+            if (rec != null)
             {
-                Debug.Log("RECETA TO DO: " + receta.nombre);
+                rec.ShowRecipes(recetasToDo);
             }
-            /*foreach (RecetaData receta in nivelacionData.jornadas[jornadaActual].recetasAsignadas)
+            else
             {
-                Debug.Log("RECETA JORNADA: " + receta.nombre);
-            }*/
+                Debug.LogWarning("No se encontró el componente RecipeBoard en recetascolgadas.");
+            }
 
             recetasRestantes = recetasToDo
                                .Where(r => r != null && !r.esIntermedia)
@@ -150,6 +170,44 @@ public class LevelKitchenManager : MonoBehaviour
             contador.Reanudar();
         }
     }
+
+    private void OnTabClicked()
+    {
+        Debug.Log("Tab clickado");
+        tablon.GetComponent<Draggable>().enabled = false;
+
+        // Iniciar el movimiento
+        StartCoroutine(MoverCamara(Camera.main.transform, cameraTablonPos, 1f));
+    }
+
+    private IEnumerator MoverCamara(Transform obj, Transform destino, float duracion)
+    {
+        Vector3 origenPos = obj.position;
+        Quaternion origenRot = obj.rotation;
+
+        Vector3 destinoPos = destino.position;
+        Quaternion destinoRot = destino.rotation;
+
+        float tiempo = 0f;
+
+        while (tiempo < duracion)
+        {
+            float t = tiempo / duracion;
+
+            // Suavizado tipo SmoothStep (ease-in/out). Alternativas abajo.
+            float e = t * t * (3f - 2f * t);
+
+            obj.position = Vector3.LerpUnclamped(origenPos, destinoPos, e);
+            obj.rotation = Quaternion.SlerpUnclamped(origenRot, destinoRot, e);
+
+            tiempo += Time.deltaTime;
+            yield return null;
+        }
+
+        obj.position = destinoPos;
+        obj.rotation = destinoRot;
+    }
+
 
     private void OnBookClicked()
     {
@@ -178,8 +236,13 @@ public class LevelKitchenManager : MonoBehaviour
         while (tiempo < duracion)
         {
             float t = tiempo / duracion;
-            objeto.position = Vector3.Lerp(origenPos, destinoPos, t);
-            objeto.rotation = Quaternion.Slerp(origenRot, destinoRot, t);
+
+            // Easing SmoothStep (ease-in/ease-out)
+            float e = t * t * (3f - 2f * t);
+
+            objeto.position = Vector3.LerpUnclamped(origenPos, destinoPos, e);
+            objeto.rotation = Quaternion.SlerpUnclamped(origenRot, destinoRot, e);
+
             tiempo += Time.deltaTime;
             yield return null;
         }
@@ -188,6 +251,7 @@ public class LevelKitchenManager : MonoBehaviour
         objeto.position = destinoPos;
         objeto.rotation = destinoRot;
     }
+
 
 
     // Funcion que elige las recetas que se van a tener que preparar en el turno seleccionado
@@ -368,6 +432,11 @@ public class LevelKitchenManager : MonoBehaviour
         libroDeRecetas = l;
     }
 
+    public void SetTablon(GameObject t)
+    {
+        tablon = t;
+    }
+
     public void SetLights(GameObject[] ls)
     {
         lights = ls;
@@ -380,5 +449,14 @@ public class LevelKitchenManager : MonoBehaviour
     public void SetContador(Reloj cont)
     {
         contador = cont;
+    }
+    public void SetCameraTablonPos(Transform tr)
+    {
+        cameraTablonPos = tr;
+    }
+
+    public void SetRecetasColgadas(GameObject rc)
+    {
+        recetasColgadas = rc;
     }
 }

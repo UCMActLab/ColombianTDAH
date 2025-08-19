@@ -3,11 +3,13 @@ using UnityEngine;
 
 public class EscenaKitchenLevelSetup : MonoBehaviour
 {
-    [SerializeField] private Reloj contador;
-
-    [Header("Luces y libro")]
+    [Header("Objetos generales de la escena")]
     [SerializeField] private GameObject[] lights;
+    [SerializeField] private Reloj contador;
     [SerializeField] private GameObject libroDeRecetas;
+    [SerializeField] private GameObject tablon;
+    [SerializeField] private Transform tablonPos;
+    [SerializeField] private GameObject recetasColgadas;
 
     [Header("Workstations")]
     [SerializeField] private GameObject mixer;
@@ -41,6 +43,9 @@ public class EscenaKitchenLevelSetup : MonoBehaviour
         LevelKitchenManager.Instance.SetLibro(libroDeRecetas);
         LevelKitchenManager.Instance.SetLights(lights);
         LevelKitchenManager.Instance.SetContador(contador);
+        LevelKitchenManager.Instance.SetTablon(tablon);
+        LevelKitchenManager.Instance.SetCameraTablonPos(tablonPos);
+        LevelKitchenManager.Instance.SetRecetasColgadas(recetasColgadas);
 
         // Animators
         AnimatorManager.Instance.SetAnimator(ObjetosAnim.Libro, libroDeRecetas.GetComponent<Animator>());
