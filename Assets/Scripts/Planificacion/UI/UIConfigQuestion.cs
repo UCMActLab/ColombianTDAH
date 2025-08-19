@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Unity.VisualScripting.FullSerializer;
 using UnityEngine;
 using UnityEngine.UIElements;
 using static UnityEngine.Rendering.STP;
@@ -144,7 +145,7 @@ public class UIConfigQuestion : MonoBehaviour
             q.Add(_config.StopsNames[i], textF.value);
         }
 
-        _config.Questions = q;
+        _config.Questions.FromDictionary(q);
 
         MisionLevelManager.Instance.LoadQuestions(q);
     }

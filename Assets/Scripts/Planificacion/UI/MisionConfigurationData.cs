@@ -70,10 +70,8 @@ public class MisionConfigurationData : ScriptableObject
     public int AnswerTime { get => _answerTime; set => _answerTime = value; }
 
     // Preguntas
-    private Dictionary<string, string> _questions;
-    public Dictionary<string, string> Questions { get => _questions; set => _questions = value; }
+    public SerializableDictionary<string, string> Questions = new SerializableDictionary<string, string>();
 
-    public SerializableDictionary<string, string> questn = new SerializableDictionary<string, string>();
 
 
     // Desbloqueo
