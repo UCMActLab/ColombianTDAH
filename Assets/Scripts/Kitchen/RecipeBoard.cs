@@ -1,36 +1,65 @@
-using UnityEngine;
+Ôªøusing UnityEngine;
 using System.Collections.Generic;
 
 public class RecipeBoard : MonoBehaviour
 {
-    public GameObject recipePrefab;          // Prefab receta (frente mirando +Z)
-    public Transform boardArea;              // Empty centrado y rotado como el tablÛn
-    public Vector2 boardSize = new Vector2(5f, 3f); // TamaÒo del ·rea en METROS (espacio mundo)
+    [Header("Refs")]
+    public GameObject recipePrefab;   // Prefab receta (mirando +Z)
+    public Transform boardArea;       // Empty centrado y rotado como el tabl√≥n
+
+    [Header("√Årea del tabl√≥n (mundo)")]
+    public Vector2 boardSize = new Vector2(5f, 3f);
     public int maxPerRow = 5;
-    [Header("Ajustes de colocaciÛn")]
-    public float surfaceOffset = 0.01f;      // Sep·rate del plano para evitar z-fighting
-    public float extraYaw = 0f;              // Pon 180 si el prefab sale ìde espaldasî
+
+    [Header("Layout / padding (unidades mundo)")]
+    public float paddingLeft = 0.15f;
+    public float paddingRight = 0.15f;
+    public float paddingTop = 0.20f;
+    public float paddingBottom = 0.20f;
+
+    [Header("Ajustes de colocaci√≥n")]
+    public float surfaceOffset = 0.01f; // Separaci√≥n del plano para evitar z-fighting
+    public float extraYaw = 0f;         // 180 si el prefab sale de espaldas
+    public float yNudge = 0.06f;        // Ajuste fino vertical (sube/baja todo el contenido)
+
+    [Header("Escalado del prefab")]
+    public Vector2 prefabSizeXY = new Vector2(0.5f, 0.9f); // tama√±o original del prefab en local
+    public float pivotToFrontZ = 0.02f; // distancia del pivote a la cara frontal
 
     private readonly List<GameObject> spawnedRecipes = new();
 
     public void ShowRecipes(List<RecetaData> recipes)
     {
         ClearBoard();
-        if (boardArea == null || recipePrefab == null || recipes == null || recipes.Count == 0)
-            return;
+        if (!boardArea || !recipePrefab || recipes == null || recipes.Count == 0) return;
 
-        // 1) Convertimos tamaÒo de mundo -> tamaÒo local (corrige escalas del tablÛn)
+        // Tama√±o en espacio local corrigiendo escala del tabl√≥n
         Vector2 localSize = new Vector2(
             boardSize.x / boardArea.lossyScale.x,
             boardSize.y / boardArea.lossyScale.y
         );
 
+        // √Årea √∫til con padding
+        float innerW = Mathf.Max(0.01f, localSize.x - (paddingLeft + paddingRight));
+        float innerH = Mathf.Max(0.01f, localSize.y - (paddingTop + paddingBottom));
+
         int total = recipes.Count;
         int rows = (total > maxPerRow) ? 2 : 1;
         int perRow = Mathf.CeilToInt((float)total / rows);
 
-        float xSpacing = localSize.x / (perRow + 1);
-        float ySpacing = localSize.y / (rows + 1);
+        // Tama√±o de celda
+        float cellW = innerW / perRow;
+        float cellH = innerH / rows;
+
+        // Origen (esquina sup izq en local)
+        float leftX = -localSize.x * 0.5f + paddingLeft;
+        float topY = localSize.y * 0.5f - paddingTop;
+
+        // Escalado uniforme para que el prefab llene la celda
+        float scaleFactor = Mathf.Min(
+            cellW / Mathf.Max(0.001f, prefabSizeXY.x),
+            cellH / Mathf.Max(0.001f, prefabSizeXY.y)
+        );
 
         int index = 0;
         for (int row = 0; row < rows; row++)
@@ -39,24 +68,31 @@ public class RecipeBoard : MonoBehaviour
             {
                 if (index >= total) break;
 
-                // 2) PosiciÛn en espacio LOCAL del tablÛn (origen al centro)
-                Vector3 localPos = new Vector3(
-                    -localSize.x * 0.5f + (col + 1) * xSpacing,
-                    +localSize.y * 0.5f - (row + 1) * ySpacing,
-                    surfaceOffset              // nos separamos un poco del plano
-                );
+                // Centro de la celda
+                float x = leftX + (col + 0.5f) * cellW;
+                float y = topY - (row + 0.5f) * cellH;
 
-                // 3) Instanciar como hijo del tablÛn y alinear con su superficie
-                var recipeGO = Instantiate(recipePrefab, boardArea, false);
-                recipeGO.transform.localPosition = localPos;
+                Vector3 localPos = new Vector3(x, y + yNudge, surfaceOffset);
 
+                // Slot vac√≠o como soporte
+                var slot = new GameObject($"RecipeSlot_{index}");
+                slot.transform.SetParent(boardArea, false);
+                slot.transform.localPosition = localPos;
+                slot.transform.localRotation = Quaternion.identity;
+
+                // Instanciamos el prefab dentro
+                var recipeGO = Instantiate(recipePrefab, slot.transform, false);
                 recipeGO.transform.localRotation = Quaternion.Euler(0f, extraYaw, 0f);
+                recipeGO.transform.localScale = Vector3.one * scaleFactor;
 
-                // 4) Rellenar texto si existe
+                // Empujamos para que la cara frontal quede enrasada
+                recipeGO.transform.localPosition = new Vector3(0f, 0f, -pivotToFrontZ * scaleFactor);
+
+                // Texto si lo tiene
                 var text = recipeGO.GetComponentInChildren<TMPro.TextMeshProUGUI>();
-                if (text != null) text.text = recipes[index].nombre;
+                if (text) text.text = recipes[index].nombre;
 
-                spawnedRecipes.Add(recipeGO);
+                spawnedRecipes.Add(slot);
                 index++;
             }
         }
@@ -68,13 +104,14 @@ public class RecipeBoard : MonoBehaviour
         spawnedRecipes.Clear();
     }
 
-    // Gizmo ˙til para ver el ·rea en editor
     private void OnDrawGizmosSelected()
     {
         if (!boardArea) return;
         Gizmos.color = Color.white;
-        Matrix4x4 m = Matrix4x4.TRS(boardArea.position, boardArea.rotation, Vector3.Scale(Vector3.one, boardArea.lossyScale));
-        Gizmos.matrix = m;
+        Gizmos.matrix = Matrix4x4.TRS(
+            boardArea.position, boardArea.rotation,
+            Vector3.Scale(Vector3.one, boardArea.lossyScale)
+        );
         Gizmos.DrawWireCube(Vector3.zero, new Vector3(boardSize.x, boardSize.y, 0.001f));
     }
 }
