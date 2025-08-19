@@ -22,6 +22,28 @@ public class HourMinSec
         Seconds = 0;
     }
 
+    public HourMinSec(string h)
+    {
+        string[] hSplit = h.Split(' '); // Separo numero texto
+        string htype = hSplit[1].ToLower(); // Paso a minusculas
+
+        Hours = int.Parse(hSplit[0]);
+
+        // Si es am
+        if (hSplit[1][0] == 'a')
+        {
+            if (Hours == 12)
+                Hours = 0;
+        }
+        // Si es pm
+        else
+        {
+            if (Hours != 12)
+                Hours += 12;
+        }
+
+    }
+
     // Sobrecarga operador +
     public static HourMinSec operator +(HourMinSec t1, HourMinSec t2)
     {
@@ -96,7 +118,7 @@ public class HourMinSec
             hour = 12;
         }
 
-        string  auxM = "";
+        string auxM = "";
 
         if (Minutes < 10)
             auxM = "0";
