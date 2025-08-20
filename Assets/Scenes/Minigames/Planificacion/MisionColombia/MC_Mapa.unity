@@ -5642,6 +5642,8 @@ MonoBehaviour:
   _misionUIManager: {fileID: 0}
   _mapUIManager: {fileID: 865071169}
   _soundManager: {fileID: 1625442143}
+  _map: {fileID: 1113168378}
+  _dialogs: {fileID: 272594257}
 --- !u!4 &1197812602
 Transform:
   m_ObjectHideFlags: 0
@@ -7971,8 +7973,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 64611411d5c0e184a86f9e223eb771cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _map: {fileID: 1113168378}
-  _dialogs: {fileID: 272594257}
 --- !u!1 &1704188875
 GameObject:
   m_ObjectHideFlags: 0

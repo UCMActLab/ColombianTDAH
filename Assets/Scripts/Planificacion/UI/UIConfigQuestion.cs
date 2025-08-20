@@ -9,20 +9,17 @@ public class UIConfigQuestion : MonoBehaviour
     UIDocument _document;
     Button _acceptButton;
 
-    [SerializeField]
-    GameObject _map;
+    //[SerializeField]
+    //GameObject _map;
 
-    [SerializeField]
-    GameObject _dialogs;
+    //[SerializeField]
+    //GameObject _dialogs;
 
     VisualElement _questionsVisualElement;
     VisualElement _userQuestionsVisualElement;
 
     // ScriptableObject para guardar informacion
     MisionConfigurationData _config = null;
-
-    int levelId;
-    string levelInfoPath = "";
 
     void Awake()
     {
@@ -39,44 +36,6 @@ public class UIConfigQuestion : MonoBehaviour
 
             if (_acceptButton != null)
                 _acceptButton.RegisterCallback<ClickEvent>(OnSaveClick);
-
-        }
-    }
-
-    private void Start()
-    {
-        bool editMode = SceneLoader.Instance.getMode();
-        levelId = SceneLoader.Instance.getCurrentLevelId();
-        string writeDir = System.IO.Path.Combine(Application.persistentDataPath, "configInfoMC");
-
-        Debug.Log("LEVEL ID " + levelId);
-        if (editMode) //el usuario quiere editar el juego
-        {
-            if (!System.IO.Directory.Exists(writeDir))
-            {
-                System.IO.Directory.CreateDirectory(writeDir);
-            }
-            levelInfoPath = System.IO.Path.Combine(writeDir, "DefaultMisionConfigurationData" + levelId + ".json");
-
-            // if (!sceneLoader.getIsDefaultConfig()) SetUIFromJSONFull();
-
-        }
-        else //se carga el nivel por default
-        {
-            levelInfoPath = "DefaultMisionConfigurationData" + levelId;
-
-            Debug.Log("Cargaremos el default");
-            _config = Resources.Load<MisionConfigurationData>(levelInfoPath);
-
-            // Los niveles por defecto están desbloqueados, pero se hace la comprobación por si acaso
-            if (_config.Desbloqueado)
-            {
-                ActivateGame();
-            }
-            else
-            {
-                Debug.Log("El nivel no está desbloqueado");
-            }
 
         }
     }
@@ -117,21 +76,13 @@ public class UIConfigQuestion : MonoBehaviour
 
     private void OnSaveClick(ClickEvent ce)
     {
-        ActivateGame();
-    }
-
-    private void ActivateGame()
-    {
-        // Me desactivo
-        gameObject.SetActive(false);
-
         // Guardo
         SaveData();
         SaveToJson(_config);
 
-        // Empieza nivel activando mapa y dialogos
-        _map.SetActive(true);
-        _dialogs.SetActive(true);
+        // Activa juego
+        MisionLevelManager.Instance.ActivateGame();
+        gameObject.SetActive(false);
     }
 
     // Guarda la informacion en el Scriptable Object
@@ -154,9 +105,9 @@ public class UIConfigQuestion : MonoBehaviour
     {
         string info = JsonUtility.ToJson(config, true);
 
-        Debug.Log("Saving level config at " + levelInfoPath);
+        Debug.Log("Saving level config at " + _config.name);
 
-        System.IO.FileStream fs = new System.IO.FileStream(levelInfoPath, System.IO.FileMode.Create, System.IO.FileAccess.Write);
+        System.IO.FileStream fs = new System.IO.FileStream(_config.name, System.IO.FileMode.Create, System.IO.FileAccess.Write);
         System.IO.StreamWriter file = new System.IO.StreamWriter(fs);
         file.WriteLine(info);
         file.Close();

@@ -67,6 +67,13 @@ public class MisionLevelManager : MonoBehaviour
     // Preguntas
     Dictionary<string, string> _questions = new Dictionary<string, string>();
 
+    // Game Objects
+    [SerializeField]
+    GameObject _map;
+
+    [SerializeField]
+    GameObject _dialogs;
+
     private void Awake()
     {
         // Si no hay instancia de esta clase ya creada se almacena
@@ -387,6 +394,13 @@ public class MisionLevelManager : MonoBehaviour
     {
         _paused = false;
         _soundManager.Click();
+    }
+
+    public void ActivateGame()
+    {
+        _map.SetActive(true);
+        _dialogs.SetActive(true);
+
     }
 
     // Cambia imagen del mapa

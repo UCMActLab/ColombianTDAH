@@ -31,18 +31,6 @@ public class MapUIManager : MonoBehaviour
     [SerializeField]
     Image _mapActualImage;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
     public void ConfirmPlanification()
     {
         MisionLevelManager.Instance.AcceptPlanning();

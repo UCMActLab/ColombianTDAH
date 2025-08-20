@@ -36,60 +36,64 @@ public class UIMapData : MonoBehaviour
     [SerializeField]
     MisionConfigurationData _config = null;
 
+    int levelId;
+    string levelInfoPath = "";
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        // Guarda referencias
-        _document = GetComponent<UIDocument>();
-
-        if (_document != null)
+        if (SetModeConfig())
         {
-            // Reglas minimo
-            _stopNumber = _document.rootVisualElement.Q<IntegerField>("NumeroParadas");
-            _stopMins = _document.rootVisualElement.Q<IntegerField>("TiempoParadas");
-            _sleepHours = _document.rootVisualElement.Q<IntegerField>("HorasSueno");
-            _location = _document.rootVisualElement.Q<IntegerField>("Ubicacion");
-            _duration = _document.rootVisualElement.Q<IntegerField>("Duracion");
-            _durationMax = _document.rootVisualElement.Q<IntegerField>("DuracionMax");
+            // Guarda referencias
+            _document = GetComponent<UIDocument>();
 
-            // Planificacion
-            _depHours = new Toggle[12, 2];
-            _locHours = new Toggle[12, 2];
-            _allSleepHours = new Toggle[12, 2];
-            _hourPerSleep = _document.rootVisualElement.Q<IntegerField>("CuantoDormir");
-            _stopNames = _document.rootVisualElement.Q<TextField>("ParadasTextField");
-
-            // Referencias Toggles horas Salida, Dormir y Ubicacion
-            string name = "";
-            string timeMode = "am";
-            for (int i = 0; i < 2; i++)
+            if (_document != null)
             {
-                for (int j = 0; j < 12; j++)
-                {
-                    if (j != 0)
-                        name = j + timeMode;
-                    else
-                        name = 12 + timeMode;
+                // Reglas minimo
+                _stopNumber = _document.rootVisualElement.Q<IntegerField>("NumeroParadas");
+                _stopMins = _document.rootVisualElement.Q<IntegerField>("TiempoParadas");
+                _sleepHours = _document.rootVisualElement.Q<IntegerField>("HorasSueno");
+                _location = _document.rootVisualElement.Q<IntegerField>("Ubicacion");
+                _duration = _document.rootVisualElement.Q<IntegerField>("Duracion");
+                _durationMax = _document.rootVisualElement.Q<IntegerField>("DuracionMax");
 
-                    _depHours[j, i] = _document.rootVisualElement.Q<Toggle>(name);
-                    _locHours[j, i] = _document.rootVisualElement.Q<Toggle>(name + "L");
-                    _allSleepHours[j, i] = _document.rootVisualElement.Q<Toggle>(name + "S");
+                // Planificacion
+                _depHours = new Toggle[12, 2];
+                _locHours = new Toggle[12, 2];
+                _allSleepHours = new Toggle[12, 2];
+                _hourPerSleep = _document.rootVisualElement.Q<IntegerField>("CuantoDormir");
+                _stopNames = _document.rootVisualElement.Q<TextField>("ParadasTextField");
+
+                // Referencias Toggles horas Salida, Dormir y Ubicacion
+                string name = "";
+                string timeMode = "am";
+                for (int i = 0; i < 2; i++)
+                {
+                    for (int j = 0; j < 12; j++)
+                    {
+                        if (j != 0)
+                            name = j + timeMode;
+                        else
+                            name = 12 + timeMode;
+
+                        _depHours[j, i] = _document.rootVisualElement.Q<Toggle>(name);
+                        _locHours[j, i] = _document.rootVisualElement.Q<Toggle>(name + "L");
+                        _allSleepHours[j, i] = _document.rootVisualElement.Q<Toggle>(name + "S");
+                    }
+
+                    timeMode = "pm";
                 }
 
-                timeMode = "pm";
+                // Ejecucion
+                _answerTime = _document.rootVisualElement.Q<IntegerField>("TiempoRespuesta");
+
+                // Callback boton
+                _nextButton = _document.rootVisualElement.Q("Siguiente") as Button;
+
+                if (_nextButton != null)
+                    _nextButton.RegisterCallback<ClickEvent>(OnNextClick);
             }
-
-            // Ejecucion
-            _answerTime = _document.rootVisualElement.Q<IntegerField>("TiempoRespuesta");
-
-            // Callback boton
-            _nextButton = _document.rootVisualElement.Q("Siguiente") as Button;
-
-            if (_nextButton != null)
-                _nextButton.RegisterCallback<ClickEvent>(OnNextClick);
         }
-
-
     }
 
     private void OnDisable()
@@ -162,5 +166,43 @@ public class UIMapData : MonoBehaviour
         List<string> wordsList = words.ToList();
 
         return wordsList;
+    }
+
+    private bool SetModeConfig()
+    {
+        bool editMode = SceneLoader.Instance.getMode();
+        levelId = SceneLoader.Instance.getCurrentLevelId();
+        string writeDir = System.IO.Path.Combine(Application.persistentDataPath, "configInfoMC");
+
+        if (editMode) //el usuario quiere editar el juego
+        {
+            if (!System.IO.Directory.Exists(writeDir))
+            {
+                System.IO.Directory.CreateDirectory(writeDir);
+            }
+            levelInfoPath = System.IO.Path.Combine(writeDir, "DefaultMisionConfigurationData" + levelId + ".json");
+
+            // if (!sceneLoader.getIsDefaultConfig()) SetUIFromJSONFull();
+
+        }
+        else //se carga el nivel por default
+        {
+            levelInfoPath = "Planificacion/DefaultLevels/DefaultMisionConfigurationData" + levelId;
+
+            _config = Resources.Load<MisionConfigurationData>(levelInfoPath);
+
+            // Los niveles por defecto están desbloqueados, pero se hace la comprobación por si acaso
+            if (_config.Desbloqueado)
+            {
+                // Me desactivo
+                MisionLevelManager.Instance.ActivateGame();
+                gameObject.SetActive(false);
+            }
+
+        }
+
+        _config.name = levelInfoPath;
+
+        return editMode;
     }
 }
