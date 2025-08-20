@@ -689,6 +689,8 @@ public class DolphinLevelManager : MonoBehaviour
     /// </summary>
     public void ActivateIncreasedSpeed()
     {
+        EventRegister.Instance.AddToEvnt(Tuple.Create(EventRegister.EventosInfo.ChangeDifficulty, "Activada la velocidad aumentada"));
+
         _increasedVelocity = true;
 
         // Background
@@ -713,6 +715,8 @@ public class DolphinLevelManager : MonoBehaviour
     {
         if (_increasedVelocity)
         {
+            EventRegister.Instance.AddToEvnt(Tuple.Create(EventRegister.EventosInfo.ChangeDifficulty, "Desactivada la velocidad aumentada"));
+
             _increasedVelocity = false;
             _UIManager.SetVelButton(true);
 
@@ -742,6 +746,9 @@ public class DolphinLevelManager : MonoBehaviour
     /// </summary>
     public void Pause(bool pause)
     {
+        string estado = pause ? "Pausado" : "Reanudado";
+        EventRegister.Instance.AddToEvnt(Tuple.Create(EventRegister.EventosInfo.Pause, estado));
+
         _isPaused = pause;
         SetAllObstacleSpawning(!pause); // no spawnea obstaculos
         randomObjectSpawner.PauseObjects(pause); // pausa objetos
