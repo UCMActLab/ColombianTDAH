@@ -60,7 +60,9 @@ public class MisionLevelManager : MonoBehaviour
     string _startTime;
     List<string> _selectedStops;
     List<string> _selectedSleepTimes;
+    List<HourMinSec> selectedSleepTimes;
     List<string> _selectedLocationHours;
+    List<HourMinSec> selectedLocationHours;
 
     // Preguntas
     Dictionary<string, string> _questions = new Dictionary<string, string>();
@@ -83,6 +85,10 @@ public class MisionLevelManager : MonoBehaviour
         _timeCont = _answerTime;
         _totalDurationMins = 0;
 
+        // Listas
+        selectedLocationHours = new List<HourMinSec>();
+        selectedSleepTimes = new List<HourMinSec>();
+
         // Cambia imagen del mapa dependiendo del nivel
         SetMapImage(SceneLoader.Instance.getCurrentLevelId(EventRegister.TipoJuego.MisionColombia));
     }
@@ -102,7 +108,6 @@ public class MisionLevelManager : MonoBehaviour
             {
 
                 _gameClock += new HourMinSec(0, _stopMins, 0);
-                Debug.Log(_gameClock.GetString());
 
                 _misionUIManager.ChangeTime(_gameClock);
 
@@ -219,23 +224,30 @@ public class MisionLevelManager : MonoBehaviour
         List<string> optiondatas3 = new List<string>();
         string auxString = "am";
 
-        for (int i = 1; i <= _depHours.GetLength(1); i++)
+        for (int i = 0; i < _depHours.GetLength(1); i++)
         {
-            for (int j = 1; j <= _depHours.GetLength(0); j++)
+            for (int j = 0; j < _depHours.GetLength(0); j++)
             {
-                if (_depHours[j - 1, i - 1])
+                string auxNum = "";
+
+                if (j != 0)
+                    auxNum = j.ToString();
+                else
+                    auxNum = "12";
+
+                if (_depHours[j, i])
                 {
-                    optiondatas.Add(j + " " + auxString);
+                    optiondatas.Add(auxNum + " " + auxString);
                 }
 
-                if (_locHours[j - 1, i - 1])
+                if (_locHours[j, i])
                 {
-                    optiondatas2.Add(j + " " + auxString);
+                    optiondatas2.Add(auxNum + " " + auxString);
                 }
 
-                if (_allSleepHours[j - 1, i - 1])
+                if (_allSleepHours[j, i])
                 {
-                    optiondatas3.Add(j + " " + auxString);
+                    optiondatas3.Add(auxNum + " " + auxString);
                 }
             }
 
@@ -272,6 +284,13 @@ public class MisionLevelManager : MonoBehaviour
         _totalSleepHours = 0;
         _selectedSleepTimes = newSelectedSleepTime;
 
+        selectedSleepTimes.Clear();
+        for (int i = 0; i < newSelectedSleepTime.Count; i++)
+        {
+            selectedSleepTimes.Add(new HourMinSec(newSelectedSleepTime[i]));
+        }
+
+
         CalculateSleepHours();
 
         _mapUIManager.SetSleepExtraHours(_totalSleepHours);
@@ -280,6 +299,12 @@ public class MisionLevelManager : MonoBehaviour
     public void SetSelectedLocationHours(List<string> newSelectedLocationHours)
     {
         _selectedLocationHours = newSelectedLocationHours;
+
+        selectedLocationHours.Clear();
+        for (int i = 0; i < newSelectedLocationHours.Count; i++)
+        {
+            selectedLocationHours.Add(new HourMinSec(newSelectedLocationHours[i]));
+        }
     }
 
     public void CheckRules()
@@ -288,7 +313,6 @@ public class MisionLevelManager : MonoBehaviour
         {
             // Calculo tiempos totales
             int stopsDuration = _selectedStops.Count * _stopMins; // minutos
-            //int sleepDuration = _selectedSleepTimes.Count * _hourPerSleep; // horas
             _totalDurationMins = _duration * 60 + stopsDuration + _totalSleepHours * 60; // minutos
             bool totalTimeCorrect = (_totalDurationMins / 60) < _durationMax;
 
@@ -309,13 +333,11 @@ public class MisionLevelManager : MonoBehaviour
     // Comprueba reglas de mensaje de ubicacion
     private bool CheckLocationRules()
     {
-
-        // Comprueba horas seleccionadas
         _locMessageCorrect = true;
         int i = 0;
-        while (i < _selectedLocationHours.Count - 1 && _locMessageCorrect)
+        while (i < selectedLocationHours.Count - 1 && _locMessageCorrect)
         {
-            int hBetween = GetHoursInBetween(_selectedLocationHours[i], _selectedLocationHours[i + 1]);
+            int hBetween = selectedLocationHours[i].GetHoursInBetween(selectedLocationHours[i + 1].Hours);
             if (hBetween > _locationFrec)
                 _locMessageCorrect = false;
 
@@ -327,11 +349,12 @@ public class MisionLevelManager : MonoBehaviour
 
         if (_locMessageCorrect)
         {
-            int nElem = _selectedLocationHours.Count;
+            int nElem = selectedLocationHours.Count;
             if (0 < nElem)
             {
                 // True si de la hora de inicio hasta el primer aviso de ubicacion y desde el ultimo aviso hasta el final hay menos de la frecuencia de aviso
-                totalLocMessCorrect = ((GetHoursInBetween(_startTime, _selectedLocationHours[0])) <= _locationFrec && (_totalDurationMins - 60 * GetHoursInBetween(_startTime, _selectedLocationHours[nElem - 1])) <= (_locationFrec * 60));
+                HourMinSec startTime = new HourMinSec(_startTime);
+                totalLocMessCorrect = (startTime.GetHoursInBetween(selectedLocationHours[0].Hours)) <= _locationFrec && (_totalDurationMins - 60 * (startTime.GetHoursInBetween(selectedLocationHours[nElem - 1].Hours)) <= (_locationFrec * 60));
 
             }
             else
@@ -344,11 +367,11 @@ public class MisionLevelManager : MonoBehaviour
     // Calcula el tiempo total escogido para dormir
     private void CalculateSleepHours()
     {
-        for (int i = 0; i < _selectedSleepTimes.Count; i++)
+        for (int i = 0; i < selectedSleepTimes.Count; i++)
         {
-            if (i != (_selectedSleepTimes.Count - 1))
+            if (i != (selectedSleepTimes.Count - 1))
             {
-                int hBetween = GetHoursInBetween(_selectedSleepTimes[i], _selectedSleepTimes[i + 1]);
+                int hBetween = selectedSleepTimes[i].GetHoursInBetween(selectedSleepTimes[i + 1].Hours);
                 if (hBetween < _hourPerSleep)
                     _totalSleepHours += hBetween;
                 else
@@ -357,31 +380,7 @@ public class MisionLevelManager : MonoBehaviour
             else
                 _totalSleepHours += _hourPerSleep;
         }
-    }
 
-
-    // Devuelve numero de horas que hay entre los dos prametros h1 y h2
-    private int GetHoursInBetween(string h1, string h2)
-    {
-        int diff;
-        string[] h1Split = h1.Split(' ');
-        string[] h2Split = h2.Split(' ');
-        int num1 = int.Parse(h1Split[0]);
-        int num2 = int.Parse(h2Split[0]);
-
-        if (h1Split[1] == "am" && h2Split[1] == "pm")
-        {
-            if (h1Split[0] != h2Split[0])
-            {
-                diff = 12 - num1 + num2;
-            }
-            else
-                diff = 12;
-        }
-        else
-            diff = num2 - num1;
-
-        return diff;
     }
 
     public void AcceptPlanning()
@@ -393,6 +392,6 @@ public class MisionLevelManager : MonoBehaviour
     // Cambia imagen del mapa
     public void SetMapImage(int index)
     {
-        _mapUIManager.SetMapImage(index-1);
+        _mapUIManager.SetMapImage(index - 1);
     }
 }

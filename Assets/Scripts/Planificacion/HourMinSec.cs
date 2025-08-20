@@ -146,4 +146,16 @@ public class HourMinSec
 
         return (hour + " " + aux);
     }
+
+
+    // Devuelve el numero de horas que hay entre las dos horas, restando el  parametro con la hora de la clase
+    public int GetHoursInBetween(int hMax)
+    {
+        if(Hours > hMax)
+        {
+            hMax += 24;
+        }
+
+        return hMax-Hours;
+    }
 }

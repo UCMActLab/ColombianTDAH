@@ -62,15 +62,18 @@ public class UIMapData : MonoBehaviour
             // Referencias Toggles horas Salida, Dormir y Ubicacion
             string name = "";
             string timeMode = "am";
-            for (int i = 1; i < 3; i++)
+            for (int i = 0; i < 2; i++)
             {
-                for (int j = 1; j < 13; j++)
+                for (int j = 0; j < 12; j++)
                 {
-                    name = j + timeMode;
+                    if (j != 0)
+                        name = j + timeMode;
+                    else
+                        name = 12 + timeMode;
 
-                    _depHours[j - 1, i - 1] = _document.rootVisualElement.Q<Toggle>(name);
-                    _locHours[j - 1, i - 1] = _document.rootVisualElement.Q<Toggle>(name + "L");
-                    _allSleepHours[j - 1, i - 1] = _document.rootVisualElement.Q<Toggle>(name + "S");
+                    _depHours[j, i] = _document.rootVisualElement.Q<Toggle>(name);
+                    _locHours[j, i] = _document.rootVisualElement.Q<Toggle>(name + "L");
+                    _allSleepHours[j, i] = _document.rootVisualElement.Q<Toggle>(name + "S");
                 }
 
                 timeMode = "pm";
