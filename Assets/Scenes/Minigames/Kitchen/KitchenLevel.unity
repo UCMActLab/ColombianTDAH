@@ -3147,9 +3147,17 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 4305494934548971090, guid: de13c850f8a7c456c873573c794b96af, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5052041019591339451, guid: de13c850f8a7c456c873573c794b96af, type: 3}
       propertyPath: m_Layer
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5052041019591339451, guid: de13c850f8a7c456c873573c794b96af, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5158322569491355134, guid: de13c850f8a7c456c873573c794b96af, type: 3}
       propertyPath: m_Layer
