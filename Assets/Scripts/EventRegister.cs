@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
+using System.Security.Cryptography;
 using System.Text;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using static UnityEditor.PlayerSettings;
 
 public class EventRegister : MonoBehaviour
 {
@@ -47,23 +47,22 @@ public class EventRegister : MonoBehaviour
     {
         infoSesion = value;
         PacientInfoIsRegistered = true; //se pone a true el bool de que se ha registrado
-        infoSesion.nombrePaciente = CleanString(infoSesion.nombrePaciente);
-        infoSesion.nombreTerapeuta = CleanString(infoSesion.nombreTerapeuta);
-
+        infoSesion.idPaciente = CleanString(infoSesion.idPaciente);
+        infoSesion.numeroSesion = CleanString(infoSesion.numeroSesion);
     }
 
-    //infosesion esta hecho para crear el nombre del archivo, que sera "{paciente}-{terapeuta}-{juego}-{fechaStr}.json"
+    //infosesion esta hecho para crear el nombre del archivo, que sera "$"{id}_{juego}_{fechaStr}_{numSesion}.json"
     public struct InfoSesion
     {
-        public string nombrePaciente;
-        public string nombreTerapeuta;
+        public string idPaciente;
+        public string numeroSesion;
         public TipoJuego nombreJuego;
         public DateTime fechaHora;
 
-        public InfoSesion(string paciente, string terapeuta, TipoJuego nombreJuego)
+        public InfoSesion(string paciente, string numSesion, TipoJuego nombreJuego)
         {
-            this.nombrePaciente = paciente;
-            this.nombreTerapeuta = terapeuta;
+            this.idPaciente = paciente;
+            this.numeroSesion = numSesion;
             this.nombreJuego = nombreJuego;
             this.fechaHora = DateTime.UtcNow.AddHours(-5);
         }
@@ -154,18 +153,18 @@ public class EventRegister : MonoBehaviour
     public void AddInitialEvent(EventosInfo evento, string info, TipoJuego juego)
     {
         currentGamePlaying = juego;
-        addInitialPacienteInfoEvent(juego); //mete la primera linea de la info paciente
+        AddInitialPacienteInfoEvent(juego); //mete la primera linea de la info paciente
         AddToEvnt(new Tuple<EventosInfo, string>(evento, info));
         EvntToJson(); // lo escribe ya directamente
     }
 
     //se va a usar al empezar a escribir (que tiene que ser cuando el jugador entra a un juego y se haga set del nombreJuego taambien)
     //para que este al principio del json
-    public void addInitialPacienteInfoEvent(TipoJuego juego)
+    public void AddInitialPacienteInfoEvent(TipoJuego juego)
     {
         infoSesion.nombreJuego = juego;
         WritePath = GetFileNameFromInfoSesion(infoSesion);
-        AddInitialEventSafe(EventosInfo.PacienteInfo, $"Paciente: {infoSesion.nombrePaciente}, Terapeuta: {infoSesion.nombreTerapeuta}");
+        AddInitialEventSafe(EventosInfo.PacienteInfo, $"Paciente: {infoSesion.idPaciente}, Numero sesion: {infoSesion.numeroSesion}");
 
     }
 
@@ -180,9 +179,9 @@ public class EventRegister : MonoBehaviour
         // Quitar extensión por si WritePath viene con .json de un uso anterior
         WritePath = System.IO.Path.GetFileNameWithoutExtension(WritePath);
 
-        //IncrementPath();
+        IncrementPath();
         //  extensión .json 
-        WritePath += ".json";
+       // WritePath += ".json";
 
 
         WriteTo = System.IO.Path.Combine(WriteDir, WritePath);
@@ -212,12 +211,13 @@ public class EventRegister : MonoBehaviour
         if (bracketIndex >= 0)
             baseName = baseName.Substring(0, bracketIndex);
 
-        string candidate = baseName + ".json";
+        //string candidate = baseName + ".json";
+        string candidate = $"{baseName}.json"; // Empieza directamente en [01]
 
         // Mientras exista, generamos [01], [02]...
         while (System.IO.File.Exists(System.IO.Path.Combine(WriteDir, candidate)) && it < 100)
         {
-            candidate = $"{baseName}[{it:00}].json";
+            candidate = $"{baseName}_{it:00}.json";
             it++;
         }
 
@@ -306,7 +306,7 @@ public class EventRegister : MonoBehaviour
                         text += ", \n" + $"    \"Velocidad actual\": \"{evento.Item2}\"";
                         break;
                     case EventosInfo.PacienteInfo:
-                        text += ", \n" + $"    \"Paciente y terapeuta\": \"{evento.Item2}\"";
+                        text += ", \n" + $"    \"Paciente y numero de sesion\": \"{evento.Item2}\"";
                         break;
                 }
             }
@@ -342,13 +342,13 @@ public class EventRegister : MonoBehaviour
     //para sacar el nombre del archivo segun los datos
     public string GetFileNameFromInfoSesion(InfoSesion infoS)
     {
-        string pac = CleanString(infoS.nombrePaciente);
-        string ter = CleanString(infoS.nombreTerapeuta);
+        string id = CleanString(infoS.idPaciente);
+        string numSesion = CleanString(infoS.numeroSesion);
         string juego = infoS.nombreJuego.ToString(); // enum a string
+        string fechaStr = infoS.fechaHora.ToString("yyyy-MM-dd");
 
-        string fechaStr = infoS.fechaHora.ToString("yyyy-MM-dd-HH-mm");
 
-        return $"{pac}-{ter}-{juego}-{fechaStr}.json";
+        return $"{id}_{juego}_{fechaStr}_{numSesion}.json";
     }
 
     //no sé si prefiero avisar de que no pongan cosas raras porque sera nombre de archivo o hacer esto xd
@@ -404,5 +404,11 @@ public class EventRegister : MonoBehaviour
     void OnApplicationQuit()
     {
         WriteEnd();
+    }
+
+
+    public string GetPatientID()
+    {
+        return infoSesion.idPaciente;
     }
 }

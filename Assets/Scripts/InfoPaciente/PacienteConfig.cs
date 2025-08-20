@@ -9,14 +9,13 @@ public class PacienteConfig : MonoBehaviour
     [SerializeField] 
     private TMP_InputField pacienteInput;
     [SerializeField] 
-    private TMP_InputField terapeutaInput;
+    private TMP_InputField sesionInput;
 
     [SerializeField] 
     private GameObject edificios;
 
     [SerializeField]
     private GameObject ui;
-
 
     EventRegister.InfoSesion infoSesion;
 
@@ -42,14 +41,14 @@ public class PacienteConfig : MonoBehaviour
         EventRegister.InfoSesion currentInfo = EventRegister.Instance.GetInfoSesion();
 
         // si ya hay datos guardados, ponerlos en los inputs
-        if (!string.IsNullOrWhiteSpace(currentInfo.nombrePaciente))
+        if (!string.IsNullOrWhiteSpace(currentInfo.idPaciente))
         {
-            pacienteInput.text = currentInfo.nombrePaciente;
+            pacienteInput.text = currentInfo.idPaciente;
         }
 
-        if (!string.IsNullOrWhiteSpace(currentInfo.nombreTerapeuta))
+        if (!string.IsNullOrWhiteSpace(currentInfo.numeroSesion))
         {
-            terapeutaInput.text = currentInfo.nombreTerapeuta;
+            sesionInput.text = currentInfo.numeroSesion;
         }
     }
     private void OnDisable()
@@ -71,16 +70,14 @@ public class PacienteConfig : MonoBehaviour
     public void OnAceptarClicked()
     {
         string paciente = string.IsNullOrWhiteSpace(pacienteInput.text) ? "TEMP" : pacienteInput.text;
-        string terapeuta = string.IsNullOrWhiteSpace(terapeutaInput.text) ? "TEMP" : terapeutaInput.text;
+        string numSesion = string.IsNullOrWhiteSpace(sesionInput.text) ? "TEMP" : sesionInput.text;
 
         //todavia no le ponemos el juego porque no ha entrado a ninguno, se pondra al
-        infoSesion = new EventRegister.InfoSesion(paciente, terapeuta, EventRegister.TipoJuego.DefaultGame); 
-
+        infoSesion = new EventRegister.InfoSesion(paciente, numSesion, EventRegister.TipoJuego.DefaultGame); 
 
         EventRegister.Instance.SetInfoSesion(infoSesion);
 
-
-        Debug.Log($"Evento PacienteInfo. Datos guardados: Paciente={paciente}, Terapeuta={terapeuta}");
+        Debug.Log($"Evento PacienteInfo. Datos guardados: Paciente={paciente}, numsesion={numSesion}");
 
         //desactivar el canvas actual y ponemos las casas de fondo
         edificios.SetActive(true);
@@ -88,5 +85,6 @@ public class PacienteConfig : MonoBehaviour
 
 
     }
+
 }
 

@@ -77,21 +77,14 @@ public class MisionUIManager : MonoBehaviour
     }
 
     // Cambia tiempo de la hora
-    public void ChangeTime(string newTime)
+    public void ChangeTime(HourMinSec newTime)
     {
-        string[] separatedTime = newTime.Split(" ");
-
-        if (separatedTime[1][0] == 'a')
-            separatedTime[1] = "AM";
-        else if(separatedTime[1][0] == 'p')
-            separatedTime[1] = "PM";
-
-        _time.text = separatedTime[0] + ":00 " + separatedTime[1];
+        _time.text = newTime.GetHMString();
     }
 
-    public void SetStartTime(string newTime)
+    public void SetStartTime(HourMinSec newTime)
     {
-        _planificationListComp.SetDepartureTime(newTime);
+        _planificationListComp.SetDepartureTime(newTime.GetHString());
 
         ChangeTime(newTime);
     }

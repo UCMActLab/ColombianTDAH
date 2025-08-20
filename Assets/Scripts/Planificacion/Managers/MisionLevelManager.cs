@@ -3,6 +3,7 @@ using Unity.VisualScripting.FullSerializer;
 using UnityEngine;
 using static UnityEngine.Rendering.STP;
 
+
 public class MisionLevelManager : MonoBehaviour
 {
     // Singleton
@@ -20,6 +21,16 @@ public class MisionLevelManager : MonoBehaviour
     SoundManager _soundManager;
 
     // Time
+    float _playTimeCont = 0;
+    float _auxCont = 0; // Contador aparicion paradas en ejecucion
+    float _realSegsPerStop = 7.5f;
+    HourMinSec _gameClock;
+
+    // Estados
+    bool _paused = true;
+    bool _sleeping = false;
+
+    // Ask Time
     float _answerTime = 10; // Seconds
     float _timeCont = 0;
     bool _isAnswering = false;
@@ -71,13 +82,35 @@ public class MisionLevelManager : MonoBehaviour
     {
         _timeCont = _answerTime;
         _totalDurationMins = 0;
+
+        // Cambia imagen del mapa dependiendo del nivel
+        SetMapImage(SceneLoader.Instance.getCurrentLevelId(EventRegister.TipoJuego.MisionColombia));
     }
 
     // Update is called once per frame
     void Update()
     {
-        // Actualiza contador tiempo
-        if (_isAnswering) UpdateTime();
+
+        if (!_paused)
+        {
+            // Actualiza contador tiempo
+            if (_isAnswering) UpdateTime();
+
+            _playTimeCont += Time.deltaTime;
+
+            if (_auxCont > _realSegsPerStop)
+            {
+
+                _gameClock += new HourMinSec(0, _stopMins, 0);
+                Debug.Log(_gameClock.GetString());
+
+                _misionUIManager.ChangeTime(_gameClock);
+
+                _auxCont = 0;
+            }
+            else
+                _auxCont += Time.deltaTime;
+        }
     }
 
     // Activa botones y slider tiempo
@@ -126,14 +159,15 @@ public class MisionLevelManager : MonoBehaviour
     public void RegisterUIManager(MisionUIManager misionUIManager)
     {
         _misionUIManager = misionUIManager;
-        _misionUIManager.SetStartTime(_startTime);
+        _misionUIManager.SetStartTime(_gameClock);
         _misionUIManager.SetStops(_selectedStops);
         _misionUIManager.SetSleepHours(_selectedSleepTimes);
         _misionUIManager.SetLocationHours(_selectedLocationHours);
     }
 
     // Carga las preguntas de las paradas
-    public void LoadQuestions(Dictionary<string, string> q) {
+    public void LoadQuestions(Dictionary<string, string> q)
+    {
         _questions = q;
     }
 
@@ -215,9 +249,16 @@ public class MisionLevelManager : MonoBehaviour
         _mapUIManager.SetStopsNames(_stops);
     }
 
+    // Set Time. "X am/X pm"
     public void SetStartTime(string newTime)
     {
         _startTime = newTime;
+        string[] timeSplit = newTime.Split(' ');
+        int aux = 0;
+        if (timeSplit[1] == "pm")
+            aux = 12;
+        string auxString = timeSplit[0];
+        _gameClock = new HourMinSec(int.Parse(auxString) + aux, 0, 0);
     }
 
     public void SetSelectedStops(List<string> newSelectedStops)
@@ -343,7 +384,15 @@ public class MisionLevelManager : MonoBehaviour
         return diff;
     }
 
-    public void ClickSound() {
+    public void AcceptPlanning()
+    {
+        _paused = false;
         _soundManager.Click();
+    }
+
+    // Cambia imagen del mapa
+    public void SetMapImage(int index)
+    {
+        _mapUIManager.SetMapImage(index-1);
     }
 }

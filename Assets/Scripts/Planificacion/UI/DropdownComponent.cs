@@ -11,10 +11,7 @@ public class DropdownComponent : MonoBehaviour
     void Start()
     {
         _myDropdown = GetComponent<TMP_Dropdown>();
-        SetStartTime();
-        SetSelectedStops();
-        SetSelectedSleepHours();
-        SetSelectedLocationHours();
+        _myDropdown.onValueChanged.Invoke(0);
     }
 
     // Guarda hora de salida seleccionada

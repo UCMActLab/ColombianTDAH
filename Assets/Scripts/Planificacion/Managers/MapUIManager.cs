@@ -26,6 +26,11 @@ public class MapUIManager : MonoBehaviour
     [SerializeField]
     TextMeshProUGUI _totalTime;
 
+    [SerializeField]
+    List<Sprite> _mapImages;
+    [SerializeField]
+    Image _mapActualImage;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -40,7 +45,7 @@ public class MapUIManager : MonoBehaviour
 
     public void ConfirmPlanification()
     {
-        MisionLevelManager.Instance.ClickSound();
+        MisionLevelManager.Instance.AcceptPlanning();
         SceneManager.LoadScene("MC_Level");
     }
 
@@ -121,5 +126,11 @@ public class MapUIManager : MonoBehaviour
     public void SetWarning(bool enabled)
     {
         _warningGO.SetActive(enabled);
+    }
+
+    // Cambia imagen del mapa
+    public void SetMapImage(int index)
+    {
+        _mapActualImage.sprite = _mapImages[index];
     }
 }
