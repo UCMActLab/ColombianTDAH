@@ -198,12 +198,12 @@ public class UIMapData : MonoBehaviour
 
             _config = Resources.Load<MisionConfigurationData>(levelInfoPath);
 
-            Debug.Log("Config null: " + _config == null);
-
             // Los niveles por defecto están desbloqueados, pero se hace la comprobación por si acaso
             if (_config.Desbloqueado)
             {
                 // Me desactivo
+                MisionLevelManager.Instance.LoadConfiguration(_config);
+                MisionLevelManager.Instance.LoadQuestions(_config.Questions.ToDictionary());
                 MisionLevelManager.Instance.ActivateGame();
                 gameObject.SetActive(false);
             }
