@@ -41,7 +41,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Minigames/Kitchen/KitchenLevel.unity
     guid: 50be3200f85467a4abc9231e5e0b0d97
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Minigames/Kitchen/KitchenEnd.unity
     guid: 5226b4213bc0d3d499585253dacd5e66
   m_configObjects:

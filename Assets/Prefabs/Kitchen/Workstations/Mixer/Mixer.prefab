@@ -914,7 +914,7 @@ MonoBehaviour:
   animKey: 2
   idleAnim: Idle
   processingAnim: Processing
-  animTime: 4
+  animTime: 5
   soundKey: 1
   processingSfxName: Mixer
   recetasDatabase: {fileID: 11400000, guid: 500188bf1c71ba0498684343da787a59, type: 2}
