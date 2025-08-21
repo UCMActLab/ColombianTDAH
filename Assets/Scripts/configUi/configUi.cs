@@ -15,6 +15,9 @@ public class configUi : MonoBehaviour
     [SerializeField]
     GameObject canvasObject;
 
+    [SerializeField]
+    GameObject backButton;
+
     VisualElement fase1;
     VisualElement fase2;
     VisualElement fase3C;
@@ -403,6 +406,7 @@ public class configUi : MonoBehaviour
         environmentObject.SetActive(enable);
         managerstObject.SetActive(enable);
         canvasObject.SetActive(enable);
+        backButton.SetActive(!enable);
         if (enable) DolphinLevelManager.Instance.InitLevel(config);
     }
 

@@ -165,17 +165,7 @@ public class EventRegister : MonoBehaviour
         }
     }
 
-    //hecho post juego porque convenia iniciar en otra parte
-    public void AddInitialEventSafe(EventosInfo evento, string info)
-    {
-        if (!canWrite)
-        {
-            WriteStart(); // Inicia si no está iniciado
-        }
 
-        AddToEvnt(new Tuple<EventosInfo, string>(evento, info));
-        EvntToJson(); // lo escribe ya directamente
-    }
 
     //hecho post juego porque convenia iniciar en otra parte
     //ESTE ES EL METODO QUE HAY QUE USAR AL EMPEZAR TU JUEGO PARA HACER EL EVENTO DE INICIO
@@ -189,12 +179,20 @@ public class EventRegister : MonoBehaviour
 
     //se va a usar al empezar a escribir (que tiene que ser cuando el jugador entra a un juego y se haga set del nombreJuego taambien)
     //para que este al principio del json
-    public void AddInitialPacienteInfoEvent(TipoJuego juego)
+    private void AddInitialPacienteInfoEvent(TipoJuego juego)
     {
         infoSesion.nombreJuego = juego;
         WritePath = GetFileNameFromInfoSesion(infoSesion);
-        AddInitialEventSafe(EventosInfo.PacienteInfo, $"Paciente: {infoSesion.idPaciente}, Numero sesion: {infoSesion.numeroSesion}");
 
+        if (!canWrite)
+        {
+            WriteStart(); // Inicia si no está iniciado
+        }
+        else
+            return; //si ya esta escribiendo que no vuelva a poner este evento
+
+        AddToEvnt(new Tuple<EventosInfo, string>(EventosInfo.PacienteInfo, $"Paciente: {infoSesion.idPaciente}, Numero sesion: {infoSesion.numeroSesion}"));
+        EvntToJson(); // lo escribe ya directamente
     }
 
     public void WriteStart()
