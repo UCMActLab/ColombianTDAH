@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d4fa4ddff8d3210439be91a15234c4bd, type: 3}
+  m_Name: Carne a la llanera
+  m_EditorClassIdentifier: 
+  nombre: Carne a la llanera
+  categoria: Plato fuerte
+  ingredientes: 0b000000
+  puestos: 06000000
+  tiempo_est_segs: 180
+  processedRecipe: {fileID: 2244577606202969946, guid: 34d14a57fcdeaa5499c0ec4c1cc595a0, type: 3}
+  esIntermedia: 0
