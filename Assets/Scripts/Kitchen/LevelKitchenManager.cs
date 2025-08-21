@@ -378,7 +378,7 @@ public class LevelKitchenManager : MonoBehaviour
                 // ¿hemos cumplido todos los objetivos?
                 if (recetasRestantes.Values.All(v => v <= 0))
                 {
-                    OnVictory();
+                    //OnVictory();
                 }
             }
             else
