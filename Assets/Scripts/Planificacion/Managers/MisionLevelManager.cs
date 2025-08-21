@@ -98,6 +98,12 @@ public class MisionLevelManager : MonoBehaviour
 
         // Cambia imagen del mapa dependiendo del nivel
         SetMapImage(SceneLoader.Instance.getCurrentLevelId(EventRegister.TipoJuego.MisionColombia));
+
+        // Settea juego
+        EventRegister.InfoSesion infoSesion = EventRegister.Instance.GetInfoSesion();
+        infoSesion.nombreJuego = EventRegister.TipoJuego.MisionColombia;
+        EventRegister.Instance.SetInfoSesion(infoSesion);
+
     }
 
     // Update is called once per frame
@@ -402,5 +408,10 @@ public class MisionLevelManager : MonoBehaviour
     public void SetMapImage(int index)
     {
         _mapUIManager.SetMapImage(index - 1);
+    }
+
+    public void Pause(bool enabled)
+    {
+        Debug.Log("Pauso que voy ardiendooo~");
     }
 }
