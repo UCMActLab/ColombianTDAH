@@ -45,9 +45,9 @@ public class MisionLevelManager : MonoBehaviour
     bool _rules;
 
     // Horas
-    bool[,] _depHours;
-    bool[,] _locHours;
-    bool[,] _allSleepHours;
+    bool[] _depHours;
+    bool[] _locHours;
+    bool[] _allSleepHours;
     int _hourPerSleep;
     int _totalDurationMins;
     int _totalSleepHours;
@@ -229,36 +229,31 @@ public class MisionLevelManager : MonoBehaviour
         List<string> optiondatas = new List<string>();
         List<string> optiondatas2 = new List<string>();
         List<string> optiondatas3 = new List<string>();
-        string auxString = "am";
 
-        for (int i = 0; i < _depHours.GetLength(1); i++)
+        for (int i = 0; i < _depHours.Length; i++)
         {
-            for (int j = 0; j < _depHours.GetLength(0); j++)
+
+            HourMinSec auxTime = new HourMinSec(i, 0, 0);
+            string auxString = auxTime.GetHString();
+
+            if (_depHours[i])
             {
-                string auxNum = "";
 
-                if (j != 0)
-                    auxNum = j.ToString();
-                else
-                    auxNum = "12";
-
-                if (_depHours[j, i])
-                {
-                    optiondatas.Add(auxNum + " " + auxString);
-                }
-
-                if (_locHours[j, i])
-                {
-                    optiondatas2.Add(auxNum + " " + auxString);
-                }
-
-                if (_allSleepHours[j, i])
-                {
-                    optiondatas3.Add(auxNum + " " + auxString);
-                }
+                optiondatas.Add(auxString);
             }
 
-            auxString = "pm";
+            if (_locHours[i])
+            {
+
+                optiondatas2.Add(auxString);
+            }
+
+            if (_allSleepHours[i])
+            {
+                optiondatas3.Add(auxString);
+
+            }
+
         }
 
         _mapUIManager.SetDepartureHours(optiondatas);

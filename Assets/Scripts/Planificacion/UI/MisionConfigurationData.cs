@@ -41,18 +41,18 @@ public class MisionConfigurationData : ScriptableObject
     // PLANIFICACION
     // Matriz horas salida
     [SerializeField]
-    private bool[,] _departureHours = new bool[12, 2];
-    public bool[,] DepartureHours { get => _departureHours; set => _departureHours = value; }
+    private bool[] _departureHours = new bool[24];
+    public bool[] DepartureHours { get => _departureHours; set => _departureHours = value; }
 
     // Matriz horas ubicacion
     [SerializeField]
-    private bool[,] _locationHours = new bool[12, 2];
-    public bool[,] LocationHours { get => _locationHours; set => _locationHours = value; }
+    private bool[] _locationHours = new bool[24];
+    public bool[] LocationHours { get => _locationHours; set => _locationHours = value; }
 
     // Matriz horas dormir
     [SerializeField]
-    private bool[,] _allSleepHours = new bool[12, 2];
-    public bool[,] AllSleepHours { get => _allSleepHours; set => _allSleepHours = value; }
+    private bool[] _allSleepHours = new bool[24];
+    public bool[] AllSleepHours { get => _allSleepHours; set => _allSleepHours = value; }
 
     [SerializeField]
     private int _hoursPerSleep;

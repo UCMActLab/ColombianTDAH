@@ -132,16 +132,19 @@ public class UIMapData : MonoBehaviour
 
         // CONFIGURACION PLANIFICACION
         // Horas
+        int k = 0;
         for (int i = 0; i < 2; i++)
         {
             for (int j = 0; j < 12; j++)
             {
                 // Horas salida
-                _config.DepartureHours[j, i] = _depHours[j, i].value;
+                _config.DepartureHours[k] = _depHours[j, i].value;
                 // Horas ubicacion
-                _config.LocationHours[j, i] = _locHours[j, i].value;
+                _config.LocationHours[k] = _locHours[j, i].value;
                 //Horas dormir
-                _config.AllSleepHours[j, i] = _allSleepHours[j, i].value;
+                _config.AllSleepHours[k] = _allSleepHours[j, i].value;
+
+                k++;
             }
         }
 
