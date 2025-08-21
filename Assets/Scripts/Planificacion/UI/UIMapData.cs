@@ -39,10 +39,13 @@ public class UIMapData : MonoBehaviour
     int levelId;
     string levelInfoPath = "";
 
+    bool _editMode;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        if (SetModeConfig())
+        _editMode = SetModeConfig();
+        if (_editMode)
         {
             // Guarda referencias
             _document = GetComponent<UIDocument>();
@@ -98,7 +101,8 @@ public class UIMapData : MonoBehaviour
 
     private void OnDisable()
     {
-        _nextButton.UnregisterCallback<ClickEvent>(OnNextClick);
+        if (_editMode)
+            _nextButton.UnregisterCallback<ClickEvent>(OnNextClick);
     }
 
     private void OnNextClick(ClickEvent ce)
@@ -191,6 +195,8 @@ public class UIMapData : MonoBehaviour
 
             _config = Resources.Load<MisionConfigurationData>(levelInfoPath);
 
+            Debug.Log("Config null: " + _config == null);
+
             // Los niveles por defecto están desbloqueados, pero se hace la comprobación por si acaso
             if (_config.Desbloqueado)
             {
@@ -201,7 +207,7 @@ public class UIMapData : MonoBehaviour
 
         }
 
-        _config.name = levelInfoPath;
+        _config.configName = levelInfoPath;
 
         return editMode;
     }

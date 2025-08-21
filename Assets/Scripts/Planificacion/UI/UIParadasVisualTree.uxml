@@ -14,7 +14,7 @@
                         <ui:Label text="Seleccione las paradas que pueda seleccionar el usuario para su planificación. Las que no se elijan serán utilizadas como distracción durante la ejecución del juego." name="ParadasUsuarioExplText" style="font-size: 18px; white-space: normal;" />
                     </ui:VisualElement>
                     <ui:VisualElement name="Aceptar" style="margin-bottom: 10px; font-size: 12px; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; margin-top: 20px; margin-right: 10px; margin-left: 20px;">
-                        <ui:Toggle label="Nivel desbloqueado:" name="desbloqueado" value="true" style="margin-bottom: 5px; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; margin-top: 5px; margin-right: 5px; margin-left: 5px;" />
+                        <ui:Toggle label="Nivel desbloqueado:" name="Desbloqueado" value="true" style="margin-bottom: 5px; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; margin-top: 5px; margin-right: 5px; margin-left: 5px;" />
                         <ui:Button text="Guardar y jugar" name="guardarYjugar" style="flex-grow: 1; margin-top: 5px; margin-right: 5px; margin-bottom: 5px; margin-left: 5px;" />
                         <ui:Button text="Guardar y volver" name="guardarYvolver" enable-rich-text="true" enabled="false" style="margin-left: 5px; background-color: rgb(255, 148, 48); margin-bottom: 5px; margin-top: 5px; margin-right: 5px; padding-top: 10px; padding-right: 12px; padding-bottom: 10px; padding-left: 12px;" />
                     </ui:VisualElement>

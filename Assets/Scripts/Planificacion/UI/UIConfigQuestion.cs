@@ -8,12 +8,7 @@ public class UIConfigQuestion : MonoBehaviour
 {
     UIDocument _document;
     Button _acceptButton;
-
-    //[SerializeField]
-    //GameObject _map;
-
-    //[SerializeField]
-    //GameObject _dialogs;
+    Toggle _unlock;
 
     VisualElement _questionsVisualElement;
     VisualElement _userQuestionsVisualElement;
@@ -30,6 +25,7 @@ public class UIConfigQuestion : MonoBehaviour
         {
             _questionsVisualElement = _document.rootVisualElement.Q<VisualElement>("ParadasPreg");
             _userQuestionsVisualElement = _document.rootVisualElement.Q<VisualElement>("ParadasUsuario");
+            _unlock = _document.rootVisualElement.Q<Toggle>("Desbloqueado");
 
             // Callback boton
             _acceptButton = _document.rootVisualElement.Q("guardarYjugar") as Button;
@@ -88,6 +84,10 @@ public class UIConfigQuestion : MonoBehaviour
     // Guarda la informacion en el Scriptable Object
     private void SaveData()
     {
+        // Desbloqueo
+        _config.Desbloqueado = _unlock.value;
+
+        // Preguntas
         Dictionary<string, string> q = new Dictionary<string, string>();
 
         for (int i = 0; i < _config.StopsNames.Count; i++)
@@ -105,9 +105,9 @@ public class UIConfigQuestion : MonoBehaviour
     {
         string info = JsonUtility.ToJson(config, true);
 
-        Debug.Log("Saving level config at " + _config.name);
+        Debug.Log("Saving level config at " + _config.configName);
 
-        System.IO.FileStream fs = new System.IO.FileStream(_config.name, System.IO.FileMode.Create, System.IO.FileAccess.Write);
+        System.IO.FileStream fs = new System.IO.FileStream(_config.configName, System.IO.FileMode.Create, System.IO.FileAccess.Write);
         System.IO.StreamWriter file = new System.IO.StreamWriter(fs);
         file.WriteLine(info);
         file.Close();
