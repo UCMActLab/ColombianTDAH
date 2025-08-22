@@ -78,7 +78,7 @@ public class configUi : MonoBehaviour
 
         SceneLoader sceneLoader = GameObject.Find("SceneLoader").GetComponent<SceneLoader>();
         bool editMode = sceneLoader.getMode();
-        levelId = sceneLoader.getCurrentLevelId();
+        levelId = sceneLoader.getCurrentLevelId(EventRegister.TipoJuego.Delfines);
         string writeDir = System.IO.Path.Combine(Application.persistentDataPath, "configInfo");
 
         Debug.Log("LEVEL ID " + levelId);
