@@ -3,7 +3,7 @@ using UnityEngine;
 public class ConveyorDetector : MonoBehaviour
 {
     [SerializeField] private LayerMask conveyorLayer;
-    [SerializeField] private float raycastDistance = 14f;
+    [SerializeField] private float raycastDistance = 12f;
     [Header("Overlay")]
     [SerializeField] private Material overlayGreen;
     [SerializeField] private Material overlayRed;

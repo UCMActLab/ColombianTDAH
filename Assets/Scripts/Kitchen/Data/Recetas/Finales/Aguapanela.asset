@@ -17,5 +17,5 @@ MonoBehaviour:
   ingredientes: 2600000000000000
   puestos: 02000000
   tiempo_est_segs: 30
-  processedRecipe: {fileID: 2244577606202969946, guid: ce79dbb34713241978debb72446fa860, type: 3}
+  processedRecipe: {fileID: 2371580083373985976, guid: 8e17c0cba3d9f2f46b06a6d87fbb2a7f, type: 3}
   esIntermedia: 0
