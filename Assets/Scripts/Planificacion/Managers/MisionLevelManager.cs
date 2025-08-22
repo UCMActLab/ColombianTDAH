@@ -413,5 +413,13 @@ public class MisionLevelManager : MonoBehaviour
     public void Pause(bool enabled)
     {
         Debug.Log("Pauso que voy ardiendooo~");
+
+        _paused = enabled;
+    }
+
+    public void ExitLevel()
+    {
+        Destroy(gameObject);
+        _instance = null;
     }
 }
