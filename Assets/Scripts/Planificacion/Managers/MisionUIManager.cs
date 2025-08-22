@@ -103,4 +103,8 @@ public class MisionUIManager : MonoBehaviour
     {
         _planificationListComp.SetLocationHours(locationHours);
     }
+
+    public void ExitLevel() {
+        MisionLevelManager.Instance.ExitLevel();
+    }
 }
