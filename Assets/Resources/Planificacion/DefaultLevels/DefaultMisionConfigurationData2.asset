@@ -1,0 +1,42 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6ee3ac50a5456724d8a4c1c68f8a8d48, type: 3}
+  m_Name: DefaultMisionConfigurationData2
+  m_EditorClassIdentifier: 
+  configName: 
+  _nStops: 2
+  _stopMins: 10
+  _sleepHours: 4
+  _location: 10
+  _duration: 12
+  _durationMax: 24
+  _departureHours: 000000000101010101010000000000000000000000000000
+  _locationHours: 000000000000000001000000000100000001000000010000
+  _allSleepHours: 000000000000000001010101010101010101010000000000
+  _hoursPerSleep: 2
+  _stopsNames:
+  - Hotel
+  - Garaje
+  - Parque de atracciones
+  - Colegio
+  _answerTime: 5
+  Questions:
+    list:
+    - Key: Hotel
+      Value: "\xBFQuieres parar en un hotel maravilloso?"
+    - Key: Garaje
+      Value: "\xBFParamos a ver si nuestro cami\xF3n est\xE1 bien?"
+    - Key: Parque de atracciones
+      Value: "Qu\xE9 divertido, un parque de atracciones, \xBFQuieres parar?"
+    - Key: Colegio
+      Value: "Ah\xED est\xE1 el colegio, \xBFParamos para ver a los amigos?"
+  _desbloqueado: 1
