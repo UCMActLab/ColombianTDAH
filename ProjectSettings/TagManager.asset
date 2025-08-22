@@ -7,6 +7,7 @@ TagManager:
   - JumpTrigger
   - DropTrigger
   - BodyTrigger
+  - LibroLight
   layers:
   - Default
   - TransparentFX
@@ -23,8 +24,8 @@ TagManager:
   - 
   - 
   - 
-  - 
-  - 
+  - Workstations
+  - Conveyor
   - 
   - 
   - 

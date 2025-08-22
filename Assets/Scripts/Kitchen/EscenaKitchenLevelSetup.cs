@@ -1,0 +1,83 @@
+using TMPro;
+using UnityEngine;
+
+public class EscenaKitchenLevelSetup : MonoBehaviour
+{
+    [Header("Objetos generales de la escena")]
+    [SerializeField] private GameObject[] lights;
+    [SerializeField] private Reloj contador;
+    [SerializeField] private GameObject libroDeRecetas;
+    [SerializeField] private GameObject tablon;
+    [SerializeField] private Transform tablonPos;
+    [SerializeField] private GameObject recetasColgadas;
+
+    [Header("Workstations")]
+    [SerializeField] private GameObject mixer;
+    [SerializeField] private GameObject sliceTable;
+    [SerializeField] private GameObject pot;
+    [SerializeField] private GameObject blender;
+    [SerializeField] private GameObject pressureCooker;
+    [SerializeField] private GameObject pan;
+    [SerializeField] private GameObject oven;
+
+    [Header("Sounds")]
+    [SerializeField] private AudioSource mixerSource;
+    [SerializeField] private AudioClip mixerClip;
+    [SerializeField] private AudioSource sliceTableSource;
+    [SerializeField] private AudioClip sliceTableClip;
+    [SerializeField] private AudioSource potSource;
+    [SerializeField] private AudioClip potClip;
+    [SerializeField] private AudioSource blenderSource;
+    [SerializeField] private AudioClip blenderClip;
+    [SerializeField] private AudioSource pressureCookerSource;
+    [SerializeField] private AudioClip pressureCookerClip;
+    [SerializeField] private AudioSource panSource;
+    [SerializeField] private AudioClip panClip;
+    [SerializeField] private AudioSource ovenSource;
+    [SerializeField] private AudioClip ovenClip;
+
+
+    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    void Awake()
+    {
+        LevelKitchenManager.Instance.SetLibro(libroDeRecetas);
+        LevelKitchenManager.Instance.SetLights(lights);
+        LevelKitchenManager.Instance.SetContador(contador);
+        LevelKitchenManager.Instance.SetTablon(tablon);
+        LevelKitchenManager.Instance.SetCameraTablonPos(tablonPos);
+        LevelKitchenManager.Instance.SetRecetasColgadas(recetasColgadas);
+
+        // Animators
+        AnimatorManager.Instance.SetAnimator(ObjetosAnim.Libro, libroDeRecetas.GetComponent<Animator>());
+        AnimatorManager.Instance.SetAnimator(ObjetosAnim.Tabla_De_Picar, sliceTable.GetComponent<Animator>());
+        AnimatorManager.Instance.SetAnimator(ObjetosAnim.Mezcladora, mixer.GetComponent<Animator>());
+        AnimatorManager.Instance.SetAnimator(ObjetosAnim.Olla, pot.GetComponent<Animator>());
+        AnimatorManager.Instance.SetAnimator(ObjetosAnim.Licuadora, blender.GetComponent<Animator>());
+        AnimatorManager.Instance.SetAnimator(ObjetosAnim.Olla_A_Presion, pressureCooker.GetComponent<Animator>());
+        AnimatorManager.Instance.SetAnimator(ObjetosAnim.Sarten, pan.GetComponent<Animator>());
+        AnimatorManager.Instance.SetAnimator(ObjetosAnim.Horno, oven.GetComponent<Animator>());
+
+        // Sonidos
+        KitchenSoundManager.Instance.SetAudioSource(ObjetosSound.Mezcladora, mixerSource);
+        KitchenSoundManager.Instance.SetClip(ObjetosSound.Mezcladora, mixerClip);
+        KitchenSoundManager.Instance.SetAudioSource(ObjetosSound.Tabla_De_Picar, sliceTableSource);
+        KitchenSoundManager.Instance.SetClip(ObjetosSound.Tabla_De_Picar, sliceTableClip);
+        KitchenSoundManager.Instance.SetAudioSource(ObjetosSound.Olla, potSource);
+        KitchenSoundManager.Instance.SetClip(ObjetosSound.Olla, potClip);
+        KitchenSoundManager.Instance.SetAudioSource(ObjetosSound.Licuadora, blenderSource);
+        KitchenSoundManager.Instance.SetClip(ObjetosSound.Licuadora, blenderClip);
+        KitchenSoundManager.Instance.SetAudioSource(ObjetosSound.Olla_A_Presion, pressureCookerSource);
+        KitchenSoundManager.Instance.SetClip(ObjetosSound.Olla_A_Presion, pressureCookerClip);
+        KitchenSoundManager.Instance.SetAudioSource(ObjetosSound.Sarten, panSource);
+        KitchenSoundManager.Instance.SetClip(ObjetosSound.Sarten, panClip);
+        KitchenSoundManager.Instance.SetAudioSource(ObjetosSound.Horno, ovenSource);
+        KitchenSoundManager.Instance.SetClip(ObjetosSound.Horno, ovenClip);
+
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        
+    }
+}
