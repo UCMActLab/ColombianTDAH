@@ -178,7 +178,7 @@ public class UIMapData : MonoBehaviour
     private bool SetModeConfig()
     {
         bool editMode = SceneLoader.Instance.getMode();
-        levelId = SceneLoader.Instance.getCurrentLevelId();
+        levelId = SceneLoader.Instance.getCurrentLevelId(EventRegister.TipoJuego.MisionColombia);
         string writeDir = System.IO.Path.Combine(Application.persistentDataPath, "configInfoMC");
 
         if (editMode) //el usuario quiere editar el juego
@@ -195,6 +195,7 @@ public class UIMapData : MonoBehaviour
         else //se carga el nivel por default
         {
             levelInfoPath = "Planificacion/DefaultLevels/DefaultMisionConfigurationData" + levelId;
+            Debug.Log("cargando nivel default desde " + levelInfoPath);
 
             _config = Resources.Load<MisionConfigurationData>(levelInfoPath);
 
@@ -209,7 +210,6 @@ public class UIMapData : MonoBehaviour
             }
 
         }
-
         _config.configName = levelInfoPath;
 
         return editMode;
