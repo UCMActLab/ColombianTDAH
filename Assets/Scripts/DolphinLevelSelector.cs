@@ -37,10 +37,10 @@ public class DolphinLevelSelector : MonoBehaviour
 
     public void ChargeLevel()
     {
-        if (SceneLoader.Instance.getMaxLevelId() < int.Parse(_levelNum)) //si el nivel al que entramos es mayor se cambia (probablemente con acceso a edicion)
-            SceneLoader.Instance.setMaxLevelId(int.Parse(_levelNum));
+        if (SceneLoader.Instance.getMaxLevelId(EventRegister.TipoJuego.Delfines) < int.Parse(_levelNum)) //si el nivel al que entramos es mayor se cambia (probablemente con acceso a edicion)
+            SceneLoader.Instance.setMaxLevelId(int.Parse(_levelNum), EventRegister.TipoJuego.Delfines);
 
-        SceneLoader.Instance.setCurrentLevelId(int.Parse(_levelNum));
+        SceneLoader.Instance.setCurrentLevelId(int.Parse(_levelNum), EventRegister.TipoJuego.Delfines);
 
         if (_isUnlocked) SceneLoader.LoadScene("DolphinLevel");
     }
