@@ -4,8 +4,8 @@ using System.Collections.Generic;
 public class RecipeBoard : MonoBehaviour
 {
     [Header("Refs")]
-    public GameObject recipePrefab;   // Prefab receta (mirando +Z)
-    public Transform boardArea;       // Empty centrado y rotado como el tablón
+    public GameObject recipePrefab;
+    public Transform boardArea;
 
     [Header("Área del tablón (mundo)")]
     public Vector2 boardSize = new Vector2(5f, 3f);
@@ -19,12 +19,12 @@ public class RecipeBoard : MonoBehaviour
 
     [Header("Ajustes de colocación")]
     public float surfaceOffset = 0.01f; // Separación del plano para evitar z-fighting
-    public float extraYaw = 0f;         // 180 si el prefab sale de espaldas
-    public float yNudge = 0.06f;        // Ajuste fino vertical (sube/baja todo el contenido)
+    public float extraYaw = 0f;         
+    public float yNudge = 0.06f;
 
     [Header("Escalado del prefab")]
     public Vector2 prefabSizeXY = new Vector2(0.5f, 0.9f); // tamaño original del prefab en local
-    public float pivotToFrontZ = 0.02f; // distancia del pivote a la cara frontal
+    public float pivotToFrontZ = 0.02f;
 
     private readonly List<GameObject> spawnedRecipes = new();
 

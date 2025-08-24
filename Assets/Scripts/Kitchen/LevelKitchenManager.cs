@@ -5,6 +5,7 @@ using System.Linq;
 using UnityEngine.SceneManagement;
 using System.Collections;
 using TMPro;
+using System;
 
 public enum TurnoEstado
 {
@@ -55,6 +56,7 @@ public class LevelKitchenManager : MonoBehaviour
 
     private GameObject tablon;
     private GameObject recetasColgadas;
+    private GameObject tablonButton;
 
     private Transform cameraInitPos;
     private Transform cameraTablonPos;
@@ -122,15 +124,15 @@ public class LevelKitchenManager : MonoBehaviour
 
         if (scene.name == escenasPermitidas[0]) // KitchenLevel
         {
-            cameraInitPos = Camera.main.transform;
-
             Draggable tab = tablon.GetComponent<Draggable>();
+            Draggable tabButtonDrag = tablonButton.GetComponent<Draggable>();
             Draggable input = libroDeRecetas.GetComponent<Draggable>();
 
             RecipeBoard rec = recetasColgadas.GetComponent<RecipeBoard>();
 
             if (input != null)
             {
+                input.onStartDragging.RemoveListener(OnBookClicked);
                 input.onStartDragging.AddListener(OnBookClicked);
             }
             else
@@ -140,11 +142,22 @@ public class LevelKitchenManager : MonoBehaviour
 
             if (tab != null)
             {
+                tab.onStartDragging.RemoveListener(OnTabClicked);
                 tab.onStartDragging.AddListener(OnTabClicked);
             }
             else
             {
                 Debug.LogWarning("No se encontró el componente Draggable en tablon.");
+            }
+
+            if (tabButtonDrag != null)
+            {
+                tabButtonDrag.onStartDragging.RemoveListener(ButtonTabClicked);
+                tabButtonDrag.onStartDragging.AddListener(ButtonTabClicked);
+            }
+            else
+            {
+                Debug.LogWarning("No se encontró el componente Draggable en tablonButton.");
             }
 
             recetasToDo = CalcularRecetasTurno(nivelacionData.jornadas[jornadaActual].recetasAsignadas, tiempoPorTurnoTotal, Mathf.CeilToInt(tiempoPorTurnoTotal * 0.1f));
@@ -171,16 +184,33 @@ public class LevelKitchenManager : MonoBehaviour
         }
     }
 
+    private void ButtonTabClicked()
+    {
+        Debug.Log("TabButton clickado");
+        tablonButton.GetComponent<Draggable>().enabled = false;
+
+        // Iniciar el movimiento
+        StartCoroutine(MoverCamara(Camera.main.transform, cameraInitPos, 1f, () =>
+        {
+            tablon.GetComponent<Draggable>().enabled = true;
+        }));
+        Debug.Log("TabButton clickado fin");
+    }
+
     private void OnTabClicked()
     {
         Debug.Log("Tab clickado");
         tablon.GetComponent<Draggable>().enabled = false;
 
         // Iniciar el movimiento
-        StartCoroutine(MoverCamara(Camera.main.transform, cameraTablonPos, 1f));
+        StartCoroutine(MoverCamara(Camera.main.transform, cameraTablonPos, 1f, () =>
+        {
+            tablonButton.GetComponent<Draggable>().enabled = true;
+        }));
+        Debug.Log("Tab clickado fin");
     }
 
-    private IEnumerator MoverCamara(Transform obj, Transform destino, float duracion)
+    private IEnumerator MoverCamara(Transform obj, Transform destino, float duracion, Action onComplete)
     {
         Vector3 origenPos = obj.position;
         Quaternion origenRot = obj.rotation;
@@ -206,6 +236,8 @@ public class LevelKitchenManager : MonoBehaviour
 
         obj.position = destinoPos;
         obj.rotation = destinoRot;
+
+        onComplete?.Invoke();
     }
 
 
@@ -437,6 +469,11 @@ public class LevelKitchenManager : MonoBehaviour
         tablon = t;
     }
 
+    public void SetTablonButton(GameObject tb)
+    {
+        tablonButton = tb;
+    }
+
     public void SetLights(GameObject[] ls)
     {
         lights = ls;
@@ -453,6 +490,11 @@ public class LevelKitchenManager : MonoBehaviour
     public void SetCameraTablonPos(Transform tr)
     {
         cameraTablonPos = tr;
+    }
+
+    public void SetCameraInitPos(Transform tr)
+    {
+        cameraInitPos = tr;
     }
 
     public void SetRecetasColgadas(GameObject rc)

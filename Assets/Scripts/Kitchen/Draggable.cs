@@ -10,6 +10,7 @@ public class Draggable : MonoBehaviour
     #region properties
     [HideInInspector]
     public bool isDragging { get; private set; }
+    [SerializeField] private bool draggableObject = true;
     #endregion
 
     #region parameters
@@ -30,7 +31,7 @@ public class Draggable : MonoBehaviour
 
     void Update()
     {
-        if (isDragging)
+        if (isDragging && draggableObject)
         {
             Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
             Vector3 targetPosition = ray.GetPoint(dragDistance);
@@ -40,14 +41,23 @@ public class Draggable : MonoBehaviour
 
     void OnMouseDown()
     {
-        isDragging = true;
-        onStartDragging?.Invoke();
+        if (enabled)
+        {
+            isDragging = true;
+            onStartDragging?.Invoke();
+        }
+        
     }
 
     void OnMouseUp()
     {
-        isDragging = false;
-        onStopDragging?.Invoke();
+        if (enabled)
+        {
+            isDragging = false;
+            onStopDragging?.Invoke();
+        }
+        
     }
+
     #endregion
 }

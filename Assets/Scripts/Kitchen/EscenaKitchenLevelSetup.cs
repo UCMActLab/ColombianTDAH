@@ -8,7 +8,9 @@ public class EscenaKitchenLevelSetup : MonoBehaviour
     [SerializeField] private Reloj contador;
     [SerializeField] private GameObject libroDeRecetas;
     [SerializeField] private GameObject tablon;
+    [SerializeField] private GameObject tablonButton;
     [SerializeField] private Transform tablonPos;
+    [SerializeField] private Transform cameraPos;
     [SerializeField] private GameObject recetasColgadas;
 
     [Header("Workstations")]
@@ -45,7 +47,9 @@ public class EscenaKitchenLevelSetup : MonoBehaviour
         LevelKitchenManager.Instance.SetContador(contador);
         LevelKitchenManager.Instance.SetTablon(tablon);
         LevelKitchenManager.Instance.SetCameraTablonPos(tablonPos);
+        LevelKitchenManager.Instance.SetCameraInitPos(cameraPos);
         LevelKitchenManager.Instance.SetRecetasColgadas(recetasColgadas);
+        LevelKitchenManager.Instance.SetTablonButton(tablonButton);
 
         // Animators
         AnimatorManager.Instance.SetAnimator(ObjetosAnim.Libro, libroDeRecetas.GetComponent<Animator>());
