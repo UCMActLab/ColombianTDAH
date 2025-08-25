@@ -72,6 +72,7 @@ public class AnimatorManager : MonoBehaviour
 
     public void PlayAndPauseAt(ObjetosAnim ob, string animName, float pauseAtNormalizedTime)
     {
+        currentAnimations[ob] = animName;
         animators[ob].speed = 1f;
         animators[ob].CrossFade(animName, 0); // Empieza desde el principio
         StartCoroutine(PauseAnimationAt(ob, animName, pauseAtNormalizedTime));
@@ -103,5 +104,6 @@ public class AnimatorManager : MonoBehaviour
     public void SetAnimator(ObjetosAnim ob, Animator anim)
     {
         animators[ob] = anim;
+        currentAnimations[ob] = "";
     }
 }

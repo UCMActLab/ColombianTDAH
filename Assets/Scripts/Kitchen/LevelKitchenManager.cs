@@ -66,9 +66,7 @@ public class LevelKitchenManager : MonoBehaviour
     private int tiempoPorTurnoTotal;
     private List<RecetaData> recetasToDo;
 
-    private Transform bookTargetTransform;
-    private float moveDuration = 1.5f;
-    private GameObject[] lights;
+    
 
     private Reloj contador;
 
@@ -126,19 +124,9 @@ public class LevelKitchenManager : MonoBehaviour
         {
             Draggable tab = tablon.GetComponent<Draggable>();
             Draggable tabButtonDrag = tablonButton.GetComponent<Draggable>();
-            Draggable input = libroDeRecetas.GetComponent<Draggable>();
 
             RecipeBoard rec = recetasColgadas.GetComponent<RecipeBoard>();
 
-            if (input != null)
-            {
-                input.onStartDragging.RemoveListener(OnBookClicked);
-                input.onStartDragging.AddListener(OnBookClicked);
-            }
-            else
-            {
-                Debug.LogWarning("No se encontró el componente Draggable en libro.");
-            }
 
             if (tab != null)
             {
@@ -239,51 +227,6 @@ public class LevelKitchenManager : MonoBehaviour
 
         onComplete?.Invoke();
     }
-
-
-    private void OnBookClicked()
-    {
-        Debug.Log("Libro clickado");
-        libroDeRecetas.GetComponent<Draggable>().enabled = false;
-
-        bookTargetTransform = GameObject.Find("LibroPos").transform;
-        AnimatorManager.Instance.PlayAndPauseAt(ObjetosAnim.Libro, "Open", 0.8f);
-
-        foreach (GameObject l in lights)
-        {
-            l.SetActive(true);
-        }
-        
-        // Iniciar el movimiento con rotación
-        StartCoroutine(MoverLibro(libroDeRecetas.transform, bookTargetTransform.position, bookTargetTransform.rotation, moveDuration));
-    }
-
-    private IEnumerator MoverLibro(Transform objeto, Vector3 destinoPos, Quaternion destinoRot, float duracion)
-    {
-        Vector3 origenPos = objeto.position;
-        Quaternion origenRot = objeto.rotation;
-
-        float tiempo = 0f;
-
-        while (tiempo < duracion)
-        {
-            float t = tiempo / duracion;
-
-            // Easing SmoothStep (ease-in/ease-out)
-            float e = t * t * (3f - 2f * t);
-
-            objeto.position = Vector3.LerpUnclamped(origenPos, destinoPos, e);
-            objeto.rotation = Quaternion.SlerpUnclamped(origenRot, destinoRot, e);
-
-            tiempo += Time.deltaTime;
-            yield return null;
-        }
-
-        // Asegurar posición/rotación final
-        objeto.position = destinoPos;
-        objeto.rotation = destinoRot;
-    }
-
 
 
     // Funcion que elige las recetas que se van a tener que preparar en el turno seleccionado
@@ -454,15 +397,6 @@ public class LevelKitchenManager : MonoBehaviour
         tiempoPorTurnoTotal = newValue;
     }
 
-    public GameObject GetLibro()
-    {
-        return libroDeRecetas;
-    }
-
-    public void SetLibro(GameObject l)
-    {
-        libroDeRecetas = l;
-    }
 
     public void SetTablon(GameObject t)
     {
@@ -474,10 +408,6 @@ public class LevelKitchenManager : MonoBehaviour
         tablonButton = tb;
     }
 
-    public void SetLights(GameObject[] ls)
-    {
-        lights = ls;
-    }
 
     public NivelacionData GetNivelacionData() {
         return nivelacionData;
@@ -500,5 +430,10 @@ public class LevelKitchenManager : MonoBehaviour
     public void SetRecetasColgadas(GameObject rc)
     {
         recetasColgadas = rc;
+    }
+
+    public Dictionary<RecetaData, int> GetRecetasRestantes()
+    {
+        return recetasRestantes;
     }
 }

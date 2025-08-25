@@ -4,7 +4,6 @@ using UnityEngine;
 public class EscenaKitchenLevelSetup : MonoBehaviour
 {
     [Header("Objetos generales de la escena")]
-    [SerializeField] private GameObject[] lights;
     [SerializeField] private Reloj contador;
     [SerializeField] private GameObject libroDeRecetas;
     [SerializeField] private GameObject tablon;
@@ -42,8 +41,6 @@ public class EscenaKitchenLevelSetup : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Awake()
     {
-        LevelKitchenManager.Instance.SetLibro(libroDeRecetas);
-        LevelKitchenManager.Instance.SetLights(lights);
         LevelKitchenManager.Instance.SetContador(contador);
         LevelKitchenManager.Instance.SetTablon(tablon);
         LevelKitchenManager.Instance.SetCameraTablonPos(tablonPos);

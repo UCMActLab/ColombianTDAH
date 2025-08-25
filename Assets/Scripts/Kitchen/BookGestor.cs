@@ -1,0 +1,168 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.Windows;
+
+public class BookGestor : MonoBehaviour
+{
+    private List<string> recetasTurno;
+
+    [SerializeField] private Canvas myCanvas;
+    [SerializeField] private Image recetaImage;
+
+    [SerializeField] private List<RecetaSpriteMap> mapa;
+    private Dictionary<string, Sprite> recetasSprites;
+
+    [SerializeField] private Button leftButton;
+    [SerializeField] private Button rightButton;
+    [SerializeField] private Button seguirButton;
+
+    private int indiceActual = 0;
+
+    [SerializeField] private Transform initialTransform;
+    private Transform bookTargetTransform;
+    private float moveDuration = 1.5f;
+    [SerializeField] private GameObject[] lights;
+
+    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    void Start()
+    {
+        Draggable input = GetComponent<Draggable>();
+
+        if (input != null)
+        {
+            input.onStartDragging.RemoveListener(OnBookClicked);
+            input.onStartDragging.AddListener(OnBookClicked);
+        }
+        else
+        {
+            Debug.LogWarning("No se encontró el componente Draggable en libro.");
+        }
+
+        // Inicializa la lista
+        recetasTurno = LevelKitchenManager.Instance
+            .GetRecetasRestantes()             // Devuelve Dictionary<Receta, algo>
+            .Select(par => par.Key.nombre)     // Saca solo el nombre (string)
+            .OrderBy(nombre => nombre)         // Ordena alfabéticamente
+            .ToList();                         // Convierte a lista
+
+        foreach (var receta in recetasTurno)
+        {
+            Debug.Log(receta);
+        }
+
+        recetasSprites = mapa.ToDictionary(m => m.nombre, m => m.sprite);
+
+        ActualizarImagen();
+
+        // Suscribir botones
+        leftButton.onClick.AddListener(MostrarAnterior);
+        rightButton.onClick.AddListener(MostrarSiguiente);
+        seguirButton.onClick.AddListener(Salir);
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        
+    }
+
+    void MostrarAnterior()
+    {
+        Debug.Log("Left");
+        indiceActual--;
+        if (indiceActual < 0) indiceActual = recetasTurno.Count - 1; // Loop al final
+        ActualizarImagen();
+    }
+
+    void MostrarSiguiente()
+    {
+        Debug.Log("Right");
+        indiceActual++;
+        if (indiceActual >= recetasTurno.Count) indiceActual = 0; // Loop al inicio
+        ActualizarImagen();
+    }
+
+    void ActualizarImagen()
+    {
+        recetaImage.sprite = recetasSprites[recetasTurno[indiceActual]];
+    }
+
+    void Salir()
+    {
+        Debug.Log("Libro clickado para salir");
+        
+        AnimatorManager.Instance.ChangeAnimation(ObjetosAnim.Libro, "Close");
+
+        foreach (GameObject l in lights)
+        {
+            l.SetActive(false);
+        }
+
+        myCanvas.gameObject.SetActive(false);
+
+        // Iniciar el movimiento con rotación
+        StartCoroutine(MoverLibro(transform, initialTransform.position, initialTransform.rotation, moveDuration, () =>
+        {
+            GetComponent<Draggable>().enabled = true;
+        }));
+    }
+
+    private void OnBookClicked()
+    {
+        Debug.Log("Libro clickado");
+        GetComponent<Draggable>().enabled = false;
+
+        bookTargetTransform = GameObject.Find("LibroPos").transform;
+        AnimatorManager.Instance.PlayAndPauseAt(ObjetosAnim.Libro, "Open", 0.8f);
+
+        // Iniciar el movimiento con rotación
+        StartCoroutine(MoverLibro(transform, bookTargetTransform.position, bookTargetTransform.rotation, moveDuration, () =>
+        {
+            foreach (GameObject l in lights)
+            {
+                l.SetActive(true);
+            }
+
+            myCanvas.gameObject.SetActive(true);
+        }));
+    }
+
+    private IEnumerator MoverLibro(Transform objeto, Vector3 destinoPos, Quaternion destinoRot, float duracion, Action onComplete = null)
+    {
+        Vector3 origenPos = objeto.position;
+        Quaternion origenRot = objeto.rotation;
+
+        float tiempo = 0f;
+
+        while (tiempo < duracion)
+        {
+            float t = tiempo / duracion;
+
+            // Easing SmoothStep (ease-in/ease-out)
+            float e = t * t * (3f - 2f * t);
+
+            objeto.position = Vector3.LerpUnclamped(origenPos, destinoPos, e);
+            objeto.rotation = Quaternion.SlerpUnclamped(origenRot, destinoRot, e);
+
+            tiempo += Time.deltaTime;
+            yield return null;
+        }
+
+        // Asegurar posición/rotación final
+        objeto.position = destinoPos;
+        objeto.rotation = destinoRot;
+
+        onComplete?.Invoke();
+    }
+}
+
+[System.Serializable]
+public class RecetaSpriteMap
+{
+    public string nombre;
+    public Sprite sprite;
+}
