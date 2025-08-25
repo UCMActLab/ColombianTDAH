@@ -21,10 +21,14 @@ public class MisionLevelManager : MonoBehaviour
     SoundManager _soundManager;
 
     // Time
+    int _freeTime; // Tiempo que no esta durmiendo 
     float _playTimeCont = 0;
     float _auxCont = 0; // Contador aparicion paradas en ejecucion
+    float _sleepFade = 2;
+    float _sleepAuxCont = 0;
     float _realSegsPerStop = 7.5f;
     HourMinSec _gameClock;
+    HourMinSec _auxGameCont;
 
     // Estados
     bool _paused = true;
@@ -34,6 +38,7 @@ public class MisionLevelManager : MonoBehaviour
     float _answerTime = 10; // Seconds
     float _timeCont = 0;
     bool _isAnswering = false;
+    int _questionFrecMins;
 
     // Reglas
     int _stopsN; // Number
@@ -91,6 +96,7 @@ public class MisionLevelManager : MonoBehaviour
     {
         _timeCont = _answerTime;
         _totalDurationMins = 0;
+        _auxGameCont = new HourMinSec();
 
         // Listas
         selectedLocationHours = new List<HourMinSec>();
@@ -115,19 +121,8 @@ public class MisionLevelManager : MonoBehaviour
             // Actualiza contador tiempo
             if (_isAnswering) UpdateTime();
 
-            _playTimeCont += Time.deltaTime;
+            UpdateClock();
 
-            if (_auxCont > _realSegsPerStop)
-            {
-
-                _gameClock += new HourMinSec(0, _stopMins, 0);
-
-                _misionUIManager.ChangeTime(_gameClock);
-
-                _auxCont = 0;
-            }
-            else
-                _auxCont += Time.deltaTime;
         }
     }
 
@@ -161,6 +156,83 @@ public class MisionLevelManager : MonoBehaviour
         }
         else
             HideDecisionButtons();
+    }
+
+    void UpdateClock()
+    {
+        // Si no est durmiendo
+        if (!_sleeping)
+        {
+
+            _playTimeCont += Time.deltaTime;
+
+            if (_auxCont >= _realSegsPerStop)
+            {
+
+                _gameClock += new HourMinSec(0, _stopMins, 0); // Reloj juego
+                int gameMins = _auxGameCont.Minutes + _stopMins;
+                _auxGameCont = new HourMinSec(0, gameMins, 0); // Aumento contador
+                Debug.Log(_auxGameCont.Minutes);
+                _misionUIManager.ChangeTime(_gameClock); // Cambio en UI
+
+                _auxCont = 0; // Reinicio contador
+
+                // Actualizo dormir
+                UpdateSleep();
+
+                if (!_sleeping)
+                {
+
+                    if (_auxGameCont.Minutes >= _questionFrecMins)
+                    {
+                        Question(); // Activa pregunta buena
+
+                        _auxGameCont = new HourMinSec(); // Reinicio contador
+                    }
+                }
+            }
+            else
+                _auxCont += Time.deltaTime;
+        }
+        // Si duerme
+        else
+        {
+            if (_sleepAuxCont >= _sleepFade)
+            {
+                Sleep(false);
+                _sleepAuxCont = 0;
+            }
+            else
+                _sleepAuxCont += Time.deltaTime;
+        }
+    }
+
+    void UpdateSleep()
+    {
+        // si la hora en la que estamos esta en la lista de dormir pongo a true booleano dormir
+
+        for (int i = 0; i < selectedSleepTimes.Count && !_sleeping; i++)
+        {
+            _sleeping = (selectedSleepTimes[i].Hours == _gameClock.Hours);
+        }
+
+        if (_sleeping) Sleep(true);
+    }
+
+    void Sleep(bool enabled)
+    {
+        _sleeping = enabled;
+
+        if (enabled)
+        {
+            _gameClock += new HourMinSec(_hourPerSleep, 0, 0);
+            Debug.Log("Activo dormir");
+        }
+        else
+        {
+
+            Debug.Log("Desactivo dormir");
+        }
     }
 
     // Reestablece contador
@@ -395,13 +467,13 @@ public class MisionLevelManager : MonoBehaviour
     {
         _paused = false;
         _soundManager.Click();
+        CalculateQuestionFrec();
     }
 
     public void ActivateGame()
     {
         _map.SetActive(true);
         _dialogs.SetActive(true);
-
     }
 
     // Cambia imagen del mapa
@@ -421,5 +493,20 @@ public class MisionLevelManager : MonoBehaviour
     {
         Destroy(gameObject);
         _instance = null;
+    }
+
+    // Calcula cada cuanto deber aparecer una pregunta
+    void CalculateQuestionFrec()
+    {
+        _freeTime = _duration - _totalSleepHours; // Tiempo que no esta dormido
+        _questionFrecMins = (_freeTime / _questions.Count) * 60;
+
+        Debug.Log("Pregunta buena cada: " + _questionFrecMins);
+    }
+
+    // Hace que aparezca una pregunta en pantalla
+    void Question()
+    {
+        Debug.Log("Aparece pregunta buena para responder"); // Tiene que parar
     }
 }
