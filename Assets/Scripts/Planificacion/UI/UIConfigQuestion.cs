@@ -63,6 +63,8 @@ public class UIConfigQuestion : MonoBehaviour
             toggle.label = stops[i];
             _userQuestionsVisualElement.Add(toggle);
         }
+
+        SetUIFromJSON();
     }
 
     private void OnDisable()
@@ -112,5 +114,38 @@ public class UIConfigQuestion : MonoBehaviour
         file.WriteLine(info);
         file.Close();
         fs.Close();
+    }
+
+
+    private void SetUIFromJSON()
+    {
+        Debug.Log("SetUIFromJSON Questions");
+
+        // Toggle desbloqueo
+        _unlock.value = _config.Desbloqueado;
+
+        // convertimos a dictionary de verdad para que sea mas comodo
+        Dictionary<string, string> questions = _config.Questions.ToDictionary();
+
+        if (_config.StopsNames != null && questions != null)
+        {
+            foreach (string stop in _config.StopsNames)
+            {
+                // TextField con el nombre del stop
+                TextField textF = _questionsVisualElement.Q<TextField>(stop + "TF");
+                if (textF != null && questions.ContainsKey(stop))
+                {
+                    textF.value = questions[stop];
+                }
+
+                // Toggle asociado al stop
+                Toggle toggle = _userQuestionsVisualElement.Q<Toggle>(stop + "Toggle");
+                if (toggle != null)
+                {
+                    // Aquí decides qué significa: yo lo pongo activo si hay una pregunta definida
+                    toggle.value = questions.ContainsKey(stop) && !string.IsNullOrEmpty(questions[stop]);
+                }
+            }
+        }
     }
 }
