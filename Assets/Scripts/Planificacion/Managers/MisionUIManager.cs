@@ -21,6 +21,12 @@ public class MisionUIManager : MonoBehaviour
     [SerializeField]
     PlanificationList _planificationListComp;
 
+    [SerializeField]
+    Image _sleepImage;
+
+    [SerializeField]
+    TextMeshProUGUI _sleepText;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -114,5 +120,18 @@ public class MisionUIManager : MonoBehaviour
 
     public void ExitLevel() {
         MisionLevelManager.Instance.ExitLevel();
+    }
+
+    public void SetSleepImageAlpha(float alpha)
+    {
+        // Change image alpha
+        Color color = _sleepImage.color;
+        color.a = alpha;
+        _sleepImage.color = color;
+
+        // Change text alpha
+        color = _sleepText.color;
+        color.a = alpha;
+        _sleepText.color = color;
     }
 }

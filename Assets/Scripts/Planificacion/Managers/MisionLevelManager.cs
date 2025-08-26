@@ -203,7 +203,10 @@ public class MisionLevelManager : MonoBehaviour
                 _sleepAuxCont = 0;
             }
             else
+            {
                 _sleepAuxCont += Time.deltaTime;
+                _misionUIManager.SetSleepImageAlpha(255 * _sleepAuxCont / _sleepFade);
+            }
         }
     }
 
@@ -233,6 +236,7 @@ public class MisionLevelManager : MonoBehaviour
 
             Debug.Log("Desactivo dormir");
         }
+        _misionUIManager.SetSleepImageAlpha(0);
     }
 
     // Reestablece contador
@@ -508,6 +512,7 @@ public class MisionLevelManager : MonoBehaviour
     void Question()
     {
         // Cambio texto de pregunta
+
         // Aparece pregunta con botones de decision
         ShowDecisionButtons();
         Debug.Log("Aparece pregunta buena para responder"); // Tiene que parar
