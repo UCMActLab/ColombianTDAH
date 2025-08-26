@@ -1,4 +1,5 @@
 using NUnit.Framework;
+using System;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -75,6 +76,10 @@ public class MisionUIManager : MonoBehaviour
     // Desactiva pregunta y botones de respuesta
     void Clicked()
     {
+        string mensaje = "Pregunta final, se ha contestado";
+        EventRegister.Instance.AddToEvnt(Tuple.Create(EventRegister.EventosInfo.TerminaDecision, mensaje));
+        EventRegister.Instance.EvntToJson();
+
         _decisionGO.SetActive(false);
         MisionLevelManager.Instance.Answered();
     }
