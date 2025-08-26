@@ -216,10 +216,11 @@ public class EventRegister : MonoBehaviour
     //ESTE ES EL METODO QUE HAY QUE USAR AL EMPEZAR TU JUEGO PARA HACER EL EVENTO DE INICIO
     public void AddInitialEvent(EventosInfo evento, string info, TipoJuego juego)
     {
-        if (currentGamePlaying == juego)
+        if (currentGamePlaying == juego && canWrite) //si se puede escribir y estamos en el mismo juego
         {
+            //pone el evento de inicio del nivel
             AddToEvnt(new Tuple<EventosInfo, string>(evento, info));
-            EvntToJson(); // lo escribe ya directamente
+            EvntToJson(); 
         }
         else
         {
