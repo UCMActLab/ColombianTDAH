@@ -10,6 +10,9 @@ public class MisionUIManager : MonoBehaviour
     GameObject _decisionGO;
 
     [SerializeField]
+    TextMeshProUGUI _questionText;
+
+    [SerializeField]
     Slider _timeSlider;
 
     [SerializeField]
@@ -74,6 +77,11 @@ public class MisionUIManager : MonoBehaviour
     public void UpdateSlider(float value)
     {
         _timeSlider.value = value;
+    }
+
+    public void ChangeQuestion(string qText)
+    {
+        _questionText.text = qText;
     }
 
     // Cambia tiempo de la hora

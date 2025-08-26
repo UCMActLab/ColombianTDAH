@@ -507,6 +507,9 @@ public class MisionLevelManager : MonoBehaviour
     // Hace que aparezca una pregunta en pantalla
     void Question()
     {
+        // Cambio texto de pregunta
+        // Aparece pregunta con botones de decision
+        ShowDecisionButtons();
         Debug.Log("Aparece pregunta buena para responder"); // Tiene que parar
     }
 }
