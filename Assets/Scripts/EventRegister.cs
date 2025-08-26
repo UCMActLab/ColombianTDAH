@@ -71,7 +71,9 @@ public class EventRegister : MonoBehaviour
 
     public enum EventosInfo
     {                       //implementado en...
-        Inicio, //...DolphinLevelManager.InitLevel
+        Inicio, //...DolphinLevelManager.InitLevel y en MisionLevelManager.ActivateGame
+
+        //delfines
         DEntraSuperficie, //...DolphinController.Float
         DSaleSuperficie, //...DolphinController.Dive
         DSaltoInit, //...DolphinControler.Jump
@@ -92,14 +94,20 @@ public class EventRegister : MonoBehaviour
         NPuntos, //...DolphinControler.TryClickDolphin, DolphinLevelManager.RightGuess y DolphinLevelManager.WrongGuess
         Vel,
         Fin,
+
+        // generales
         PacienteInfo, //...PacienteConfig.OnAceptarClicked o en este mismo usando addPacienteInfoEvent
         Pause,  //...DolphinLevelManager.Pause
-        ChangeDifficulty //...DolphinLevelManager.ActivateIncreasedSpeed/DeactivateIncreasedSpeed
+        ChangeDifficulty, //...DolphinLevelManager.ActivateIncreasedSpeed/DeactivateIncreasedSpeed
+
+        // MC
+        EmpiezaDecision, //misionlevelmanager.showdecisionsbuttons
+        TerminaDecision //misionlevelmanager.hidedecisionsbuttons yes click, no click
     }
 
     private Dictionary<EventosInfo, string> EventoMensajes = new()
     {
-        { EventosInfo.Inicio, "Iniciando nivel" },
+        { EventosInfo.Inicio, "Iniciando juego" },
         { EventosInfo.DEntraSuperficie, "Delfin entrando en la superficie del rio (a flote)" },
         { EventosInfo.DSaleSuperficie, "Delfin saliendo de la superficie del rio (se hunde)" },
         { EventosInfo.DSaltoInit, "Delfin comienza el salto" },
@@ -122,8 +130,44 @@ public class EventRegister : MonoBehaviour
         { EventosInfo.PacienteInfo, "Paciente y numero de sesion" },
         { EventosInfo.Pause, "Juego ha sido pausado o reanudado" },
         { EventosInfo.ChangeDifficulty, "Cambio de dificultad" },
+        { EventosInfo.EmpiezaDecision, "Empieza pregunta y decision" },
+        { EventosInfo.TerminaDecision, "Termina pregunta y decision" }
+
+
     };
 
+    //array de bools con los eventos que activan los whitepixels
+    private static bool[] whitePixelEvents = new bool[Enum.GetValues(typeof(EventosInfo)).Length];
+    private void SetWhitePixelEvents()
+    {
+        whitePixelEvents[(int)EventosInfo.Inicio] = false;
+        whitePixelEvents[(int)EventosInfo.DEntraSuperficie] = true;
+        whitePixelEvents[(int)EventosInfo.DSaleSuperficie] = true;
+        whitePixelEvents[(int)EventosInfo.DSaltoInit] = true;
+        whitePixelEvents[(int)EventosInfo.DSaltoFin] = true;
+        whitePixelEvents[(int)EventosInfo.DPiruetaInit] = true;
+        whitePixelEvents[(int)EventosInfo.DPiruetaFin] = true;
+        whitePixelEvents[(int)EventosInfo.OEntraPantalla] = true;
+        whitePixelEvents[(int)EventosInfo.OSalePantalla] = true;
+        whitePixelEvents[(int)EventosInfo.OColision] = true;
+        whitePixelEvents[(int)EventosInfo.FEntraPantalla] = true;
+        whitePixelEvents[(int)EventosInfo.FSalePantalla] = true;
+        whitePixelEvents[(int)EventosInfo.BEntraPantalla] = true;
+        whitePixelEvents[(int)EventosInfo.BTocado] = true;
+        whitePixelEvents[(int)EventosInfo.BHundido] = true;
+        whitePixelEvents[(int)EventosInfo.FColision] = true;
+        whitePixelEvents[(int)EventosInfo.RespuestaCorrecta] = true;
+        whitePixelEvents[(int)EventosInfo.RespuestaIncorrecta] = true;
+        whitePixelEvents[(int)EventosInfo.NPuntos] = true;
+        whitePixelEvents[(int)EventosInfo.Vel] = true;
+        whitePixelEvents[(int)EventosInfo.Fin] = false;
+        whitePixelEvents[(int)EventosInfo.PacienteInfo] = false;
+        whitePixelEvents[(int)EventosInfo.Pause] = true;
+        whitePixelEvents[(int)EventosInfo.ChangeDifficulty] = true;
+        whitePixelEvents[(int)EventosInfo.EmpiezaDecision] = true;
+        whitePixelEvents[(int)EventosInfo.TerminaDecision] = true;
+
+    }
 
     static private EventRegister _instance;
     public static EventRegister Instance { get { return _instance; } }
@@ -146,6 +190,7 @@ public class EventRegister : MonoBehaviour
             Debug.Log("No hay white pixels");
         }
 
+        SetWhitePixelEvents();
         whitePixels.SetActive(false);
         whitePixelsActive = false;
     }
@@ -171,10 +216,24 @@ public class EventRegister : MonoBehaviour
     //ESTE ES EL METODO QUE HAY QUE USAR AL EMPEZAR TU JUEGO PARA HACER EL EVENTO DE INICIO
     public void AddInitialEvent(EventosInfo evento, string info, TipoJuego juego)
     {
-        currentGamePlaying = juego;
-        AddInitialPacienteInfoEvent(juego); //mete la primera linea de la info paciente
-        AddToEvnt(new Tuple<EventosInfo, string>(evento, info));
-        EvntToJson(); // lo escribe ya directamente
+        if (currentGamePlaying == juego)
+        {
+            AddToEvnt(new Tuple<EventosInfo, string>(evento, info));
+            EvntToJson(); // lo escribe ya directamente
+        }
+        else
+        {
+          
+            WriteEnd();//si entramos a un juego distinto terminamos la escritura y empezamos otro archivo
+            currentGamePlaying = juego;
+            AddInitialPacienteInfoEvent(juego); //mete la primera linea de la info paciente
+            AddToEvnt(new Tuple<EventosInfo, string>(evento, info)); //esto es el evento de inicio que le tienes que pasar
+            EvntToJson(); // lo escribe ya directamente
+        }
+
+
+            
+
     }
 
     //se va a usar al empezar a escribir (que tiene que ser cuando el jugador entra a un juego y se haga set del nombreJuego taambien)
@@ -254,13 +313,14 @@ public class EventRegister : MonoBehaviour
     public void AddToEvnt(Tuple<EventRegister.EventosInfo, string> evntData)
     {
         auxEvntInfo.Add(evntData);
+        if (whitePixelEvents[(int)evntData.Item1]) //si su correspondiente evnto está a true activa los pixels
+        {
+            ActivateWhitePixels();
+        }
     }
 
     public void EvntToJson()
     {
-        // White pixels
-        whitePixels.SetActive(true);
-        whitePixelsActive = true;
 
         // Events
         if (canWrite)
@@ -276,6 +336,8 @@ public class EventRegister : MonoBehaviour
 
             foreach (var evento in auxEvntInfo)
             {
+
+
                 if (EventoMensajes.TryGetValue(evento.Item1, out string mensaje))
                 {
                     eventosJson.Add($"{{ \"{mensaje}\": \"{evento.Item2}\" }}"); //algunos item2 (mensaje extra) estan vacios pero no afecta
@@ -294,6 +356,12 @@ public class EventRegister : MonoBehaviour
         auxEvntInfo.Clear();
     }
 
+    void ActivateWhitePixels()
+    {
+        
+        whitePixels.SetActive(true);
+        whitePixelsActive = true;
+    }
     public void WriteEnd()
     {
         if (!canWrite) return; //si no está empezada la escritura que tampoco pueda finalizarse

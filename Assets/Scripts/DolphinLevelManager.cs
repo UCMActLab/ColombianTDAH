@@ -748,6 +748,7 @@ public class DolphinLevelManager : MonoBehaviour
     {
         string estado = pause ? "Pausado" : "Reanudado";
         EventRegister.Instance.AddToEvnt(Tuple.Create(EventRegister.EventosInfo.Pause, estado));
+        EventRegister.Instance.EvntToJson();
 
         _isPaused = pause;
         SetAllObstacleSpawning(!pause); // no spawnea obstaculos

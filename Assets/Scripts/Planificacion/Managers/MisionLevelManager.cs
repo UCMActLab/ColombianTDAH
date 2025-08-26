@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Unity.VisualScripting.FullSerializer;
 using UnityEngine;
@@ -137,6 +138,10 @@ public class MisionLevelManager : MonoBehaviour
     // Desactiva botones y slider tiempo
     void HideDecisionButtons()
     {
+        string mensaje = "Pregunta final, no se ha contestado";
+        EventRegister.Instance.AddToEvnt(Tuple.Create(EventRegister.EventosInfo.TerminaDecision, mensaje));
+        EventRegister.Instance.EvntToJson();
+
         Answered();
 
         _misionUIManager.HideDecisionButtons();
@@ -472,6 +477,9 @@ public class MisionLevelManager : MonoBehaviour
 
     public void ActivateGame()
     {
+        EventRegister.Instance.AddInitialEvent(EventRegister.EventosInfo.Inicio, "nivel " + SceneLoader.Instance.getCurrentLevelId(EventRegister.TipoJuego.MisionColombia).ToString("00"), EventRegister.TipoJuego.MisionColombia);
+        Debug.Log("se pudo iniciar el evento Inicio en MisionLevelManager.");
+
         _map.SetActive(true);
         _dialogs.SetActive(true);
     }
@@ -507,6 +515,9 @@ public class MisionLevelManager : MonoBehaviour
     // Hace que aparezca una pregunta en pantalla
     void Question()
     {
+        string mensaje = "Pregunta inicio";
+        EventRegister.Instance.AddToEvnt(Tuple.Create(EventRegister.EventosInfo.EmpiezaDecision, mensaje));
+        EventRegister.Instance.EvntToJson();
         // Cambio texto de pregunta
         // Aparece pregunta con botones de decision
         ShowDecisionButtons();
