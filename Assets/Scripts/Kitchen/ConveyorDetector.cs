@@ -1,48 +1,66 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class ConveyorDetector : MonoBehaviour
 {
-    [SerializeField] private LayerMask conveyorLayer;
-    [SerializeField] private float raycastDistance = 12f;
-    [Header("Overlay")]
+    #region references
+    [SerializeField] private LayerMask conveyorLayer; // Capa para la cinta
+    private Draggable draggable;
+    private ConveyorBelt currentConveyor;
+    private Transform currentConveyorTransform;
+
+    private CompletedRecipe completedRecipe; // Marca de que esto es un plato final
+
+    private List<Renderer> currentRenderers = new List<Renderer>();
+    private List<Material[]> originalMaterials = new List<Material[]>();
+    #endregion
+
+    #region parameters
+    [SerializeField] private float raycastDistance = 14f; // Distancia de detección
+    [Header("Feedback Overlay Materials")]
     [SerializeField] private Material overlayGreen;
     [SerializeField] private Material overlayRed;
-
-    private Draggable draggable;
-    private Camera cam;
-    private ConveyorBelt currentConveyor;
-
-    private Renderer[] rends;
-    private Material[][] originals;
-
+    #endregion
 
     #region methods
     void Start()
     {
         draggable = GetComponent<Draggable>();
-        cam = Camera.main;
+        completedRecipe = GetComponent<CompletedRecipe>();
     }
 
     void Update()
     {
         if (draggable != null && draggable.isDragging)
-            Detect();
-        else
-            ForceClearOverlay();
+        {
+            DetectConveyor();
+        }
     }
 
-    private void Detect()
+    private void DetectConveyor()
     {
-        Ray ray = cam.ScreenPointToRay(Input.mousePosition);
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
         if (Physics.Raycast(ray, out RaycastHit hit, raycastDistance, conveyorLayer))
         {
-            var conv = hit.transform.GetComponentInParent<ConveyorBelt>();
-            if (conv != currentConveyor)
+            Transform hitTransform = hit.transform;
+
+            if (hitTransform != currentConveyorTransform)
             {
                 ForceClearOverlay();
-                currentConveyor = conv;
-                ApplyOverlay(conv, CanSendToConveyor());
+
+                currentConveyorTransform = hitTransform;
+                currentConveyor = currentConveyorTransform.GetComponentInParent<ConveyorBelt>();
+
+                if (currentConveyor != null && completedRecipe != null)
+                {
+                    // Si tiene CompletedRecipe => verde, si no => rojo
+                    ApplyOverlay(overlayGreen);
+                }
+                else
+                {
+                    ApplyOverlay(overlayRed);
+                }
             }
         }
         else
@@ -51,46 +69,61 @@ public class ConveyorDetector : MonoBehaviour
         }
     }
 
-    private bool CanSendToConveyor()
+    private void ApplyOverlay(Material overlayMat)
     {
-        return GetComponent<CompletedRecipe>() != null;
-    }
+        currentRenderers.Clear();
+        originalMaterials.Clear();
 
-    private void ApplyOverlay(ConveyorBelt conv, bool green)
-    {
-        if (conv == null) return;
-        rends = conv.GetComponentsInChildren<Renderer>(true);
-        originals = new Material[rends.Length][];
+        if (currentConveyorTransform == null || overlayMat == null) return;
 
-        for (int i = 0; i < rends.Length; i++)
+        Renderer[] renderers = currentConveyor.GetComponentsInChildren<Renderer>(true);
+
+        foreach (Renderer rend in renderers)
         {
-            var mats = rends[i].materials;
-            originals[i] = mats;
+            if (rend == null) continue;
+
+            currentRenderers.Add(rend);
+
+            Material[] mats = rend.materials;
+            originalMaterials.Add(mats);
+
             var newMats = new Material[mats.Length + 1];
             mats.CopyTo(newMats, 0);
-            newMats[mats.Length] = green ? overlayGreen : overlayRed;
-            rends[i].materials = newMats;
+            newMats[mats.Length] = overlayMat;
+            rend.materials = newMats;
         }
     }
 
-    private void Clear()
+    private void RemoveOverlay()
     {
-        if (rends != null && originals != null)
+        for (int i = 0; i < currentRenderers.Count; i++)
         {
-            for (int i = 0; i < rends.Length; i++)
-                if (rends[i] != null && originals[i] != null)
-                    rends[i].materials = originals[i];
+            if (currentRenderers[i] != null && originalMaterials.Count > i && originalMaterials[i] != null)
+            {
+                currentRenderers[i].materials = originalMaterials[i];
+            }
         }
-        rends = null;
-        originals = null;
+        currentRenderers.Clear();
+        originalMaterials.Clear();
     }
 
-    public bool TryGetCurrentConveyor(out ConveyorBelt conv)
+    public void ForceClearOverlay()
     {
-        conv = currentConveyor;
-        return conv != null;
+        RemoveOverlay();
+        currentConveyor = null;
+        currentConveyorTransform = null;
     }
 
-    public void ForceClearOverlay() => Clear();
+    public ConveyorBelt GetCurrentConveyor() => currentConveyor;
+
+    void OnDisable()
+    {
+        ForceClearOverlay();
+    }
+
+    void OnDestroy()
+    {
+        ForceClearOverlay();
+    }
     #endregion
 }
