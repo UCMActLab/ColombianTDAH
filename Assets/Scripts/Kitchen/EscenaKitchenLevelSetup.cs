@@ -11,6 +11,7 @@ public class EscenaKitchenLevelSetup : MonoBehaviour
     [SerializeField] private Transform tablonPos;
     [SerializeField] private Transform cameraPos;
     [SerializeField] private GameObject recetasColgadas;
+    [SerializeField] private GameObject hand;
 
     [Header("Workstations")]
     [SerializeField] private GameObject mixer;
@@ -57,6 +58,7 @@ public class EscenaKitchenLevelSetup : MonoBehaviour
         AnimatorManager.Instance.SetAnimator(ObjetosAnim.Olla_A_Presion, pressureCooker.GetComponent<Animator>());
         AnimatorManager.Instance.SetAnimator(ObjetosAnim.Sarten, pan.GetComponent<Animator>());
         AnimatorManager.Instance.SetAnimator(ObjetosAnim.Horno, oven.GetComponent<Animator>());
+        AnimatorManager.Instance.SetAnimator(ObjetosAnim.Mano, hand.GetComponent<Animator>());
 
         // Sonidos
         KitchenSoundManager.Instance.SetAudioSource(ObjetosSound.Mezcladora, mixerSource);

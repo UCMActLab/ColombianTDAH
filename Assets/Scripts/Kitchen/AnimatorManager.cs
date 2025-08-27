@@ -12,7 +12,8 @@ public enum ObjetosAnim
     Horno,
     Olla,
     Olla_A_Presion,
-    Sarten
+    Sarten,
+    Mano
 }
 
 public class AnimatorManager : MonoBehaviour
@@ -62,6 +63,7 @@ public class AnimatorManager : MonoBehaviour
 
     public void ChangeAnimation(ObjetosAnim ob, string newAnim, float crossfade = 0.2f)
     {
+        if (!animators.TryGetValue(ob, out var anim) || anim == null) return;
         if (currentAnimations[ob] != newAnim)
         {
             animators[ob].speed = 1f;
@@ -98,8 +100,6 @@ public class AnimatorManager : MonoBehaviour
     {
         animators[ob].applyRootMotion = newValue;
     }
-
-
 
     public void SetAnimator(ObjetosAnim ob, Animator anim)
     {
