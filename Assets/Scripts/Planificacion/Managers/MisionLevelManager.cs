@@ -65,7 +65,7 @@ public class MisionLevelManager : MonoBehaviour
     // DECISIONES
     string _startTime;
     List<string> _selectedStops;
-    List<string> _notSelectedStops;
+    List<string> _distractionStops;
     List<string> _selectedSleepTimes;
     List<HourMinSec> selectedSleepTimes;
     List<string> _selectedLocationHours;
@@ -80,6 +80,9 @@ public class MisionLevelManager : MonoBehaviour
 
     [SerializeField]
     GameObject _dialogs;
+
+    // Random num
+    System.Random rnd = new System.Random();
 
     private void Awake()
     {
@@ -274,9 +277,10 @@ public class MisionLevelManager : MonoBehaviour
     }
 
     // Carga las preguntas de las paradas
-    public void LoadQuestions(Dictionary<string, string> q)
+    public void LoadQuestions(Dictionary<string, string> q, List<string> distractionStops)
     {
         _questions = q;
+        _distractionStops = distractionStops;
     }
 
     // Carga configuracion escogida
@@ -531,7 +535,14 @@ public class MisionLevelManager : MonoBehaviour
         string mensaje = "Pregunta inicio";
         EventRegister.Instance.AddToEvnt(Tuple.Create(EventRegister.EventosInfo.EmpiezaDecision, mensaje));
         EventRegister.Instance.EvntToJson();
+
+        // Parada random
+        int randomNum = rnd.Next(0, _stops.Count);
+
         // Cambio texto de pregunta
+        _misionUIManager.ChangeQuestion(_questions[_stops[randomNum]]);
+
+        // Borro parada realizada
 
         // Aparece pregunta con botones de decision
         ShowDecisionButtons();

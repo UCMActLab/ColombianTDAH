@@ -94,13 +94,21 @@ public class UIConfigQuestion : MonoBehaviour
 
         for (int i = 0; i < _config.StopsNames.Count; i++)
         {
+            // Preguntas texto
             TextField textF = _questionsVisualElement.Q<TextField>((_config.StopsNames[i] + "TF"));
             q.Add(_config.StopsNames[i], textF.value);
+
+            // Preguntas distractoras
+            Toggle toggle = _userQuestionsVisualElement.Q<Toggle>((_config.StopsNames[i] + "Toggle"));
+            if (!toggle.value) {
+                // Anyado a la lista de paradas de distraer
+                _config.DistractionStops.Add(_config.StopsNames[i]);
+            }
         }
 
         _config.Questions.FromDictionary(q);
 
-        MisionLevelManager.Instance.LoadQuestions(q);
+        MisionLevelManager.Instance.LoadQuestions(q, _config.DistractionStops);
     }
 
     private void SaveToJson(MisionConfigurationData config)
