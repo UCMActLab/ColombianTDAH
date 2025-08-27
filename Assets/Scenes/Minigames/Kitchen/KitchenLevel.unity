@@ -3547,6 +3547,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: SliceTable
       objectReference: {fileID: 0}
+    - target: {fileID: 5460003008564723189, guid: 229fa674cdf75e9489962ccde670e7ae, type: 3}
+      propertyPath: objAnim
+      value: 
+      objectReference: {fileID: 1676942408}
     - target: {fileID: 6038126814182789545, guid: 229fa674cdf75e9489962ccde670e7ae, type: 3}
       propertyPath: m_LocalPosition.x
       value: 4.941

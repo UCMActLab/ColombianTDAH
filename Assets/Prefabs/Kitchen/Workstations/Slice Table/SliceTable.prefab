@@ -194,7 +194,7 @@ MonoBehaviour:
   workstationType: 0
   workstationTime: 4
   spawnPoint: {fileID: 6547802389502503202}
-  objAnim: {fileID: 2295524168284519233}
+  objAnim: {fileID: 1888054859941292664}
   animKey: 1
   idleAnim: Idle
   processingAnim: Processing
@@ -228,7 +228,7 @@ Animator:
   m_GameObject: {fileID: 1888054859941292664}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 9cda457ac3728414282b764fae45d352, type: 2}
+  m_Controller: {fileID: 9100000, guid: bf57276dd6e18d347ad74957f9f98f5c, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
