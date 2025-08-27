@@ -25,7 +25,7 @@ public class MisionLevelManager : MonoBehaviour
     int _freeTime; // Tiempo que no esta durmiendo 
     float _playTimeCont = 0;
     float _auxCont = 0; // Contador aparicion paradas en ejecucion
-    float _sleepFade = 2;
+    float _sleepFade = 5;
     float _sleepAuxCont = 0;
     float _realSegsPerStop = 7.5f;
     HourMinSec _gameClock;
@@ -65,6 +65,7 @@ public class MisionLevelManager : MonoBehaviour
     // DECISIONES
     string _startTime;
     List<string> _selectedStops;
+    List<string> _notSelectedStops;
     List<string> _selectedSleepTimes;
     List<HourMinSec> selectedSleepTimes;
     List<string> _selectedLocationHours;
@@ -209,8 +210,15 @@ public class MisionLevelManager : MonoBehaviour
             }
             else
             {
+                // Fade in / Fade Out
+                if (_sleepAuxCont >= _sleepFade * 2 / 3)
+                    _misionUIManager.SetSleepImageAlpha((_sleepFade - _sleepAuxCont) / (_sleepFade * 2 / 3));
+                else if (_sleepAuxCont < _sleepFade / 3)
+                    _misionUIManager.SetSleepImageAlpha(_sleepAuxCont / (_sleepFade / 3));
+                else
+                    _misionUIManager.ChangeTime(_gameClock); // Cambio en UI
+
                 _sleepAuxCont += Time.deltaTime;
-                _misionUIManager.SetSleepImageAlpha(255 * _sleepAuxCont / _sleepFade);
             }
         }
     }
@@ -233,6 +241,7 @@ public class MisionLevelManager : MonoBehaviour
 
         if (enabled)
         {
+            // Sumo horas dormidas
             _gameClock += new HourMinSec(_hourPerSleep, 0, 0);
             Debug.Log("Activo dormir");
         }
@@ -240,8 +249,8 @@ public class MisionLevelManager : MonoBehaviour
         {
 
             Debug.Log("Desactivo dormir");
+            _misionUIManager.SetSleepImageAlpha(0);
         }
-        _misionUIManager.SetSleepImageAlpha(0);
     }
 
     // Reestablece contador

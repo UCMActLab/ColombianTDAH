@@ -21,8 +21,8 @@ public class PlanificationList : MonoBehaviour
     [SerializeField]
     Sprite _cross;
 
-    Vector3 _offset = 25 * Vector3.down;
-    float _distance = 20f;
+    Vector3 _offset = 12 * Vector3.down;
+    float _distance = 10f;
 
     public void SetDepartureTime(string newTime)
     {
