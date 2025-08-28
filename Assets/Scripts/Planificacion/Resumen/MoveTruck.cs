@@ -13,8 +13,6 @@ public class MoveTruck : MonoBehaviour
     private List<Transform> pointsList = new List<Transform>();
     private int currentIndexPoint = 0;
     private bool isMoving = true;
-    private bool subiendo;
-    private float currentAngle = 0f;
     void Start()
     {
 
@@ -78,18 +76,9 @@ public class MoveTruck : MonoBehaviour
     private void Oscila()
     {
 
-        if (subiendo)
-        {
-            currentAngle += speed * Time.deltaTime;
-            if (currentAngle >= oscillationAngle) subiendo = false;
-        }
-        else
-        {
-            currentAngle -= speed * Time.deltaTime;
-            if (currentAngle <= -oscillationAngle) subiendo = true;
-        }
-
-        truck.transform.rotation = Quaternion.Euler(0, 0, currentAngle);
+        float t = Mathf.PingPong(Time.time * oscillationSpeed, 1f); 
+        float angle = Mathf.Lerp(-oscillationAngle, oscillationAngle, t);
+        truck.transform.rotation = Quaternion.Euler(0, 0, angle);
 
     }
 }
