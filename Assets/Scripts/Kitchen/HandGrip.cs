@@ -21,16 +21,16 @@ public class HandGrip : MonoBehaviour
     {
         if (draggable == null) return;
 
-        if (draggable.isDragging)
-        {
-            handModel.SetActive(true); // mostrar mano
-            AnimatorManager.Instance.LerpFloat(ObjetosAnim.Mano, gripParam, 1f, gripSpeed);
-        }
-        else
-        {
-            AnimatorManager.Instance.LerpFloat(ObjetosAnim.Mano, gripParam, 0f, gripSpeed);
+        //if (draggable.isDragging)
+        //{
+        //    handModel.SetActive(true); // mostrar mano
+        //    AnimatorManager.Instance.LerpFloat(ObjetosAnim.Mano, gripParam, 1f, gripSpeed);
+        //}
+        //else
+        //{
+        //    AnimatorManager.Instance.LerpFloat(ObjetosAnim.Mano, gripParam, 0f, gripSpeed);
 
-            handModel.SetActive(false); // ocultar mano
-        }
+        //    handModel.SetActive(false); // ocultar mano
+        //}
     }
 }

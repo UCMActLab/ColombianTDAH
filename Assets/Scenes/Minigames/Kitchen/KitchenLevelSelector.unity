@@ -2336,6 +2336,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c40deea72b00cbe4b9cb5e172d08d6cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  victorySceneName: KitchenEnd
   recetasDatabase: {fileID: 11400000, guid: 500188bf1c71ba0498684343da787a59, type: 2}
   nivelacionData: {fileID: 11400000, guid: 33249acd58f2f7143b461034aba6ab92, type: 2}
 --- !u!4 &1005304898
@@ -2515,7 +2516,7 @@ Transform:
   m_GameObject: {fileID: 1116503894}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0.7071068, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: -1.152, y: 1.043, z: -0.422}
+  m_LocalPosition: {x: -0.974, y: 1.043, z: -0.422}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -4182,6 +4183,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &1914023009 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3058736643518800945, guid: 3346ffcef5b2c8b4d8b476a1c14f9f7d, type: 3}
+  m_PrefabInstance: {fileID: 817282437122241409}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1960717932
 GameObject:
   m_ObjectHideFlags: 0
@@ -4502,6 +4508,7 @@ RectTransform:
   m_Children:
   - {fileID: 482275281}
   - {fileID: 517125046}
+  - {fileID: 1914023009}
   m_Father: {fileID: 543450653352139803}
   m_LocalEulerAnglesHint: {x: -84.2, y: 180, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -4718,6 +4725,63 @@ Transform:
   - {fileID: 2049060272}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: -90, y: 90, z: 0}
+--- !u!1001 &817282437122241409
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 2049060272}
+    m_Modifications:
+    - target: {fileID: 3058736643518800945, guid: 3346ffcef5b2c8b4d8b476a1c14f9f7d, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3058736643518800945, guid: 3346ffcef5b2c8b4d8b476a1c14f9f7d, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -442
+      objectReference: {fileID: 0}
+    - target: {fileID: 3058736643518800945, guid: 3346ffcef5b2c8b4d8b476a1c14f9f7d, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 3058736643518800945, guid: 3346ffcef5b2c8b4d8b476a1c14f9f7d, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3058736643518800945, guid: 3346ffcef5b2c8b4d8b476a1c14f9f7d, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3058736643518800945, guid: 3346ffcef5b2c8b4d8b476a1c14f9f7d, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3058736643518800945, guid: 3346ffcef5b2c8b4d8b476a1c14f9f7d, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3058736643518800945, guid: 3346ffcef5b2c8b4d8b476a1c14f9f7d, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3058736643518800945, guid: 3346ffcef5b2c8b4d8b476a1c14f9f7d, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3058736643518800945, guid: 3346ffcef5b2c8b4d8b476a1c14f9f7d, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7597757637714960052, guid: 3346ffcef5b2c8b4d8b476a1c14f9f7d, type: 3}
+      propertyPath: m_Name
+      value: TutorialKitchen
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 3346ffcef5b2c8b4d8b476a1c14f9f7d, type: 3}
 --- !u!1 &919132149367588513
 GameObject:
   m_ObjectHideFlags: 0
