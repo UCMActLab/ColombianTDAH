@@ -64,8 +64,12 @@ public class MisionLevelManager : MonoBehaviour
 
     // DECISIONES
     string _startTime;
-    List<string> _selectedStops;
-    List<string> _distractionStops;
+    [SerializeField]
+    List<string> _selectedStops; // Paradas seleccionadas por el jugador
+    [SerializeField]
+    List<string> _selectableStops; // Paradasa que puede seleccionar el jugador
+    [SerializeField]
+    List<string> _distractionStops; // Paradas para distraer
     List<string> _selectedSleepTimes;
     List<HourMinSec> selectedSleepTimes;
     List<string> _selectedLocationHours;
@@ -277,10 +281,23 @@ public class MisionLevelManager : MonoBehaviour
     }
 
     // Carga las preguntas de las paradas
-    public void LoadQuestions(Dictionary<string, string> q, List<string> distractionStops)
+    public void LoadQuestions(Dictionary<string, string> q, List<string> distractionStops, List<string> selectableStops)
     {
         _questions = q;
         _distractionStops = distractionStops;
+        _selectableStops = selectableStops;
+
+        for(int i = 0; i < _distractionStops.Count; i++)
+        {
+            Debug.Log("Paradas distracción: " + _distractionStops[i]);
+        }
+
+        for (int i = 0; i < _selectableStops.Count; i++)
+        {
+            Debug.Log("Paradas seleccionables: " + _selectableStops[i]);
+        }
+
+        _mapUIManager.SetStopsNames(_selectableStops);
     }
 
     // Carga configuracion escogida
@@ -360,7 +377,7 @@ public class MisionLevelManager : MonoBehaviour
         _mapUIManager.SetLocationHours(optiondatas2);
         _mapUIManager.SetAllSleepHours(optiondatas3);
 
-        _mapUIManager.SetStopsNames(_stops);
+        //_mapUIManager.SetStopsNames(_selectableStops);
     }
 
     // Set Time. "X am/X pm"
@@ -536,13 +553,49 @@ public class MisionLevelManager : MonoBehaviour
         EventRegister.Instance.AddToEvnt(Tuple.Create(EventRegister.EventosInfo.EmpiezaDecision, mensaje));
         EventRegister.Instance.EvntToJson();
 
-        // Parada random
-        int randomNum = rnd.Next(0, _stops.Count);
+        int randomNum;
+        if (_selectedStops.Count > 0 && _distractionStops.Count > 0)
+        {
+            randomNum = rnd.Next(0, 2);
+        }
+        // Si no quedan de las paradas seleccionadas
+        else if (_selectedStops.Count == 0)
+        {
+            randomNum = 1;
+        }
+        // Si no quedan de las paradas distractoras
+        else
+        {
+            randomNum = 0;
+        }
 
-        // Cambio texto de pregunta
-        _misionUIManager.ChangeQuestion(_questions[_stops[randomNum]]);
+        // Busco pregunta en seleccionadas
+        if (randomNum == 0)
+        {
+            randomNum = rnd.Next(0, _selectedStops.Count);
 
-        // Borro parada realizada
+            // Cambio texto de pregunta
+            _misionUIManager.ChangeQuestion(_questions[_selectedStops[randomNum]]);
+            _selectedStops.Remove(_selectedStops[randomNum]);
+
+        }
+        // Busco pregunta en distractoras
+        else
+        {
+            randomNum = rnd.Next(0, _distractionStops.Count);
+
+            // Cambio texto de pregunta
+            _misionUIManager.ChangeQuestion(_questions[_distractionStops[randomNum]]);
+
+            // Borro parada realizada
+            _distractionStops.Remove(_distractionStops[randomNum]);
+        }
+
+        // Compuebo si no quedan preguntas
+        if(_selectedStops.Count == 0 && _distractionStops.Count == 0)
+        {
+            Debug.Log("Ya no hay más preguntas");
+        }
 
         // Aparece pregunta con botones de decision
         ShowDecisionButtons();

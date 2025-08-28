@@ -89,8 +89,21 @@ public class UIConfigQuestion : MonoBehaviour
         // Desbloqueo
         _config.Desbloqueado = _unlock.value;
 
+
+        for (int i = 0; i < _config.DistractionStops.Count; i++)
+        {
+            Debug.Log("Paradas distracción ANTES: " + _config.DistractionStops[i] + " i: " + i);
+        }
+
+        for (int i = 0; i < _config.SelectableStops.Count; i++)
+        {
+            Debug.Log("Paradas seleccionables ANTES: " + _config.SelectableStops[i] + " i: " + i);
+        }
+
         // Preguntas
         Dictionary<string, string> q = new Dictionary<string, string>();
+        _config.DistractionStops.Clear();
+        _config.SelectableStops.Clear();
 
         for (int i = 0; i < _config.StopsNames.Count; i++)
         {
@@ -100,15 +113,33 @@ public class UIConfigQuestion : MonoBehaviour
 
             // Preguntas distractoras
             Toggle toggle = _userQuestionsVisualElement.Q<Toggle>((_config.StopsNames[i] + "Toggle"));
-            if (!toggle.value) {
+            if (!toggle.value)
+            {
                 // Anyado a la lista de paradas de distraer
                 _config.DistractionStops.Add(_config.StopsNames[i]);
             }
+            else
+            {
+                _config.SelectableStops.Add(_config.StopsNames[i]);
+                Debug.Log("Paradas Seleccionables: " + _config.StopsNames[i]);
+            }
+
+            Debug.Log("i: " + i);
         }
 
         _config.Questions.FromDictionary(q);
 
-        MisionLevelManager.Instance.LoadQuestions(q, _config.DistractionStops);
+        for (int i = 0; i < _config.DistractionStops.Count; i++)
+        {
+            Debug.Log("Paradas distracción: " + _config.DistractionStops[i] + " i: " + i);
+        }
+
+        for (int i = 0; i < _config.SelectableStops.Count; i++)
+        {
+            Debug.Log("Paradas seleccionables: " + _config.SelectableStops[i] + " i: " + i);
+        }
+
+        MisionLevelManager.Instance.LoadQuestions(q, _config.DistractionStops, _config.SelectableStops);
     }
 
     private void SaveToJson(MisionConfigurationData config)

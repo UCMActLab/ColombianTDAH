@@ -208,7 +208,7 @@ public class UIMapData : MonoBehaviour
             {
                 // Me desactivo
                 MisionLevelManager.Instance.LoadConfiguration(_config);
-                MisionLevelManager.Instance.LoadQuestions(_config.Questions.ToDictionary(), _config.DistractionStops);
+                MisionLevelManager.Instance.LoadQuestions(_config.Questions.ToDictionary(), _config.DistractionStops, _config.SelectableStops);
                 MisionLevelManager.Instance.ActivateGame();
                 gameObject.SetActive(false);
             }
