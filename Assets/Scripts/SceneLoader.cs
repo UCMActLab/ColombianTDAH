@@ -215,7 +215,7 @@ public class SceneLoader : MonoBehaviour
         {
             return (TipoJuego)tipoJuegoEnum;
         }
-        Debug.LogWarning($"SceneLoader.SetLevelId, tipoId {tipoJuegoEnum} no es valido, se ha puesto el valor delfines (1) por defecto");
+        Debug.LogWarning($"SceneLoader.ParseTipoJuego, tipoIdEnum {tipoJuegoEnum} no es valido, se ha puesto el valor delfines (1) por defecto");
         return TipoJuego.Delfines;
     }
 

@@ -226,8 +226,6 @@ public class UIMapData : MonoBehaviour
         // Verificar si el archivo existe antes de leerlo
         if (!System.IO.File.Exists(levelInfoPath)) return;
 
-        Debug.Log("SetUIFromJSON MisionConfigurationData after reading " + levelInfoPath);
-
         string levelInfo = System.IO.File.ReadAllText(levelInfoPath);
         JsonUtility.FromJsonOverwrite(levelInfo, _config);
 

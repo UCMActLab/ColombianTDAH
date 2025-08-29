@@ -619,4 +619,11 @@ public class MisionLevelManager : MonoBehaviour
         _badAnswers++;
         Debug.Log("Bad answer");
     }
+
+
+    //para pasarle al ShowResumen
+    public int HourPerSleep => _hourPerSleep; // getter de solo lectura
+    public string StartTime => _startTime;
+    public List<string> SelectedInitialStops => _selectedInitialStops;
+    public List<string> SelectedStops => _selectedStops; //como se van quitando al final se queda con las respuestas que no fueron correctas
 }

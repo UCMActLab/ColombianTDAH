@@ -8,11 +8,14 @@ public class MoveTruck : MonoBehaviour
     [SerializeField] private float speed = 30f;
     [SerializeField] private bool loop = false;  // repetir el recorrido
     [SerializeField] private float oscillationAngle = 10f; 
-    [SerializeField] private float oscillationSpeed = 5f;  
+    [SerializeField] private float oscillationSpeed = 10f;  
 
     private List<Transform> pointsList = new List<Transform>();
     private int currentIndexPoint = 0;
     private bool isMoving = true;
+
+    private bool subiendo;
+    private float currentAngle = 0f;
     void Start()
     {
 
@@ -75,10 +78,19 @@ public class MoveTruck : MonoBehaviour
 
     private void Oscila()
     {
+        if (subiendo)
+        {
+            currentAngle += oscillationSpeed * Time.deltaTime;
+            if (currentAngle >= oscillationAngle) subiendo = false;
+        }
+        else
+        {
+            currentAngle -= oscillationSpeed * Time.deltaTime;
+            if (currentAngle <= -oscillationAngle) subiendo = true;
+        }
 
-        float t = Mathf.PingPong(Time.time * oscillationSpeed, 1f); 
-        float angle = Mathf.Lerp(-oscillationAngle, oscillationAngle, t);
-        truck.transform.rotation = Quaternion.Euler(0, 0, angle);
+        truck.transform.rotation = Quaternion.Euler(0, 0, currentAngle);
 
     }
+
 }
