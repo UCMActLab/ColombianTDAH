@@ -39,4 +39,10 @@ MonoBehaviour:
       Value: "Qu\xE9 divertido, un parque de atracciones, \xBFQuieres parar?"
     - Key: Colegio
       Value: "Ah\xED est\xE1 el colegio, \xBFParamos para ver a los amigos?"
+  _distractionStops:
+  - Parque de atracciones
+  - Colegio
+  _selectableStops:
+  - Hotel
+  - Garaje
   _desbloqueado: 1

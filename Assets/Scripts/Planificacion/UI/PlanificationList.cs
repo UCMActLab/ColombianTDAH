@@ -69,4 +69,34 @@ public class PlanificationList : MonoBehaviour
             DestroyImmediate(gObject.transform.GetChild(0).gameObject);
         }
     }
+
+
+    public void SetQuestionTick(int index, bool enabled)
+    {
+        // Busco game Object
+        Transform t = _stopsText.transform.GetChild(index);
+
+        // Llamo a Chanche Image
+        ChangeImage(t, enabled);
+    }
+
+    private void ChangeImage(Transform child, bool tick)
+    {
+        if (tick)
+        {
+            SetTick();
+        }
+        else
+            SetCross();
+    }
+
+    private void SetTick()
+    {
+
+    }
+
+    private void SetCross()
+    {
+
+    }
 }

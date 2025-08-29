@@ -181,8 +181,8 @@ public class UIConfigQuestion : MonoBehaviour
                 Toggle toggle = _userQuestionsVisualElement.Q<Toggle>(stop + "Toggle");
                 if (toggle != null)
                 {
-                    // Aquí decides qué significa: yo lo pongo activo si hay una pregunta definida
-                    toggle.value = questions.ContainsKey(stop) && !string.IsNullOrEmpty(questions[stop]);
+                    //si la parada esta en el selectable stops es que esta a true
+                    toggle.value = _config.SelectableStops != null && _config.SelectableStops.Contains(stop);
                 }
             }
         }

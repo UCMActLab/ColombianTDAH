@@ -34,6 +34,7 @@ public class MisionLevelManager : MonoBehaviour
     // Estados
     bool _paused = true;
     bool _sleeping = false;
+    bool _anyQuestionsLeft = true;
 
     // Ask Time
     float _answerTime = 10; // Seconds
@@ -64,11 +65,8 @@ public class MisionLevelManager : MonoBehaviour
 
     // DECISIONES
     string _startTime;
-    [SerializeField]
     List<string> _selectedStops; // Paradas seleccionadas por el jugador
-    [SerializeField]
     List<string> _selectableStops; // Paradasa que puede seleccionar el jugador
-    [SerializeField]
     List<string> _distractionStops; // Paradas para distraer
     List<string> _selectedSleepTimes;
     List<HourMinSec> selectedSleepTimes;
@@ -193,7 +191,7 @@ public class MisionLevelManager : MonoBehaviour
                 // Actualizo dormir
                 UpdateSleep();
 
-                if (!_sleeping)
+                if (!_sleeping && _anyQuestionsLeft)
                 {
 
                     if (_auxGameCont.Minutes >= _questionFrecMins)
@@ -287,15 +285,15 @@ public class MisionLevelManager : MonoBehaviour
         _distractionStops = distractionStops;
         _selectableStops = selectableStops;
 
-        for(int i = 0; i < _distractionStops.Count; i++)
-        {
-            Debug.Log("Paradas distracción: " + _distractionStops[i]);
-        }
+        //for(int i = 0; i < _distractionStops.Count; i++)
+        //{
+        //    Debug.Log("Paradas distracción: " + _distractionStops[i]);
+        //}
 
-        for (int i = 0; i < _selectableStops.Count; i++)
-        {
-            Debug.Log("Paradas seleccionables: " + _selectableStops[i]);
-        }
+        //for (int i = 0; i < _selectableStops.Count; i++)
+        //{
+        //    Debug.Log("Paradas seleccionables: " + _selectableStops[i]);
+        //}
 
         _mapUIManager.SetStopsNames(_selectableStops);
     }
@@ -594,6 +592,7 @@ public class MisionLevelManager : MonoBehaviour
         // Compuebo si no quedan preguntas
         if(_selectedStops.Count == 0 && _distractionStops.Count == 0)
         {
+            _anyQuestionsLeft = false;
             Debug.Log("Ya no hay más preguntas");
         }
 
