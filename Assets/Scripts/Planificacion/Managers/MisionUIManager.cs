@@ -63,25 +63,25 @@ public class MisionUIManager : MonoBehaviour
     public void YesClicked()
     {
         Debug.Log("YEEES");
-        Clicked();
+        Clicked(true);
     }
 
     // Respuesta no
     public void NoClicked()
     {
         Debug.Log("NOOO");
-        Clicked();
+        Clicked(false);
     }
 
     // Desactiva pregunta y botones de respuesta
-    void Clicked()
+    void Clicked(bool yes)
     {
         string mensaje = "Pregunta final, se ha contestado";
         EventRegister.Instance.AddToEvnt(Tuple.Create(EventRegister.EventosInfo.TerminaDecision, mensaje));
         EventRegister.Instance.EvntToJson();
 
         _decisionGO.SetActive(false);
-        MisionLevelManager.Instance.Answered();
+        MisionLevelManager.Instance.Answered(yes);
     }
 
     // Actualiza el valor del slider

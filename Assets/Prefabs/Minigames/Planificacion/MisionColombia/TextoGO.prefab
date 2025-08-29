@@ -261,3 +261,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ba45511e1704a00469b1b1708b73e22a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _tickImage: {fileID: 21300000, guid: baeadea05577cd443bf5703a12f22cc5, type: 3}
+  _crossImage: {fileID: 21300000, guid: 033535e621dd5a54580f82c7e2bfa7ea, type: 3}
+  _noneImage: {fileID: 21300000, guid: 9c11ebe9f687d7a408121f4d25061f02, type: 3}
+  _imageGO: {fileID: 3974972083603087499}

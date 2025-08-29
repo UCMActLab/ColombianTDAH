@@ -35,12 +35,16 @@ public class MisionLevelManager : MonoBehaviour
     bool _paused = true;
     bool _sleeping = false;
     bool _anyQuestionsLeft = true;
+    bool _isSelectedStopQuestion;
 
     // Ask Time
     float _answerTime = 10; // Seconds
     float _timeCont = 0;
     bool _isAnswering = false;
     int _questionFrecMins;
+    int _goodAnswers = 0;
+    int _badAnswers = 0;
+    int _indexUIQuestion;
 
     // Reglas
     int _stopsN; // Number
@@ -65,6 +69,7 @@ public class MisionLevelManager : MonoBehaviour
 
     // DECISIONES
     string _startTime;
+    List<string> _selectedInitialStops; // Paradas seleccionadas por el jugador al inicio
     List<string> _selectedStops; // Paradas seleccionadas por el jugador
     List<string> _selectableStops; // Paradasa que puede seleccionar el jugador
     List<string> _distractionStops; // Paradas para distraer
@@ -148,7 +153,8 @@ public class MisionLevelManager : MonoBehaviour
         EventRegister.Instance.AddToEvnt(Tuple.Create(EventRegister.EventosInfo.TerminaDecision, mensaje));
         EventRegister.Instance.EvntToJson();
 
-        Answered();
+        FinishAnswer(); // Sin contestar
+        BadAnswer();
 
         _misionUIManager.HideDecisionButtons();
         _isAnswering = true;
@@ -259,7 +265,17 @@ public class MisionLevelManager : MonoBehaviour
     }
 
     // Reestablece contador
-    public void Answered()
+    public void Answered(bool yes)
+    {
+        FinishAnswer();
+
+        if (yes == _isSelectedStopQuestion)
+            GoodAnswer();
+        else
+            BadAnswer();
+    }
+
+    private void FinishAnswer()
     {
         _isAnswering = false;
         _timeCont = _answerTime;
@@ -272,8 +288,9 @@ public class MisionLevelManager : MonoBehaviour
     public void RegisterUIManager(MisionUIManager misionUIManager)
     {
         _misionUIManager = misionUIManager;
-        _misionUIManager.SetStartTime(_gameClock);
+        _selectedInitialStops = _selectedStops;
         _misionUIManager.SetStops(_selectedStops);
+        _misionUIManager.SetStartTime(_gameClock);
         _misionUIManager.SetSleepHours(_selectedSleepTimes);
         _misionUIManager.SetLocationHours(_selectedLocationHours);
     }
@@ -284,16 +301,6 @@ public class MisionLevelManager : MonoBehaviour
         _questions = q;
         _distractionStops = distractionStops;
         _selectableStops = selectableStops;
-
-        //for(int i = 0; i < _distractionStops.Count; i++)
-        //{
-        //    Debug.Log("Paradas distracción: " + _distractionStops[i]);
-        //}
-
-        //for (int i = 0; i < _selectableStops.Count; i++)
-        //{
-        //    Debug.Log("Paradas seleccionables: " + _selectableStops[i]);
-        //}
 
         _mapUIManager.SetStopsNames(_selectableStops);
     }
@@ -374,8 +381,6 @@ public class MisionLevelManager : MonoBehaviour
         _mapUIManager.SetDepartureHours(optiondatas);
         _mapUIManager.SetLocationHours(optiondatas2);
         _mapUIManager.SetAllSleepHours(optiondatas3);
-
-        //_mapUIManager.SetStopsNames(_selectableStops);
     }
 
     // Set Time. "X am/X pm"
@@ -570,6 +575,7 @@ public class MisionLevelManager : MonoBehaviour
         // Busco pregunta en seleccionadas
         if (randomNum == 0)
         {
+            _isSelectedStopQuestion = true;
             randomNum = rnd.Next(0, _selectedStops.Count);
 
             // Cambio texto de pregunta
@@ -580,6 +586,7 @@ public class MisionLevelManager : MonoBehaviour
         // Busco pregunta en distractoras
         else
         {
+            _isSelectedStopQuestion = false;
             randomNum = rnd.Next(0, _distractionStops.Count);
 
             // Cambio texto de pregunta
@@ -599,5 +606,17 @@ public class MisionLevelManager : MonoBehaviour
         // Aparece pregunta con botones de decision
         ShowDecisionButtons();
         Debug.Log("Aparece pregunta buena para responder"); // Tiene que parar
+    }
+
+    private void GoodAnswer()
+    {
+        _goodAnswers++;
+        Debug.Log("Good answer");
+    }
+
+    private void BadAnswer()
+    {
+        _badAnswers++;
+        Debug.Log("Bad answer");
     }
 }

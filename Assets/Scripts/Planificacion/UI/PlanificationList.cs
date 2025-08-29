@@ -16,10 +16,6 @@ public class PlanificationList : MonoBehaviour
     [SerializeField]
     GameObject _textPrefab;
 
-    [SerializeField]
-    Sprite _tick;
-    [SerializeField]
-    Sprite _cross;
 
     Vector3 _offset = 12 * Vector3.down;
     float _distance = 10f;
@@ -71,7 +67,7 @@ public class PlanificationList : MonoBehaviour
     }
 
 
-    public void SetQuestionTick(int index, bool enabled)
+    public void SetStopTick(int index, bool enabled)
     {
         // Busco game Object
         Transform t = _stopsText.transform.GetChild(index);
@@ -82,21 +78,8 @@ public class PlanificationList : MonoBehaviour
 
     private void ChangeImage(Transform child, bool tick)
     {
-        if (tick)
-        {
-            SetTick();
-        }
-        else
-            SetCross();
+        ImageChanger childImageChanger = child.GetComponent<ImageChanger>();
+        childImageChanger.SetTick(tick);
     }
 
-    private void SetTick()
-    {
-
-    }
-
-    private void SetCross()
-    {
-
-    }
 }

@@ -25,7 +25,21 @@ public class ImageChanger : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
+    // Pone Imagen de Tick o Cross dependiendo del parámetro
+    public void SetTick(bool enabled)
+    {
+        if (enabled)
+            _image.sprite = _tickImage;
+        else
+            _image.sprite = _crossImage;
+    }
+
+    // Pone imagen transparente
+    public void ClearImage()
+    {
+        _image.sprite = _noneImage;
+    }
 }
