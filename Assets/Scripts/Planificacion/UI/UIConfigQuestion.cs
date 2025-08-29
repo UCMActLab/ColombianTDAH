@@ -92,7 +92,7 @@ public class UIConfigQuestion : MonoBehaviour
 
         for (int i = 0; i < _config.DistractionStops.Count; i++)
         {
-            Debug.Log("Paradas distracción ANTES: " + _config.DistractionStops[i] + " i: " + i);
+            Debug.Log("Paradas distracciï¿½n ANTES: " + _config.DistractionStops[i] + " i: " + i);
         }
 
         for (int i = 0; i < _config.SelectableStops.Count; i++)
@@ -131,7 +131,7 @@ public class UIConfigQuestion : MonoBehaviour
 
         for (int i = 0; i < _config.DistractionStops.Count; i++)
         {
-            Debug.Log("Paradas distracción: " + _config.DistractionStops[i] + " i: " + i);
+            Debug.Log("Paradas distracciï¿½n: " + _config.DistractionStops[i] + " i: " + i);
         }
 
         for (int i = 0; i < _config.SelectableStops.Count; i++)
@@ -160,7 +160,7 @@ public class UIConfigQuestion : MonoBehaviour
     {
         Debug.Log("SetUIFromJSON Questions");
 
-        // Toggle desbloqueo
+        // desbloqueo
         _unlock.value = _config.Desbloqueado;
 
         // convertimos a dictionary de verdad para que sea mas comodo
@@ -170,14 +170,14 @@ public class UIConfigQuestion : MonoBehaviour
         {
             foreach (string stop in _config.StopsNames)
             {
-                // TextField con el nombre del stop
+                // parada
                 TextField textF = _questionsVisualElement.Q<TextField>(stop + "TF");
                 if (textF != null && questions.ContainsKey(stop))
                 {
                     textF.value = questions[stop];
                 }
 
-                // Toggle asociado al stop
+                // Toggle asociado a la parada
                 Toggle toggle = _userQuestionsVisualElement.Q<Toggle>(stop + "Toggle");
                 if (toggle != null)
                 {
