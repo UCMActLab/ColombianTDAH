@@ -102,6 +102,7 @@ GameObject:
   - component: {fileID: 3223758930207815330}
   - component: {fileID: 5115105384881028406}
   - component: {fileID: 5990806045667386942}
+  - component: {fileID: -4052879604109531255}
   m_Layer: 0
   m_Name: lemon
   m_TagString: Untagged
@@ -185,6 +186,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a32a3964fddf59045ab9be703897c2a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  draggableObject: 1
   dragDistance: 4.5
   onStartDragging:
     m_PersistentCalls:
@@ -236,3 +238,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5689f5e8a0ab8e459f34a9809f09054, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &-4052879604109531255
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8969337406353382910}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bed4d19cfdc4627438c075d2e7474dc6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  localGrabOffset: {x: 0, y: 0.1, z: 0}

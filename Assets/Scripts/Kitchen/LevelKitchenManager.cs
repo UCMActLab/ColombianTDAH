@@ -66,13 +66,17 @@ public class LevelKitchenManager : MonoBehaviour
     private int tiempoPorTurnoTotal;
     private List<RecetaData> recetasToDo;
 
-    
-
     private Reloj contador;
 
     // Contador de recetas del turno: receta final -> cuántas faltan
     private Dictionary<RecetaData, int> recetasRestantes = new();
 
+    private GameObject hand;          
+    private bool hideHandWhenIdle = true;
+    private Transform handFollowTarget;
+    private Vector3 handOffset;        // Offset desde el centro del objeto al punto de agarre
+    private float handRayDepth = 4.5f; 
+    private Camera mainCam;
 
     private void Awake()
     {
@@ -92,6 +96,7 @@ public class LevelKitchenManager : MonoBehaviour
     private void Start()
     {
         CalcularRecetasPorJornada();
+        mainCam = Camera.main;
     }
 
     private void Update()
@@ -124,9 +129,7 @@ public class LevelKitchenManager : MonoBehaviour
         {
             Draggable tab = tablon.GetComponent<Draggable>();
             Draggable tabButtonDrag = tablonButton.GetComponent<Draggable>();
-
             RecipeBoard rec = recetasColgadas.GetComponent<RecipeBoard>();
-
 
             if (tab != null)
             {
@@ -382,6 +385,57 @@ public class LevelKitchenManager : MonoBehaviour
         return nivelacionData.jornadas[jornadaActual].recetasAsignadas;
     }
 
+
+    public void StartHandFollow(Transform target, Vector3 grabWorldPoint, float dragDepth)
+    {
+        handFollowTarget = target;
+        handRayDepth = dragDepth;
+        handOffset = (target != null) ? (grabWorldPoint - target.position) : Vector3.zero;
+
+        if (hand != null)
+        {
+            if (hideHandWhenIdle && !hand.activeSelf) hand.SetActive(true);
+            hand.transform.position = grabWorldPoint;
+        }
+
+        // Cambiamos animación 
+        AnimatorManager.Instance.ChangeAnimation(ObjetosAnim.Mano, "Closed", 0.1f);        
+    }
+
+    public void StopHandFollow()
+    {
+        // Cambiamos animación 
+        AnimatorManager.Instance.ChangeAnimation(ObjetosAnim.Mano, "Open", 0.1f);        
+
+        if (hideHandWhenIdle && hand != null)
+            StartCoroutine(HideHandAfter(0.5f));
+
+        handFollowTarget = null;
+    }
+
+    private IEnumerator HideHandAfter(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        if (hand != null) hand.SetActive(false);
+    }
+
+    void LateUpdate()
+    {
+        if (hand == null) return;
+
+        if (handFollowTarget != null)
+        {
+            // Sigue al objeto con el mismo punto de agarre
+            var targetPos = handFollowTarget.position + handOffset;
+            hand.transform.position = targetPos;
+        }
+        else if (hand.activeSelf && mainCam != null)
+        {             
+            var ray = mainCam.ScreenPointToRay(Input.mousePosition);
+            hand.transform.position = ray.GetPoint(handRayDepth);
+        }
+    }
+
     public void SetJornada(int newValue)
     {
         jornadaActual = newValue;
@@ -408,6 +462,10 @@ public class LevelKitchenManager : MonoBehaviour
         tablonButton = tb;
     }
 
+    public void SetHand(GameObject h)
+    {
+        hand = h;
+    }
 
     public NivelacionData GetNivelacionData() {
         return nivelacionData;

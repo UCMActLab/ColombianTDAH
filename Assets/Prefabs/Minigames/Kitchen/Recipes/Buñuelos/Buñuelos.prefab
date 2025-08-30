@@ -391,6 +391,7 @@ GameObject:
   - component: {fileID: 7321974278975401077}
   - component: {fileID: 505471133161993598}
   - component: {fileID: 5390042138731825260}
+  - component: {fileID: -1617075349963159792}
   m_Layer: 0
   m_Name: "Bu\xF1uelos"
   m_TagString: Untagged
@@ -481,6 +482,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a32a3964fddf59045ab9be703897c2a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  draggableObject: 1
   dragDistance: 4.5
   onStartDragging:
     m_PersistentCalls:
@@ -531,6 +533,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   receta: {fileID: 11400000, guid: a32d4b58c2d3fa547a94f6c0b25c0c2c, type: 2}
+--- !u!114 &-1617075349963159792
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3030029168856468108}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bed4d19cfdc4627438c075d2e7474dc6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  localGrabOffset: {x: 0, y: 0.1, z: 0}
 --- !u!1 &4150738095760348841
 GameObject:
   m_ObjectHideFlags: 0

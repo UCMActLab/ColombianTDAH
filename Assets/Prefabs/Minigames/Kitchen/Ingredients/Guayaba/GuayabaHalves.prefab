@@ -103,6 +103,7 @@ GameObject:
   - component: {fileID: 2363673025894102112}
   - component: {fileID: 4260771436018747772}
   - component: {fileID: 201481977525428951}
+  - component: {fileID: -6184712474862585776}
   m_Layer: 0
   m_Name: GuayabaHalves
   m_TagString: Untagged
@@ -187,6 +188,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a32a3964fddf59045ab9be703897c2a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  draggableObject: 1
   dragDistance: 4.5
   onStartDragging:
     m_PersistentCalls:
@@ -222,7 +224,6 @@ MonoBehaviour:
   workstationLayer:
     serializedVersion: 2
     m_Bits: 32768
-  procesamientoDatabase: {fileID: 11400000, guid: 7192775063d47bd4b92eae36ccd81741, type: 2}
   recetasDatabase: {fileID: 11400000, guid: 500188bf1c71ba0498684343da787a59, type: 2}
   raycastDistance: 12
   overlayGreen: {fileID: 2100000, guid: 829a32be13f78cf419f424b5fcdf3382, type: 2}
@@ -239,6 +240,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5689f5e8a0ab8e459f34a9809f09054, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &-6184712474862585776
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4550755194953821507}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bed4d19cfdc4627438c075d2e7474dc6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  localGrabOffset: {x: 0, y: 0.1, z: 0}
 --- !u!1 &7279204819305330503
 GameObject:
   m_ObjectHideFlags: 0

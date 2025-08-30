@@ -2,35 +2,37 @@ using UnityEngine;
 
 public class HandGrip : MonoBehaviour
 {
-    private Draggable draggable;
+    private Draggable d; 
 
-    [Header("Animación Mano")]
-    [SerializeField] private string gripParam = "Grip";
-    [SerializeField] private float gripSpeed = 8f;
+    [SerializeField] private Vector3 localGrabOffset = new Vector3(0, 0.1f, 0);
 
-    [SerializeField] private GameObject handModel;
-
-    void Start()
+    void Awake()
     {
-        draggable = GetComponent<Draggable>();
-        if (draggable == null)
-            Debug.LogError("[HandGripBridge] No se encontró Draggable en el mismo objeto.");
+        d = GetComponent<Draggable>();
     }
 
-    void Update()
+    void OnEnable()
     {
-        if (draggable == null) return;
+        d.onStartDragging.AddListener(OnDragStart);
+        d.onStopDragging.AddListener(OnDragStop);
+    }
 
-        //if (draggable.isDragging)
-        //{
-        //    handModel.SetActive(true); // mostrar mano
-        //    AnimatorManager.Instance.LerpFloat(ObjetosAnim.Mano, gripParam, 1f, gripSpeed);
-        //}
-        //else
-        //{
-        //    AnimatorManager.Instance.LerpFloat(ObjetosAnim.Mano, gripParam, 0f, gripSpeed);
+    void OnDisable()
+    {
+        d.onStartDragging.RemoveListener(OnDragStart);
+        d.onStopDragging.RemoveListener(OnDragStop);
+    }
 
-        //    handModel.SetActive(false); // ocultar mano
-        //}
+    void OnDragStart()
+    {
+        if (!d.IsGrabbable) return;
+
+        Vector3 grabPoint = transform.TransformPoint(localGrabOffset);
+        LevelKitchenManager.Instance?.StartHandFollow(transform, grabPoint, d.DragDistance);
+    }
+
+    void OnDragStop()
+    {
+        LevelKitchenManager.Instance?.StopHandFollow();
     }
 }

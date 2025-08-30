@@ -133,6 +133,7 @@ GameObject:
   - component: {fileID: 4607070634642322289}
   - component: {fileID: 4869691680483687873}
   - component: {fileID: 6476912634846195479}
+  - component: {fileID: -5481022931509969295}
   m_Layer: 0
   m_Name: Natilla
   m_TagString: Untagged
@@ -218,6 +219,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a32a3964fddf59045ab9be703897c2a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  draggableObject: 1
   dragDistance: 4.5
   onStartDragging:
     m_PersistentCalls:
@@ -268,6 +270,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   receta: {fileID: 11400000, guid: d8be31b67b557864d8625642e9968171, type: 2}
+--- !u!114 &-5481022931509969295
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2244577606202969946}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bed4d19cfdc4627438c075d2e7474dc6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  localGrabOffset: {x: 0, y: 0.1, z: 0}
 --- !u!1 &5250463496748164491
 GameObject:
   m_ObjectHideFlags: 0

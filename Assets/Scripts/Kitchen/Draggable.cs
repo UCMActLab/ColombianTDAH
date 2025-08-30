@@ -59,5 +59,7 @@ public class Draggable : MonoBehaviour
         
     }
 
+    public bool IsGrabbable => draggableObject;
+    public float DragDistance => dragDistance;
     #endregion
 }

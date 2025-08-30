@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 1439003554762860452}
   - component: {fileID: 3902932377446065605}
   - component: {fileID: 4995259280328536528}
+  - component: {fileID: 4171148854460531375}
   m_Layer: 0
   m_Name: Mielmesabe
   m_TagString: Untagged
@@ -99,6 +100,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a32a3964fddf59045ab9be703897c2a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  draggableObject: 1
   dragDistance: 4.5
   onStartDragging:
     m_PersistentCalls:
@@ -149,6 +151,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   receta: {fileID: 11400000, guid: 2e81ad19e421fdd448892106afbe3871, type: 2}
+--- !u!114 &4171148854460531375
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 961889355477804371}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bed4d19cfdc4627438c075d2e7474dc6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  localGrabOffset: {x: 0, y: 0.1, z: 0}
 --- !u!1 &6310729854747127264
 GameObject:
   m_ObjectHideFlags: 0
