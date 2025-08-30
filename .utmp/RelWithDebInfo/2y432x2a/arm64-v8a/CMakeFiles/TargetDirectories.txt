@@ -1,0 +1,5 @@
+C:/PRACTICAS/ColombianTDAH/.utmp/RelWithDebInfo/2y432x2a/arm64-v8a/CMakeFiles/edit_cache.dir
+C:/PRACTICAS/ColombianTDAH/.utmp/RelWithDebInfo/2y432x2a/arm64-v8a/CMakeFiles/rebuild_cache.dir
+C:/PRACTICAS/ColombianTDAH/.utmp/RelWithDebInfo/2y432x2a/arm64-v8a/GameActivity/CMakeFiles/game.dir
+C:/PRACTICAS/ColombianTDAH/.utmp/RelWithDebInfo/2y432x2a/arm64-v8a/GameActivity/CMakeFiles/edit_cache.dir
+C:/PRACTICAS/ColombianTDAH/.utmp/RelWithDebInfo/2y432x2a/arm64-v8a/GameActivity/CMakeFiles/rebuild_cache.dir

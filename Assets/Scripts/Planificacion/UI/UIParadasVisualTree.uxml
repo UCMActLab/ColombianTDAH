@@ -1,0 +1,25 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <Style src="project://database/Assets/Scripts/Planificacion/UI/UIMapaStyleSheet.uss?fileID=7433441132597879392&amp;guid=efb645a9b0d871a44ab44e705572ff67&amp;type=3#UIMapaStyleSheet" />
+    <ui:VisualElement name="FullScreen" style="flex-grow: 1; width: 100%; height: 100%; align-items: center; justify-content: center; align-self: flex-start; align-content: center; flex-direction: row; flex-shrink: 0; position: relative; left: auto; top: auto; background-color: rgba(200, 255, 165, 0.53); background-image: none; display: flex; opacity: 1;">
+        <ui:VisualElement name="VisualElement" style="flex-grow: 1; right: auto; left: auto; top: auto; width: 100%; height: 100%; bottom: auto; background-size: 100% 100%; display: flex; border-left-color: rgba(0, 0, 0, 0); border-right-color: rgba(0, 0, 0, 0); border-top-color: rgba(0, 0, 0, 0); border-bottom-color: rgba(0, 0, 0, 0); align-items: stretch; justify-content: space-around; align-self: flex-start;">
+            <ui:VisualElement name="Fase3" class="faseBg" style="flex-grow: 0; width: 90%; height: 90%; flex-wrap: wrap; justify-content: center; margin-left: 0; display: flex; border-left-color: rgb(0, 107, 0); border-right-color: rgb(0, 107, 0); border-top-color: rgb(0, 107, 0); border-bottom-color: rgb(0, 107, 0); border-top-width: 10px; border-right-width: 10px; border-bottom-width: 10px; border-left-width: 10px; margin-top: 0; margin-right: 0; margin-bottom: 0; padding-top: 15px; padding-right: 15px; padding-bottom: 15px; padding-left: 15px; background-size: 100% 100%; align-self: center; align-items: center; align-content: flex-start; right: auto;">
+                <ui:ScrollView name="ScrollView" style="font-size: 22px; justify-content: flex-start; align-items: stretch; align-self: center; align-content: stretch; flex-grow: 0; right: 0; top: 0; left: 0; bottom: 0;">
+                    <ui:Label text="PLANIFICACIÓN 2" name="PlanTituloText" style="margin-top: 20px; margin-right: 10px; margin-bottom: 10px; margin-left: 10px; font-size: 29px; -unity-font-style: bold; -unity-text-align: upper-center;" />
+                    <ui:VisualElement name="ParadasPreg" style="flex-grow: 0; margin-top: 10px; margin-right: 10px; margin-bottom: 10px; margin-left: 20px; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; background-color: rgba(255, 121, 121, 0); justify-content: flex-start; font-size: 12px;">
+                        <ui:Label text="Paradas" name="ParadasPregText" style="font-size: 20px; -unity-font-style: bold;" />
+                        <ui:Label text="Escriba las preguntas de cada parada que quieran que aparezca en ejecución. Las preguntas deben poder ser respondidas por &quot;Sí&quot; o &quot;No&quot;." name="ParadasExplPregText" style="font-size: 18px; white-space: normal;" />
+                    </ui:VisualElement>
+                    <ui:VisualElement name="ParadasUsuario" style="flex-grow: 0; margin-top: 10px; margin-right: 10px; margin-bottom: 10px; margin-left: 20px; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; background-color: rgba(255, 121, 121, 0); justify-content: flex-start; height: auto; font-size: 12px; align-items: stretch; align-self: auto; align-content: flex-start;">
+                        <ui:Label text="Paradas usuario" name="ParadasUsuarioText" style="font-size: 20px; -unity-font-style: bold;" />
+                        <ui:Label text="Seleccione las paradas que pueda seleccionar el usuario para su planificación. Las que no se elijan serán utilizadas como distracción durante la ejecución del juego." name="ParadasUsuarioExplText" style="font-size: 18px; white-space: normal;" />
+                    </ui:VisualElement>
+                    <ui:VisualElement name="Aceptar" style="margin-bottom: 10px; font-size: 12px; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; margin-top: 20px; margin-right: 10px; margin-left: 20px;">
+                        <ui:Toggle label="Nivel desbloqueado:" name="Desbloqueado" value="true" style="margin-bottom: 5px; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; margin-top: 5px; margin-right: 5px; margin-left: 5px;" />
+                        <ui:Button text="Guardar y jugar" name="guardarYjugar" style="flex-grow: 1; margin-top: 5px; margin-right: 5px; margin-bottom: 5px; margin-left: 5px;" />
+                        <ui:Button text="Guardar y volver" name="guardarYvolver" enable-rich-text="true" enabled="false" style="margin-left: 5px; background-color: rgb(255, 148, 48); margin-bottom: 5px; margin-top: 5px; margin-right: 5px; padding-top: 10px; padding-right: 12px; padding-bottom: 10px; padding-left: 12px;" />
+                    </ui:VisualElement>
+                </ui:ScrollView>
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

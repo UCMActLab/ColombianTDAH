@@ -8,6 +8,8 @@ public class DolphinUIManager : MonoBehaviour
     [SerializeField]
     private TMP_Text _levelText;
     [SerializeField]
+    private Slider _levelSlider;
+    [SerializeField]
     GameObject _endLevel;
     [SerializeField]
     private Button _velButton;
@@ -15,7 +17,15 @@ public class DolphinUIManager : MonoBehaviour
     GameObject _options;
     [SerializeField]
     private GameObject _configUIObject;
-    
+
+    // Texto puntos encima del delfín
+    [SerializeField]
+    public GameObject _pointsTextPrefab;
+    [SerializeField]
+    public float _pointsTextLifeTime;
+
+    private int _maxPoints;
+
     void OnEnable()
     {
         // Desactivo UI configuracion
@@ -24,12 +34,16 @@ public class DolphinUIManager : MonoBehaviour
 
     public void startLevelStats(int level, int points)
     {
-        _pointsText.SetText("Puntos: " + level.ToString());
-        _levelText.SetText("Nivel: "+ points.ToString());
+        _pointsText.SetText("Puntos:\n0 / " + points.ToString());
+        _maxPoints = points;
+        _levelSlider.maxValue = _maxPoints;
+        _levelSlider.value = 0f;
+        _levelText.SetText("Nivel: "+ level.ToString());
     }
     public void updatePoints(int points)
     {
-        _pointsText.SetText("Puntos: " + points.ToString());
+        _pointsText.SetText("Puntos: " + points.ToString() + "/" + _maxPoints.ToString());
+        _levelSlider.value = points;
     }
 
     public void updateLevel(int level)
@@ -41,6 +55,7 @@ public class DolphinUIManager : MonoBehaviour
     {
         _pointsText.enabled = false;
         _levelText.enabled = false;
+        _levelSlider.gameObject.SetActive(false);
         _options.SetActive(false);
 
         // Activamos opciones de fin de nivel

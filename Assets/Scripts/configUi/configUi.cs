@@ -3,6 +3,7 @@ using UnityEngine.UIElements;
 using System.Collections.Generic;
 using UnityEngine.Windows;
 using System.Linq;
+using UnityEngine.SceneManagement;
 
 
 public class configUi : MonoBehaviour
@@ -14,108 +15,171 @@ public class configUi : MonoBehaviour
     [SerializeField]
     GameObject canvasObject;
 
+    [SerializeField]
+    GameObject backButton;
+
     VisualElement fase1;
     VisualElement fase2;
-    VisualElement fase3;
+    VisualElement fase3C;
 
+    //Fase1y2
     IntegerField input_carrilesN;
     IntegerField input_delfinesN;
     Button input_fase1Complet;
-    IntegerField input_obstacleMin;
-    IntegerField input_obstacleMax;
-    Toggle input_piruetasSimult;
-    IntegerField input_jumpMin;
-    IntegerField input_jumpMax;
-    IntegerField input_piruetMin;
-    IntegerField input_piruetMax;
-    FloatField input_obstacleVel;
-    IntegerField input_pointMax;
-    IntegerField input_pointPirueta;
-    IntegerField input_pointWrongGuess;
-    IntegerField input_pointChoque;
-    Toggle input_floatiesEnabled;
-    Toggle input_obstaclesEnabled;
-    Button input_guardar;
     VisualElement input_toggleGroup;
     Label text_delfinesRestantes;
+
+    //Fase3
+    //A
+    Toggle input_obstaclesTroncoEnabled;
+    Toggle input_obstaclesBarcaEnabled;
+    Toggle input_floatiesEnabled;
+    Toggle input_ballsEnabled;
+    IntegerField input_obstacleT;
+    IntegerField input_jumpT;
+    Toggle input_piruetasSimult;
+    IntegerField input_piruetMin;
     IntegerField input_whaleRightGuess;
+    Toggle input_diffSpecies;
+
+    //B
+    FloatField input_obstacleVel;
     FloatField input_increasedVelFactor;
+
+    //C
+    IntegerField input_pointPirueta;
     IntegerField input_pointsPiruetaVelocidad;
     IntegerField input_pointsFloatie;
     IntegerField input_pointsFloatieVelocidad;
+    IntegerField input_pointsBallHit;
+    IntegerField input_pointsBallVelocidad;
+    IntegerField input_pointsBallMiss;
+    IntegerField input_pointMax;
+    IntegerField input_pointWrongGuess;
+    IntegerField input_pointChoqueTronco;
+    IntegerField input_pointChoqueBarca;
+
+    Toggle input_desbloqueado;
+    Button input_guardarYjugar;
+    Button input_guardarYvolver;
+
     int delfinesColocados = 0;
     bool hayErrores = true;
     bool mensajeError = false;
 
-
     [SerializeField]
     configData config = null;
+    int levelId = 1;
     string levelInfoPath = "";
 
     private void OnEnable()
     {
-        VisualElement root = GetComponent<UIDocument>().rootVisualElement;
+        RegisterElems();
 
-        fase1 = root.Q("Fase1");
-        fase2 = root.Q("Fase2");
-        fase3 = root.Q("Fase3");
-
-        input_carrilesN = root.Q<IntegerField>("carrilesN");
-        input_delfinesN = root.Q<IntegerField>("delfinesN");
-        input_fase1Complet = root.Q<Button>("fase1Complet");
-        input_obstacleMin = root.Q<IntegerField>("obstacleMin");
-        input_obstacleMax = root.Q<IntegerField>("obstacleMax");
-        input_piruetasSimult = root.Q<Toggle>("piruetasSimult");
-        input_jumpMin = root.Q<IntegerField>("jumpMin");
-        input_jumpMax = root.Q<IntegerField>("jumpMax");
-        input_piruetMin = root.Q<IntegerField>("piruetMin");
-        input_piruetMax = root.Q<IntegerField>("piruetMax");
-        input_obstacleVel = root.Q<FloatField>("obstacleVel");
-        input_pointMax = root.Q<IntegerField>("pointMax");
-        input_pointPirueta = root.Q<IntegerField>("pointPirueta");
-        input_pointWrongGuess = root.Q<IntegerField>("pointWrongGuess");
-        input_pointChoque = root.Q<IntegerField>("pointChoque");
-        input_guardar = root.Q<Button>("guardar");
-        input_toggleGroup = root.Q<VisualElement>("toggleGroup");
-        text_delfinesRestantes = root.Q<Label>("delfinesRestantes");
-        input_floatiesEnabled = root.Q<Toggle>("floatEnabled");
-        input_obstaclesEnabled = root.Q<Toggle>("obsEnabled");
-
-        input_whaleRightGuess = root.Q<IntegerField>("whaleRightGuess");
-        input_increasedVelFactor = root.Q<FloatField>("velFactor");
-        input_pointsPiruetaVelocidad = root.Q<IntegerField>("pointPiruetaVelocidad");
-        input_pointsFloatie = root.Q<IntegerField>("pointFlotador");
-        input_pointsFloatieVelocidad = root.Q<IntegerField>("pointFlotadorVelocidad");
-
-        //Debug.Log(input_whaleRightGuess.value + " " + input_increasedVelFactor + " " + input_pointsPiruetaVelocidad + " " + input_pointsFloatie + " " + input_pointsFloatieVelocidad);
-        input_guardar.RegisterCallback<ClickEvent>(GuardarTodo);
-        input_fase1Complet.RegisterCallback<ClickEvent>(Fase1Complet);
-        input_toggleGroup.RegisterCallback<ClickEvent>(DelfinColocado);
-
-        // Busca si tiene que cargar la configuración
         SceneLoader sceneLoader = GameObject.Find("SceneLoader").GetComponent<SceneLoader>();
         bool editMode = sceneLoader.getMode();
-        int levelId = sceneLoader.getLevelId();
+        levelId = sceneLoader.getCurrentLevelId(EventRegister.TipoJuego.Delfines);
         string writeDir = System.IO.Path.Combine(Application.persistentDataPath, "configInfo");
-        if (!System.IO.Directory.Exists(writeDir))
-        {
-            System.IO.Directory.CreateDirectory(writeDir);
-        }
-        levelInfoPath = System.IO.Path.Combine(writeDir, "configData" + levelId.ToString("00") + ".json");
 
+        Debug.Log("LEVEL ID " + levelId);
         if (editMode) //el usuario quiere editar el juego
         {
+            if (!System.IO.Directory.Exists(writeDir))
+            {
+                System.IO.Directory.CreateDirectory(writeDir);
+            }
+            levelInfoPath = System.IO.Path.Combine(writeDir, "configData" + levelId.ToString("00") + ".json");
+            
+            //si el usuario quiere usar la plantilla default del config o quiere que se ponga la ultima que guardo
+            if(!sceneLoader.getIsDefaultConfig())SetUIFromJSONFull(); 
+
             // Desactiva Juego
             ActivateGame(false);
         }
         else //se carga el nivel por default
         {
+            levelInfoPath = "default" + levelId.ToString("00") + "_configData";
             // Activa Juego
-            LoadLevelConfig();
+            LoadLevelConfig(true);
         }
     }
 
-    void GuardarTodo(ClickEvent e)
+    private void RegisterElems()
+    {
+        VisualElement root = GetComponent<UIDocument>().rootVisualElement;
+
+        fase1 = root.Q("Fase1");
+        fase2 = root.Q("Fase2");
+        fase3C = root.Q("C");
+
+        input_carrilesN = root.Q<IntegerField>("carrilesN");
+        input_delfinesN = root.Q<IntegerField>("delfinesN");
+        input_fase1Complet = root.Q<Button>("fase1Complet");
+
+        input_obstaclesTroncoEnabled = root.Q<Toggle>("obsTroncoEnabled");
+        input_obstaclesBarcaEnabled = root.Q<Toggle>("obsBarcasEnabled");
+        input_floatiesEnabled = root.Q<Toggle>("floatEnabled");
+        input_ballsEnabled = root.Q<Toggle>("ballsEnabled");
+        input_obstacleT = root.Q<IntegerField>("obstacleT");
+        input_jumpT = root.Q<IntegerField>("jumpT");
+        input_piruetasSimult = root.Q<Toggle>("piruetasSimult");
+        input_piruetMin = root.Q<IntegerField>("piruetMin");
+        input_whaleRightGuess = root.Q<IntegerField>("whaleRightGuess");
+        input_diffSpecies = root.Q<Toggle>("diffSpecies");
+
+        input_obstacleVel = root.Q<FloatField>("obstacleVel");
+        input_increasedVelFactor = root.Q<FloatField>("velFactor");
+
+        input_pointPirueta = root.Q<IntegerField>("pointPirueta");
+        input_pointsPiruetaVelocidad = root.Q<IntegerField>("pointPiruetaVelocidad");
+        input_pointsFloatie = root.Q<IntegerField>("pointFlotador");
+        input_pointsFloatieVelocidad = root.Q<IntegerField>("pointFlotadorVelocidad");
+        input_pointsBallHit = root.Q<IntegerField>("pointPelotaHit");
+        input_pointsBallMiss = root.Q<IntegerField>("pointPelotaMiss");
+        input_pointsBallVelocidad = root.Q<IntegerField>("pointPelotaVelocidad");
+        input_pointMax = root.Q<IntegerField>("pointMax");
+        input_pointWrongGuess = root.Q<IntegerField>("pointWrongGuess");
+        input_pointChoqueTronco = root.Q<IntegerField>("pointChoqueTronco");
+        input_pointChoqueBarca = root.Q<IntegerField>("pointChoqueBarca");
+
+        input_desbloqueado = root.Q<Toggle>("desbloqueado");
+        input_guardarYjugar = root.Q<Button>("guardarYjugar");
+        input_guardarYvolver = root.Q<Button>("guardarYvolver");
+
+        input_toggleGroup = root.Q<VisualElement>("toggleGroup");
+        text_delfinesRestantes = root.Q<Label>("delfinesRestantes");
+        
+        input_guardarYjugar.RegisterCallback<ClickEvent>(GuardarTodoyJugar);
+        input_guardarYvolver.RegisterCallback<ClickEvent>(GuardarTodoyVolver);
+        input_fase1Complet.RegisterCallback<ClickEvent>(Fase1Complet);
+        input_toggleGroup.RegisterCallback<ClickEvent>(DelfinColocado);
+
+    }
+
+    void GuardarTodoyJugar(ClickEvent e)
+    {
+        if (Guardar())
+        {
+            if (config.Desbloqueado)
+            {
+                ActivateGame(true);
+            }
+            else
+            {
+                Debug.Log("El nivel no está desbloqueado");
+            }
+        }        
+    }
+
+    void GuardarTodoyVolver(ClickEvent e)
+    {
+        if (Guardar())
+        {
+            SceneManager.LoadScene("DolphinLevelSelector");
+        }
+    }
+
+    private bool Guardar()
     {
         if (hayErrores)
         {
@@ -125,11 +189,14 @@ public class configUi : MonoBehaviour
                 VisualTreeAsset uiAsset = Resources.Load<VisualTreeAsset>("UI/errores");
                 VisualElement ui = uiAsset.Instantiate();
                 ui.style.color = new Color(1, 0, 0, 1);
-                fase3.Add(ui);
+                fase3C.Add(ui);
             }
+            return false;
         }
         else
         {
+            config.configName = "configData" + levelId.ToString("00");
+
             //RIVER CONFIG
             config.NumCarriles = input_carrilesN.value;
             config.NumDelfines = input_delfinesN.value;
@@ -164,21 +231,30 @@ public class configUi : MonoBehaviour
             config.PosDelfines = posDelfines;
 
             //OBS
-            config.MinObstacleSpawn = input_obstacleMin.value;
-            config.MaxObstacleSpawn = input_obstacleMax.value;
+            config.ObstaclesTroncoEnabled = input_obstaclesTroncoEnabled.value;
+            config.ObstaclesBarcaEnabled = input_obstaclesBarcaEnabled.value;
+            //FLOATS AND BALLS
+            config.FloatsEnabled = input_floatiesEnabled.value;
+            config.BallsEnabled = input_ballsEnabled.value;
+
+            config.MinObstacleSpawn = input_obstacleT.value -1;
+            if (config.MinObstacleSpawn < 1) config.MinObstacleSpawn = 1;
+            config.MaxObstacleSpawn = input_obstacleT.value + 1;
             config.ObstacleSpeed = input_obstacleVel.value;
-            config.ObstaclesEnabled = input_obstaclesEnabled.value;
             config.IncreasedSpeedFactor = input_increasedVelFactor.value;
 
-            //FLOATS
-            config.FloatsEnabled = input_floatiesEnabled.value;
+            // Whale and diff species pirueting
+            config.WhaleApearingGuests = input_whaleRightGuess.value;
+            config.DiffSpeciesEnabled = input_diffSpecies.value;
 
             //JUMP
             config.canSpecialJumpSimultaneously = input_piruetasSimult.value;
-            config.MinTimeBetweenJumps = input_jumpMin.value;
-            config.MaxTimeBetweenJumps = input_jumpMax.value;
-            config.MinCountBetweenSpecialJumps = input_piruetMin.value;
-            config.MaxCountBetweenSpecialJumps = input_piruetMax.value;
+            config.MinTimeBetweenJumps = input_jumpT.value - 1;
+            if (config.MinTimeBetweenJumps < 1) config.MinTimeBetweenJumps = 1;
+            config.MaxTimeBetweenJumps = input_jumpT.value + 1;
+            config.MinCountBetweenSpecialJumps = input_piruetMin.value - 1;
+            if (config.MinCountBetweenSpecialJumps < 1) config.MinCountBetweenSpecialJumps = 1;
+            config.MaxCountBetweenSpecialJumps = input_piruetMin.value + 1;
 
             //POINTS
             config.LevelPoints = input_pointMax.value;
@@ -186,15 +262,20 @@ public class configUi : MonoBehaviour
             config.RightGuessPointsVel = input_pointsPiruetaVelocidad.value;
             config.FloatiePoints = input_pointsFloatie.value;
             config.FloatiePointsVel = input_pointsFloatieVelocidad.value;
+            config.BallHitPoints = input_pointsBallHit.value;
+            config.BallMissPoints = input_pointsBallMiss.value;
+            //hacer tmbn miss
+            config.BallHitPointsVel = input_pointsBallVelocidad.value;
             config.WrongGuessPoints = input_pointWrongGuess.value;
-            config.HitObstaclePoints = input_pointChoque.value;
+            config.HitObstacleTroncoPoints = input_pointChoqueTronco.value;
+            config.HitObstacleBarcaPoints = input_pointChoqueBarca.value;
 
-            // Whale
-            config.WhaleApearingGuests = input_whaleRightGuess.value;
+            config.Desbloqueado = input_desbloqueado.value;
 
             //Guarda la configuración en el json correspondiente
             SaveLevelConfig(config);
-            ActivateGame(true);
+
+            return true;
         }
     }
 
@@ -211,26 +292,48 @@ public class configUi : MonoBehaviour
         fs.Close();
     }
 
-    private void LoadLevelConfig()
+    private void LoadLevelConfig(bool isDefault)
     {
-        if (!System.IO.File.Exists(levelInfoPath))
-        {
-            Debug.LogError("No existe el archivo de configuración en " + levelInfoPath);
-            Debug.LogError("Cargaremos el default");
-            config = Resources.Load<configData>("default01_configData");
-            Debug.Log(config);
 
-            ActivateGame(true);
+        Debug.Log("Loading level config from " + levelInfoPath);
+        if (isDefault) // si es el default no existirá el archivo ya que no es un path como tal
+        {
+            Debug.Log("Cargaremos el default");
+            config = Resources.Load<configData>(levelInfoPath);
+
+            // Los niveles por defecto están desbloqueados, pero se hace la comprobación por si acaso
+            if (config.Desbloqueado)
+            {
+                ActivateGame(true);
+            }
+            else
+            {
+                Debug.Log("El nivel no está desbloqueado");
+            }
         }
         else
         {
+            Debug.Log("INTENTANDO LEER DE DE JSON");
+            string writeDir = System.IO.Path.Combine(Application.persistentDataPath, "configInfo");
+            levelInfoPath = System.IO.Path.Combine(writeDir, "configData" + levelId.ToString("00") + ".json");
+
             try
             {
+                Debug.Log("LEYENDO DE desde el JSON desde el path persistente");
+
                 string levelInfo = System.IO.File.ReadAllText(levelInfoPath);
                 JsonUtility.FromJsonOverwrite(levelInfo, config);
-                Debug.Log(config);
+                
+                if (config.Desbloqueado)
+                {
 
-                ActivateGame(true);
+
+                    ActivateGame(true);
+                }
+                else
+                {
+                    Debug.Log("El nivel no está desbloqueado");
+                }
             }
             catch (System.Exception e)
             {
@@ -245,7 +348,7 @@ public class configUi : MonoBehaviour
         if (!hayErrores && mensajeError)
         {
             mensajeError = false;
-            fase3.RemoveAt(fase3.childCount - 1);
+            fase3C.RemoveAt(fase3C.childCount - 1);
         }
     }
 
@@ -303,6 +406,65 @@ public class configUi : MonoBehaviour
         environmentObject.SetActive(enable);
         managerstObject.SetActive(enable);
         canvasObject.SetActive(enable);
+        backButton.SetActive(!enable);
         if (enable) DolphinLevelManager.Instance.InitLevel(config);
     }
+
+    private void SetUIFromJSONFull()
+    {
+
+        Debug.Log("SetUIFromJSONFull Before " + levelInfoPath);
+
+        string writeDir = System.IO.Path.Combine(Application.persistentDataPath, "configInfo");
+        levelInfoPath = System.IO.Path.Combine(writeDir, "configData" + levelId.ToString("00") + ".json");
+
+        // Verificar si el archivo existe antes de leerlo
+        if (!System.IO.File.Exists(levelInfoPath)) return;
+
+        Debug.Log("SetUIFromJSONFull after " + levelInfoPath);
+
+        string levelInfo = System.IO.File.ReadAllText(levelInfoPath);
+        JsonUtility.FromJsonOverwrite(levelInfo, config);
+        SetUIFromJSON();
+    }
+    private void SetUIFromJSON()
+    {
+        Debug.Log("SetUIFromJSON");
+
+        input_carrilesN.value = config.NumCarriles;
+        input_delfinesN.value = config.NumDelfines;
+        //input_fase1Complet = config.fa;
+
+        input_obstaclesTroncoEnabled.value = config.ObstaclesTroncoEnabled;
+        input_obstaclesBarcaEnabled.value = config.ObstaclesBarcaEnabled;
+        input_floatiesEnabled.value = config.FloatsEnabled;
+        input_ballsEnabled.value = config.BallsEnabled;
+        input_obstacleT.value = (int)config.MinObstacleSpawn;
+        input_jumpT.value = (int)config.MinTimeBetweenJumps;
+        input_piruetasSimult.value = config.canSpecialJumpSimultaneously;
+        input_piruetMin.value = (int)config.MinCountBetweenSpecialJumps;
+        input_whaleRightGuess.value = config.WhaleApearingGuests;
+        input_diffSpecies.value = config.DiffSpeciesEnabled;
+
+        input_obstacleVel.value = config.ObstacleSpeed;
+        input_increasedVelFactor.value = config.IncreasedSpeedFactor;
+
+        input_pointPirueta.value = (int)config.RightGuessPoints;
+        input_pointsPiruetaVelocidad.value = (int)config.RightGuessPointsVel;
+        input_pointsFloatie.value = (int)config.FloatiePoints;
+        input_pointsFloatieVelocidad.value = (int)config.FloatiePointsVel;
+        input_pointsBallHit.value = (int)config.BallHitPoints;
+        input_pointsBallMiss.value = (int)config.BallMissPoints;
+        input_pointsBallVelocidad.value = (int)config.BallHitPointsVel;
+        input_pointMax.value = (int)config.LevelPoints;
+        input_pointWrongGuess.value = (int)config.WrongGuessPoints;
+        input_pointChoqueTronco.value = (int)config.HitObstacleTroncoPoints;
+        input_pointChoqueBarca.value = (int)config.HitObstacleBarcaPoints;
+
+        input_desbloqueado.value = config.Desbloqueado;
+
+
+    }
+
+  
 }

@@ -26,9 +26,10 @@ public class MovingObject : MonoBehaviour
 
     protected void FixedUpdate()
     {
+        /* LINEAR VEL ES CONSTANTE, PORQ ESTO??
         if (!m_Rigidbody.isKinematic)
             m_Rigidbody.linearVelocity = Vector3.left * m_Vel;
-
+        */
     }
 
     protected void OnCollisionEnter(Collision collision)
@@ -38,9 +39,10 @@ public class MovingObject : MonoBehaviour
             // Si colisiona con un Delfin
             if (collision.gameObject.GetComponent<DolphinController>() != null)
             {
+                Debug.Log("Colision con delfin: " + collision.gameObject.name);
                 Vector3 aux = Vector3.zero;
                 aux.x = m_Vel / 10;
-                aux.y = -m_Vel;
+                aux.y = -m_Vel; //hundimos el obstaculo para no perjudicar delfines posteriores
                 m_Rigidbody.linearVelocity = aux;
             }
         }

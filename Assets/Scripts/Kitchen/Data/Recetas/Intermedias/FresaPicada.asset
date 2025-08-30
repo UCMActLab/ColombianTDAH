@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d4fa4ddff8d3210439be91a15234c4bd, type: 3}
+  m_Name: FresaPicada
+  m_EditorClassIdentifier: 
+  nombre: FresaPicada
+  categoria: Complementario
+  ingredientes: 13000000
+  puestos: 00000000
+  tiempo_est_segs: 30
+  processedRecipe: {fileID: 1655321100280137518, guid: 8826638bc750b3047aa9f7df3dfe2d1a, type: 3}
+  esIntermedia: 1

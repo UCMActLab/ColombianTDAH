@@ -6,8 +6,9 @@ public class LoadingListener : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        SceneLoader.Instance.setMode(false); //por defecto sea false
         Toggle myToggle = GetComponent<Toggle>();
-        myToggle.onValueChanged.AddListener(delegate { GameObject.Find("SceneLoader").GetComponent<SceneLoader>().setMode(myToggle.isOn); });
+        myToggle.onValueChanged.AddListener(delegate { SceneLoader.Instance.setMode(myToggle.isOn); });
         
     }
 

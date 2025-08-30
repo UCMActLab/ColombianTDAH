@@ -1,0 +1,45 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6ee3ac50a5456724d8a4c1c68f8a8d48, type: 3}
+  m_Name: MisionConfigurationData
+  m_EditorClassIdentifier: 
+  configName: 
+  _nStops: 3
+  _stopMins: 15
+  _sleepHours: 8
+  _location: 8
+  _duration: 12
+  _durationMax: 24
+  _departureHours: 000000000000000000000000000000000000000000000000
+  _locationHours: 000000000000000000000000000000000000000000000000
+  _allSleepHours: 000000000000000000000000000000000000000000000000
+  _hoursPerSleep: 3
+  _stopsNames:
+  - "Estaci\xF3n de gasolina"
+  - Mirador
+  - Parque
+  - "Restaurante t\xEDpico"
+  - Hotel
+  _answerTime: 10
+  Questions:
+    list:
+    - Key: "Estaci\xF3n de gasolina"
+      Value: desfgvrfgv
+    - Key: Mirador
+      Value: 
+    - Key: Parque
+      Value: 
+    - Key: "Restaurante t\xEDpico"
+      Value: 
+    - Key: Hotel
+      Value: 
+  _desbloqueado: 0

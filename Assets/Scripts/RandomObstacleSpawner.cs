@@ -12,13 +12,15 @@ public class RandomObjectSpawner : MonoBehaviour
     }
 
     [SerializeField]
-    float _posX = 15.0f;
+    float _posX = 12.0f;
 
     //Listas de prefabs disponibles
     [SerializeField]
-    GameObject[] _obstacles;
+    GameObject[] _troncos;
     [SerializeField]
     GameObject _float;
+    [SerializeField]
+    GameObject _boat;
 
     //Lista de objetos de entre los cuales instanciar
     List<GameObject> _objects;
@@ -26,6 +28,10 @@ public class RandomObjectSpawner : MonoBehaviour
     CarrilInfo[] _carrilCenetrs;
 
     List<GameObject> _spawnedObjects;
+
+    //velocidades de los objetos (solo para la pausa)
+    private Dictionary<Rigidbody, Vector3> _linearVelocities = new Dictionary<Rigidbody, Vector3>();
+    private Dictionary<Rigidbody, Vector3> _angularVelocities = new Dictionary<Rigidbody, Vector3>();
 
     float _obsVel;
 
@@ -60,12 +66,37 @@ public class RandomObjectSpawner : MonoBehaviour
         }
     }
 
-    public void EnableObstacles(bool enable)
+    public void EnableBoats(bool enable)
     {
-        if (enable) _objects.AddRange(_obstacles);
+        if (enable)
+        {
+            _objects.Add(_boat);
+            Debug.Log("Barcos habilitados");
+        }
         else
         {
-            foreach (GameObject obj in _objects) //por si hubiera más de un tipo de flotador
+            foreach (GameObject obj in _objects) //por si hubiera más de un tipo de barco
+            {
+                /* AHORA MISMO SOLO FUNC ENABLE = TRUE
+                 * 
+                 * NO SIRVE POR Q BARCOS TMBN SON OBSTACULOS
+                if (obj.GetComponent<Barco>() != null)
+                {
+                    _objects.Remove(obj);
+                }
+                */
+            }
+        }
+    }
+
+    //CUANDO TRONCOS ESTO NO , LISTA TRONCOS NUEVA Y LISTA OBJ PRIVADA?
+    public void EnableTroncos(bool enable)
+    {
+        if (enable) _objects.AddRange(_troncos);
+        else
+        {
+            // ELIMINA TANTO LOS TRONCOS COMO LAS BARCAS
+            foreach (GameObject obj in _objects)
             {
                 if (obj.GetComponent<Obstaculo>() != null)
                 {
@@ -93,11 +124,14 @@ public class RandomObjectSpawner : MonoBehaviour
 
         if (_carrilCenetrs[randomCarril].active && _objects.Count>0)
         {
-            Vector3 randomSpawnPosition = new Vector3(_posX, 0.4f, _carrilCenetrs[randomCarril].CenterPosZ);
-
+            float posY = 0.4f;
             int randomIdPos = UnityEngine.Random.Range(0, _objects.Count);
+            if (_objects[randomIdPos].name.StartsWith("Canoa"))
+                posY = 1.0f;
+            Vector3 randomSpawnPosition = new Vector3(_posX, posY, _carrilCenetrs[randomCarril].CenterPosZ);
             GameObject instantiated = Instantiate(_objects[randomIdPos], randomSpawnPosition, Quaternion.identity);
-            instantiated.transform.Rotate(-90, 0, 0);
+            if (instantiated.name.StartsWith("tronco"))
+                instantiated.transform.Rotate(-90, 0, 0);
             instantiated.GetComponent<MovingObject>().SetVel(_obsVel);
             _spawnedObjects.Add(instantiated);
             if (instantiated.GetComponent<Obstaculo>())
@@ -140,12 +174,52 @@ public class RandomObjectSpawner : MonoBehaviour
         }
     }
 
-    // Quita las fisicas de los objetos para pausarlos
+    // Quita las fisicas de los objetos para pausarlos y guarda la velocidad que tuvieran para ponersela al despausar
     public void PauseObjects(bool pause)
     {
         for (int i = 0; i < _spawnedObjects.Count; i++)
         {
-            _spawnedObjects[i].GetComponent<Rigidbody>().isKinematic = pause;
+            GameObject obj = _spawnedObjects[i];
+            if (obj == null) continue; //siguiente iteracion
+
+            Rigidbody rb = obj.GetComponent<Rigidbody>();
+            if (rb == null) continue;
+
+            if (pause)
+            {
+                // guardar velocidades
+                if (!_linearVelocities.ContainsKey(rb))
+                {
+                    _linearVelocities[rb] = rb.linearVelocity;
+                    _angularVelocities[rb] = rb.angularVelocity;
+                }
+
+                // quitamos fisicas
+                rb.isKinematic = true;
+            }
+            else //si no esta pausado
+            {
+                // volvemos a usar fisicas
+                rb.isKinematic = false;
+
+                // restaurar velocidades si estaban guardadas
+                if (_linearVelocities.TryGetValue(rb, out Vector3 vel))
+                {
+                    rb.linearVelocity = vel;
+                }
+
+                if (_angularVelocities.TryGetValue(rb, out Vector3 angVel))
+                {
+                    rb.angularVelocity = angVel;
+                }
+            }
+        }
+
+        // si se esta continuando el juego hacemos clear de la lista porque ya no sirve hasta la proxima pausa
+        if (!pause)
+        {
+            _linearVelocities.Clear();
+            _angularVelocities.Clear();
         }
     }
 }

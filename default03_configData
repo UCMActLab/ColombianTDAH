@@ -1,0 +1,50 @@
+{
+    "configName": "Default",
+    "_nCarriles": 3,
+    "_nDelfines": 5,
+    "_posDelfines": [
+        {
+            "x": 1.0,
+            "y": 3.0
+        },
+        {
+            "x": 1.0,
+            "y": 5.0
+        },
+        {
+            "x": -1.0,
+            "y": -1.0
+        },
+        {
+            "x": -1.0,
+            "y": -1.0
+        },
+        {
+            "x": -1.0,
+            "y": -1.0
+        }
+    ],
+    "_obstaclesTroncoEnabled": true,
+    "_minObstacleSpawn": 2.0,
+    "_maxObstacleSpawn": 4.0,
+    "_obstacleSpeed": 4.5,
+    "_increasedSpeedFactor": 2.0,
+    "_whaleApearingGuests": 3,
+    "_minTimeBetweenJumps": 1.0,
+    "_maxTimeBetweenJumps": 3.0,
+    "canSpecialJumpSimultaneously": false,
+    "_minCountBetweenSpecialJumps": 1.0,
+    "_maxCountBetweenSpecialJumps": 3.0,
+    "_diffSpeciesEnabled": false,
+    "_levelPoints": 1000.0,
+    "_rightGuessPoints": 100.0,
+    "_rightGuessPointsVel": 200.0,
+    "_floatiePoints": 50.0,
+    "_floatiePointsVel": 100.0,
+    "_ballPoints": 50.0,
+    "_ballPointsVel": 100.0,
+    "_wrongGuessPoints": -10.0,
+    "_hitObstacleTroncpPoints": -20.0,
+    "_hitObstacleBarcaPoints": -20.0,
+    "_desbloqueado": true
+}

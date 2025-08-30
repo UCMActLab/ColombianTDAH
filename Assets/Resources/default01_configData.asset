@@ -17,28 +17,34 @@ MonoBehaviour:
   _nDelfines: 5
   _posDelfines:
   - {x: 2, y: 2}
-  - {x: 1, y: 0}
+  - {x: 1, y: 3}
   - {x: 0, y: 1}
-  - {x: 2, y: 1}
-  - {x: -1, y: -1}
-  - {x: -1, y: -1}
-  - {x: -1, y: -1}
-  _obstaclesEnabled: 1
-  _minObstacleSpawn: 4
-  _maxObstacleSpawn: 5
-  _obstacleSpeed: 4.5
+  - {x: 2, y: 6}
+  - {x: 0, y: 5}
+  _obstaclesTroncoEnabled: 0
+  _obstaclesBarcaEnabled: 0
+  _floatsEnabled: 0
+  _ballsEnabled: 0
+  _minObstacleSpawn: 0
+  _maxObstacleSpawn: 0
+  _obstacleSpeed: 1
   _increasedSpeedFactor: 2
-  _whaleApearingGuests: 3
-  _floatsEnabled: 1
-  _minTimeBetweenJumps: 4
-  _maxTimeBetweenJumps: 6
+  _whaleApearingGuests: 2
+  _minTimeBetweenJumps: 1
+  _maxTimeBetweenJumps: 4
   canSpecialJumpSimultaneously: 0
-  _minCountBetweenSpecialJumps: 4
-  _maxCountBetweenSpecialJumps: 6
-  _levelPoints: 500
-  _rightGuessPoints: 20
-  _rightGuessPointsVel: 40
-  _floatiePoints: 10
-  _floatiePointsVel: 20
+  _minCountBetweenSpecialJumps: 2
+  _maxCountBetweenSpecialJumps: 4
+  _diffSpeciesEnabled: 0
+  _levelPoints: 1000
+  _rightGuessPoints: 100
+  _rightGuessPointsVel: 120
+  _floatiePoints: 0
+  _floatiePointsVel: 0
+  _ballHitPoints: 0
+  _ballHitPointsVel: 0
+  _ballMissPoints: 0
   _wrongGuessPoints: -10
-  _hitObstaclePoints: -10
+  _hitObstacleTroncpPoints: 0
+  _hitObstacleBarcaPoints: 0
+  _desbloqueado: 1

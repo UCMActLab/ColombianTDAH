@@ -123,6 +123,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Vel: 10
   collisionReaction: 1
+  _type: 2
 --- !u!136 &-6910338248508838316
 CapsuleCollider:
   m_ObjectHideFlags: 0
