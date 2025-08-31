@@ -20,6 +20,7 @@ public class WorkstationProcessor : MonoBehaviour
     [SerializeField] private string idleAnim = "Idle";
     [SerializeField] private string processingAnim = "Processing";
     [SerializeField] private float animTime;
+    [SerializeField] private ParticleSystem particles;
 
     [Header("Sounds")]  
     [SerializeField] private ObjetosSound soundKey;
@@ -121,6 +122,8 @@ public class WorkstationProcessor : MonoBehaviour
         if (gameObject.GetComponent<MixerRotation>() != null)
             gameObject.GetComponent<MixerRotation>().Play(300);
 
+        if (particles != null) particles.Play();
+
         progressBar.HandleStart(workstationTime);
 
         yield return new WaitForSeconds(workstationTime); // Esperamos
@@ -129,6 +132,8 @@ public class WorkstationProcessor : MonoBehaviour
 
         if (gameObject.GetComponent<MixerRotation>() != null)
             gameObject.GetComponent<MixerRotation>().Stop();
+
+        if (particles != null) particles.Stop();
 
         // Spawn ingrediente procesado
         if (data.processedRecipe != null)
@@ -165,11 +170,15 @@ public class WorkstationProcessor : MonoBehaviour
         if (gameObject.GetComponent<MixerRotation>() != null)
             gameObject.GetComponent<MixerRotation>().Play(300);
 
+        if (particles != null) particles.Play();
+
         progressBar.HandleStart(workstationTime);
 
         yield return new WaitForSeconds(workstationTime); // Esperamos
 
         progressBar.HandleEnd();
+
+        if (particles != null) particles.Stop();
 
         if (gameObject.GetComponent<MixerRotation>() != null)
             gameObject.GetComponent<MixerRotation>().Stop();

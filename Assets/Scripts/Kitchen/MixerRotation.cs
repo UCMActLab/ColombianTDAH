@@ -4,7 +4,6 @@ public class MixerRotation : MonoBehaviour
 {
     [Header("Refs")]
     public Transform whisk;          // El transform de la varilla (eje local sY)
-    public ParticleSystem splash;
 
     [Header("Ajustes")]
     public float targetRPM = 300f;   // RPM durante la mezcla
@@ -23,13 +22,11 @@ public class MixerRotation : MonoBehaviour
         Debug.Log("A");
         if (rpm > 0f) targetRPM = rpm;
         _spinning = true;
-        splash.Play();
     }
 
     public void Stop()
     {
         _spinning = false;
-        splash.Stop();
     }
 
     void Update()

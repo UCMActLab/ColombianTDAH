@@ -916,6 +916,7 @@ MonoBehaviour:
   idleAnim: Idle
   processingAnim: Processing
   animTime: 5
+  particles: {fileID: 2421605069552378256}
   soundKey: 1
   processingSfxName: Mixer
   recetasDatabase: {fileID: 11400000, guid: 500188bf1c71ba0498684343da787a59, type: 2}
@@ -1088,7 +1089,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   whisk: {fileID: 8681930873814410845}
-  splash: {fileID: 2421605069552378256}
   targetRPM: 300
   accel: 8
 --- !u!1 &2183596080021564888
