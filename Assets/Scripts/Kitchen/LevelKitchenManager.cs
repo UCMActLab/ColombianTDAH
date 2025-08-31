@@ -356,7 +356,7 @@ public class LevelKitchenManager : MonoBehaviour
                 // ¿hemos cumplido todos los objetivos?
                 if (recetasRestantes.Values.All(v => v <= 0))
                 {
-                    //OnVictory();
+                    OnVictory();
                 }
             }
             else
@@ -376,8 +376,7 @@ public class LevelKitchenManager : MonoBehaviour
     {
         Debug.Log("¡Todas las recetas entregadas! VICTORIA");
         // contador?.Pausar(); // si quieres parar el reloj aquí
-        if (!string.IsNullOrEmpty(victorySceneName))
-            SceneManager.LoadScene(victorySceneName);
+        
     }
 
     public IEnumerable<RecetaData> GetRecetasSeleccionadasActuales()

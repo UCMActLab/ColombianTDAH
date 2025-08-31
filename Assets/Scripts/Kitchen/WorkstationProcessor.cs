@@ -10,6 +10,7 @@ public class WorkstationProcessor : MonoBehaviour
     [Header("Workstation")]
     [SerializeField] public PuestosDeTrabajo workstationType;
     [SerializeField] private float workstationTime = 5f;
+
     [Header("Spawn of ingredients")]
     [SerializeField] public Transform spawnPoint;
 
@@ -108,17 +109,27 @@ public class WorkstationProcessor : MonoBehaviour
 
     private IEnumerator ProcessImmediate(GameObject ingredienteGO, RecetaData data)
     {
+        Debug.Log("Procesando receta intermedia");
+
         processed = true;
         // Anim & sonido inicio      
         AnimatorManager.Instance.PlayAndPauseAt(animKey, processingAnim, animTime);
         if (!string.IsNullOrEmpty(processingSfxName))
             KitchenSoundManager.Instance.PlayLoop(soundKey, processingSfxName);
 
+
+        if (gameObject.GetComponent<MixerRotation>() != null)
+            gameObject.GetComponent<MixerRotation>().Play(300);
+
         progressBar.HandleStart(workstationTime);
 
         yield return new WaitForSeconds(workstationTime); // Esperamos
 
         progressBar.HandleEnd();
+
+        if (gameObject.GetComponent<MixerRotation>() != null)
+            gameObject.GetComponent<MixerRotation>().Stop();
+
         // Spawn ingrediente procesado
         if (data.processedRecipe != null)
         {
@@ -141,6 +152,8 @@ public class WorkstationProcessor : MonoBehaviour
 
     private IEnumerator ProcessRecipe(RecetaData data)
     {
+        Debug.Log("Procesando receta");
+
         processed = true;
 
         // Anim & sonido inicio
@@ -149,11 +162,17 @@ public class WorkstationProcessor : MonoBehaviour
         if (!string.IsNullOrEmpty(processingSfxName))
             KitchenSoundManager.Instance.PlayLoop(soundKey, processingSfxName);
 
+        if (gameObject.GetComponent<MixerRotation>() != null)
+            gameObject.GetComponent<MixerRotation>().Play(300);
+
         progressBar.HandleStart(workstationTime);
 
         yield return new WaitForSeconds(workstationTime); // Esperamos
 
         progressBar.HandleEnd();
+
+        if (gameObject.GetComponent<MixerRotation>() != null)
+            gameObject.GetComponent<MixerRotation>().Stop();
 
         // Spawn resultado de la receta
         if (data.processedRecipe)
