@@ -651,4 +651,6 @@ public class MisionLevelManager : MonoBehaviour
     public string StartTime => _startTime;
     public List<string> SelectedInitialStops => _selectedInitialStops;
     public List<string> SelectedStops => _selectedStops; //como se van quitando al final se queda con las respuestas que no fueron correctas
+    public List<string> SelectedLocationHours => _selectedLocationHours;
+
 }

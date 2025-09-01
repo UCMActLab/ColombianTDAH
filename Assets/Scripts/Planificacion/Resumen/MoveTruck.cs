@@ -1,10 +1,12 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class MoveTruck : MonoBehaviour
 {
     [SerializeField] private GameObject truck;
     [SerializeField] private GameObject pathPointsParent;
+    [SerializeField] private GameObject mapBackgrounds;
     [SerializeField] private float speed = 30f;
     [SerializeField] private bool loop = false;  // repetir el recorrido
     [SerializeField] private float oscillationAngle = 10f; 
@@ -16,32 +18,62 @@ public class MoveTruck : MonoBehaviour
 
     private bool subiendo;
     private float currentAngle = 0f;
+
+    private int level; //para saber que mapa poner y seguir, es (levelID - 1)
     void Start()
     {
+        if (SceneLoader.Instance != null)
+            level = SceneLoader.Instance.getCurrentLevelId(EventRegister.TipoJuego.MisionColombia) - 1;
+        else
+            level = 1;
 
-        foreach (Transform child in pathPointsParent.transform)
+        // activamos solo el background que sea del nivel, el resto los desactivamos
+        for (int i = 0; i < mapBackgrounds.transform.childCount; i++)
         {
-            if (child.gameObject.activeSelf) //por si no esta ctivado
+            bool isCurrent = (i == level);
+            mapBackgrounds.transform.GetChild(i).gameObject.SetActive(isCurrent);
+        }
+
+        // path correspondiente. todo esto tiene que estar bien puesto en la escena sus posiciones
+        //PathPointsParent
+        //------Level1Points
+        //----------Lista de puntos hijos
+        for (int i = 0; i < pathPointsParent.transform.childCount; i++)
+        {
+            pathPointsParent.transform.GetChild(i).gameObject.SetActive(i == level);
+        }
+
+
+        pointsList = new List<Transform>();
+        Transform currentPath = pathPointsParent.transform.GetChild(level);
+
+        foreach (Transform child in currentPath)
+        {
+            if (child.gameObject.activeSelf) // por si algún punto está desactivado, pero vamos que entonces para qué lo pondrias
             {
+                if(child.gameObject.GetComponent<Image>() != null)
+                    child.gameObject.GetComponent<Image>().enabled = false; //para que no se vean
+
                 pointsList.Add(child);
             }
         }
 
         if (pointsList.Count > 0)
         {
-            truck.transform.position = pointsList[0].position;
+            truck.transform.position = pointsList[0].position; //pos inicial truck
         }
     }
 
     void Update()
     {
-        Vector3 temp = new Vector3(7.0f, 0, 0);
+        //Vector3 temp = new Vector3(7.0f, 0, 0);
        // truck.transform.position += temp;
         if (isMoving)
         {
             Moving();
-            Oscila();
         }
+        Oscila(); //siempre deberia oscilar, en mi opinion
+
     }
 
     private void Moving()

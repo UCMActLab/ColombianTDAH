@@ -67,8 +67,8 @@ public class ShowResumen : MonoBehaviour
             paradasTotales = MisionLevelManager.Instance.SelectedInitialStops.Count;
             paradasCorrectas = paradasTotales - MisionLevelManager.Instance.SelectedStops.Count;
 
-            ubicacionesCorrectas = 3;
-            ubicacionesTotales = 4;
+            ubicacionesCorrectas = MisionLevelManager.Instance.SelectedLocationHours.Count;
+            ubicacionesTotales = MisionLevelManager.Instance.SelectedLocationHours.Count;
         }
       
 
