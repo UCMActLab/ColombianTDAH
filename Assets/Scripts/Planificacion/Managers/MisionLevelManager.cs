@@ -136,6 +136,7 @@ public class MisionLevelManager : MonoBehaviour
 
             UpdateClock();
 
+            GoToResumenScreen();
         }
     }
 
@@ -636,6 +637,16 @@ public class MisionLevelManager : MonoBehaviour
 
 
     //para pasarle al ShowResumen
+
+    void GoToResumenScreen()
+    {
+        //en esto lo unico que me da mal rollo es que no hacemos instance null al misionlevelmanager porque necesitamos sus datos
+        //pero lo podemos coger en el start y borrar luego o en el update poner un metodo de if levelfinished no hacer lo del tiempo etc
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            SceneLoader.LoadScene("MC_Resumen");
+        }
+    }
     public int HourPerSleep => _hourPerSleep; // getter de solo lectura
     public string StartTime => _startTime;
     public List<string> SelectedInitialStops => _selectedInitialStops;
