@@ -139,4 +139,19 @@ public class MisionUIManager : MonoBehaviour
         color.a = alpha;
         _sleepText.color = color;
     }
+
+    public void SetStopTick(int index, bool enabled)
+    {
+        _planificationListComp.SetStopTick(index, enabled);
+    }
+
+    public void SetSleepTick(int index, bool enabled)
+    {
+        _planificationListComp.SetSleepTick(index, enabled);
+    }
+
+    public void SetLocationTick(int index, bool enabled)
+    {
+        _planificationListComp.SetLocationTick(index, enabled);
+    }
 }

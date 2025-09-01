@@ -17,8 +17,8 @@ public class PlanificationList : MonoBehaviour
     GameObject _textPrefab;
 
 
-    Vector3 _offset = 12 * Vector3.down;
-    float _distance = 10f;
+    Vector3 _offset = 14 * Vector3.down;
+    float _distance = 12f;
 
     public void SetDepartureTime(string newTime)
     {
@@ -66,6 +66,11 @@ public class PlanificationList : MonoBehaviour
         }
     }
 
+    private void ChangeImage(Transform child, bool tick)
+    {
+        ImageChanger childImageChanger = child.GetComponent<ImageChanger>();
+        childImageChanger.SetTick(tick);
+    }
 
     public void SetStopTick(int index, bool enabled)
     {
@@ -76,10 +81,21 @@ public class PlanificationList : MonoBehaviour
         ChangeImage(t, enabled);
     }
 
-    private void ChangeImage(Transform child, bool tick)
+    public void SetSleepTick(int index, bool enabled)
     {
-        ImageChanger childImageChanger = child.GetComponent<ImageChanger>();
-        childImageChanger.SetTick(tick);
+        // Busco game Object
+        Transform t =_sleepText.transform.GetChild(index);
+
+        // Llamo a Chanche Image
+        ChangeImage(t, enabled);
     }
 
+    public void SetLocationTick(int index, bool enabled)
+    {
+        // Busco game Object
+        Transform t =_locationText.transform.GetChild(index);
+
+        // Llamo a Chanche Image
+        ChangeImage(t, enabled);
+    }
 }

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using Unity.VisualScripting.FullSerializer;
 using UnityEngine;
 using static UnityEngine.Rendering.STP;
@@ -252,6 +253,10 @@ public class MisionLevelManager : MonoBehaviour
 
         if (enabled)
         {
+            int index =_selectedSleepTimes.IndexOf(_gameClock.GetHString());
+            Debug.Log("Index sleep: " + _selectedSleepTimes[index]);
+            _misionUIManager.SetSleepTick(index, true);
+
             // Sumo horas dormidas
             _gameClock += new HourMinSec(_hourPerSleep, 0, 0);
             Debug.Log("Activo dormir");
@@ -288,7 +293,7 @@ public class MisionLevelManager : MonoBehaviour
     public void RegisterUIManager(MisionUIManager misionUIManager)
     {
         _misionUIManager = misionUIManager;
-        _selectedInitialStops = _selectedStops;
+        _selectedInitialStops = new List<string>(_selectedStops);
         _misionUIManager.SetStops(_selectedStops);
         _misionUIManager.SetStartTime(_gameClock);
         _misionUIManager.SetSleepHours(_selectedSleepTimes);
@@ -580,6 +585,7 @@ public class MisionLevelManager : MonoBehaviour
 
             // Cambio texto de pregunta
             _misionUIManager.ChangeQuestion(_questions[_selectedStops[randomNum]]);
+            _indexUIQuestion = _selectedInitialStops.IndexOf(_selectedStops[randomNum]); // index
             _selectedStops.Remove(_selectedStops[randomNum]);
 
         }
@@ -597,7 +603,7 @@ public class MisionLevelManager : MonoBehaviour
         }
 
         // Compuebo si no quedan preguntas
-        if(_selectedStops.Count == 0 && _distractionStops.Count == 0)
+        if (_selectedStops.Count == 0 && _distractionStops.Count == 0)
         {
             _anyQuestionsLeft = false;
             Debug.Log("Ya no hay más preguntas");
@@ -611,12 +617,20 @@ public class MisionLevelManager : MonoBehaviour
     private void GoodAnswer()
     {
         _goodAnswers++;
+
+        if (_isSelectedStopQuestion)
+            _misionUIManager.SetStopTick(_indexUIQuestion, true);
+
         Debug.Log("Good answer");
     }
 
     private void BadAnswer()
     {
         _badAnswers++;
+
+        if (_isSelectedStopQuestion)
+            _misionUIManager.SetStopTick(_indexUIQuestion, false);
+
         Debug.Log("Bad answer");
     }
 
