@@ -204,7 +204,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 6440467843e6c4620816451587b79027, type: 2}
+  - {fileID: 2100000, guid: 2c64258081a5ebf408e74221f0a7c48c, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -339,6 +339,7 @@ MonoBehaviour:
   idleAnim: Idle
   processingAnim: Processing
   animTime: 7
+  particles: {fileID: 0}
   soundKey: 3
   processingSfxName: Oven
   recetasDatabase: {fileID: 11400000, guid: 500188bf1c71ba0498684343da787a59, type: 2}

@@ -3,6 +3,7 @@ using System.Collections;
 using System.Linq;
 using System.Collections.Generic;
 using UnityEngine.UIElements;
+using UnityEngine.Experimental.GlobalIllumination;
 
 public class WorkstationProcessor : MonoBehaviour
 {
@@ -10,6 +11,7 @@ public class WorkstationProcessor : MonoBehaviour
     [Header("Workstation")]
     [SerializeField] public PuestosDeTrabajo workstationType;
     [SerializeField] private float workstationTime = 5f;
+    [SerializeField] private Light light;
 
     [Header("Spawn of ingredients")]
     [SerializeField] public Transform spawnPoint;
@@ -124,6 +126,10 @@ public class WorkstationProcessor : MonoBehaviour
 
         if (particles != null) particles.Play();
 
+        // Iniciamos la luz (para el horno pero podria aplicarse para todos los puestos si se necesita en alguno)
+        if (light != null)
+            StartCoroutine(HandleLight(workstationTime, 1f)); // tiempo que tarda en encender y apagar
+
         progressBar.HandleStart(workstationTime);
 
         yield return new WaitForSeconds(workstationTime); // Esperamos
@@ -172,6 +178,10 @@ public class WorkstationProcessor : MonoBehaviour
 
         if (particles != null) particles.Play();
 
+        // Iniciamos la luz (para el horno pero podria aplicarse para todos los puestos si se necesita en alguno)
+        if (light != null)
+            StartCoroutine(HandleLight(workstationTime, 1f)); // tiempo que tarda en encender y apagar
+
         progressBar.HandleStart(workstationTime);
 
         yield return new WaitForSeconds(workstationTime); // Esperamos
@@ -201,6 +211,36 @@ public class WorkstationProcessor : MonoBehaviour
             KitchenSoundManager.Instance.StopLoop(soundKey);
 
         processed = false;
+    }
+
+    // Corrutina para manejar la luz progresiva
+    private IEnumerator HandleLight(float duration, float fadeTime)
+    {
+        float targetIntensity = 100f;
+        float startIntensity = 0f;
+
+        // Encendido progresivo
+        float t = 0f;
+        while (t < fadeTime)
+        {
+            t += Time.deltaTime;
+            light.intensity = Mathf.Lerp(startIntensity, targetIntensity, t / fadeTime);
+            yield return null;
+        }
+
+        // Mantener encendida durante el tiempo del puesto menos lo que dura encendido/apagado
+        yield return new WaitForSeconds(Mathf.Max(0, duration - 2 * fadeTime));
+
+        // Apagado progresivo
+        t = 0f;
+        while (t < fadeTime)
+        {
+            t += Time.deltaTime;
+            light.intensity = Mathf.Lerp(targetIntensity, startIntensity, t / fadeTime);
+            yield return null;
+        }
+
+        light.intensity = 0f;
     }
     #endregion
 }
