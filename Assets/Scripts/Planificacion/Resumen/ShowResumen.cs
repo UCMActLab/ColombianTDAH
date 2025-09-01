@@ -75,7 +75,7 @@ public class ShowResumen : MonoBehaviour
         checksInfo = new List<CheckInfo>(numChecks);
 
         checksInfo.Add(new CheckInfo($"Horas de sueño..........{numSleepHours}/{numSleepHours}", true));
-        checksInfo.Add(new CheckInfo($"Hora de salida..........{horaSalida}", true));
+        checksInfo.Add(new CheckInfo($"Hora de salida...........{horaSalida}", true));
         checksInfo.Add(new CheckInfo($"Paradas correctas...{paradasCorrectas}/{paradasTotales}", paradasCorrectas == paradasTotales));
         checksInfo.Add(new CheckInfo($"Ubicación mandada...{ubicacionesCorrectas}/{ubicacionesTotales}", ubicacionesCorrectas == ubicacionesTotales));
 
@@ -156,5 +156,18 @@ public class ShowResumen : MonoBehaviour
 
         exitButton.SetActive(true);
 
+    }
+
+    public void ExitButtonPress()
+    {
+        if (MisionLevelManager.Instance != null)
+        {
+            MisionLevelManager.Instance.ExitLevel();
+
+        }
+        else
+        {
+            Debug.Log("MisionLevelManager nulo");
+        }
     }
 }
