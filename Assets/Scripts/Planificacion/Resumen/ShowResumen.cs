@@ -14,6 +14,8 @@ public class ShowResumen : MonoBehaviour
     [SerializeField] private TextMeshProUGUI winLoseText;
     [SerializeField] private GameObject exitButton;
 
+    [SerializeField] private AudioManagerResumen audioManager;
+
     private int numSleepHours;
     private string horaSalida;
     private int paradasCorrectas;
@@ -100,6 +102,7 @@ public class ShowResumen : MonoBehaviour
             Debug.Log("count " + checkElements.Count);
 
             Debug.Log(i);
+            audioManager.PlayChecklistSound(checksInfo[i].Conseguido);
 
             showCheckElement(i, checksInfo[i].Conseguido, checksInfo[i].Texto);
             yield return new WaitForSeconds(2f);
@@ -144,8 +147,11 @@ public class ShowResumen : MonoBehaviour
     {
         string winText = "NIVEL COMPLETADO\r\n     BIEN HECHO! :)";
         string loseText = "CASI LO TIENES\r\nPRUEBA OTRA VEZ";
-        winLoseText.gameObject.SetActive(true);
 
+        audioManager.PlayWinLoseSound(win);
+
+
+        winLoseText.gameObject.SetActive(true);
         //tiene que tener los dos textos de hijos, prefiero eso a cambiar el texto de uno
         winLoseText.text = win ? winText : loseText;
 

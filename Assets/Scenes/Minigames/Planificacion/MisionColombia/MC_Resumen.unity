@@ -1642,8 +1642,9 @@ GameObject:
   - component: {fileID: 610414842}
   - component: {fileID: 610414844}
   - component: {fileID: 610414843}
+  - component: {fileID: 610414845}
   m_Layer: 0
-  m_Name: SoundManager
+  m_Name: AudioManagerResumen
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1773,6 +1774,21 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &610414845
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 610414841}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7c926082398d5b0438127fb820799390, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  checkListSound: {fileID: 8300000, guid: 925437723b32aee4082f58c31244204c, type: 3}
+  winSound: {fileID: 8300000, guid: bea2a6d864394ec459bab3512df6153f, type: 3}
+  loseSound: {fileID: 8300000, guid: dd4c863f9dcecce4ab3c5c77d59b3a38, type: 3}
 --- !u!1 &612514115
 GameObject:
   m_ObjectHideFlags: 0
@@ -2651,6 +2667,7 @@ MonoBehaviour:
   checkListGO: {fileID: 655477640}
   winLoseText: {fileID: 1439093641}
   exitButton: {fileID: 191753467}
+  audioManager: {fileID: 610414845}
 --- !u!1 &982443884
 GameObject:
   m_ObjectHideFlags: 0
