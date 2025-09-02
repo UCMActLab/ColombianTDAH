@@ -16,9 +16,9 @@ public class BookGestor : MonoBehaviour
     [SerializeField] private List<RecetaSpriteMap> mapa;
     private Dictionary<string, Sprite> recetasSprites;
 
-    [SerializeField] private Button leftButton;
-    [SerializeField] private Button rightButton;
-    [SerializeField] private Button seguirButton;
+    [SerializeField] private ButtonAnimation leftButton;
+    [SerializeField] private ButtonAnimation rightButton;
+    [SerializeField] private ButtonAnimation seguirButton;
 
     private int indiceActual = 0;
 
@@ -59,9 +59,12 @@ public class BookGestor : MonoBehaviour
         ActualizarImagen();
 
         // Suscribir botones
-        leftButton.onClick.AddListener(MostrarAnterior);
-        rightButton.onClick.AddListener(MostrarSiguiente);
-        seguirButton.onClick.AddListener(Salir);
+        leftButton.OnAnimationEnd += MostrarAnterior;
+        rightButton.OnAnimationEnd += MostrarSiguiente;
+        seguirButton.OnAnimationEnd += Salir;
+        //leftButton.onClick.AddListener(MostrarAnterior);
+        //rightButton.onClick.AddListener(MostrarSiguiente);
+        //seguirButton.gameObject.onClick.AddListener(Salir);
     }
 
     // Update is called once per frame
@@ -115,6 +118,8 @@ public class BookGestor : MonoBehaviour
     {
         Debug.Log("Libro clickado");
         GetComponent<Draggable>().enabled = false;
+
+        LevelKitchenManager.Instance.SetNOpenedBook(LevelKitchenManager.Instance.GetNOpenedBook() + 1);
 
         bookTargetTransform = GameObject.Find("LibroPos").transform;
         AnimatorManager.Instance.PlayAndPauseAt(ObjetosAnim.Libro, "Open", 0.8f);

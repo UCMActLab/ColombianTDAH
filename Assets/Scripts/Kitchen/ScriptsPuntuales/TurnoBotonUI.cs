@@ -22,16 +22,17 @@ public class TurnoBotonUI : MonoBehaviour // Clase para el comportamiento de los
     private Sprite spriteLuna;
     private Sprite spriteCandado;
 
-    private Button boton;
+    private ButtonAnimation botonAnim;
 
-    private bool animando = false;
+    private Button boton;
 
     void Start()
     {
         iconoTurno = transform.Find("Icono").GetComponent<Image>();
         fondo = GetComponent<Image>();
         boton = GetComponent<Button>();
-        boton.onClick.AddListener(OnClickAnimacion);
+        botonAnim = GetComponent<ButtonAnimation>();
+        botonAnim.OnAnimationEnd += AccionDespuesDeAnimacion;
 
         spriteSol = Resources.Load<Sprite>("kitchen/sol");
         spriteTarde = Resources.Load<Sprite>("kitchen/tarde");
@@ -70,44 +71,8 @@ public class TurnoBotonUI : MonoBehaviour // Clase para el comportamiento de los
         }
     }
 
-    public void OnClickAnimacion()
+    void AccionDespuesDeAnimacion()
     {
-        if (animando) return;
-        StartCoroutine(EscalarIcono());
-    }
-
-    IEnumerator EscalarIcono()
-    {
-        animando = true;
-
-        float duracion = 0.1f;
-        float tiempo = 0f;
-        Vector3 original = transform.localScale;
-        Vector3 objetivo = original * 1.3f;
-
-        // Escalar hacia arriba
-        while (tiempo < duracion)
-        {
-            transform.localScale = Vector3.Lerp(original, objetivo, tiempo / duracion);
-            tiempo += Time.deltaTime;
-            yield return null;
-        }
-
-        transform.localScale = objetivo;
-
-        // Regreso
-        tiempo = 0f;
-        while (tiempo < duracion)
-        {
-            transform.localScale = Vector3.Lerp(objetivo, original, tiempo / duracion);
-            tiempo += Time.deltaTime;
-            yield return null;
-        }
-
-        transform.localScale = original;
-        
-        animando = false;
-
         LevelKitchenManager.Instance.SetJornada(jornada);
         LevelKitchenManager.Instance.SetTurno(tipoTurno);
 
@@ -118,5 +83,4 @@ public class TurnoBotonUI : MonoBehaviour // Clase para el comportamiento de los
 
         SceneManager.LoadScene("KitchenLevel");
     }
-
 }

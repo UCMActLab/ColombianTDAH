@@ -1,6 +1,7 @@
 using UnityEngine;
 using TMPro;
 using System.Collections;
+using System;
 
 public class Reloj : MonoBehaviour
 {
@@ -10,6 +11,9 @@ public class Reloj : MonoBehaviour
 
     private int tiempoRestante;
     private Coroutine rutina;
+
+    // Evento público que se ejecuta al finalizar la animación
+    public event Action OnTimeEnd;
 
     void Start()
     {
@@ -27,9 +31,8 @@ public class Reloj : MonoBehaviour
             tiempoRestante--;
             ActualizarTexto();
         }
-        // opcional: cuando llega a 0
-        // textoReloj.text = "00:00";
-        // aquí puedes disparar evento de fin de turno
+
+        OnTimeEnd?.Invoke();
     }
 
     void ActualizarTexto()
@@ -62,5 +65,10 @@ public class Reloj : MonoBehaviour
     public void SetTiempoInicial(int newValue)
     {
         tiempoInicialSegundos = newValue;
+    }
+
+    public int GetTiempo()
+    {
+        return tiempoRestante;
     }
 }

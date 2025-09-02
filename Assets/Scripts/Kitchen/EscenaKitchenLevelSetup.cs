@@ -12,6 +12,8 @@ public class EscenaKitchenLevelSetup : MonoBehaviour
     [SerializeField] private Transform cameraPos;
     [SerializeField] private GameObject recetasColgadas;
     [SerializeField] private GameObject hand;
+    [SerializeField] private CalculateStats statsWin;
+    [SerializeField] private CalculateStats statsLose;
 
     [Header("Workstations")]
     [SerializeField] private GameObject mixer;
@@ -49,6 +51,8 @@ public class EscenaKitchenLevelSetup : MonoBehaviour
         LevelKitchenManager.Instance.SetRecetasColgadas(recetasColgadas);
         LevelKitchenManager.Instance.SetTablonButton(tablonButton);
         LevelKitchenManager.Instance.SetHand(hand);
+        LevelKitchenManager.Instance.SetStatsWin(statsWin); 
+        LevelKitchenManager.Instance.SetStatsLose(statsLose);
 
         // Animators
         AnimatorManager.Instance.SetAnimator(ObjetosAnim.Libro, libroDeRecetas.GetComponent<Animator>());

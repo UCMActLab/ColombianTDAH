@@ -52,8 +52,6 @@ public class LevelKitchenManager : MonoBehaviour
     [SerializeField] private RecetasDatabase recetasDatabase;
     [SerializeField] private NivelacionData nivelacionData;
 
-    private GameObject libroDeRecetas;
-
     private GameObject tablon;
     private GameObject recetasColgadas;
     private GameObject tablonButton;
@@ -68,8 +66,12 @@ public class LevelKitchenManager : MonoBehaviour
 
     private Reloj contador;
 
+    private CalculateStats winStats;
+    private CalculateStats loseStats;
+
     // Contador de recetas del turno: receta final -> cuántas faltan
     private Dictionary<RecetaData, int> recetasRestantes = new();
+    private int recetasTotalesIniciales;
 
     private GameObject hand;          
     private bool hideHandWhenIdle = true;
@@ -77,6 +79,10 @@ public class LevelKitchenManager : MonoBehaviour
     private Vector3 handOffset;        // Offset desde el centro del objeto al punto de agarre
     private float handRayDepth = 4.5f; 
     private Camera mainCam;
+
+    #region properties
+    private int NOpenedBook = 0;
+    #endregion
 
     private void Awake()
     {
@@ -170,8 +176,11 @@ public class LevelKitchenManager : MonoBehaviour
             foreach (var kv in recetasRestantes)
                 Debug.Log($"[Objetivo] {kv.Key.nombre} x{kv.Value}");
 
+            recetasTotalesIniciales = recetasRestantes.Values.Sum();
+
             contador.SetTiempoInicial(tiempoPorTurnoTotal);
             contador.Reanudar();
+            contador.OnTimeEnd += OnGameOver;
         }
     }
 
@@ -374,10 +383,16 @@ public class LevelKitchenManager : MonoBehaviour
 
     private void OnVictory()
     {
-        Debug.Log("¡Todas las recetas entregadas! VICTORIA");
-        // contador?.Pausar(); // si quieres parar el reloj aquí
-        
+        contador.Pausar();
+        winStats.Calculate(recetasTotalesIniciales - recetasRestantes.Values.Sum(), recetasTotalesIniciales, tiempoPorTurnoTotal, contador.GetTiempo(), NOpenedBook);
     }
+
+    private void OnGameOver()
+    {
+        loseStats.Calculate(recetasTotalesIniciales - recetasRestantes.Values.Sum(), recetasTotalesIniciales, tiempoPorTurnoTotal, contador.GetTiempo(), NOpenedBook);
+    }
+
+    
 
     public IEnumerable<RecetaData> GetRecetasSeleccionadasActuales()
     {
@@ -435,6 +450,7 @@ public class LevelKitchenManager : MonoBehaviour
         }
     }
 
+    #region SettersGetters
     public void SetJornada(int newValue)
     {
         jornadaActual = newValue;
@@ -493,4 +509,25 @@ public class LevelKitchenManager : MonoBehaviour
     {
         return recetasRestantes;
     }
+
+    public void SetStatsWin(CalculateStats cs)
+    {
+        winStats = cs;
+    }
+
+    public void SetStatsLose(CalculateStats cs)
+    {
+        loseStats = cs;
+    }
+
+    public void SetNOpenedBook(int ob)
+    {
+        NOpenedBook = ob;
+    }
+
+    public int GetNOpenedBook()
+    {
+        return NOpenedBook;
+    }
+    #endregion
 }
