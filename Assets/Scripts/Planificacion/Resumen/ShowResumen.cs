@@ -64,6 +64,7 @@ public class ShowResumen : MonoBehaviour
         //ponerlos de verdad
         if (MisionLevelManager.Instance != null)
         {
+            MisionLevelManager.Instance.Pause(true);
             numSleepHours = MisionLevelManager.Instance.HourPerSleep;
             horaSalida = MisionLevelManager.Instance.StartTime;
             paradasTotales = MisionLevelManager.Instance.SelectedInitialStops.Count;
@@ -72,7 +73,7 @@ public class ShowResumen : MonoBehaviour
             ubicacionesCorrectas = MisionLevelManager.Instance.SelectedLocationHours.Count;
             ubicacionesTotales = MisionLevelManager.Instance.SelectedLocationHours.Count;
         }
-      
+        
 
         checksInfo = new List<CheckInfo>(numChecks);
 

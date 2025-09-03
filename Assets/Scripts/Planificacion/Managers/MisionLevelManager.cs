@@ -137,6 +137,8 @@ public class MisionLevelManager : MonoBehaviour
             UpdateClock();
 
             GoToResumenScreen();
+
+            isLevelFinished();
         }
     }
 
@@ -640,10 +642,19 @@ public class MisionLevelManager : MonoBehaviour
 
     void GoToResumenScreen()
     {
+
         //en esto lo unico que me da mal rollo es que no hacemos instance null al misionlevelmanager porque necesitamos sus datos
         //pero lo podemos coger en el start y borrar luego o en el update poner un metodo de if levelfinished no hacer lo del tiempo etc
         if (Input.GetKeyDown(KeyCode.R))
         {
+            SceneLoader.LoadScene("MC_Resumen");
+        }
+    }
+    void isLevelFinished()
+    {
+        if(_gameClock.Hours == 0)
+        {
+            Debug.Log("terminando nivel");
             SceneLoader.LoadScene("MC_Resumen");
         }
     }
