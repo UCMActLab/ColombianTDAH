@@ -7,6 +7,20 @@ using System.Collections;
 using TMPro;
 using System;
 
+[Serializable]
+public class RecetaSpriteList
+{
+    public string nombre;
+    public RecetaSprites sprites;
+}
+
+[Serializable]
+public struct RecetaSprites
+{
+    public Sprite spriteLibro;
+    public Texture spriteTablon;
+}
+
 public enum TurnoEstado
 {
     Bloqueado,
@@ -51,6 +65,8 @@ public class LevelKitchenManager : MonoBehaviour
     [Header("Configuración")]
     [SerializeField] private RecetasDatabase recetasDatabase;
     [SerializeField] private NivelacionData nivelacionData;
+    [SerializeField] private List<RecetaSpriteList> recetasSpritesSerializable;
+    private Dictionary<string, RecetaSprites> recetasSprites;
 
     private GameObject tablon;
     private GameObject recetasColgadas;
@@ -103,6 +119,7 @@ public class LevelKitchenManager : MonoBehaviour
     {
         CalcularRecetasPorJornada();
         mainCam = Camera.main;
+        recetasSprites = recetasSpritesSerializable.ToDictionary(m => m.nombre, m => m.sprites);
     }
 
     private void Update()
@@ -525,9 +542,8 @@ public class LevelKitchenManager : MonoBehaviour
         NOpenedBook = ob;
     }
 
-    public int GetNOpenedBook()
-    {
-        return NOpenedBook;
-    }
+    public int GetNOpenedBook() { return NOpenedBook; }
+
+    public Dictionary<string, RecetaSprites> GetRecetasSprites() { return recetasSprites; }
     #endregion
 }

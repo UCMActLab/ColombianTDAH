@@ -1096,23 +1096,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2704395292523029921, guid: bb4d680902b2e2447ba5ece8a5e4952e, type: 3}
       propertyPath: m_fontSize
-      value: 1.8
+      value: 1.95
       objectReference: {fileID: 0}
     - target: {fileID: 2704395292523029921, guid: bb4d680902b2e2447ba5ece8a5e4952e, type: 3}
       propertyPath: m_margin.w
-      value: -2.8517873
+      value: -2.4081068
       objectReference: {fileID: 0}
     - target: {fileID: 2704395292523029921, guid: bb4d680902b2e2447ba5ece8a5e4952e, type: 3}
       propertyPath: m_margin.x
-      value: -1.5038984
+      value: -1.216655
       objectReference: {fileID: 0}
     - target: {fileID: 2704395292523029921, guid: bb4d680902b2e2447ba5ece8a5e4952e, type: 3}
       propertyPath: m_margin.y
-      value: -2.0602798
+      value: -1.7280638
       objectReference: {fileID: 0}
     - target: {fileID: 2704395292523029921, guid: bb4d680902b2e2447ba5ece8a5e4952e, type: 3}
       propertyPath: m_margin.z
-      value: -1.3887639
+      value: -1.1257067
       objectReference: {fileID: 0}
     - target: {fileID: 3472982923966378984, guid: bb4d680902b2e2447ba5ece8a5e4952e, type: 3}
       propertyPath: m_LocalPosition.z
@@ -1366,7 +1366,6 @@ Transform:
   m_Children:
   - {fileID: 1290383024}
   - {fileID: 821798548}
-  - {fileID: 543450652493159749}
   - {fileID: 995794297}
   - {fileID: 1915025422}
   - {fileID: 1094035423}
@@ -1384,6 +1383,7 @@ GameObject:
   - component: {fileID: 353195395}
   - component: {fileID: 353195394}
   - component: {fileID: 353195393}
+  - component: {fileID: 353195396}
   m_Layer: 0
   m_Name: Point Light
   m_TagString: Untagged
@@ -1487,13 +1487,27 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 353195392}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -1, z: -0, w: 0}
-  m_LocalPosition: {x: 2.416, y: 1.45, z: 4.231}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalRotation: {x: 0.35589102, y: -0, z: -0, w: -0.9345275}
+  m_LocalPosition: {x: -0.009127082, y: 0.14008188, z: -0.24264598}
+  m_LocalScale: {x: 0.24999994, y: 0.25, z: 0.24999994}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 551505890}
+  m_Father: {fileID: 5208348167252063202}
   m_LocalEulerAnglesHint: {x: 0, y: -180, z: 0}
+--- !u!114 &353195396
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 353195392}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9166bdeb3092d2b4bbc1e5def9c24cbd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fadeDuration: 1
+  targetIntensity: 100
 --- !u!1 &365207985
 GameObject:
   m_ObjectHideFlags: 0
@@ -1794,7 +1808,7 @@ Transform:
   - {fileID: 770932756}
   - {fileID: 1296937447}
   - {fileID: 1931227893}
-  - {fileID: 353195395}
+  - {fileID: 543450652493159749}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &557556568
@@ -6176,7 +6190,7 @@ PrefabInstance:
     - target: {fileID: 8738522325020908958, guid: bc0e27d9a9df09c4990b3594c1309b55, type: 3}
       propertyPath: light
       value: 
-      objectReference: {fileID: 353195394}
+      objectReference: {fileID: 353195396}
     - target: {fileID: 8875095375189514759, guid: bc0e27d9a9df09c4990b3594c1309b55, type: 3}
       propertyPath: m_LocalPosition.x
       value: 2.3794916
@@ -6219,7 +6233,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 8875095375189514759, guid: bc0e27d9a9df09c4990b3594c1309b55, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 353195395}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bc0e27d9a9df09c4990b3594c1309b55, type: 3}
 --- !u!4 &5208348167252063202 stripped
@@ -6315,7 +6332,7 @@ PrefabInstance:
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 336573936}
+    m_TransformParent: {fileID: 551505890}
     m_Modifications:
     - target: {fileID: 1502670870125180667, guid: d4e7a90c1760fda499c7a6e715d1e12a, type: 3}
       propertyPath: m_IsActive

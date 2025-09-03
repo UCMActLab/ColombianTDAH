@@ -19,11 +19,15 @@ public class FadeCanvas : MonoBehaviour
     public void FadeIn()
     {
         StartFade(1f);
+        canvasGroup.blocksRaycasts = true;
+        canvasGroup.interactable = true;
     }
 
     public void FadeOut()
     {
         StartFade(0f);
+        canvasGroup.blocksRaycasts = false;
+        canvasGroup.interactable = false;
     }
 
     private void StartFade(float targetAlpha)

@@ -27,8 +27,6 @@ public class CalculateStats : MonoBehaviour
         consultasLibro.text = consultas.ToString();
 
         canvas.FadeIn();
-        canvas.gameObject.GetComponent<CanvasGroup>().blocksRaycasts = true;
-        canvas.gameObject.GetComponent<CanvasGroup>().interactable = true;
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created

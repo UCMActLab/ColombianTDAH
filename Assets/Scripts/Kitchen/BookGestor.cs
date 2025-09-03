@@ -10,11 +10,9 @@ public class BookGestor : MonoBehaviour
 {
     private List<string> recetasTurno;
 
-    [SerializeField] private Canvas myCanvas;
+    [SerializeField] private FadeCanvas myCanvas;
     [SerializeField] private Image recetaImage;
 
-    [SerializeField] private List<RecetaSpriteMap> mapa;
-    private Dictionary<string, Sprite> recetasSprites;
 
     [SerializeField] private ButtonAnimation leftButton;
     [SerializeField] private ButtonAnimation rightButton;
@@ -25,7 +23,7 @@ public class BookGestor : MonoBehaviour
     [SerializeField] private Transform initialTransform;
     private Transform bookTargetTransform;
     private float moveDuration = 1.5f;
-    [SerializeField] private GameObject[] lights;
+    [SerializeField] private FadeLight[] lights;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -54,17 +52,12 @@ public class BookGestor : MonoBehaviour
             Debug.Log(receta);
         }
 
-        recetasSprites = mapa.ToDictionary(m => m.nombre, m => m.sprite);
-
         ActualizarImagen();
 
         // Suscribir botones
         leftButton.OnAnimationEnd += MostrarAnterior;
         rightButton.OnAnimationEnd += MostrarSiguiente;
         seguirButton.OnAnimationEnd += Salir;
-        //leftButton.onClick.AddListener(MostrarAnterior);
-        //rightButton.onClick.AddListener(MostrarSiguiente);
-        //seguirButton.gameObject.onClick.AddListener(Salir);
     }
 
     // Update is called once per frame
@@ -91,7 +84,7 @@ public class BookGestor : MonoBehaviour
 
     void ActualizarImagen()
     {
-        recetaImage.sprite = recetasSprites[recetasTurno[indiceActual]];
+        recetaImage.sprite = LevelKitchenManager.Instance.GetRecetasSprites()[recetasTurno[indiceActual]].spriteLibro;
     }
 
     void Salir()
@@ -100,12 +93,12 @@ public class BookGestor : MonoBehaviour
         
         AnimatorManager.Instance.ChangeAnimation(ObjetosAnim.Libro, "Close");
 
-        foreach (GameObject l in lights)
+        foreach (FadeLight l in lights)
         {
-            l.SetActive(false);
+            l.FadeOut();
         }
 
-        myCanvas.gameObject.SetActive(false);
+        myCanvas.FadeOut();
 
         // Iniciar el movimiento con rotación
         StartCoroutine(MoverLibro(transform, initialTransform.position, initialTransform.rotation, moveDuration, () =>
@@ -127,12 +120,12 @@ public class BookGestor : MonoBehaviour
         // Iniciar el movimiento con rotación
         StartCoroutine(MoverLibro(transform, bookTargetTransform.position, bookTargetTransform.rotation, moveDuration, () =>
         {
-            foreach (GameObject l in lights)
+            foreach (FadeLight l in lights)
             {
-                l.SetActive(true);
+                l.FadeIn();
             }
 
-            myCanvas.gameObject.SetActive(true);
+            myCanvas.FadeIn();
         }));
     }
 
@@ -163,11 +156,4 @@ public class BookGestor : MonoBehaviour
 
         onComplete?.Invoke();
     }
-}
-
-[System.Serializable]
-public class RecetaSpriteMap
-{
-    public string nombre;
-    public Sprite sprite;
 }

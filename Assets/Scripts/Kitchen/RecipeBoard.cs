@@ -92,6 +92,12 @@ public class RecipeBoard : MonoBehaviour
                 var text = recipeGO.GetComponentInChildren<TMPro.TextMeshProUGUI>();
                 if (text) text.text = recipes[index].nombre;
 
+                Transform myChild = FindChildByName(recipeGO.transform, "Object_2");
+                if (myChild != null)
+                {
+                    myChild.GetComponent<Renderer>().material.SetTexture("_BaseMap", LevelKitchenManager.Instance.GetRecetasSprites()[recipes[index].nombre].spriteTablon);
+                }
+
                 spawnedRecipes.Add(slot);
                 index++;
             }
@@ -103,6 +109,21 @@ public class RecipeBoard : MonoBehaviour
         foreach (var r in spawnedRecipes) if (r) Destroy(r);
         spawnedRecipes.Clear();
     }
+
+    private Transform FindChildByName(Transform parent, string name)
+    {
+        foreach (Transform child in parent)
+        {
+            if (child.name == name)
+                return child;
+
+            Transform result = FindChildByName(child, name);
+            if (result != null)
+                return result;
+        }
+        return null;
+    }
+
 
     private void OnDrawGizmosSelected()
     {
