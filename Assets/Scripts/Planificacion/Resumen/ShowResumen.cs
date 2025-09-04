@@ -14,6 +14,8 @@ public class ShowResumen : MonoBehaviour
     [SerializeField] private TextMeshProUGUI winLoseText;
     [SerializeField] private GameObject exitButton;
 
+    [SerializeField] private AudioManagerResumen audioManager;
+
     private int numSleepHours;
     private string horaSalida;
     private int paradasCorrectas;
@@ -59,23 +61,27 @@ public class ShowResumen : MonoBehaviour
         ubicacionesCorrectas = 3;
         int ubicacionesTotales = 10;
         int paradasTotales = 8;
+        int numSleepHoursTotales = 8;
         //ponerlos de verdad
         if (MisionLevelManager.Instance != null)
         {
-            numSleepHours = MisionLevelManager.Instance.HourPerSleep;
+            MisionLevelManager.Instance.Pause(true);
+            numSleepHours = MisionLevelManager.Instance.SleptHours;
+            numSleepHoursTotales = MisionLevelManager.Instance.TotalSleepHours;
+
             horaSalida = MisionLevelManager.Instance.StartTime;
             paradasTotales = MisionLevelManager.Instance.SelectedInitialStops.Count;
             paradasCorrectas = paradasTotales - MisionLevelManager.Instance.SelectedStops.Count;
 
-            ubicacionesCorrectas = 3;
-            ubicacionesTotales = 4;
+            ubicacionesCorrectas = MisionLevelManager.Instance.SelectedLocationHours.Count;
+            ubicacionesTotales = MisionLevelManager.Instance.SelectedLocationHours.Count;
         }
-      
+        
 
         checksInfo = new List<CheckInfo>(numChecks);
 
-        checksInfo.Add(new CheckInfo($"Horas de sueño..........{numSleepHours}/{numSleepHours}", true));
-        checksInfo.Add(new CheckInfo($"Hora de salida..........{horaSalida}", true));
+        checksInfo.Add(new CheckInfo($"Horas de sueño..........{numSleepHours}/{numSleepHoursTotales}", numSleepHours == numSleepHoursTotales));
+        checksInfo.Add(new CheckInfo($"Hora de salida...........{horaSalida}", true));
         checksInfo.Add(new CheckInfo($"Paradas correctas...{paradasCorrectas}/{paradasTotales}", paradasCorrectas == paradasTotales));
         checksInfo.Add(new CheckInfo($"Ubicación mandada...{ubicacionesCorrectas}/{ubicacionesTotales}", ubicacionesCorrectas == ubicacionesTotales));
 
@@ -100,6 +106,7 @@ public class ShowResumen : MonoBehaviour
             Debug.Log("count " + checkElements.Count);
 
             Debug.Log(i);
+            audioManager.PlayChecklistSound(checksInfo[i].Conseguido);
 
             showCheckElement(i, checksInfo[i].Conseguido, checksInfo[i].Texto);
             yield return new WaitForSeconds(2f);
@@ -144,8 +151,11 @@ public class ShowResumen : MonoBehaviour
     {
         string winText = "NIVEL COMPLETADO\r\n     BIEN HECHO! :)";
         string loseText = "CASI LO TIENES\r\nPRUEBA OTRA VEZ";
-        winLoseText.gameObject.SetActive(true);
 
+        audioManager.PlayWinLoseSound(win);
+
+
+        winLoseText.gameObject.SetActive(true);
         //tiene que tener los dos textos de hijos, prefiero eso a cambiar el texto de uno
         winLoseText.text = win ? winText : loseText;
 
@@ -156,5 +166,18 @@ public class ShowResumen : MonoBehaviour
 
         exitButton.SetActive(true);
 
+    }
+
+    public void ExitButtonPress()
+    {
+        if (MisionLevelManager.Instance != null)
+        {
+            MisionLevelManager.Instance.ExitLevel();
+
+        }
+        else
+        {
+            Debug.Log("MisionLevelManager nulo");
+        }
     }
 }

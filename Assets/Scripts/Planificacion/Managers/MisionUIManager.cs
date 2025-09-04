@@ -28,6 +28,9 @@ public class MisionUIManager : MonoBehaviour
     [SerializeField]
     TextMeshProUGUI _sleepText;
 
+    [SerializeField]
+    Image _sleepVignetteImage;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -127,16 +130,43 @@ public class MisionUIManager : MonoBehaviour
         MisionLevelManager.Instance.ExitLevel();
     }
 
+    private void SetAlpha(Graphic graphic, float alpha)
+    {
+        if (graphic == null) return;
+
+        Color color = graphic.color;
+        color.a = alpha;
+        graphic.color = color;
+    }
+
     public void SetSleepImageAlpha(float alpha)
     {
-        // Change image alpha
-        Color color = _sleepImage.color;
-        color.a = alpha;
-        _sleepImage.color = color;
+        SetAlpha(_sleepImage, alpha);
+        SetAlpha(_sleepText, alpha);
+    }
 
-        // Change text alpha
-        color = _sleepText.color;
-        color.a = alpha;
-        _sleepText.color = color;
+    public void SetSleepVignetteAlpha(float alpha)
+    {
+        SetAlpha(_sleepVignetteImage, alpha);
+    }
+
+    public void SetStopTick(int index, bool enabled)
+    {
+        _planificationListComp.SetStopTick(index, enabled);
+    }
+
+    public void SetSleepTick(int index, bool enabled)
+    {
+        _planificationListComp.SetSleepTick(index, enabled);
+    }
+
+    public void SetLocationTick(int index, bool enabled)
+    {
+        _planificationListComp.SetLocationTick(index, enabled);
+    }
+
+    public void SendLocation()
+    {
+        MisionLevelManager.Instance.SendLocation();
     }
 }

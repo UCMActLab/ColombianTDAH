@@ -106,7 +106,7 @@ public class HourMinSec
     public string GetHMString()
     {
         string aux;
-        if (Hours > 12)
+        if (Hours >= 12)
             aux = "PM";
         else
             aux = "AM";
@@ -132,7 +132,7 @@ public class HourMinSec
     public string GetHString()
     {
         string aux;
-        if (Hours > 12)
+        if (Hours >= 12)
             aux = "pm";
         else
             aux = "am";
