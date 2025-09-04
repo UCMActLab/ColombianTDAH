@@ -316,7 +316,8 @@ public class EventRegister : MonoBehaviour
     {
         auxEvntInfo.Add(evntData);
         //Para enviar datos por usb, aqu� habra que manejar los tipos de mensajes. He puesto este parse chungo
-        MoneLibrary.SendUsbData((sbyte)evntData.Item1);
+        sbyte prueba = 0x01;
+        MoneLibrary.SendUsbData(prueba);
         if (whitePixelEvents[(int)evntData.Item1]) //si su correspondiente evnto est� a true activa los pixels
         {
             ActivateWhitePixels();
