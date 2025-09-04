@@ -148,6 +148,8 @@ GameObject:
   - component: {fileID: 2503872980046746901}
   - component: {fileID: 7231123384241793839}
   - component: {fileID: 4213243488230478534}
+  - component: {fileID: 1973788879077290526}
+  - component: {fileID: 7650313303853688305}
   m_Layer: 5
   m_Name: Button
   m_TagString: Untagged
@@ -257,6 +259,32 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &1973788879077290526
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4338763523050006416}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a25fa7e22a893f644a0345a38e035836, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tutorial: {fileID: 0}
+  kitchenScene: KitchenLevel
+--- !u!114 &7650313303853688305
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4338763523050006416}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e5400aec144f34b40a417999b11460f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4747323986772817819
 GameObject:
   m_ObjectHideFlags: 0

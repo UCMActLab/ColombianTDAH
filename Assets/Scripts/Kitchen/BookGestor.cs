@@ -127,6 +127,7 @@ public class BookGestor : MonoBehaviour
 
             myCanvas.FadeIn();
         }));
+        LevelKitchenManager.Instance.NotifyBookOpened();
     }
 
     private IEnumerator MoverLibro(Transform objeto, Vector3 destinoPos, Quaternion destinoRot, float duracion, Action onComplete = null)

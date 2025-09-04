@@ -60,6 +60,7 @@ public class LevelKitchenManager : MonoBehaviour
     static public LevelKitchenManager Instance { get { return _instance; } }
 
     private string[] escenasPermitidas = { "KitchenLevel", "KitchenLevelSelector", "KitchenBalanceTerapeuta" };
+    [SerializeField] private GameObject tutorialSystemRoot;
     [SerializeField] private string victorySceneName = "KitchenEnd";
 
     [Header("Configuración")]
@@ -95,6 +96,10 @@ public class LevelKitchenManager : MonoBehaviour
     private Vector3 handOffset;        // Offset desde el centro del objeto al punto de agarre
     private float handRayDepth = 4.5f; 
     private Camera mainCam;
+
+    private bool isTutorial = false;
+    public event Action OnBookOpenedTutorial;
+    public event Action OnTablonOpenedTutorial;
 
     #region properties
     private int NOpenedBook = 0;
@@ -174,30 +179,50 @@ public class LevelKitchenManager : MonoBehaviour
                 Debug.LogWarning("No se encontró el componente Draggable en tablonButton.");
             }
 
-            recetasToDo = CalcularRecetasTurno(nivelacionData.jornadas[jornadaActual].recetasAsignadas, tiempoPorTurnoTotal, Mathf.CeilToInt(tiempoPorTurnoTotal * 0.1f));
+            if (tutorialSystemRoot != null)
+                tutorialSystemRoot.SetActive(isTutorial);
 
-            if (rec != null)
+            if (isTutorial)
             {
-                rec.ShowRecipes(recetasToDo);
+                // --- MODO TUTORIAL ---
+                // No calculamos recetas aleatorias ni arrancamos el reloj
+                // (si tu Reloj tiene Pausar, úsalo; sino, simplemente NO lo reanudes)
+                if (contador != null)
+                {
+                    // contador.Pausar(); // si tu clase lo soporta
+                    contador.OnTimeEnd -= OnGameOver; // por si viene de otra carga
+                }
+
+                // Si quieres ocultar o mostrar un layout específico en el tablón:
+                // if (rec != null) rec.ShowTutorialLayout(); // <- solo si tienes este método
             }
             else
             {
-                Debug.LogWarning("No se encontró el componente RecipeBoard en recetascolgadas.");
+                recetasToDo = CalcularRecetasTurno(nivelacionData.jornadas[jornadaActual].recetasAsignadas, tiempoPorTurnoTotal, Mathf.CeilToInt(tiempoPorTurnoTotal * 0.1f));
+
+                if (rec != null)
+                {
+                    rec.ShowRecipes(recetasToDo);
+                }
+                else
+                {
+                    Debug.LogWarning("No se encontró el componente RecipeBoard en recetascolgadas.");
+                }
+
+                recetasRestantes = recetasToDo
+                                   .Where(r => r != null && !r.esIntermedia)
+                                   .GroupBy(r => r)
+                                   .ToDictionary(g => g.Key, g => g.Count());
+
+                foreach (var kv in recetasRestantes)
+                    Debug.Log($"[Objetivo] {kv.Key.nombre} x{kv.Value}");
+
+                recetasTotalesIniciales = recetasRestantes.Values.Sum();
+
+                contador.SetTiempoInicial(tiempoPorTurnoTotal);
+                contador.Reanudar();
+                contador.OnTimeEnd += OnGameOver;
             }
-
-            recetasRestantes = recetasToDo
-                               .Where(r => r != null && !r.esIntermedia)
-                               .GroupBy(r => r)
-                               .ToDictionary(g => g.Key, g => g.Count());
-
-            foreach (var kv in recetasRestantes)
-                Debug.Log($"[Objetivo] {kv.Key.nombre} x{kv.Value}");
-
-            recetasTotalesIniciales = recetasRestantes.Values.Sum();
-
-            contador.SetTiempoInicial(tiempoPorTurnoTotal);
-            contador.Reanudar();
-            contador.OnTimeEnd += OnGameOver;
         }
     }
 
@@ -224,6 +249,7 @@ public class LevelKitchenManager : MonoBehaviour
         {
             tablonButton.GetComponent<Draggable>().enabled = true;
         }));
+        NotifyTablonOpened();
         Debug.Log("Tab clickado fin");
     }
 
@@ -489,6 +515,8 @@ public class LevelKitchenManager : MonoBehaviour
         tablon = t;
     }
 
+    public GameObject GetTablon() { return tablon; }
+
     public void SetTablonButton(GameObject tb)
     {
         tablonButton = tb;
@@ -544,6 +572,17 @@ public class LevelKitchenManager : MonoBehaviour
 
     public int GetNOpenedBook() { return NOpenedBook; }
 
+    public void SetTutorial(bool tutorial)
+    {
+        isTutorial = tutorial;
+    }
+    public void StartTutorialMode() => isTutorial = true;
+    public void StopTutorialMode() => isTutorial = false;
+    public bool GetTutorial() {  return isTutorial; }
+
     public Dictionary<string, RecetaSprites> GetRecetasSprites() { return recetasSprites; }
+
+    public void NotifyBookOpened() => OnBookOpenedTutorial?.Invoke();
+    public void NotifyTablonOpened() => OnTablonOpenedTutorial?.Invoke();
     #endregion
 }

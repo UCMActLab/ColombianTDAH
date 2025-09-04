@@ -43,6 +43,8 @@ public class WorkstationProcessor : MonoBehaviour
     [SerializeField] private bool immediateSingleProcess;
     #endregion
 
+    public static event System.Action<Ingredientes, PuestosDeTrabajo> OnItemPlacedGlobal;
+
     #region methods
     void Start()
     {
