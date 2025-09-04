@@ -154,4 +154,9 @@ public class MisionUIManager : MonoBehaviour
     {
         _planificationListComp.SetLocationTick(index, enabled);
     }
+
+    public void SendLocation()
+    {
+        MisionLevelManager.Instance.SendLocation();
+    }
 }
