@@ -61,11 +61,14 @@ public class ShowResumen : MonoBehaviour
         ubicacionesCorrectas = 3;
         int ubicacionesTotales = 10;
         int paradasTotales = 8;
+        int numSleepHoursTotales = 8;
         //ponerlos de verdad
         if (MisionLevelManager.Instance != null)
         {
             MisionLevelManager.Instance.Pause(true);
-            numSleepHours = MisionLevelManager.Instance.HourPerSleep;
+            numSleepHours = MisionLevelManager.Instance.SleptHours;
+            numSleepHoursTotales = MisionLevelManager.Instance.TotalSleepHours;
+
             horaSalida = MisionLevelManager.Instance.StartTime;
             paradasTotales = MisionLevelManager.Instance.SelectedInitialStops.Count;
             paradasCorrectas = paradasTotales - MisionLevelManager.Instance.SelectedStops.Count;
@@ -77,7 +80,7 @@ public class ShowResumen : MonoBehaviour
 
         checksInfo = new List<CheckInfo>(numChecks);
 
-        checksInfo.Add(new CheckInfo($"Horas de sueño..........{numSleepHours}/{numSleepHours}", true));
+        checksInfo.Add(new CheckInfo($"Horas de sueño..........{numSleepHours}/{numSleepHoursTotales}", numSleepHours == numSleepHoursTotales));
         checksInfo.Add(new CheckInfo($"Hora de salida...........{horaSalida}", true));
         checksInfo.Add(new CheckInfo($"Paradas correctas...{paradasCorrectas}/{paradasTotales}", paradasCorrectas == paradasTotales));
         checksInfo.Add(new CheckInfo($"Ubicación mandada...{ubicacionesCorrectas}/{ubicacionesTotales}", ubicacionesCorrectas == ubicacionesTotales));
