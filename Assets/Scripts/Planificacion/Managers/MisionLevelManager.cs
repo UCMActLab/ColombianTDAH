@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using Unity.VisualScripting.FullSerializer;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using static UnityEngine.Rendering.STP;
 
 
@@ -28,13 +29,14 @@ public class MisionLevelManager : MonoBehaviour
     float _auxCont = 0; // Contador aparicion paradas en ejecucion
     float _sleepFade = 5;
     float _sleepAuxCont = 0;
-    float _realSegsPerStop = 7.5f;
+    float _realSegsPerStop = 2.5f;
     HourMinSec _gameClock;
     HourMinSec _auxGameCont;
     int _auxHourClock;
 
     // Estados
     bool _paused = true;
+    bool _shouldSleep = false;
     bool _sleeping = false;
     bool _anyQuestionsLeft = true;
     bool _isSelectedStopQuestion;
@@ -63,8 +65,10 @@ public class MisionLevelManager : MonoBehaviour
     bool[] _allSleepHours;
     int _hourPerSleep;
     int _totalDurationMins;
-    int _totalSleepHours;
+    int _totalSleepHours; //horas que pusiste en la planificacion
+    int _sleptHours; //horas que llevas dormidas
     bool _locMessageCorrect;
+    HashSet<int> _askedSleepTimes = new HashSet<int>(); //para no repetir la pregunta de sueï¿½o en horas que ya se han hecho
 
     // Lista de paradas
     List<string> _stops;
@@ -135,8 +139,7 @@ public class MisionLevelManager : MonoBehaviour
         {
             // Actualiza contador tiempo
             if (_isAnswering) UpdateTime();
-
-            UpdateClock();
+            else UpdateClock();
 
             GoToResumenScreen();
 
@@ -183,8 +186,8 @@ public class MisionLevelManager : MonoBehaviour
 
     void UpdateClock()
     {
-        // Si no esta durmiendo
-        if (!_sleeping)
+        // Si no est durmiendo
+        if (!_shouldSleep && !_sleeping)
         {
 
             _playTimeCont += Time.deltaTime;
@@ -203,7 +206,7 @@ public class MisionLevelManager : MonoBehaviour
                 // Actualizo dormir
                 UpdateSleep();
 
-                if (!_sleeping && _anyQuestionsLeft)
+                if (!_shouldSleep &&!_sleeping && _anyQuestionsLeft)
                 {
 
                     if (_auxGameCont.Minutes >= _questionFrecMins)
@@ -267,17 +270,35 @@ public class MisionLevelManager : MonoBehaviour
     {
         // si la hora en la que estamos esta en la lista de dormir pongo a true booleano dormir
 
-        for (int i = 0; i < selectedSleepTimes.Count && !_sleeping; i++)
-        {
-            _sleeping = (selectedSleepTimes[i].Hours == _gameClock.Hours);
+        if (_askedSleepTimes.Contains(_gameClock.Hours)) {
+            return;
         }
 
-        if (_sleeping) Sleep(true);
+
+        for (int i = 0; i < selectedSleepTimes.Count && !_shouldSleep; i++)
+        {
+
+            _shouldSleep = (selectedSleepTimes[i].Hours == _gameClock.Hours);
+
+        }
+
+
+        if (_shouldSleep)
+        {
+            _askedSleepTimes.Add(_gameClock.Hours);
+            SleepQuestion();
+        }
+
+     
     }
 
     void Sleep(bool enabled)
     {
+        Debug.Log("Sleeping enabled " + enabled);
         _sleeping = enabled;
+
+        SetSleepVignette();
+
 
         if (enabled)
         {
@@ -296,16 +317,47 @@ public class MisionLevelManager : MonoBehaviour
             _misionUIManager.SetSleepImageAlpha(0);
         }
     }
+    void SleepQuestion()
+    {
+               string mensaje = "Pregunta inicio";
+        EventRegister.Instance.AddToEvnt(Tuple.Create(EventRegister.EventosInfo.EmpiezaDecision, mensaje));
+        EventRegister.Instance.EvntToJson();
+
+
+        int randomNum = 0;
+        // Busco pregunta en seleccionadas
+        if (randomNum == 0)
+        {
+
+            _misionUIManager.ChangeQuestion($"ï¿½Quieres dormir {_hourPerSleep} horas?");
+        }
+     
+        ShowDecisionButtons();
+        Debug.Log("Aparece pregunta buena para responder dormir"); // Tiene que parar
+    }
 
     // Reestablece contador
     public void Answered(bool yes)
     {
         FinishAnswer();
 
-        if (yes == _isSelectedStopQuestion)
-            GoodAnswer();
+        if (_shouldSleep) //si esta _shouldSleep es que es una pregunta de dormir si o no
+        {
+            if (!yes) _sleptHours -= _hourPerSleep; //si no duerme se restan horas de sueï¿½o
+            _sleeping = yes;
+            Sleep(yes);
+            _shouldSleep = false;
+
+
+        }
         else
-            BadAnswer();
+        {
+            if (yes == _isSelectedStopQuestion)
+                GoodAnswer();
+            else
+                BadAnswer();
+        }
+      
     }
 
     private void FinishAnswer()
@@ -524,6 +576,7 @@ public class MisionLevelManager : MonoBehaviour
     // Calcula el tiempo total escogido para dormir
     private void CalculateSleepHours()
     {
+
         for (int i = 0; i < selectedSleepTimes.Count; i++)
         {
             if (i != (selectedSleepTimes.Count - 1))
@@ -537,6 +590,8 @@ public class MisionLevelManager : MonoBehaviour
             else
                 _totalSleepHours += _hourPerSleep;
         }
+
+        _sleptHours = _totalSleepHours; //empiezan siendo las totales y luego se restan si no duermes
 
     }
 
@@ -636,7 +691,7 @@ public class MisionLevelManager : MonoBehaviour
         if (_selectedStops.Count == 0 && _distractionStops.Count == 0)
         {
             _anyQuestionsLeft = false;
-            Debug.Log("Ya no hay más preguntas");
+            Debug.Log("Ya no hay mï¿½s preguntas");
         }
 
         // Aparece pregunta con botones de decision
@@ -694,7 +749,22 @@ public class MisionLevelManager : MonoBehaviour
             SceneLoader.LoadScene("MC_Resumen");
         }
     }
+
+    void SetSleepVignette()
+    {
+        float sleepRatio = (float)_sleptHours / (float)_totalSleepHours; //si da algo distinto entre 0 y 1 vamos mal
+        float vignetteAlpha = 1f - sleepRatio;
+        Debug.Log("Sleeping hours " + _sleptHours + " " + _totalSleepHours);
+
+        Debug.Log("Sleeping vignette ratio " + sleepRatio);
+
+        Debug.Log("Sleeping vignette alpha " + vignetteAlpha);
+
+        _misionUIManager.SetSleepVignetteAlpha(vignetteAlpha);
+    }
     public int HourPerSleep => _hourPerSleep; // getter de solo lectura
+    public int SleptHours => _sleptHours;
+    public int TotalSleepHours => _totalSleepHours;
     public string StartTime => _startTime;
     public List<string> SelectedInitialStops => _selectedInitialStops;
     public List<string> SelectedStops => _selectedStops; //como se van quitando al final se queda con las respuestas que no fueron correctas
