@@ -17,6 +17,7 @@ public class TutorialManager : MonoBehaviour
     [SerializeField] private HighlightManager highlighter;
     [SerializeField] private GuideArrow arrow; 
     [SerializeField] private RecetasDatabase recetasDb;
+    [SerializeField] private RecetaData recetaObjetivo;
 
     [Header("Ingredientes&Puestos")]
     [SerializeField] private Ingredientes guayaba = Ingredientes.Guayaba;
@@ -31,6 +32,8 @@ public class TutorialManager : MonoBehaviour
 
     private bool bookOpened, tablonOpened, placedOnSliceTable, bocadilloReadyAtPot, bocadilloDelivered;
 
+    private bool subscribed;
+
     #region methods
     void Awake()
     {
@@ -42,23 +45,16 @@ public class TutorialManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
-
-        DontDestroyOnLoad(gameObject);
     }
 
     void OnEnable()
     {
-        LevelKitchenManager.Instance.OnBookOpenedTutorial += HandleBookOpened;
-        LevelKitchenManager.Instance.OnTablonOpenedTutorial += HandleTablonOpened;
-        WorkstationProcessor.OnItemPlacedGlobal += OnItemPlaced;
-        ConveyorBelt.OnDeliveredGlobal += OnDelivered;
+        TrySubscribe();
+        if (!subscribed) StartCoroutine(SubscribeWhenReady());       
     }
     void OnDisable()
     {
-        LevelKitchenManager.Instance.OnBookOpenedTutorial -= HandleBookOpened;
-        LevelKitchenManager.Instance.OnTablonOpenedTutorial -= HandleTablonOpened;
-        WorkstationProcessor.OnItemPlacedGlobal -= OnItemPlaced;
-        ConveyorBelt.OnDeliveredGlobal -= OnDelivered;
+        TryUnsubscribe();      
     }
 
     void Start()
@@ -73,12 +69,48 @@ public class TutorialManager : MonoBehaviour
     }
 
     private void ResolveSceneRefs()
-    {      
+    {
         sliceWs = FindObjectsOfType<WorkstationProcessor>().FirstOrDefault(w => w.workstationType == sliceTable);
         potWs = FindObjectsOfType<WorkstationProcessor>().FirstOrDefault(w => w.workstationType == pot);
 
         guayabaGO = IngredientSpawnManager.Instance?.GetLiveInstance(guayaba);
         sugarGO = IngredientSpawnManager.Instance?.GetLiveInstance(Ingredientes.Azucar);
+    }
+
+
+    private IEnumerator SubscribeWhenReady()
+    {
+        while (LevelKitchenManager.Instance == null) yield return null;
+        TrySubscribe();
+    }
+
+    private void TrySubscribe()
+    {
+        if (subscribed) return;
+        var mgr = LevelKitchenManager.Instance;
+        if (mgr == null) return;
+
+        mgr.OnBookOpenedTutorial += HandleBookOpened;
+        mgr.OnTablonOpenedTutorial += HandleTablonOpened;
+        WorkstationProcessor.OnItemPlacedGlobal += OnItemPlaced;
+        ConveyorBelt.OnDeliveredGlobal += OnDelivered;
+
+        subscribed = true;
+    }
+
+    private void TryUnsubscribe()
+    {
+        if (!subscribed) return;
+        var mgr = LevelKitchenManager.Instance;
+        if (mgr != null)
+        {
+            mgr.OnBookOpenedTutorial -= HandleBookOpened;
+            mgr.OnTablonOpenedTutorial -= HandleTablonOpened;
+        }
+        WorkstationProcessor.OnItemPlacedGlobal -= OnItemPlaced;
+        ConveyorBelt.OnDeliveredGlobal -= OnDelivered;
+
+        subscribed = false;
     }
 
     private IEnumerator Run()
@@ -102,7 +134,7 @@ public class TutorialManager : MonoBehaviour
 
         // STEP: OpenTablon
         current = Step.OpenTablon;
-        //highlighter.Highlight(LevelKitchenManager.Instance.GetTablon());
+        //highlighter.Highlight(LevelKitchenManager.Instance.GetTablon());       
         ui.ShowLines(new[] { "Ahora, mira el tablón de tareas." });
         yield return WaitEvent(() => tablonOpened);
         highlighter.Clear();
@@ -127,7 +159,7 @@ public class TutorialManager : MonoBehaviour
         highlighter.Clear();
         if (arrow) arrow.Hide();
 
-        // STEP: MakeJuice
+        // STEP: MakeBocadillo
         current = Step.MakeBocadillo;
         RefreshIngredientRefs(); // La guayaba cortada y el azucar deberían existir
         if (potWs) highlighter.Highlight(potWs.gameObject);
@@ -177,7 +209,7 @@ public class TutorialManager : MonoBehaviour
     {
         if (!IngredientSpawnManager.HasInstance) return;
         if (guayabaGO == null) guayabaGO = IngredientSpawnManager.Instance.GetLiveInstance(guayaba);
-        if (guayabaGO == null) guayabaGO = IngredientSpawnManager.Instance.GetLiveInstance(Ingredientes.Agua);
+        if (sugarGO == null) sugarGO = IngredientSpawnManager.Instance.GetLiveInstance(Ingredientes.Azucar);
     }
 
     private Transform GetAnchor(GameObject go)

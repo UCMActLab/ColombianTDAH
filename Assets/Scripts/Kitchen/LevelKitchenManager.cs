@@ -60,13 +60,13 @@ public class LevelKitchenManager : MonoBehaviour
     static public LevelKitchenManager Instance { get { return _instance; } }
 
     private string[] escenasPermitidas = { "KitchenLevel", "KitchenLevelSelector", "KitchenBalanceTerapeuta" };
-    [SerializeField] private GameObject tutorialSystemRoot;
     [SerializeField] private string victorySceneName = "KitchenEnd";
 
     [Header("Configuración")]
     [SerializeField] private RecetasDatabase recetasDatabase;
     [SerializeField] private NivelacionData nivelacionData;
-    [SerializeField] private List<RecetaSpriteList> recetasSpritesSerializable;
+    [SerializeField] private RecetaData recetaTutorialObjetivo;
+    [SerializeField] private List<RecetaSpriteList> recetasSpritesSerializable;   
     private Dictionary<string, RecetaSprites> recetasSprites;
 
     private GameObject tablon;
@@ -97,6 +97,7 @@ public class LevelKitchenManager : MonoBehaviour
     private float handRayDepth = 4.5f; 
     private Camera mainCam;
 
+    private GameObject tutorialSystemRoot;
     private bool isTutorial = false;
     public event Action OnBookOpenedTutorial;
     public event Action OnTablonOpenedTutorial;
@@ -184,17 +185,32 @@ public class LevelKitchenManager : MonoBehaviour
 
             if (isTutorial)
             {
-                // --- MODO TUTORIAL ---
-                // No calculamos recetas aleatorias ni arrancamos el reloj
-                // (si tu Reloj tiene Pausar, úsalo; sino, simplemente NO lo reanudes)
-                if (contador != null)
+                if (recetaTutorialObjetivo != null)
                 {
-                    // contador.Pausar(); // si tu clase lo soporta
-                    contador.OnTimeEnd -= OnGameOver; // por si viene de otra carga
+                    // Lista para mostrar en el tablón/libro (si lo usas)
+                    var listaTutorial = Enumerable.Repeat(recetaTutorialObjetivo, 1).ToList();
+
+                    // Tablón: pinta SOLO la receta del tutorial
+                    if (rec != null) rec.ShowRecipes(listaTutorial);
+
+                    // Objetivos: solo cuenta esa receta
+                    recetasRestantes = listaTutorial
+                                       .Where(r => r != null && !r.esIntermedia)
+                                       .GroupBy(r => r)
+                                       .ToDictionary(g => g.Key, g => g.Count());
+
+                    recetasTotalesIniciales = recetasRestantes.Values.Sum();
                 }
 
-                // Si quieres ocultar o mostrar un layout específico en el tablón:
-                // if (rec != null) rec.ShowTutorialLayout(); // <- solo si tienes este método
+                if (contador != null)
+                {
+                    contador.OnTimeEnd -= OnGameOver; 
+                }
+
+                
+                //if (rec != null)
+                //    rec.ShowRecipes(new List<RecetaData> { recetaObjetivo });
+                // if (rec != null) rec.ShowTutorialLayout(); 
             }
             else
             {
@@ -287,6 +303,9 @@ public class LevelKitchenManager : MonoBehaviour
     // Funcion que elige las recetas que se van a tener que preparar en el turno seleccionado
     public List<RecetaData> CalcularRecetasTurno(List<RecetaData> recetasDisponibles, int tiempoTurno, int margenInicial)
     {
+        if (isTutorial && recetaTutorialObjetivo != null)
+            return Enumerable.Repeat(recetaTutorialObjetivo, 1).ToList();
+
         int maxIntentos = 1000;
         int margen = margenInicial;
         System.Random rng = new System.Random();
@@ -439,6 +458,12 @@ public class LevelKitchenManager : MonoBehaviour
 
     public IEnumerable<RecetaData> GetRecetasSeleccionadasActuales()
     {
+        if (isTutorial)
+        {
+            if (recetaTutorialObjetivo != null)
+                return Enumerable.Repeat(recetaTutorialObjetivo, 1);
+            return Enumerable.Empty<RecetaData>();
+        }
         return nivelacionData.jornadas[jornadaActual].recetasAsignadas;
     }
 
@@ -572,9 +597,9 @@ public class LevelKitchenManager : MonoBehaviour
 
     public int GetNOpenedBook() { return NOpenedBook; }
 
-    public void SetTutorial(bool tutorial)
+    public void SetTutorial(GameObject t)
     {
-        isTutorial = tutorial;
+        tutorialSystemRoot = t;
     }
     public void StartTutorialMode() => isTutorial = true;
     public void StopTutorialMode() => isTutorial = false;
