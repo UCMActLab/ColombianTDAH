@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using Unity.VisualScripting.FullSerializer;
@@ -29,7 +30,7 @@ public class MisionLevelManager : MonoBehaviour
     float _auxCont = 0; // Contador aparicion paradas en ejecucion
     float _sleepFade = 5;
     float _sleepAuxCont = 0;
-    float _realSegsPerStop = 2.5f;
+    float _realSegsPerStop = 0.5f;
     HourMinSec _gameClock;
     HourMinSec _auxGameCont;
     int _auxHourClock;
@@ -97,6 +98,7 @@ public class MisionLevelManager : MonoBehaviour
 
     // Random num
     System.Random rnd = new System.Random();
+
 
     private void Awake()
     {
@@ -166,7 +168,7 @@ public class MisionLevelManager : MonoBehaviour
         BadAnswer();
 
         _misionUIManager.HideDecisionButtons();
-        _isAnswering = true;
+        _isAnswering = false;
     }
 
     // Actualiza tiempo
@@ -198,7 +200,7 @@ public class MisionLevelManager : MonoBehaviour
                 _gameClock += new HourMinSec(0, _stopMins, 0); // Reloj juego
                 int gameMins = _auxGameCont.Minutes + _stopMins;
                 _auxGameCont = new HourMinSec(0, gameMins, 0); // Aumento contador
-                Debug.Log(_auxGameCont.Minutes);
+                //Debug.Log(_auxGameCont.Minutes);
                 _misionUIManager.ChangeTime(_gameClock); // Cambio en UI
 
                 _auxCont = 0; // Reinicio contador
@@ -297,12 +299,11 @@ public class MisionLevelManager : MonoBehaviour
         Debug.Log("Sleeping enabled " + enabled);
         _sleeping = enabled;
 
-        SetSleepVignette();
-
 
         if (enabled)
         {
             int index = _selectedSleepTimes.IndexOf(_gameClock.GetHString());
+
             Debug.Log("Index sleep: " + _selectedSleepTimes[index]);
             _misionUIManager.SetSleepTick(index, true);
 
@@ -319,7 +320,7 @@ public class MisionLevelManager : MonoBehaviour
     }
     void SleepQuestion()
     {
-               string mensaje = "Pregunta inicio";
+        string mensaje = "Pregunta inicio";
         EventRegister.Instance.AddToEvnt(Tuple.Create(EventRegister.EventosInfo.EmpiezaDecision, mensaje));
         EventRegister.Instance.EvntToJson();
 
@@ -329,7 +330,7 @@ public class MisionLevelManager : MonoBehaviour
         if (randomNum == 0)
         {
 
-            _misionUIManager.ChangeQuestion($"�Quieres dormir {_hourPerSleep} horas?");
+            _misionUIManager.ChangeQuestion($"Quieres dormir {_hourPerSleep} horas?");
         }
      
         ShowDecisionButtons();
@@ -344,7 +345,11 @@ public class MisionLevelManager : MonoBehaviour
         if (_shouldSleep) //si esta _shouldSleep es que es una pregunta de dormir si o no
         {
             if (!yes) _sleptHours -= _hourPerSleep; //si no duerme se restan horas de sue�o
-            _sleeping = yes;
+
+            float sleepRatio = (float)_sleptHours / (float)_totalSleepHours; //si da algo distinto entre 0 y 1 vamos mal
+            float vignetteAlpha = 1f - sleepRatio;
+            if (yes) _misionUIManager.SetSleepVignette(0); //se resetea 
+            else _misionUIManager.SetSleepVignette(vignetteAlpha);
             Sleep(yes);
             _shouldSleep = false;
 
@@ -736,6 +741,7 @@ public class MisionLevelManager : MonoBehaviour
 
         //en esto lo unico que me da mal rollo es que no hacemos instance null al misionlevelmanager porque necesitamos sus datos
         //pero lo podemos coger en el start y borrar luego o en el update poner un metodo de if levelfinished no hacer lo del tiempo etc
+        //edit: ahora se pausa
         if (Input.GetKeyDown(KeyCode.R))
         {
             SceneLoader.LoadScene("MC_Resumen");
@@ -750,18 +756,9 @@ public class MisionLevelManager : MonoBehaviour
         }
     }
 
-    void SetSleepVignette()
-    {
-        float sleepRatio = (float)_sleptHours / (float)_totalSleepHours; //si da algo distinto entre 0 y 1 vamos mal
-        float vignetteAlpha = 1f - sleepRatio;
-        Debug.Log("Sleeping hours " + _sleptHours + " " + _totalSleepHours);
+ 
 
-        Debug.Log("Sleeping vignette ratio " + sleepRatio);
 
-        Debug.Log("Sleeping vignette alpha " + vignetteAlpha);
-
-        _misionUIManager.SetSleepVignetteAlpha(vignetteAlpha);
-    }
     public int HourPerSleep => _hourPerSleep; // getter de solo lectura
     public int SleptHours => _sleptHours;
     public int TotalSleepHours => _totalSleepHours;
