@@ -16,7 +16,7 @@ public class MoveTruck : MonoBehaviour
     private int currentIndexPoint = 0;
     private bool isMoving = true;
 
-    private bool subiendo;
+    private bool oscilatingUpwards;
     private float currentAngle = 0f;
 
     private int level; //para saber que mapa poner y seguir, es (levelID - 1)
@@ -51,8 +51,9 @@ public class MoveTruck : MonoBehaviour
         {
             if (child.gameObject.activeSelf) // por si algún punto está desactivado, pero vamos que entonces para qué lo pondrias
             {
+                //tienen imagenes para poder colocarlos mas rapido en el inspector, ahora las quitamos
                 if(child.gameObject.GetComponent<Image>() != null)
-                    child.gameObject.GetComponent<Image>().enabled = false; //para que no se vean
+                    child.gameObject.GetComponent<Image>().enabled = false; //para que no se vean los puntos
 
                 pointsList.Add(child);
             }
@@ -82,13 +83,10 @@ public class MoveTruck : MonoBehaviour
       
         Vector3 targetPos = pointsList[currentIndexPoint + 1].position;
 
-        truck.transform.position = Vector3.MoveTowards(
-            truck.transform.position,
-            targetPos,
-            speed * Time.deltaTime
-        );
+        truck.transform.position = Vector3.MoveTowards(truck.transform.position, targetPos, speed * Time.deltaTime);
 
-        if (Vector3.Distance(truck.transform.position, targetPos) < 1f)
+
+        if (Vector3.Distance(truck.transform.position, targetPos) < 1f) //si esta en el target, cambia de target al siguiente
         {
             currentIndexPoint++;
 
@@ -110,15 +108,15 @@ public class MoveTruck : MonoBehaviour
 
     private void Oscila()
     {
-        if (subiendo)
+        if (oscilatingUpwards)
         {
             currentAngle += oscillationSpeed * Time.deltaTime;
-            if (currentAngle >= oscillationAngle) subiendo = false;
+            if (currentAngle >= oscillationAngle) oscilatingUpwards = false;
         }
         else
         {
             currentAngle -= oscillationSpeed * Time.deltaTime;
-            if (currentAngle <= -oscillationAngle) subiendo = true;
+            if (currentAngle <= -oscillationAngle) oscilatingUpwards = true;
         }
 
         truck.transform.rotation = Quaternion.Euler(0, 0, currentAngle);

@@ -52,9 +52,8 @@ public class ShowResumen : MonoBehaviour
 
         int numChecks = checkElements.Count;
 
-        //numSleepHours = MisionLevelManager.Instance._sleepHours;
-        //horaSalida = MisionLevelManager.Instance._sleepHours;
-        //paradasCorrectas = MisionLevelManager.Instance._stops.count etc
+
+        //para hacer pruebas
         numSleepHours = 8;
         horaSalida = "12AM";
         paradasCorrectas = 0;
@@ -154,9 +153,7 @@ public class ShowResumen : MonoBehaviour
 
         audioManager.PlayWinLoseSound(win);
 
-
         winLoseText.gameObject.SetActive(true);
-        //tiene que tener los dos textos de hijos, prefiero eso a cambiar el texto de uno
         winLoseText.text = win ? winText : loseText;
 
         Color winColor = new Color(87f / 255f, 126f / 255f, 215f / 255f, 1f);

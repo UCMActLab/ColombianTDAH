@@ -220,7 +220,11 @@ public class MisionUIManager : MonoBehaviour
     public void SetSleepVignette(float alpha)
     {
         alpha += 0.25f; //intensificar que si no no se ve mucho al principio
-        if (alpha > 1.0f) alpha = 1.0f;
+        if (alpha >= 1.0f) {
+            alpha = 1.0f;
+            Blink();
+        
+        }
         Debug.Log("Sleeping vignette alpha " + alpha);
         // _misionUIManager.SetSleepVignetteAlpha(alpha);
         if (_vignetteFadeCoroutine != null) // si ya existe una la paramos, solo deberia ocurrir una simultanea
@@ -231,10 +235,7 @@ public class MisionUIManager : MonoBehaviour
 
     public void Blink()
     {
-        //if (_blinkRoutine != null)
-        //    StopCoroutine(_blinkRoutine);
-
-        //_blinkRoutine = StartCoroutine(BlinkRoutine());
+      
 
         if (_blinkRoutine == null) //solo empieza a hacer blink si no hay uno ocurriendo ya
             _blinkRoutine = StartCoroutine(BlinkRoutine());

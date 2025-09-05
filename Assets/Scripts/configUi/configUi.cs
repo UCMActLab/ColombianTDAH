@@ -433,7 +433,6 @@ public class configUi : MonoBehaviour
 
         input_carrilesN.value = config.NumCarriles;
         input_delfinesN.value = config.NumDelfines;
-        //input_fase1Complet = config.fa;
 
         input_obstaclesTroncoEnabled.value = config.ObstaclesTroncoEnabled;
         input_obstaclesBarcaEnabled.value = config.ObstaclesBarcaEnabled;

@@ -212,10 +212,11 @@ public class EventRegister : MonoBehaviour
 
 
 
-    //hecho post juego porque convenia iniciar en otra parte
-    //ESTE ES EL METODO QUE HAY QUE USAR AL EMPEZAR TU JUEGO PARA HACER EL EVENTO DE INICIO
+    //ESTE ES EL METODO QUE HAY QUE USAR AL EMPEZAR TU JUEGO PARA HACER EL EVENTO DE INICIO y que se haga el de inicio y del paciente a la vez
+    //ejemplo: EventRegister.Instance.AddInitialEvent(EventRegister.EventosInfo.Inicio, "nivel " + levelId.ToString("00"), EventRegister.TipoJuego.Delfines);
     public void AddInitialEvent(EventosInfo evento, string info, TipoJuego juego)
     {
+
         if (currentGamePlaying == juego && canWrite) //si se puede escribir y estamos en el mismo juego
         {
             //pone el evento de inicio del nivel
@@ -258,18 +259,15 @@ public class EventRegister : MonoBehaviour
     public void WriteStart()
     {
 
-        WriteEnd();//cerramos archivo si habia alguno abierto
+        WriteEnd();// Cerramos archivo si habia alguno abierto
 
         auxEvntInfo = new List<Tuple<EventRegister.EventosInfo, string>>();
         CreateDir();
 
-        // Quitar extensión por si WritePath viene con .json de un uso anterior
+        // Quitar extension por si WritePath viene con .json de un uso anterior
         WritePath = System.IO.Path.GetFileNameWithoutExtension(WritePath);
 
         IncrementPath();
-        //  extensión .json 
-       // WritePath += ".json";
-
 
         WriteTo = System.IO.Path.Combine(WriteDir, WritePath);
 
@@ -292,29 +290,28 @@ public class EventRegister : MonoBehaviour
     {
         int it = 1;
 
-        // Nombre base sin extensión y sin corchetes
+        // Nombre base sin extension y sin corchetes, ya se supone que no hay corchetes
         string baseName = System.IO.Path.GetFileNameWithoutExtension(WritePath);
         int bracketIndex = baseName.IndexOf('[');
         if (bracketIndex >= 0)
             baseName = baseName.Substring(0, bracketIndex);
 
-        //string candidate = baseName + ".json";
-        string candidate = $"{baseName}.json"; // Empieza directamente en [01]
+        string candidate = $"{baseName}.json"; 
 
-        // Mientras exista, generamos [01], [02]...
+        // Mientras exista generamos 01, 02...
         while (System.IO.File.Exists(System.IO.Path.Combine(WriteDir, candidate)) && it < 100)
         {
             candidate = $"{baseName}_{it:00}.json";
             it++;
         }
 
-        WritePath = candidate; // Esto ya incluye la extensión .json
+        WritePath = candidate; // incluye la extension .json
     }
 
     public void AddToEvnt(Tuple<EventRegister.EventosInfo, string> evntData)
     {
         auxEvntInfo.Add(evntData);
-        if (whitePixelEvents[(int)evntData.Item1]) //si su correspondiente evnto está a true activa los pixels
+        if (whitePixelEvents[(int)evntData.Item1]) // Si su correspondiente evento está a true activa los pixels
         {
             ActivateWhitePixels();
         }
@@ -331,7 +328,7 @@ public class EventRegister : MonoBehaviour
 
             string text = "{\n" +
                $"    \"Tiempo\": \"{DateTime.UtcNow.AddHours(-5):yyyy-MM-dd HH:mm:ss.fff}\",\n" +
-               "    \"Eventos\": [\n        "; //vamos a poner los eventos en un array por si hay dos o mas eventos del mismo tipo a la vez no tener claves duplicadas
+               "    \"Eventos\": [\n        "; // Vamos a poner los eventos en un array por si hay dos o mas eventos del mismo tipo a la vez no tener claves duplicadas
 
             List<string> eventosJson = new List<string>();
 
@@ -341,7 +338,7 @@ public class EventRegister : MonoBehaviour
 
                 if (EventoMensajes.TryGetValue(evento.Item1, out string mensaje))
                 {
-                    eventosJson.Add($"{{ \"{mensaje}\": \"{evento.Item2}\" }}"); //algunos item2 (mensaje extra) estan vacios pero no afecta
+                    eventosJson.Add($"{{ \"{mensaje}\": \"{evento.Item2}\" }}"); // Algunos item2 (mensaje extra) estan vacios pero no afecta
                 }
             }
 
@@ -365,7 +362,7 @@ public class EventRegister : MonoBehaviour
     }
     public void WriteEnd()
     {
-        if (!canWrite) return; //si no está empezada la escritura que tampoco pueda finalizarse
+        if (!canWrite) return; // Si no está empezada la escritura que tampoco pueda finalizarse
 
         Debug.Log("Escribiendo fin del json.");
         System.IO.FileStream fs = new System.IO.FileStream(WriteTo, System.IO.FileMode.Append, System.IO.FileAccess.Write);
@@ -376,7 +373,7 @@ public class EventRegister : MonoBehaviour
         fs.Close();
         canWrite = false;
 
-        // Restaurar base sin extensión para el próximo uso
+        // volvemos a sin .json
         WritePath = System.IO.Path.GetFileNameWithoutExtension(WritePath);
     }
 
@@ -392,7 +389,7 @@ public class EventRegister : MonoBehaviour
         return $"{id}_{juego}_{fechaStr}_{numSesion}.json";
     }
 
-    //no sé si prefiero avisar de que no pongan cosas raras porque sera nombre de archivo o hacer esto xd
+    // Ahora mismo no se limpia la string del nombre del archivo para dar libertad
     private string CleanString(string input)
     {
         if (string.IsNullOrEmpty(input))
@@ -413,7 +410,7 @@ public class EventRegister : MonoBehaviour
 
         string cleanInput = sb.ToString();
 
-        // 2. Sustituir ñ por n
+        // 2. Sustituir enye por n
         cleanInput = cleanInput.Replace('ñ', 'n').Replace('Ñ', 'N');
 
         // 3. Quitar caracteres invalidos del sistema de archivos
@@ -428,7 +425,7 @@ public class EventRegister : MonoBehaviour
 
         cleanInput = cleanInput.Replace("@", "a");
 
-        // 5. Filtrar solo letras, numeros y "_-"
+        // 5. Quedarnos solo con letras, numeros y "_-"
         StringBuilder finalSb = new StringBuilder();
         foreach (char c in cleanInput)
         {
@@ -452,4 +449,6 @@ public class EventRegister : MonoBehaviour
     {
         return infoSesion.idPaciente;
     }
+
+
 }

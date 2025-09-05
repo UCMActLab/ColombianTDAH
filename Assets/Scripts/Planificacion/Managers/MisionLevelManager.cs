@@ -30,7 +30,7 @@ public class MisionLevelManager : MonoBehaviour
     float _auxCont = 0; // Contador aparicion paradas en ejecucion
     float _sleepFade = 5;
     float _sleepAuxCont = 0;
-    float _realSegsPerStop = 0.5f;
+    float _realSegsPerStop = 1.5f;
     HourMinSec _gameClock;
     HourMinSec _auxGameCont;
     int _auxHourClock;
@@ -741,7 +741,7 @@ public class MisionLevelManager : MonoBehaviour
 
         //en esto lo unico que me da mal rollo es que no hacemos instance null al misionlevelmanager porque necesitamos sus datos
         //pero lo podemos coger en el start y borrar luego o en el update poner un metodo de if levelfinished no hacer lo del tiempo etc
-        //edit: ahora se pausa
+        //edit: ahora se pausa y luego se borra al salir del resumen
         if (Input.GetKeyDown(KeyCode.R))
         {
             SceneLoader.LoadScene("MC_Resumen");
