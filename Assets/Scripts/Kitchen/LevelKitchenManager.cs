@@ -101,6 +101,8 @@ public class LevelKitchenManager : MonoBehaviour
     private bool isTutorial = false;
     public event Action OnBookOpenedTutorial;
     public event Action OnTablonOpenedTutorial;
+    public event Action OnBookClosedTutorial;
+    public event Action OnTablonClosedTutorial;
 
     #region properties
     private int NOpenedBook = 0;
@@ -252,6 +254,7 @@ public class LevelKitchenManager : MonoBehaviour
         {
             tablon.GetComponent<Draggable>().enabled = true;
         }));
+        NotifyTablonClosed();
         Debug.Log("TabButton clickado fin");
     }
 
@@ -609,5 +612,7 @@ public class LevelKitchenManager : MonoBehaviour
 
     public void NotifyBookOpened() => OnBookOpenedTutorial?.Invoke();
     public void NotifyTablonOpened() => OnTablonOpenedTutorial?.Invoke();
+    public void NotifyBookClosed() => OnBookClosedTutorial?.Invoke();
+    public void NotifyTablonClosed() => OnTablonClosedTutorial?.Invoke();
     #endregion
 }

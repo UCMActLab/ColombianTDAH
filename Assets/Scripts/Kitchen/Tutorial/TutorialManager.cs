@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 
 public class TutorialManager : MonoBehaviour
 {
-    public enum Step { Intro, OpenBook, OpenTablon, GrabGuayaba, DropOnSliceTable, MakeBocadillo, DeliverBocadillo, End }
+    public enum Step { Intro, Book, Tablon, GrabGuayaba, DropOnSliceTable, MakeBocadillo, DeliverBocadillo, End }
 
     static private TutorialManager _instance;
 
@@ -29,8 +29,9 @@ public class TutorialManager : MonoBehaviour
     private WorkstationProcessor potWs;
     private GameObject guayabaGO;
     private GameObject sugarGO;
+    private BookGestor book;
 
-    private bool bookOpened, tablonOpened, placedOnSliceTable, bocadilloReadyAtPot, bocadilloDelivered;
+    private bool bookOpened, bookClosed, tablonOpened, tablonClosed, placedOnSliceTable, bocadilloReadyAtPot, bocadilloDelivered;
 
     private bool subscribed;
 
@@ -75,6 +76,8 @@ public class TutorialManager : MonoBehaviour
 
         guayabaGO = IngredientSpawnManager.Instance?.GetLiveInstance(guayaba);
         sugarGO = IngredientSpawnManager.Instance?.GetLiveInstance(Ingredientes.Azucar);
+
+        book = FindObjectOfType<BookGestor>(true);
     }
 
 
@@ -87,11 +90,12 @@ public class TutorialManager : MonoBehaviour
     private void TrySubscribe()
     {
         if (subscribed) return;
-        var mgr = LevelKitchenManager.Instance;
-        if (mgr == null) return;
+       
+        LevelKitchenManager.Instance.OnBookOpenedTutorial += HandleBookOpened;
+        LevelKitchenManager.Instance.OnTablonOpenedTutorial += HandleTablonOpened;
+        LevelKitchenManager.Instance.OnBookClosedTutorial += HandleBookClosed;
+        LevelKitchenManager.Instance.OnTablonClosedTutorial += HandleTablonClosed;
 
-        mgr.OnBookOpenedTutorial += HandleBookOpened;
-        mgr.OnTablonOpenedTutorial += HandleTablonOpened;
         WorkstationProcessor.OnItemPlacedGlobal += OnItemPlaced;
         ConveyorBelt.OnDeliveredGlobal += OnDelivered;
 
@@ -101,12 +105,12 @@ public class TutorialManager : MonoBehaviour
     private void TryUnsubscribe()
     {
         if (!subscribed) return;
-        var mgr = LevelKitchenManager.Instance;
-        if (mgr != null)
-        {
-            mgr.OnBookOpenedTutorial -= HandleBookOpened;
-            mgr.OnTablonOpenedTutorial -= HandleTablonOpened;
-        }
+
+        LevelKitchenManager.Instance.OnBookOpenedTutorial -= HandleBookOpened;
+        LevelKitchenManager.Instance.OnTablonOpenedTutorial -= HandleTablonOpened;
+        LevelKitchenManager.Instance.OnBookClosedTutorial -= HandleBookClosed;
+        LevelKitchenManager.Instance.OnTablonClosedTutorial -= HandleTablonClosed;
+
         WorkstationProcessor.OnItemPlacedGlobal -= OnItemPlaced;
         ConveyorBelt.OnDeliveredGlobal -= OnDelivered;
 
@@ -115,6 +119,7 @@ public class TutorialManager : MonoBehaviour
 
     private IEnumerator Run()
     {
+        arrow.Hide();
         // STEP: Intro
         current = Step.Intro;
         ui.ShowLines(new[]
@@ -124,20 +129,27 @@ public class TutorialManager : MonoBehaviour
             "Tendrás que realizar las recetas en el tiempo estimado"           
         });
         yield return WaitClickPanelClosed();
+        Debug.Log("Terminado el 1º paso");
 
-        // STEP: OpenBook
-        current = Step.OpenBook;
-        //highlighter.Highlight(LevelKitchenManager.Instance.GetBook());
+        // STEP: Book
+        current = Step.Book;
+        highlighter.Highlight(book.gameObject);
         ui.ShowLines(new[] { "Primero, abre el libro de recetas." });
         yield return WaitEvent(() => bookOpened);
+        Debug.Log("Libro abierto(tutorial)");
         highlighter.Clear();
+        yield return WaitEvent(() => bookClosed);
+        Debug.Log("Libro cerrado(tutorial)");
 
-        // STEP: OpenTablon
-        current = Step.OpenTablon;
+        // STEP: Tablon
+        current = Step.Tablon;
         //highlighter.Highlight(LevelKitchenManager.Instance.GetTablon());       
         ui.ShowLines(new[] { "Ahora, mira el tablón de tareas." });
         yield return WaitEvent(() => tablonOpened);
+        Debug.Log("Tablon abierto(tutorial)");
         highlighter.Clear();
+        yield return WaitEvent(() => tablonClosed);
+        Debug.Log("Tablon cerrado(tutorial)");
 
         // STEP: GrabGuayaba
         current = Step.GrabGuayaba;
@@ -147,7 +159,7 @@ public class TutorialManager : MonoBehaviour
         yield return WaitUntilDragging(guayabaGO);
         highlighter.Clear();
 
-        // STEP: DropOnChop
+        // STEP: DropOnSliceTable
         current = Step.DropOnSliceTable;
         if (guayabaGO && sliceWs)
         {
@@ -182,15 +194,9 @@ public class TutorialManager : MonoBehaviour
 
     private IEnumerator WaitClickPanelClosed()
     {
-        // Espera a que el panel se cierre
-        while (true)
-        {
-            // Si el panel está inactivo, salimos
-            var p = ui.gameObject.activeInHierarchy;
-            // Usamos el propio panel como referencia
-            yield return new WaitForSeconds(0.1f);
-            if (!ui.gameObject.activeSelf) break;
-        }
+        while (ui != null && ui.IsOpen)
+            yield return null;
+        ui?.Hide();
     }
 
     private IEnumerator WaitEvent(System.Func<bool> cond)
@@ -237,7 +243,9 @@ public class TutorialManager : MonoBehaviour
     }
     
     private void HandleBookOpened() { bookOpened = true; }
+    private void HandleBookClosed() { bookClosed = true; }
     private void HandleTablonOpened() { tablonOpened = true; }
+    private void HandleTablonClosed() { tablonClosed = true; }
 
     void OnDestroy()
     {
@@ -245,6 +253,8 @@ public class TutorialManager : MonoBehaviour
         {
             LevelKitchenManager.Instance.OnBookOpenedTutorial -= HandleBookOpened;
             LevelKitchenManager.Instance.OnTablonOpenedTutorial -= HandleTablonOpened;
+            LevelKitchenManager.Instance.OnBookClosedTutorial -= HandleBookClosed;
+            LevelKitchenManager.Instance.OnTablonClosedTutorial -= HandleTablonClosed;
         }
     }
     #endregion

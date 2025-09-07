@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.Windows;
 
 public class BookGestor : MonoBehaviour
 {
@@ -99,6 +98,8 @@ public class BookGestor : MonoBehaviour
         }
 
         myCanvas.FadeOut();
+
+        LevelKitchenManager.Instance?.NotifyBookClosed(); // Para el tutorial
 
         // Iniciar el movimiento con rotación
         StartCoroutine(MoverLibro(transform, initialTransform.position, initialTransform.rotation, moveDuration, () =>
