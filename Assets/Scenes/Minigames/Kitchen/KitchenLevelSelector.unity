@@ -2550,7 +2550,7 @@ MonoBehaviour:
   - nombre: Cocada
     sprites:
       spriteLibro: {fileID: 0}
-      spriteTablon: {fileID: 0}
+      spriteTablon: {fileID: 2800000, guid: a2bce50da6e2ca04794c8d6a5aa0e5b4, type: 3}
   - nombre: Empanadas
     sprites:
       spriteLibro: {fileID: 0}
@@ -2590,7 +2590,7 @@ MonoBehaviour:
   - nombre: Natilla
     sprites:
       spriteLibro: {fileID: 0}
-      spriteTablon: {fileID: 0}
+      spriteTablon: {fileID: 2800000, guid: 671c386b8092dd648aa337251cdd1463, type: 3}
   - nombre: Pandebonos
     sprites:
       spriteLibro: {fileID: 0}
@@ -2610,7 +2610,7 @@ MonoBehaviour:
   - nombre: Tamal
     sprites:
       spriteLibro: {fileID: 0}
-      spriteTablon: {fileID: 0}
+      spriteTablon: {fileID: 2800000, guid: 4fa089eb551d5b7429e089d94354c60a, type: 3}
 --- !u!4 &1005304898
 Transform:
   m_ObjectHideFlags: 0
