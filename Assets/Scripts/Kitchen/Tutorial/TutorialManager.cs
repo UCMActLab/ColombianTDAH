@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 
 public class TutorialManager : MonoBehaviour
 {
-    public enum Step { Intro, Book, Tablon, GrabGuayaba, DropOnSliceTable, MakeBocadillo, DeliverBocadillo, End }
+    public enum Step { Intro, Tablon, Book, GrabGuayaba, DropOnSliceTable, MakeBocadillo, DeliverBocadillo, End }
 
     static private TutorialManager _instance;
 
@@ -21,6 +21,7 @@ public class TutorialManager : MonoBehaviour
 
     [Header("Ingredientes&Puestos")]
     [SerializeField] private Ingredientes guayaba = Ingredientes.Guayaba;
+    [SerializeField] private Ingredientes sugar = Ingredientes.Azucar;
     [SerializeField] private PuestosDeTrabajo sliceTable = PuestosDeTrabajo.Tabla_De_Picar;
     [SerializeField] private PuestosDeTrabajo pot = PuestosDeTrabajo.Olla;
 
@@ -31,7 +32,7 @@ public class TutorialManager : MonoBehaviour
     private GameObject sugarGO;
     private BookGestor book;
 
-    private bool bookOpened, bookClosed, tablonOpened, tablonClosed, placedOnSliceTable, bocadilloReadyAtPot, bocadilloDelivered;
+    private bool tablonOpened, tablonClosed, bookOpened, bookClosed, placedOnSliceTable, bocadilloReadyAtPot, bocadilloDelivered;
 
     private bool subscribed;
 
@@ -75,7 +76,7 @@ public class TutorialManager : MonoBehaviour
         potWs = FindObjectsOfType<WorkstationProcessor>().FirstOrDefault(w => w.workstationType == pot);
 
         guayabaGO = IngredientSpawnManager.Instance?.GetLiveInstance(guayaba);
-        sugarGO = IngredientSpawnManager.Instance?.GetLiveInstance(Ingredientes.Azucar);
+        sugarGO = IngredientSpawnManager.Instance?.GetLiveInstance(sugar);
 
         book = FindObjectOfType<BookGestor>(true);
     }
@@ -96,7 +97,9 @@ public class TutorialManager : MonoBehaviour
         LevelKitchenManager.Instance.OnBookClosedTutorial += HandleBookClosed;
         LevelKitchenManager.Instance.OnTablonClosedTutorial += HandleTablonClosed;
 
+        WorkstationProcessor.OnIngredientSpawnedGlobal += OnIngredientSpawned;
         WorkstationProcessor.OnItemPlacedGlobal += OnItemPlaced;
+        WorkstationProcessor.OnRecipeCraftedGlobal += OnRecipeCrafted;
         ConveyorBelt.OnDeliveredGlobal += OnDelivered;
 
         subscribed = true;
@@ -111,7 +114,9 @@ public class TutorialManager : MonoBehaviour
         LevelKitchenManager.Instance.OnBookClosedTutorial -= HandleBookClosed;
         LevelKitchenManager.Instance.OnTablonClosedTutorial -= HandleTablonClosed;
 
+        WorkstationProcessor.OnIngredientSpawnedGlobal -= OnIngredientSpawned;
         WorkstationProcessor.OnItemPlacedGlobal -= OnItemPlaced;
+        WorkstationProcessor.OnRecipeCraftedGlobal -= OnRecipeCrafted;
         ConveyorBelt.OnDeliveredGlobal -= OnDelivered;
 
         subscribed = false;
@@ -126,37 +131,44 @@ public class TutorialManager : MonoBehaviour
         {
             "¡Bienvenido a la cocina!",
             "Aquí aprenderás lo básico en pocos pasos.",
-            "Tendrás que realizar las recetas en el tiempo estimado"           
+            "Tendrás que realizar las recetas en el tiempo estimado"  ,
+            "Primero, mira el tablón de tareas."
         });
         yield return WaitClickPanelClosed();
         Debug.Log("Terminado el 1º paso");
 
-        // STEP: Book
-        current = Step.Book;
-        highlighter.Highlight(book.gameObject);
-        ui.ShowLines(new[] { "Primero, abre el libro de recetas." });
-        yield return WaitEvent(() => bookOpened);
-        Debug.Log("Libro abierto(tutorial)");
-        highlighter.Clear();
-        yield return WaitEvent(() => bookClosed);
-        Debug.Log("Libro cerrado(tutorial)");
-
         // STEP: Tablon
         current = Step.Tablon;
-        //highlighter.Highlight(LevelKitchenManager.Instance.GetTablon());       
-        ui.ShowLines(new[] { "Ahora, mira el tablón de tareas." });
+        //highlighter.Highlight(LevelKitchenManager.Instance.GetTablon());         
         yield return WaitEvent(() => tablonOpened);
         Debug.Log("Tablon abierto(tutorial)");
         highlighter.Clear();
         yield return WaitEvent(() => tablonClosed);
         Debug.Log("Tablon cerrado(tutorial)");
 
+        // STEP: Book
+        current = Step.Book;
+        highlighter.Highlight(book.gameObject);
+        ui.ShowLines(new[] { "Ahora, abre el libro de recetas." });
+        yield return WaitClickPanelClosed();
+        yield return WaitEvent(() => bookOpened);
+        Debug.Log("Libro abierto(tutorial)");
+        highlighter.Clear();
+        yield return WaitEvent(() => bookClosed);
+        Debug.Log("Libro cerrado(tutorial)");
+
         // STEP: GrabGuayaba
         current = Step.GrabGuayaba;
         RefreshIngredientRefs(); // Por si había respawn
         if (guayabaGO) highlighter.Highlight(guayabaGO);
-        ui.ShowLines(new[] { "Agarra la guayaba." });
+        ui.ShowLines(new[] 
+        { 
+            "¡Muy bien! Ya sabemos que necesitamos",
+            "Ahora agarra la guayaba y llévala a la tabla de cortar." 
+        });
+        yield return WaitClickPanelClosed();
         yield return WaitUntilDragging(guayabaGO);
+        Debug.Log("Guayaba agarrada(tutorial)");
         highlighter.Clear();
 
         // STEP: DropOnSliceTable
@@ -166,29 +178,38 @@ public class TutorialManager : MonoBehaviour
             highlighter.Highlight(sliceWs.gameObject);
             if (arrow) arrow.Set(GetAnchor(guayabaGO), sliceWs.spawnPoint);
         }
-        ui.ShowLines(new[] { "Llévalo a la tabla de cortar." });
         yield return WaitEvent(() => placedOnSliceTable);
+        Debug.Log("Guayaba en tabla de cortar(tutorial)");
         highlighter.Clear();
         if (arrow) arrow.Hide();
+        yield return WaitEvent(() => guayabaGO != null &&
+                     guayabaGO.GetComponent<ProcessableIngredient>()?.ingredientType == guayaba);
 
         // STEP: MakeBocadillo
-        current = Step.MakeBocadillo;
-        RefreshIngredientRefs(); // La guayaba cortada y el azucar deberían existir
+        current = Step.MakeBocadillo;   
         if (potWs) highlighter.Highlight(potWs.gameObject);
-        ui.ShowLines(new[] { "Ahora prepara un bocadillo en la olla. Necesitas guayaba picada y azúcar." });
+        ui.ShowLines(new[] 
+        {
+            "Tras un tiempo...La guayaba se procesa",
+            "Ahora prepara un bocadillo en la olla. Necesitas guayaba picada y azúcar." 
+        });
+        yield return WaitClickPanelClosed();
         yield return WaitEvent(() => bocadilloReadyAtPot);
         highlighter.Clear();
+        Debug.Log("Bocadillo hecho(tutorial)");
 
         // STEP: DeliverJuice
         current = Step.DeliverBocadillo;
         ui.ShowLines(new[] { "¡Perfecto! Lleva el bocadillo a la cinta transportadora para entregarlo." });
+        yield return WaitClickPanelClosed();
         yield return WaitEvent(() => bocadilloDelivered);
+        Debug.Log("Bocadillo puesto en la cinta(tutorial)");
 
         // STEP: End
         current = Step.End;
         ui.ShowLines(new[] { "¡Tutorial completado! Ya puedes empezar a cocinar por tu cuenta." });
         yield return WaitClickPanelClosed();
-
+        Debug.Log("Tutorial terminado");
         // SceneManager.LoadScene("KitchenLevelSelector");
     }
 
@@ -215,7 +236,7 @@ public class TutorialManager : MonoBehaviour
     {
         if (!IngredientSpawnManager.HasInstance) return;
         if (guayabaGO == null) guayabaGO = IngredientSpawnManager.Instance.GetLiveInstance(guayaba);
-        if (sugarGO == null) sugarGO = IngredientSpawnManager.Instance.GetLiveInstance(Ingredientes.Azucar);
+        if (sugarGO == null) sugarGO = IngredientSpawnManager.Instance.GetLiveInstance(sugar);
     }
 
     private Transform GetAnchor(GameObject go)
@@ -224,15 +245,25 @@ public class TutorialManager : MonoBehaviour
         return t ? t : go.transform;
     }
 
+    private void OnIngredientSpawned(Ingredientes ing, GameObject go)
+    {
+        if (ing == guayaba)
+            guayabaGO = go; // Ahora guayabaGO apunta a la guayaba picada
+    }
+
     private void OnItemPlaced(Ingredientes ing, PuestosDeTrabajo ws)
     {
         if (current == Step.DropOnSliceTable && ing == guayaba && ws == sliceTable)
         {
             placedOnSliceTable = true;
         }
-        if (current == Step.MakeBocadillo && ws == pot)
-        {        
-            bocadilloReadyAtPot = true; 
+    }
+
+    private void OnRecipeCrafted(RecetaData receta, PuestosDeTrabajo ws)
+    {
+        if (current == Step.MakeBocadillo && receta != null && receta == recetaObjetivo && ws == pot)
+        {
+            bocadilloReadyAtPot = true;
         }
     }
 
@@ -256,6 +287,10 @@ public class TutorialManager : MonoBehaviour
             LevelKitchenManager.Instance.OnBookClosedTutorial -= HandleBookClosed;
             LevelKitchenManager.Instance.OnTablonClosedTutorial -= HandleTablonClosed;
         }
+        WorkstationProcessor.OnIngredientSpawnedGlobal -= OnIngredientSpawned;
+        WorkstationProcessor.OnItemPlacedGlobal -= OnItemPlaced;
+        WorkstationProcessor.OnRecipeCraftedGlobal -= OnRecipeCrafted;
+        ConveyorBelt.OnDeliveredGlobal -= OnDelivered;
     }
     #endregion
 }

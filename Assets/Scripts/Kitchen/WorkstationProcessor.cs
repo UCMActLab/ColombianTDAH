@@ -43,7 +43,9 @@ public class WorkstationProcessor : MonoBehaviour
     [SerializeField] private bool immediateSingleProcess;
     #endregion
 
+    public static System.Action<Ingredientes, GameObject> OnIngredientSpawnedGlobal;
     public static event System.Action<Ingredientes, PuestosDeTrabajo> OnItemPlacedGlobal;
+    public static System.Action<RecetaData, PuestosDeTrabajo> OnRecipeCraftedGlobal;
 
     #region methods
     void Start()
@@ -54,6 +56,7 @@ public class WorkstationProcessor : MonoBehaviour
     public void OnItemPlaced(ProcessableIngredient pi)
     {
         if (processed || pi == null) return;
+        OnItemPlacedGlobal?.Invoke(pi.ingredientType, workstationType);
 
         // Lo que se selecciona para cada jornada
         var seleccion = LevelKitchenManager.Instance != null
@@ -150,7 +153,10 @@ public class WorkstationProcessor : MonoBehaviour
         // Spawn ingrediente procesado
         if (data.processedRecipe != null)
         {
-            Instantiate(data.processedRecipe, spawnPoint.position, spawnPoint.rotation);
+            var go = Instantiate(data.processedRecipe, spawnPoint.position, spawnPoint.rotation);
+            var pi = go.GetComponent<ProcessableIngredient>();
+            if (pi != null) OnIngredientSpawnedGlobal?.Invoke(pi.ingredientType, go);
+            OnRecipeCraftedGlobal?.Invoke(data, workstationType);
             Debug.Log("Ingrediente Procesado");
         }
             
@@ -207,6 +213,7 @@ public class WorkstationProcessor : MonoBehaviour
         if (data.processedRecipe)
         {
             var go = Instantiate(data.processedRecipe, spawnPoint.position, spawnPoint.rotation);
+            OnRecipeCraftedGlobal?.Invoke(data, workstationType);
             if (!data.esIntermedia)
             {
                 var cd = go.GetComponent<CompletedRecipe>() ?? go.AddComponent<CompletedRecipe>();

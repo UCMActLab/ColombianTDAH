@@ -1582,6 +1582,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: TutorialSystem
       objectReference: {fileID: 0}
+    - target: {fileID: 3720594777896633241, guid: d9cef7909b86fed45b97576dd9234360, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3829961728707300037, guid: d9cef7909b86fed45b97576dd9234360, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6161079298286553628, guid: d9cef7909b86fed45b97576dd9234360, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -1620,6 +1628,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6161079298286553628, guid: d9cef7909b86fed45b97576dd9234360, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6861413275142902860, guid: d9cef7909b86fed45b97576dd9234360, type: 3}
+      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8596776700531360584, guid: d9cef7909b86fed45b97576dd9234360, type: 3}
