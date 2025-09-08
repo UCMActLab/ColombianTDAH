@@ -283,6 +283,7 @@ GameObject:
   - component: {fileID: 31308211}
   - component: {fileID: 31308210}
   - component: {fileID: 31308214}
+  - component: {fileID: 31308215}
   m_Layer: 0
   m_Name: BotonManana (2)
   m_TagString: Untagged
@@ -419,6 +420,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e5400aec144f34b40a417999b11460f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &31308215
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 31308208}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc07af019fbdb8e4c8f9aae6413900d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tipoTurno: 0
+  tipoTurnoEstado: 0
+  jornada: 0
 --- !u!1 &94374773
 GameObject:
   m_ObjectHideFlags: 0
@@ -433,6 +449,7 @@ GameObject:
   - component: {fileID: 94374776}
   - component: {fileID: 94374775}
   - component: {fileID: 94374779}
+  - component: {fileID: 94374780}
   m_Layer: 0
   m_Name: BotonManana (2)
   m_TagString: Untagged
@@ -569,6 +586,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e5400aec144f34b40a417999b11460f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &94374780
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 94374773}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc07af019fbdb8e4c8f9aae6413900d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tipoTurno: 0
+  tipoTurnoEstado: 0
+  jornada: 0
 --- !u!1 &192309306
 GameObject:
   m_ObjectHideFlags: 0
@@ -648,6 +680,7 @@ GameObject:
   - component: {fileID: 254398322}
   - component: {fileID: 254398321}
   - component: {fileID: 254398325}
+  - component: {fileID: 254398326}
   m_Layer: 0
   m_Name: BotonManana (1)
   m_TagString: Untagged
@@ -784,6 +817,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e5400aec144f34b40a417999b11460f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &254398326
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 254398319}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc07af019fbdb8e4c8f9aae6413900d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tipoTurno: 0
+  tipoTurnoEstado: 0
+  jornada: 0
 --- !u!1 &333002628
 GameObject:
   m_ObjectHideFlags: 0
@@ -798,6 +846,7 @@ GameObject:
   - component: {fileID: 333002631}
   - component: {fileID: 333002630}
   - component: {fileID: 333002634}
+  - component: {fileID: 333002635}
   m_Layer: 0
   m_Name: BotonManana (1)
   m_TagString: Untagged
@@ -934,6 +983,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e5400aec144f34b40a417999b11460f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &333002635
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 333002628}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc07af019fbdb8e4c8f9aae6413900d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tipoTurno: 0
+  tipoTurnoEstado: 0
+  jornada: 0
 --- !u!1001 &364958037
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1106,6 +1170,7 @@ GameObject:
   - component: {fileID: 417432482}
   - component: {fileID: 417432481}
   - component: {fileID: 417432485}
+  - component: {fileID: 417432486}
   m_Layer: 0
   m_Name: BotonManana (2)
   m_TagString: Untagged
@@ -1242,6 +1307,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e5400aec144f34b40a417999b11460f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &417432486
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 417432479}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc07af019fbdb8e4c8f9aae6413900d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tipoTurno: 0
+  tipoTurnoEstado: 0
+  jornada: 0
 --- !u!1 &432882890
 GameObject:
   m_ObjectHideFlags: 0
@@ -1713,6 +1793,7 @@ GameObject:
   - component: {fileID: 596735888}
   - component: {fileID: 596735887}
   - component: {fileID: 596735891}
+  - component: {fileID: 596735892}
   m_Layer: 0
   m_Name: BotonManana (1)
   m_TagString: Untagged
@@ -1849,6 +1930,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e5400aec144f34b40a417999b11460f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &596735892
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 596735885}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc07af019fbdb8e4c8f9aae6413900d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tipoTurno: 0
+  tipoTurnoEstado: 0
+  jornada: 0
 --- !u!1 &615562842
 GameObject:
   m_ObjectHideFlags: 0
@@ -1938,6 +2034,7 @@ GameObject:
   - component: {fileID: 670926882}
   - component: {fileID: 670926881}
   - component: {fileID: 670926885}
+  - component: {fileID: 670926886}
   m_Layer: 0
   m_Name: BotonManana
   m_TagString: Untagged
@@ -2074,6 +2171,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e5400aec144f34b40a417999b11460f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &670926886
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 670926879}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc07af019fbdb8e4c8f9aae6413900d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tipoTurno: 0
+  tipoTurnoEstado: 0
+  jornada: 0
 --- !u!1 &696250685
 GameObject:
   m_ObjectHideFlags: 0
@@ -2272,6 +2384,7 @@ GameObject:
   - component: {fileID: 853596076}
   - component: {fileID: 853596075}
   - component: {fileID: 853596079}
+  - component: {fileID: 853596080}
   m_Layer: 0
   m_Name: BotonManana (2)
   m_TagString: Untagged
@@ -2408,6 +2521,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e5400aec144f34b40a417999b11460f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &853596080
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 853596073}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc07af019fbdb8e4c8f9aae6413900d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tipoTurno: 0
+  tipoTurnoEstado: 0
+  jornada: 0
 --- !u!1 &962489553
 GameObject:
   m_ObjectHideFlags: 0
@@ -3277,6 +3405,7 @@ GameObject:
   - component: {fileID: 1575904966}
   - component: {fileID: 1575904965}
   - component: {fileID: 1575904969}
+  - component: {fileID: 1575904970}
   m_Layer: 0
   m_Name: BotonManana
   m_TagString: Untagged
@@ -3413,6 +3542,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e5400aec144f34b40a417999b11460f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1575904970
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1575904963}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc07af019fbdb8e4c8f9aae6413900d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tipoTurno: 0
+  tipoTurnoEstado: 0
+  jornada: 0
 --- !u!1 &1635864695
 GameObject:
   m_ObjectHideFlags: 0
@@ -3427,6 +3571,7 @@ GameObject:
   - component: {fileID: 1635864698}
   - component: {fileID: 1635864697}
   - component: {fileID: 1635864701}
+  - component: {fileID: 1635864702}
   m_Layer: 0
   m_Name: BotonManana
   m_TagString: Untagged
@@ -3563,6 +3708,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e5400aec144f34b40a417999b11460f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1635864702
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1635864695}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc07af019fbdb8e4c8f9aae6413900d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tipoTurno: 0
+  tipoTurnoEstado: 0
+  jornada: 0
 --- !u!1 &1674307911
 GameObject:
   m_ObjectHideFlags: 0
@@ -3784,6 +3944,7 @@ GameObject:
   - component: {fileID: 1723031563}
   - component: {fileID: 1723031562}
   - component: {fileID: 1723031566}
+  - component: {fileID: 1723031567}
   m_Layer: 0
   m_Name: BotonManana (1)
   m_TagString: Untagged
@@ -3920,6 +4081,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e5400aec144f34b40a417999b11460f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1723031567
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1723031560}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc07af019fbdb8e4c8f9aae6413900d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tipoTurno: 0
+  tipoTurnoEstado: 0
+  jornada: 0
 --- !u!1 &1729851224
 GameObject:
   m_ObjectHideFlags: 0
@@ -3978,6 +4154,7 @@ GameObject:
   - component: {fileID: 1733584489}
   - component: {fileID: 1733584488}
   - component: {fileID: 1733584492}
+  - component: {fileID: 1733584493}
   m_Layer: 0
   m_Name: BotonManana (2)
   m_TagString: Untagged
@@ -4114,6 +4291,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e5400aec144f34b40a417999b11460f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1733584493
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1733584486}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc07af019fbdb8e4c8f9aae6413900d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tipoTurno: 0
+  tipoTurnoEstado: 0
+  jornada: 0
 --- !u!1 &1817812972
 GameObject:
   m_ObjectHideFlags: 0
@@ -4128,6 +4320,7 @@ GameObject:
   - component: {fileID: 1817812975}
   - component: {fileID: 1817812974}
   - component: {fileID: 1817812978}
+  - component: {fileID: 1817812979}
   m_Layer: 0
   m_Name: BotonManana
   m_TagString: Untagged
@@ -4264,6 +4457,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e5400aec144f34b40a417999b11460f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1817812979
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1817812972}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc07af019fbdb8e4c8f9aae6413900d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tipoTurno: 0
+  tipoTurnoEstado: 0
+  jornada: 0
 --- !u!1 &1841167313
 GameObject:
   m_ObjectHideFlags: 0
@@ -4351,8 +4559,8 @@ GameObject:
   - component: {fileID: 1850756416}
   - component: {fileID: 1850756415}
   - component: {fileID: 1850756414}
-  - component: {fileID: 1850756413}
   - component: {fileID: 1850756417}
+  - component: {fileID: 1850756418}
   m_Layer: 0
   m_Name: BotonManana
   m_TagString: Untagged
@@ -4380,21 +4588,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 141.1, y: 73.6}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1850756413
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1850756411}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bc07af019fbdb8e4c8f9aae6413900d3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  tipoTurno: 0
-  tipoTurnoEstado: 1
-  jornada: 0
 --- !u!114 &1850756414
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4489,6 +4682,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e5400aec144f34b40a417999b11460f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1850756418
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1850756411}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc07af019fbdb8e4c8f9aae6413900d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tipoTurno: 0
+  tipoTurnoEstado: 1
+  jornada: 0
 --- !u!1 &1883509168
 GameObject:
   m_ObjectHideFlags: 0
@@ -4552,6 +4760,7 @@ GameObject:
   - component: {fileID: 1960717935}
   - component: {fileID: 1960717934}
   - component: {fileID: 1960717938}
+  - component: {fileID: 1960717939}
   m_Layer: 0
   m_Name: BotonManana (1)
   m_TagString: Untagged
@@ -4688,6 +4897,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e5400aec144f34b40a417999b11460f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1960717939
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1960717932}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc07af019fbdb8e4c8f9aae6413900d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tipoTurno: 0
+  tipoTurnoEstado: 0
+  jornada: 0
 --- !u!1 &1969801278
 GameObject:
   m_ObjectHideFlags: 0
