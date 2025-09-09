@@ -520,8 +520,15 @@ public class LevelKitchenManager : MonoBehaviour
 
     public void ActivateGame()
     {
-        EventRegister.Instance.AddInitialEvent(EventRegister.EventosInfo.Inicio, "nivel " + SceneLoader.Instance.getCurrentLevelId(EventRegister.TipoJuego.Cocina).ToString("00"), EventRegister.TipoJuego.Cocina);
-        Debug.Log("se pudo iniciar el evento Inicio en KitchenLevelManager.");
+        if (EventRegister.Instance)
+        {
+            EventRegister.Instance.AddInitialEvent(EventRegister.EventosInfo.Inicio, "nivel " + SceneLoader.Instance.getCurrentLevelId(EventRegister.TipoJuego.Cocina).ToString("00"), EventRegister.TipoJuego.Cocina);
+            Debug.Log("se pudo iniciar el evento Inicio en KitchenLevelManager.");
+        }
+        else
+        {
+            Debug.Log("No se pudo iniciar el evento Inicio en KitchenLevelManager.");
+        }  
     }
 
 
