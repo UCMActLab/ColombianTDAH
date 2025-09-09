@@ -69,7 +69,7 @@ public class DolphinLevelSelectorManager : MonoBehaviour
         if (lvl < 0) return;
         else if (lvl > _levelSelectors.Length) lvl = _levelSelectors.Length; //lvl es hasta el 7 
 
-        SceneLoader.Instance.setMaxLevelId(lvl);
+        SceneLoader.Instance.setMaxLevelId(lvl, currentGameType);
 
         _lastUnlocked = -1;
 

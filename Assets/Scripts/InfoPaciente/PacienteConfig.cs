@@ -37,19 +37,21 @@ public class PacienteConfig : MonoBehaviour
         gameObject.SetActive(true);
         edificios.SetActive(false);
 
+        if (EventRegister.Instance != null) { //a veces puede ser nulo si es la primera vez que se enablea y es antes de crearse el event register
+            EventRegister.InfoSesion currentInfo = EventRegister.Instance.GetInfoSesion();
 
-        EventRegister.InfoSesion currentInfo = EventRegister.Instance.GetInfoSesion();
+            // si ya hay datos guardados, ponerlos en los inputs
+            if (!string.IsNullOrWhiteSpace(currentInfo.idPaciente))
+            {
+                pacienteInput.text = currentInfo.idPaciente;
+            }
 
-        // si ya hay datos guardados, ponerlos en los inputs
-        if (!string.IsNullOrWhiteSpace(currentInfo.idPaciente))
-        {
-            pacienteInput.text = currentInfo.idPaciente;
+            if (!string.IsNullOrWhiteSpace(currentInfo.numeroSesion))
+            {
+                sesionInput.text = currentInfo.numeroSesion;
+            }
         }
-
-        if (!string.IsNullOrWhiteSpace(currentInfo.numeroSesion))
-        {
-            sesionInput.text = currentInfo.numeroSesion;
-        }
+       
     }
     private void OnDisable()
     {
@@ -72,6 +74,12 @@ public class PacienteConfig : MonoBehaviour
         string paciente = string.IsNullOrWhiteSpace(pacienteInput.text) ? "TEMP" : pacienteInput.text;
         string numSesion = string.IsNullOrWhiteSpace(sesionInput.text) ? "TEMP" : sesionInput.text;
 
+        //si cambia el numero de la sesion o el paciente que termine el json para empezar otro al meterse en un juego
+        if (EventRegister.Instance.GetInfoSesion().idPaciente != paciente || EventRegister.Instance.GetInfoSesion().numeroSesion != numSesion)
+        {
+            EventRegister.Instance.WriteEnd();
+
+        }
         //todavia no le ponemos el juego porque no ha entrado a ninguno, se pondra al
         infoSesion = new EventRegister.InfoSesion(paciente, numSesion, EventRegister.TipoJuego.DefaultGame); 
 

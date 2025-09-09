@@ -11,7 +11,14 @@ public class OptionsMenu : MonoBehaviour
     public void Toggle()
     {
         gameObject.SetActive(!gameObject.activeSelf);
-        DolphinLevelManager.Instance.Pause(gameObject.activeSelf); // pausa el juego
+
+        EventRegister.TipoJuego gameType = EventRegister.Instance.GetInfoSesion().nombreJuego;
+
+        if (gameType == EventRegister.TipoJuego.Delfines)
+            DolphinLevelManager.Instance.Pause(gameObject.activeSelf); // pausa el juego
+
+        else if(gameType == EventRegister.TipoJuego.MisionColombia)
+            MisionLevelManager.Instance.Pause(gameObject.activeSelf);
     }
 
     public void ToggleWithoutPause()

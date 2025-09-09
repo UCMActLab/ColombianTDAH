@@ -1,6 +1,10 @@
+using System;
+using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using Unity.VisualScripting.FullSerializer;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using static UnityEngine.Rendering.STP;
 
 
@@ -21,19 +25,31 @@ public class MisionLevelManager : MonoBehaviour
     SoundManager _soundManager;
 
     // Time
+    int _freeTime; // Tiempo que no esta durmiendo 
     float _playTimeCont = 0;
     float _auxCont = 0; // Contador aparicion paradas en ejecucion
-    float _realSegsPerStop = 7.5f;
+    float _sleepFade = 5;
+    float _sleepAuxCont = 0;
+    float _realSegsPerStop = 1.5f;
     HourMinSec _gameClock;
+    HourMinSec _auxGameCont;
+    int _auxHourClock;
 
     // Estados
     bool _paused = true;
+    bool _shouldSleep = false;
     bool _sleeping = false;
+    bool _anyQuestionsLeft = true;
+    bool _isSelectedStopQuestion;
 
     // Ask Time
     float _answerTime = 10; // Seconds
     float _timeCont = 0;
     bool _isAnswering = false;
+    int _questionFrecMins;
+    int _goodAnswers = 0;
+    int _badAnswers = 0;
+    int _indexUIQuestion;
 
     // Reglas
     int _stopsN; // Number
@@ -50,19 +66,25 @@ public class MisionLevelManager : MonoBehaviour
     bool[] _allSleepHours;
     int _hourPerSleep;
     int _totalDurationMins;
-    int _totalSleepHours;
+    int _totalSleepHours; //horas que pusiste en la planificacion
+    int _sleptHours; //horas que llevas dormidas
     bool _locMessageCorrect;
+    HashSet<int> _askedSleepTimes = new HashSet<int>(); //para no repetir la pregunta de sue�o en horas que ya se han hecho
 
     // Lista de paradas
     List<string> _stops;
 
     // DECISIONES
     string _startTime;
-    List<string> _selectedStops;
+    List<string> _selectedInitialStops; // Paradas seleccionadas por el jugador al inicio
+    List<string> _selectedStops; // Paradas seleccionadas por el jugador
+    List<string> _selectableStops; // Paradasa que puede seleccionar el jugador
+    List<string> _distractionStops; // Paradas para distraer
     List<string> _selectedSleepTimes;
     List<HourMinSec> selectedSleepTimes;
     List<string> _selectedLocationHours;
     List<HourMinSec> selectedLocationHours;
+    List<HourMinSec> _locHoursList;
 
     // Preguntas
     Dictionary<string, string> _questions = new Dictionary<string, string>();
@@ -73,6 +95,10 @@ public class MisionLevelManager : MonoBehaviour
 
     [SerializeField]
     GameObject _dialogs;
+
+    // Random num
+    System.Random rnd = new System.Random();
+
 
     private void Awake()
     {
@@ -91,6 +117,7 @@ public class MisionLevelManager : MonoBehaviour
     {
         _timeCont = _answerTime;
         _totalDurationMins = 0;
+        _auxGameCont = new HourMinSec();
 
         // Listas
         selectedLocationHours = new List<HourMinSec>();
@@ -98,6 +125,12 @@ public class MisionLevelManager : MonoBehaviour
 
         // Cambia imagen del mapa dependiendo del nivel
         SetMapImage(SceneLoader.Instance.getCurrentLevelId(EventRegister.TipoJuego.MisionColombia));
+
+        // Settea juego
+        EventRegister.InfoSesion infoSesion = EventRegister.Instance.GetInfoSesion();
+        infoSesion.nombreJuego = EventRegister.TipoJuego.MisionColombia;
+        EventRegister.Instance.SetInfoSesion(infoSesion);
+
     }
 
     // Update is called once per frame
@@ -108,20 +141,11 @@ public class MisionLevelManager : MonoBehaviour
         {
             // Actualiza contador tiempo
             if (_isAnswering) UpdateTime();
+            else UpdateClock();
 
-            _playTimeCont += Time.deltaTime;
+            GoToResumenScreen();
 
-            if (_auxCont > _realSegsPerStop)
-            {
-
-                _gameClock += new HourMinSec(0, _stopMins, 0);
-
-                _misionUIManager.ChangeTime(_gameClock);
-
-                _auxCont = 0;
-            }
-            else
-                _auxCont += Time.deltaTime;
+            isLevelFinished();
         }
     }
 
@@ -136,10 +160,15 @@ public class MisionLevelManager : MonoBehaviour
     // Desactiva botones y slider tiempo
     void HideDecisionButtons()
     {
-        Answered();
+        string mensaje = "Pregunta final, no se ha contestado";
+        EventRegister.Instance.AddToEvnt(Tuple.Create(EventRegister.EventosInfo.TerminaDecision, mensaje));
+        EventRegister.Instance.EvntToJson();
+
+        FinishAnswer(); // Sin contestar
+        BadAnswer();
 
         _misionUIManager.HideDecisionButtons();
-        _isAnswering = true;
+        _isAnswering = false;
     }
 
     // Actualiza tiempo
@@ -157,8 +186,181 @@ public class MisionLevelManager : MonoBehaviour
             HideDecisionButtons();
     }
 
+    void UpdateClock()
+    {
+        // Si no est durmiendo
+        if (!_shouldSleep && !_sleeping)
+        {
+
+            _playTimeCont += Time.deltaTime;
+
+            if (_auxCont >= _realSegsPerStop)
+            {
+
+                _gameClock += new HourMinSec(0, _stopMins, 0); // Reloj juego
+                int gameMins = _auxGameCont.Minutes + _stopMins;
+                _auxGameCont = new HourMinSec(0, gameMins, 0); // Aumento contador
+                //Debug.Log(_auxGameCont.Minutes);
+                _misionUIManager.ChangeTime(_gameClock); // Cambio en UI
+
+                _auxCont = 0; // Reinicio contador
+
+                // Actualizo dormir
+                UpdateSleep();
+
+                if (!_shouldSleep &&!_sleeping && _anyQuestionsLeft)
+                {
+
+                    if (_auxGameCont.Minutes >= _questionFrecMins)
+                    {
+                        Question(); // Activa pregunta buena
+
+                        _auxGameCont = new HourMinSec(); // Reinicio contador
+                    }
+                }
+            }
+            else
+                _auxCont += Time.deltaTime;
+
+            UpdateLocation();
+        }
+        // Si duerme
+        else
+        {
+            if (_sleepAuxCont >= _sleepFade)
+            {
+                Sleep(false);
+                _sleepAuxCont = 0;
+            }
+            else
+            {
+                // Fade in / Fade Out
+                if (_sleepAuxCont >= _sleepFade * 2 / 3)
+                    _misionUIManager.SetSleepImageAlpha((_sleepFade - _sleepAuxCont) / (_sleepFade * 2 / 3));
+                else if (_sleepAuxCont < _sleepFade / 3)
+                    _misionUIManager.SetSleepImageAlpha(_sleepAuxCont / (_sleepFade / 3));
+                else
+                    _misionUIManager.ChangeTime(_gameClock); // Cambio en UI
+
+                _sleepAuxCont += Time.deltaTime;
+            }
+        }
+    }
+
+    void UpdateLocation()
+    {
+        // Si ha cambiado la hora
+        if (_auxHourClock != _gameClock.Hours)
+        {
+            // Si es igual o menor sinifica q se ha saltado la hora de mandar ubicacion
+            while (_locHoursList.Count != 0 && _auxHourClock >= _locHoursList[0].Hours)
+            {
+                // Pongo cross en UI
+                Debug.Log("Aux Hour Clock: " + _auxHourClock + " Comprobadno y eliminando: " + _locHoursList[0].GetHString());
+                _misionUIManager.SetLocationTick(_selectedLocationHours.IndexOf(_locHoursList[0].GetHString()), false);
+
+                // Elimino hora de la lista
+                _locHoursList.RemoveAt(0);
+            }
+
+            // Actualizo e igualo auxde reloj
+            _auxHourClock = _gameClock.Hours;
+        }
+    }
+
+    void UpdateSleep()
+    {
+        // si la hora en la que estamos esta en la lista de dormir pongo a true booleano dormir
+        if (_askedSleepTimes.Contains(_gameClock.Hours)) {
+            return;
+        }
+
+        for (int i = 0; i < selectedSleepTimes.Count && !_shouldSleep; i++)
+        {
+            _shouldSleep = (selectedSleepTimes[i].Hours == _gameClock.Hours);
+
+        }
+
+        if (_shouldSleep)
+        {
+            _askedSleepTimes.Add(_gameClock.Hours);
+            SleepQuestion();
+        }
+
+    }
+
+    void Sleep(bool enabled)
+    {
+        Debug.Log("Sleeping enabled " + enabled);
+        _sleeping = enabled;
+
+
+        if (enabled)
+        {
+            int index = _selectedSleepTimes.IndexOf(_gameClock.GetHString());
+
+            Debug.Log("Index sleep: " + _selectedSleepTimes[index]);
+            _misionUIManager.SetSleepTick(index, true);
+
+            // Sumo horas dormidas
+            _gameClock += new HourMinSec(_hourPerSleep, 0, 0);
+            Debug.Log("Activo dormir");
+        }
+        else
+        {
+
+            Debug.Log("Desactivo dormir");
+            _misionUIManager.SetSleepImageAlpha(0);
+        }
+    }
+    void SleepQuestion()
+    {
+        string mensaje = "Pregunta inicio";
+        EventRegister.Instance.AddToEvnt(Tuple.Create(EventRegister.EventosInfo.EmpiezaDecision, mensaje));
+        EventRegister.Instance.EvntToJson();
+
+
+        int randomNum = 0;
+        // Busco pregunta en seleccionadas
+        if (randomNum == 0)
+        {
+
+            _misionUIManager.ChangeQuestion($"Quieres dormir {_hourPerSleep} horas?");
+        }
+     
+        ShowDecisionButtons();
+        Debug.Log("Aparece pregunta buena para responder dormir"); // Tiene que parar
+    }
+
     // Reestablece contador
-    public void Answered()
+    public void Answered(bool yes)
+    {
+        FinishAnswer();
+
+        if (_shouldSleep) //si esta _shouldSleep es que es una pregunta de dormir si o no
+        {
+            if (!yes) _sleptHours -= _hourPerSleep; //si no duerme se restan horas de sue�o
+
+            float sleepRatio = (float)_sleptHours / (float)_totalSleepHours; //si da algo distinto entre 0 y 1 vamos mal
+            float vignetteAlpha = 1f - sleepRatio;
+            if (yes) _misionUIManager.SetSleepVignette(0); //se resetea 
+            else _misionUIManager.SetSleepVignette(vignetteAlpha);
+            Sleep(yes);
+            _shouldSleep = false;
+
+
+        }
+        else
+        {
+            if (yes == _isSelectedStopQuestion)
+                GoodAnswer();
+            else
+                BadAnswer();
+        }
+      
+    }
+
+    private void FinishAnswer()
     {
         _isAnswering = false;
         _timeCont = _answerTime;
@@ -171,16 +373,22 @@ public class MisionLevelManager : MonoBehaviour
     public void RegisterUIManager(MisionUIManager misionUIManager)
     {
         _misionUIManager = misionUIManager;
-        _misionUIManager.SetStartTime(_gameClock);
+        _selectedInitialStops = new List<string>(_selectedStops);
         _misionUIManager.SetStops(_selectedStops);
+        _misionUIManager.SetStartTime(_gameClock);
         _misionUIManager.SetSleepHours(_selectedSleepTimes);
         _misionUIManager.SetLocationHours(_selectedLocationHours);
+        _locHoursList = new List<HourMinSec>(selectedLocationHours);
     }
 
     // Carga las preguntas de las paradas
-    public void LoadQuestions(Dictionary<string, string> q)
+    public void LoadQuestions(Dictionary<string, string> q, List<string> distractionStops, List<string> selectableStops)
     {
         _questions = q;
+        _distractionStops = distractionStops;
+        _selectableStops = selectableStops;
+
+        _mapUIManager.SetStopsNames(_selectableStops);
     }
 
     // Carga configuracion escogida
@@ -259,8 +467,6 @@ public class MisionLevelManager : MonoBehaviour
         _mapUIManager.SetDepartureHours(optiondatas);
         _mapUIManager.SetLocationHours(optiondatas2);
         _mapUIManager.SetAllSleepHours(optiondatas3);
-
-        _mapUIManager.SetStopsNames(_stops);
     }
 
     // Set Time. "X am/X pm"
@@ -273,6 +479,7 @@ public class MisionLevelManager : MonoBehaviour
             aux = 12;
         string auxString = timeSplit[0];
         _gameClock = new HourMinSec(int.Parse(auxString) + aux, 0, 0);
+        _auxHourClock = _gameClock.Hours;
     }
 
     public void SetSelectedStops(List<string> newSelectedStops)
@@ -369,6 +576,7 @@ public class MisionLevelManager : MonoBehaviour
     // Calcula el tiempo total escogido para dormir
     private void CalculateSleepHours()
     {
+
         for (int i = 0; i < selectedSleepTimes.Count; i++)
         {
             if (i != (selectedSleepTimes.Count - 1))
@@ -383,19 +591,24 @@ public class MisionLevelManager : MonoBehaviour
                 _totalSleepHours += _hourPerSleep;
         }
 
+        _sleptHours = _totalSleepHours; //empiezan siendo las totales y luego se restan si no duermes
+
     }
 
     public void AcceptPlanning()
     {
         _paused = false;
         _soundManager.Click();
+        CalculateQuestionFrec();
     }
 
     public void ActivateGame()
     {
+        EventRegister.Instance.AddInitialEvent(EventRegister.EventosInfo.Inicio, "nivel " + SceneLoader.Instance.getCurrentLevelId(EventRegister.TipoJuego.MisionColombia).ToString("00"), EventRegister.TipoJuego.MisionColombia);
+        Debug.Log("se pudo iniciar el evento Inicio en MisionLevelManager.");
+
         _map.SetActive(true);
         _dialogs.SetActive(true);
-
     }
 
     // Cambia imagen del mapa
@@ -403,4 +616,150 @@ public class MisionLevelManager : MonoBehaviour
     {
         _mapUIManager.SetMapImage(index - 1);
     }
+
+    public void Pause(bool enabled)
+    {
+        Debug.Log("Pauso que voy ardiendooo~");
+
+        _paused = enabled;
+    }
+
+    public void ExitLevel()
+    {
+        Destroy(gameObject);
+        _instance = null;
+    }
+
+    // Calcula cada cuanto deber aparecer una pregunta
+    void CalculateQuestionFrec()
+    {
+        _freeTime = _duration - _totalSleepHours; // Tiempo que no esta dormido
+        _questionFrecMins = (_freeTime / _questions.Count) * 60;
+
+        Debug.Log("Pregunta buena cada: " + _questionFrecMins);
+    }
+
+    // Hace que aparezca una pregunta en pantalla
+    void Question()
+    {
+        string mensaje = "Pregunta inicio";
+        EventRegister.Instance.AddToEvnt(Tuple.Create(EventRegister.EventosInfo.EmpiezaDecision, mensaje));
+        EventRegister.Instance.EvntToJson();
+
+        int randomNum;
+        if (_selectedStops.Count > 0 && _distractionStops.Count > 0)
+        {
+            randomNum = rnd.Next(0, 2);
+        }
+        // Si no quedan de las paradas seleccionadas
+        else if (_selectedStops.Count == 0)
+        {
+            randomNum = 1;
+        }
+        // Si no quedan de las paradas distractoras
+        else
+        {
+            randomNum = 0;
+        }
+
+        // Busco pregunta en seleccionadas
+        if (randomNum == 0)
+        {
+            _isSelectedStopQuestion = true;
+            randomNum = rnd.Next(0, _selectedStops.Count);
+
+            // Cambio texto de pregunta
+            _misionUIManager.ChangeQuestion(_questions[_selectedStops[randomNum]]);
+            _indexUIQuestion = _selectedInitialStops.IndexOf(_selectedStops[randomNum]); // index
+            _selectedStops.Remove(_selectedStops[randomNum]);
+
+        }
+        // Busco pregunta en distractoras
+        else
+        {
+            _isSelectedStopQuestion = false;
+            randomNum = rnd.Next(0, _distractionStops.Count);
+
+            // Cambio texto de pregunta
+            _misionUIManager.ChangeQuestion(_questions[_distractionStops[randomNum]]);
+
+            // Borro parada realizada
+            _distractionStops.Remove(_distractionStops[randomNum]);
+        }
+
+        // Compuebo si no quedan preguntas
+        if (_selectedStops.Count == 0 && _distractionStops.Count == 0)
+        {
+            _anyQuestionsLeft = false;
+            Debug.Log("Ya no hay m�s preguntas");
+        }
+
+        // Aparece pregunta con botones de decision
+        ShowDecisionButtons();
+        Debug.Log("Aparece pregunta buena para responder"); // Tiene que parar
+    }
+
+    private void GoodAnswer()
+    {
+        _goodAnswers++;
+
+        if (_isSelectedStopQuestion)
+            _misionUIManager.SetStopTick(_indexUIQuestion, true);
+
+        Debug.Log("Good answer");
+    }
+
+    private void BadAnswer()
+    {
+        _badAnswers++;
+
+        if (_isSelectedStopQuestion)
+            _misionUIManager.SetStopTick(_indexUIQuestion, false);
+
+        Debug.Log("Bad answer");
+    }
+
+    public void SendLocation()
+    {
+        if (_locHoursList.Count != 0 && _gameClock.Hours == _locHoursList[0].Hours)
+        {
+            // Pongo tick en UI
+            _misionUIManager.SetLocationTick(_selectedLocationHours.IndexOf(_locHoursList[0].GetHString()), true);
+            _locHoursList.RemoveAt(0);
+        }
+    }
+
+    //para pasarle al ShowResumen
+
+    void GoToResumenScreen()
+    {
+
+        //en esto lo unico que me da mal rollo es que no hacemos instance null al misionlevelmanager porque necesitamos sus datos
+        //pero lo podemos coger en el start y borrar luego o en el update poner un metodo de if levelfinished no hacer lo del tiempo etc
+        //edit: ahora se pausa y luego se borra al salir del resumen
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            SceneLoader.LoadScene("MC_Resumen");
+        }
+    }
+    void isLevelFinished()
+    {
+        if (_gameClock.Hours == 0)
+        {
+            Debug.Log("terminando nivel");
+            SceneLoader.LoadScene("MC_Resumen");
+        }
+    }
+
+ 
+
+
+    public int HourPerSleep => _hourPerSleep; // getter de solo lectura
+    public int SleptHours => _sleptHours;
+    public int TotalSleepHours => _totalSleepHours;
+    public string StartTime => _startTime;
+    public List<string> SelectedInitialStops => _selectedInitialStops;
+    public List<string> SelectedStops => _selectedStops; //como se van quitando al final se queda con las respuestas que no fueron correctas
+    public List<string> SelectedLocationHours => _selectedLocationHours;
+
 }

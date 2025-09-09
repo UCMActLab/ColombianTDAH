@@ -72,6 +72,13 @@ public class MisionConfigurationData : ScriptableObject
     // Preguntas
     public SerializableDictionary<string, string> Questions = new SerializableDictionary<string, string>();
 
+    [SerializeField]
+    List<string> _distractionStops;
+    public List<string> DistractionStops { get => _distractionStops; set => _distractionStops = value; }
+
+    [SerializeField]
+    List<string> _selectableStops;
+    public List<string> SelectableStops { get => _selectableStops; set => _selectableStops = value; }
 
 
     // Desbloqueo

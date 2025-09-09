@@ -290,7 +290,7 @@ public class DolphinLevelManager : MonoBehaviour
         {
             SetAllObstacleSpawning(false);
             SceneLoader sceneLoader = GameObject.Find("SceneLoader").GetComponent<SceneLoader>();
-            sceneLoader.setMaxLevelId(levelId+1); 
+            sceneLoader.setMaxLevelId(levelId+1, EventRegister.TipoJuego.Delfines); 
             EndLevel();
             return true;
         }
@@ -748,6 +748,7 @@ public class DolphinLevelManager : MonoBehaviour
     {
         string estado = pause ? "Pausado" : "Reanudado";
         EventRegister.Instance.AddToEvnt(Tuple.Create(EventRegister.EventosInfo.Pause, estado));
+        EventRegister.Instance.EvntToJson();
 
         _isPaused = pause;
         SetAllObstacleSpawning(!pause); // no spawnea obstaculos

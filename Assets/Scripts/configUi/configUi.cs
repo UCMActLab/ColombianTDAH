@@ -78,7 +78,7 @@ public class configUi : MonoBehaviour
 
         SceneLoader sceneLoader = GameObject.Find("SceneLoader").GetComponent<SceneLoader>();
         bool editMode = sceneLoader.getMode();
-        levelId = sceneLoader.getCurrentLevelId();
+        levelId = sceneLoader.getCurrentLevelId(EventRegister.TipoJuego.Delfines);
         string writeDir = System.IO.Path.Combine(Application.persistentDataPath, "configInfo");
 
         Debug.Log("LEVEL ID " + levelId);
@@ -433,7 +433,6 @@ public class configUi : MonoBehaviour
 
         input_carrilesN.value = config.NumCarriles;
         input_delfinesN.value = config.NumDelfines;
-        //input_fase1Complet = config.fa;
 
         input_obstaclesTroncoEnabled.value = config.ObstaclesTroncoEnabled;
         input_obstaclesBarcaEnabled.value = config.ObstaclesBarcaEnabled;
@@ -464,39 +463,6 @@ public class configUi : MonoBehaviour
         input_desbloqueado.value = config.Desbloqueado;
 
 
-        //// IntegerFields
-        //input_carrilesN.value = config.NumCarriles;
-        //input_delfinesN.value = config.NumDelfines;
-        //input_whaleRightGuess.value = config.WhaleApearingGuests;
-
-        //// Toggles
-        //input_obstaclesTroncoEnabled.value = config.ObstaclesTroncoEnabled;
-        //input_obstaclesBarcaEnabled.value = config.ObstaclesBarcaEnabled;
-        //input_floatiesEnabled.value = config.FloatsEnabled;
-        //input_ballsEnabled.value = config.BallsEnabled;
-        //input_piruetasSimult.value = config.canSpecialJumpSimultaneously;
-        //input_diffSpecies.value = config.DiffSpeciesEnabled;
-        //input_desbloqueado.value = config.Desbloqueado;
-
-        //// Tiempos y velocidades
-        //input_obstacleT.value = (int)config.MinObstacleSpawn;
-        //input_jumpT.value = (int)config.MinTimeBetweenJumps;
-        //input_piruetMin.value = (int)config.MinCountBetweenSpecialJumps;
-        //input_obstacleVel.value = config.ObstacleSpeed;
-        //input_increasedVelFactor.value = config.IncreasedSpeedFactor;
-
-        //// Puntos
-        //input_pointPirueta.value = (int)config.RightGuessPoints;
-        //input_pointsPiruetaVelocidad.value = (int)config.RightGuessPointsVel;
-        //input_pointsFloatie.value = (int)config.FloatiePoints;
-        //input_pointsFloatieVelocidad.value = (int)config.FloatiePointsVel;
-        //input_pointsBallHit.value = (int)config.BallHitPoints;
-        //input_pointsBallVelocidad.value = (int)config.BallHitPointsVel;
-        //input_pointsBallMiss.value = (int)config.BallMissPoints;
-        //input_pointMax.value = (int)config.LevelPoints;
-        //input_pointWrongGuess.value = (int)config.WrongGuessPoints;
-        //input_pointChoqueTronco.value = (int)config.HitObstacleTroncoPoints;
-        //input_pointChoqueBarca.value = (int)config.HitObstacleBarcaPoints;
     }
 
   

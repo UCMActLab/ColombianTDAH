@@ -16,13 +16,9 @@ public class PlanificationList : MonoBehaviour
     [SerializeField]
     GameObject _textPrefab;
 
-    [SerializeField]
-    Sprite _tick;
-    [SerializeField]
-    Sprite _cross;
 
-    Vector3 _offset = 25 * Vector3.down;
-    float _distance = 20f;
+    Vector3 _offset = 14 * Vector3.down;
+    float _distance = 12f;
 
     public void SetDepartureTime(string newTime)
     {
@@ -68,5 +64,38 @@ public class PlanificationList : MonoBehaviour
         {
             DestroyImmediate(gObject.transform.GetChild(0).gameObject);
         }
+    }
+
+    private void ChangeImage(Transform child, bool tick)
+    {
+        ImageChanger childImageChanger = child.GetComponent<ImageChanger>();
+        childImageChanger.SetTick(tick);
+    }
+
+    public void SetStopTick(int index, bool enabled)
+    {
+        // Busco game Object
+        Transform t = _stopsText.transform.GetChild(index);
+
+        // Llamo a Chanche Image
+        ChangeImage(t, enabled);
+    }
+
+    public void SetSleepTick(int index, bool enabled)
+    {
+        // Busco game Object
+        Transform t =_sleepText.transform.GetChild(index);
+
+        // Llamo a Chanche Image
+        ChangeImage(t, enabled);
+    }
+
+    public void SetLocationTick(int index, bool enabled)
+    {
+        // Busco game Object
+        Transform t =_locationText.transform.GetChild(index);
+
+        // Llamo a Chanche Image
+        ChangeImage(t, enabled);
     }
 }

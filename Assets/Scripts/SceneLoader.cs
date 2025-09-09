@@ -81,7 +81,7 @@ public class SceneLoader : MonoBehaviour
         else if (name == "DolphinLevel")
         {
             //Solo pasaremos a los dialogos si vamos desde el selector de niveles
-            if (!teacherMode && SceneManager.GetActiveScene().name == "DolphinLevelSelector" && _instance.getCurrentLevelId() == 1)
+            if (!teacherMode && SceneManager.GetActiveScene().name == "DolphinLevelSelector" && _instance.getCurrentLevelId(TipoJuego.Delfines) == 1)
             { 
 
                 //dialogSeen = true;
@@ -153,7 +153,7 @@ public class SceneLoader : MonoBehaviour
     }
 
     // IntroScene
-    public string getIntroScene(TipoJuego tipo = TipoJuego.Delfines)
+    public string getIntroScene(TipoJuego tipo)
     {
         return juegos[tipo].introScene;
     }
@@ -162,7 +162,7 @@ public class SceneLoader : MonoBehaviour
         return getIntroScene(ParseTipoJuego(tipoJuegoEnum));
     }
 
-    public void setIntroScene(string scene, TipoJuego tipo = TipoJuego.Delfines)
+    public void setIntroScene(string scene, TipoJuego tipo)
     {
         juegos[tipo].introScene = scene;
     }
@@ -172,7 +172,7 @@ public class SceneLoader : MonoBehaviour
     }
 
     // LevelId
-    public int getCurrentLevelId(TipoJuego tipo = TipoJuego.Delfines)
+    public int getCurrentLevelId(TipoJuego tipo)
     {
         return juegos[tipo].currentLevelId;
     }
@@ -181,7 +181,7 @@ public class SceneLoader : MonoBehaviour
         return getCurrentLevelId(ParseTipoJuego(tipoJuegoEnum));
     }
 
-    public void setCurrentLevelId(int id, TipoJuego tipo = TipoJuego.Delfines)
+    public void setCurrentLevelId(int id, TipoJuego tipo)
     {
         juegos[tipo].currentLevelId = id;
     }
@@ -190,7 +190,7 @@ public class SceneLoader : MonoBehaviour
         setCurrentLevelId(id, ParseTipoJuego(tipoJuegoEnum));
     }
     // LevelId
-    public int getMaxLevelId(TipoJuego tipo = TipoJuego.Delfines)
+    public int getMaxLevelId(TipoJuego tipo)
     {
         return juegos[tipo].maxLevelIdUnlocked;
     }
@@ -199,7 +199,7 @@ public class SceneLoader : MonoBehaviour
         return getMaxLevelId(ParseTipoJuego(tipoJuegoEnum));
     }
 
-    public void setMaxLevelId(int id, TipoJuego tipo = TipoJuego.Delfines)
+    public void setMaxLevelId(int id, TipoJuego tipo)
     {
         juegos[tipo].maxLevelIdUnlocked = id;
     }
@@ -215,7 +215,7 @@ public class SceneLoader : MonoBehaviour
         {
             return (TipoJuego)tipoJuegoEnum;
         }
-        Debug.LogWarning($"SceneLoader.SetLevelId, tipoId {tipoJuegoEnum} no es valido, se ha puesto el valor delfines (1) por defecto");
+        Debug.LogWarning($"SceneLoader.ParseTipoJuego, tipoIdEnum {tipoJuegoEnum} no es valido, se ha puesto el valor delfines (1) por defecto");
         return TipoJuego.Delfines;
     }
 

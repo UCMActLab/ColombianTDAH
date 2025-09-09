@@ -4223,6 +4223,7 @@ MonoBehaviour:
   _mapImages:
   - {fileID: 21300000, guid: 43efd652bd55843458a78de506408696, type: 3}
   - {fileID: 21300000, guid: 82110bbdf8c74c44dadcbf0c9acbeb91, type: 3}
+  - {fileID: 21300000, guid: c920fd19490601e4e98acfc8a4248b6d, type: 3}
   _mapActualImage: {fileID: 1467250439}
 --- !u!1 &880240426
 GameObject:
@@ -5958,9 +5959,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _decisionGO: {fileID: 0}
+  _questionText: {fileID: 0}
   _timeSlider: {fileID: 0}
   _time: {fileID: 0}
   _planificationListComp: {fileID: 0}
+  _sleepImage: {fileID: 0}
+  _sleepText: {fileID: 0}
+  _sleepVignetteImage: {fileID: 0}
+  _topLid: {fileID: 0}
+  _bottomLid: {fileID: 0}
+  prefabTextLocation: {fileID: 0}
+  locationButton: {fileID: 0}
 --- !u!1 &1280164418
 GameObject:
   m_ObjectHideFlags: 0

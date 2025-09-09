@@ -96,6 +96,10 @@ public class UIMapData : MonoBehaviour
                 if (_nextButton != null)
                     _nextButton.RegisterCallback<ClickEvent>(OnNextClick);
             }
+
+            Debug.Log("getIsDefaultConfig " + SceneLoader.Instance.getIsDefaultConfig());
+
+            if (!SceneLoader.Instance.getIsDefaultConfig()) SetUIFromJSON();
         }
     }
 
@@ -178,7 +182,7 @@ public class UIMapData : MonoBehaviour
     private bool SetModeConfig()
     {
         bool editMode = SceneLoader.Instance.getMode();
-        levelId = SceneLoader.Instance.getCurrentLevelId();
+        levelId = SceneLoader.Instance.getCurrentLevelId(EventRegister.TipoJuego.MisionColombia);
         string writeDir = System.IO.Path.Combine(Application.persistentDataPath, "configInfoMC");
 
         if (editMode) //el usuario quiere editar el juego
@@ -189,12 +193,13 @@ public class UIMapData : MonoBehaviour
             }
             levelInfoPath = System.IO.Path.Combine(writeDir, "DefaultMisionConfigurationData" + levelId + ".json");
 
-            // if (!sceneLoader.getIsDefaultConfig()) SetUIFromJSONFull();
+         
 
         }
         else //se carga el nivel por default
         {
             levelInfoPath = "Planificacion/DefaultLevels/DefaultMisionConfigurationData" + levelId;
+            Debug.Log("cargando nivel default desde " + levelInfoPath);
 
             _config = Resources.Load<MisionConfigurationData>(levelInfoPath);
 
@@ -203,15 +208,55 @@ public class UIMapData : MonoBehaviour
             {
                 // Me desactivo
                 MisionLevelManager.Instance.LoadConfiguration(_config);
-                MisionLevelManager.Instance.LoadQuestions(_config.Questions.ToDictionary());
+                MisionLevelManager.Instance.LoadQuestions(_config.Questions.ToDictionary(), _config.DistractionStops, _config.SelectableStops);
                 MisionLevelManager.Instance.ActivateGame();
                 gameObject.SetActive(false);
             }
 
         }
-
         _config.configName = levelInfoPath;
 
         return editMode;
+    }
+
+    private void SetUIFromJSON()
+    {
+        Debug.Log("SetUIFromJSON MisionConfigurationData " + levelInfoPath);
+
+        // Verificar si el archivo existe antes de leerlo
+        if (!System.IO.File.Exists(levelInfoPath)) return;
+
+        string levelInfo = System.IO.File.ReadAllText(levelInfoPath);
+        JsonUtility.FromJsonOverwrite(levelInfo, _config);
+
+        _stopNumber.value = _config.NumStops;
+        _stopMins.value = _config.StopMins;
+
+        _sleepHours.value = _config.SleepHours;
+        _hourPerSleep.value = _config.HoursPerSleep;
+
+        _location.value = _config.Location;
+        _duration.value = _config.Duration;
+        _durationMax.value = _config.DurationMax;
+
+        // Paradas concatenamos en un string para mostrar en el TextField
+        if (_config.StopsNames != null && _config.StopsNames.Count > 0)
+            _stopNames.value = string.Join(",", _config.StopsNames);
+        else
+            _stopNames.value = "";
+
+        // 24 HORAS (los toggle que están a 12x2)
+        int k = 0;
+        for (int i = 0; i < 2; i++)
+        {
+            for (int j = 0; j < 12; j++)
+            {
+                _depHours[j, i].value = _config.DepartureHours[k];
+                _locHours[j, i].value = _config.LocationHours[k];
+                _allSleepHours[j, i].value = _config.AllSleepHours[k];
+                k++;
+            }
+        }
+
     }
 }
