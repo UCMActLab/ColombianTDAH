@@ -271,19 +271,15 @@ public class MisionLevelManager : MonoBehaviour
     void UpdateSleep()
     {
         // si la hora en la que estamos esta en la lista de dormir pongo a true booleano dormir
-
         if (_askedSleepTimes.Contains(_gameClock.Hours)) {
             return;
         }
 
-
         for (int i = 0; i < selectedSleepTimes.Count && !_shouldSleep; i++)
         {
-
             _shouldSleep = (selectedSleepTimes[i].Hours == _gameClock.Hours);
 
         }
-
 
         if (_shouldSleep)
         {
@@ -291,7 +287,6 @@ public class MisionLevelManager : MonoBehaviour
             SleepQuestion();
         }
 
-     
     }
 
     void Sleep(bool enabled)
