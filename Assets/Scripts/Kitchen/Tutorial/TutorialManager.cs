@@ -14,8 +14,7 @@ public class TutorialManager : MonoBehaviour
 
     [Header("Refs")]
     [SerializeField] private TutorialUI ui;
-    [SerializeField] private HighlightManager highlighter;
-    [SerializeField] private GuideArrow arrow; 
+    [SerializeField] private HighlightManager highlighter;  
     [SerializeField] private RecetasDatabase recetasDb;
     [SerializeField] private RecetaData recetaObjetivo;
 
@@ -124,7 +123,6 @@ public class TutorialManager : MonoBehaviour
 
     private IEnumerator Run()
     {
-        arrow.Hide();
         // STEP: Intro
         current = Step.Intro;
         ui.ShowLines(new[]
@@ -139,10 +137,10 @@ public class TutorialManager : MonoBehaviour
 
         // STEP: Tablon
         current = Step.Tablon;
-        //highlighter.Highlight(LevelKitchenManager.Instance.GetTablon());         
+        highlighter.Highlight(LevelKitchenManager.Instance.GetTablon());         
         yield return WaitEvent(() => tablonOpened);
         Debug.Log("Tablon abierto(tutorial)");
-        highlighter.Clear();
+        highlighter.ClearAll();
         yield return WaitEvent(() => tablonClosed);
         Debug.Log("Tablon cerrado(tutorial)");
 
@@ -153,7 +151,7 @@ public class TutorialManager : MonoBehaviour
         yield return WaitClickPanelClosed();
         yield return WaitEvent(() => bookOpened);
         Debug.Log("Libro abierto(tutorial)");
-        highlighter.Clear();
+        highlighter.ClearAll();
         yield return WaitEvent(() => bookClosed);
         Debug.Log("Libro cerrado(tutorial)");
 
@@ -169,25 +167,21 @@ public class TutorialManager : MonoBehaviour
         yield return WaitClickPanelClosed();
         yield return WaitUntilDragging(guayabaGO);
         Debug.Log("Guayaba agarrada(tutorial)");
-        highlighter.Clear();
+        highlighter.ClearAll();
 
         // STEP: DropOnSliceTable
         current = Step.DropOnSliceTable;
-        if (guayabaGO && sliceWs)
-        {
-            highlighter.Highlight(sliceWs.gameObject);
-            if (arrow) arrow.Set(GetAnchor(guayabaGO), sliceWs.spawnPoint);
-        }
+        if (guayabaGO && sliceWs) highlighter.Highlight(sliceWs.gameObject);                
         yield return WaitEvent(() => placedOnSliceTable);
         Debug.Log("Guayaba en tabla de cortar(tutorial)");
-        highlighter.Clear();
-        if (arrow) arrow.Hide();
+        highlighter.ClearAll();
         yield return WaitEvent(() => guayabaGO != null &&
                      guayabaGO.GetComponent<ProcessableIngredient>()?.ingredientType == guayaba);
 
         // STEP: MakeBocadillo
         current = Step.MakeBocadillo;   
         if (potWs) highlighter.Highlight(potWs.gameObject);
+        if (sugarGO) highlighter.Highlight(sugarGO);
         ui.ShowLines(new[] 
         {
             "Tras un tiempo...La guayaba se procesa",
@@ -195,14 +189,16 @@ public class TutorialManager : MonoBehaviour
         });
         yield return WaitClickPanelClosed();
         yield return WaitEvent(() => bocadilloReadyAtPot);
-        highlighter.Clear();
+        highlighter.ClearAll();
         Debug.Log("Bocadillo hecho(tutorial)");
 
         // STEP: DeliverJuice
         current = Step.DeliverBocadillo;
         ui.ShowLines(new[] { "¡Perfecto! Lleva el bocadillo a la cinta transportadora para entregarlo." });
         yield return WaitClickPanelClosed();
+        highlighter.Highlight(LevelKitchenManager.Instance.GetConveyor());
         yield return WaitEvent(() => bocadilloDelivered);
+        highlighter.ClearAll();
         Debug.Log("Bocadillo puesto en la cinta(tutorial)");
 
         // STEP: End
@@ -238,12 +234,6 @@ public class TutorialManager : MonoBehaviour
         if (!IngredientSpawnManager.HasInstance) return;
         if (guayabaGO == null) guayabaGO = IngredientSpawnManager.Instance.GetLiveInstance(guayaba);
         if (sugarGO == null) sugarGO = IngredientSpawnManager.Instance.GetLiveInstance(sugar);
-    }
-
-    private Transform GetAnchor(GameObject go)
-    {
-        var t = go.transform.Find("GrabAnchor");
-        return t ? t : go.transform;
     }
 
     private void OnIngredientSpawned(Ingredientes ing, GameObject go)

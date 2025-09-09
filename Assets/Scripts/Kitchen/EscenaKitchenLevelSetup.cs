@@ -15,6 +15,7 @@ public class EscenaKitchenLevelSetup : MonoBehaviour
     [SerializeField] private CalculateStats statsWin;
     [SerializeField] private CalculateStats statsLose;
     [SerializeField] private GameObject tutorialSystem;
+    [SerializeField] private GameObject conveyor;
 
     [Header("Workstations")]
     [SerializeField] private GameObject mixer;
@@ -55,6 +56,7 @@ public class EscenaKitchenLevelSetup : MonoBehaviour
         LevelKitchenManager.Instance.SetStatsWin(statsWin); 
         LevelKitchenManager.Instance.SetStatsLose(statsLose);
         LevelKitchenManager.Instance.SetTutorial(tutorialSystem);
+        LevelKitchenManager.Instance.SetConveyor(conveyor);
 
         // Animators
         AnimatorManager.Instance.SetAnimator(ObjetosAnim.Libro, libroDeRecetas.GetComponent<Animator>());

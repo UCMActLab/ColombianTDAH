@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using static System.Net.Mime.MediaTypeNames;
 
 public class TutorialUI : MonoBehaviour
 {
@@ -34,15 +35,24 @@ public class TutorialUI : MonoBehaviour
         DraggableBlocker.Block();
         lines.Clear();
         foreach (var m in msgs) lines.Enqueue(m);
+        if (txt != null)
+        {
+            txt.text = string.Empty;
+            txt.maxVisibleCharacters = 0;
+        }
         if (panel) panel.SetActive(true);
         StartTypingNext();
     }
 
     public void Hide()
     {
-        if (panel) panel.SetActive(false); 
-        DraggableBlocker.Unblock();
-
+        if (panel) panel.SetActive(false);
+        if (txt != null)
+        {
+            txt.text = string.Empty;
+            txt.maxVisibleCharacters = 0;
+        }
+        DraggableBlocker.Unblock();   
         isTyping = false;
         skipRequested = false;
         typedChars = 0;
@@ -72,7 +82,7 @@ public class TutorialUI : MonoBehaviour
 
         var next = lines.Dequeue();
         txt.text = next;
- 
+        txt.maxVisibleCharacters = 0;
         txt.ForceMeshUpdate();
         visibleTarget = txt.textInfo.characterCount;
 

@@ -73,6 +73,7 @@ public class LevelKitchenManager : MonoBehaviour
     private GameObject recetasColgadas;
     private GameObject tablonButton;
     private RecipeBoard rec;
+    private GameObject conveyor;
 
     private Transform cameraInitPos;
     private Transform cameraTablonPos;
@@ -634,6 +635,15 @@ public class LevelKitchenManager : MonoBehaviour
 
     public int GetNOpenedBook() { return NOpenedBook; }
 
+    public void SetConveyor(GameObject c)
+    {
+        conveyor = c;
+    }
+
+    public GameObject GetConveyor()
+    {
+        return conveyor;
+    }
     public void SetTutorial(GameObject t)
     {
         tutorialSystemRoot = t;
