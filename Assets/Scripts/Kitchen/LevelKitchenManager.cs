@@ -72,6 +72,7 @@ public class LevelKitchenManager : MonoBehaviour
     private GameObject tablon;
     private GameObject recetasColgadas;
     private GameObject tablonButton;
+    private RecipeBoard rec;
 
     private Transform cameraInitPos;
     private Transform cameraTablonPos;
@@ -160,7 +161,7 @@ public class LevelKitchenManager : MonoBehaviour
         {
             Draggable tab = tablon.GetComponent<Draggable>();
             Draggable tabButtonDrag = tablonButton.GetComponent<Draggable>();
-            RecipeBoard rec = recetasColgadas.GetComponent<RecipeBoard>();
+            rec = recetasColgadas.GetComponent<RecipeBoard>();
 
             if (tab != null)
             {
@@ -425,6 +426,9 @@ public class LevelKitchenManager : MonoBehaviour
             if (restantes > 0)
             {
                 recetasRestantes[receta] = restantes - 1;
+
+                rec.ChangeTexture(receta.nombre);
+
                 Debug.Log($"Entregado: {receta.nombre}. Restan {recetasRestantes[receta]}.");
 
                 // ¿hemos cumplido todos los objetivos?

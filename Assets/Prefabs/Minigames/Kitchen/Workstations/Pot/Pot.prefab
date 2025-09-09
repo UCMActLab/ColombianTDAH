@@ -160,6 +160,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   workstationType: 2
   workstationTime: 5
+  light: {fileID: 0}
   spawnPoint: {fileID: 7205862992319583800}
   objAnim: {fileID: 0}
   animKey: 5

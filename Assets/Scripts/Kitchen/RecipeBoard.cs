@@ -1,11 +1,13 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
+using System;
 
 public class RecipeBoard : MonoBehaviour
 {
     [Header("Refs")]
     public GameObject recipePrefab;
     public Transform boardArea;
+    [SerializeField] private Texture tickTexture; 
 
     [Header("Área del tablón (mundo)")]
     public Vector2 boardSize = new Vector2(5f, 3f);
@@ -122,6 +124,22 @@ public class RecipeBoard : MonoBehaviour
                 return result;
         }
         return null;
+    }
+
+    public void ChangeTexture(string n)
+    {
+        bool encontrado = false;
+        int i = 0;
+        while (!encontrado && i < spawnedRecipes.Count) { 
+            if (spawnedRecipes[i].GetComponentInChildren<TMPro.TextMeshProUGUI>().text == n && FindChildByName(spawnedRecipes[i].transform, "Object_2").GetComponent<Renderer>().material.GetTexture("_BaseMap").name != tickTexture.name)
+            {
+                encontrado = true;
+                FindChildByName(spawnedRecipes[i].transform, "Object_2").GetComponent<Renderer>().material.SetTexture("_BaseMap", tickTexture);
+
+                Debug.Log("Receta encontrada para cambiar tectura en el tablon");
+            }
+            i++;
+        }
     }
 
 

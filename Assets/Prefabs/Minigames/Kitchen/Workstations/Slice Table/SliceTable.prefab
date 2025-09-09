@@ -193,12 +193,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   workstationType: 0
   workstationTime: 4
+  light: {fileID: 0}
   spawnPoint: {fileID: 6547802389502503202}
   objAnim: {fileID: 1888054859941292664}
   animKey: 1
   idleAnim: Idle
   processingAnim: Processing
   animTime: 10
+  particles: {fileID: 0}
   soundKey: 0
   processingSfxName: SliceTable
   recetasDatabase: {fileID: 11400000, guid: 500188bf1c71ba0498684343da787a59, type: 2}
