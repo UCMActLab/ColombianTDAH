@@ -68,7 +68,7 @@ MonoBehaviour:
   m_text: Tutorial
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: acd6275f4d70f4245a9f34c8bb66c9a0, type: 2}
-  m_sharedMaterial: {fileID: -8976410488283873463, guid: acd6275f4d70f4245a9f34c8bb66c9a0, type: 2}
+  m_sharedMaterial: {fileID: -6174970088679886949, guid: acd6275f4d70f4245a9f34c8bb66c9a0, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -98,7 +98,7 @@ MonoBehaviour:
   m_enableAutoSizing: 1
   m_fontSizeMin: 0
   m_fontSizeMax: 72
-  m_fontStyle: 17
+  m_fontStyle: 16
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
   m_textAlignment: 65535
@@ -271,7 +271,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a25fa7e22a893f644a0345a38e035836, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tutorial: {fileID: 0}
   kitchenScene: KitchenLevel
 --- !u!114 &7650313303853688305
 MonoBehaviour:

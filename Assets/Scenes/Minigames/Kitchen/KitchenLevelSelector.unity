@@ -5332,9 +5332,9 @@ PrefabInstance:
     m_TransformParent: {fileID: 2049060272}
     m_Modifications:
     - target: {fileID: 1533614681406192466, guid: 3346ffcef5b2c8b4d8b476a1c14f9f7d, type: 3}
-      propertyPath: m_sharedMaterial
-      value: 
-      objectReference: {fileID: -6174970088679886949, guid: acd6275f4d70f4245a9f34c8bb66c9a0, type: 2}
+      propertyPath: m_fontSize
+      value: 27.8
+      objectReference: {fileID: 0}
     - target: {fileID: 1973788879077290526, guid: 3346ffcef5b2c8b4d8b476a1c14f9f7d, type: 3}
       propertyPath: tutorial
       value: 
