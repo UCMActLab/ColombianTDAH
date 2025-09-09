@@ -31,7 +31,7 @@ public class TutorialUI : MonoBehaviour
 
     public void ShowLines(IEnumerable<string> msgs)
     {
-        TutorialBlocker.Block();
+        DraggableBlocker.Block();
         lines.Clear();
         foreach (var m in msgs) lines.Enqueue(m);
         if (panel) panel.SetActive(true);
@@ -41,7 +41,7 @@ public class TutorialUI : MonoBehaviour
     public void Hide()
     {
         if (panel) panel.SetActive(false); 
-        TutorialBlocker.Unblock();
+        DraggableBlocker.Unblock();
 
         isTyping = false;
         skipRequested = false;

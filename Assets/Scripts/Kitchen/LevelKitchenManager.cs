@@ -98,6 +98,8 @@ public class LevelKitchenManager : MonoBehaviour
     private float handRayDepth = 4.5f; 
     private Camera mainCam;
 
+    private bool paused;
+
     private GameObject tutorialSystemRoot;
     private bool isTutorial = false;
     public event Action OnBookOpenedTutorial;
@@ -122,6 +124,7 @@ public class LevelKitchenManager : MonoBehaviour
 
         DontDestroyOnLoad(gameObject);
         SceneManager.sceneLoaded += OnSceneLoaded;
+        ActivateGame();
     }
 
     private void Start()
@@ -504,6 +507,23 @@ public class LevelKitchenManager : MonoBehaviour
 
         handFollowTarget = null;
     }
+
+    public void Pause(bool pause)
+    {
+        paused = pause;
+        DraggableBlocker.ConmuteBlock();
+        if (paused) contador.Pausar();
+        else contador.Reanudar();
+
+        Debug.Log("Cocina Pausada/Reanudada");
+    }
+
+    public void ActivateGame()
+    {
+        EventRegister.Instance.AddInitialEvent(EventRegister.EventosInfo.Inicio, "nivel " + SceneLoader.Instance.getCurrentLevelId(EventRegister.TipoJuego.Cocina).ToString("00"), EventRegister.TipoJuego.Cocina);
+        Debug.Log("se pudo iniciar el evento Inicio en KitchenLevelManager.");
+    }
+
 
     private IEnumerator HideHandAfter(float delay)
     {

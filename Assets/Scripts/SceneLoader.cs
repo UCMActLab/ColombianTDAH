@@ -49,6 +49,16 @@ public class SceneLoader : MonoBehaviour
         maxLevelIdUnlocked = 1
     };
 
+    [SerializeField]
+    GameSceneData cocinaData = new GameSceneData
+    {
+        selectorScene = "KitchenLevelSelector",
+        levelScene = "KitchenLevel",
+        introScene = "KitchenBalanceTerapeuta",
+        currentLevelId = 1,
+        maxLevelIdUnlocked = 1
+    };
+
     void Awake()
     {
         if(_instance == null)
@@ -56,6 +66,7 @@ public class SceneLoader : MonoBehaviour
           
             juegos[TipoJuego.Delfines] = delfinesData;
             juegos[TipoJuego.MisionColombia] = misionColombiaData;
+            juegos[TipoJuego.Cocina] = cocinaData;
 
 
             _instance = this;

@@ -41,7 +41,7 @@ public class Draggable : MonoBehaviour
 
     void OnMouseDown()
     {
-        if(TutorialBlocker.Blocked) return;
+        if(DraggableBlocker.Blocked) return;
         if (enabled)
         {
             isDragging = true;
@@ -52,7 +52,7 @@ public class Draggable : MonoBehaviour
 
     void OnMouseUp()
     {
-        if (TutorialBlocker.Blocked) return;
+        if (DraggableBlocker.Blocked) return;
         if (enabled)
         {
             isDragging = false;
