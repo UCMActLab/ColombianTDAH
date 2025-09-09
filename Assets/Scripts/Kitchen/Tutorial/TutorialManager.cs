@@ -210,7 +210,8 @@ public class TutorialManager : MonoBehaviour
         ui.ShowLines(new[] { "¡Tutorial completado! Ya puedes empezar a cocinar por tu cuenta." });
         yield return WaitClickPanelClosed();
         Debug.Log("Tutorial terminado");
-        // SceneManager.LoadScene("KitchenLevelSelector");
+
+        SceneManager.LoadScene("KitchenLevelSelector");
     }
 
     private IEnumerator WaitClickPanelClosed()

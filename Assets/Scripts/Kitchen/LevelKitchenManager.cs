@@ -452,8 +452,11 @@ public class LevelKitchenManager : MonoBehaviour
 
     private void OnVictory()
     {
-        contador.Pausar();
-        winStats.Calculate(recetasTotalesIniciales - recetasRestantes.Values.Sum(), recetasTotalesIniciales, tiempoPorTurnoTotal, contador.GetTiempo(), NOpenedBook);
+        if (!isTutorial)
+        {
+            contador.Pausar();
+            winStats.Calculate(recetasTotalesIniciales - recetasRestantes.Values.Sum(), recetasTotalesIniciales, tiempoPorTurnoTotal, contador.GetTiempo(), NOpenedBook);
+        }
     }
 
     private void OnGameOver()
