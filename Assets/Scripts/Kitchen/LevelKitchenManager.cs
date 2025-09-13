@@ -8,6 +8,13 @@ using TMPro;
 using System;
 
 [Serializable]
+public class IngredienteSpriteList
+{
+    public Ingredientes nombre;
+    public Sprite sprite;
+}
+
+[Serializable]
 public class RecetaSpriteList
 {
     public string nombre;
@@ -68,6 +75,9 @@ public class LevelKitchenManager : MonoBehaviour
     [SerializeField] private RecetaData recetaTutorialObjetivo;
     [SerializeField] private List<RecetaSpriteList> recetasSpritesSerializable;   
     private Dictionary<string, RecetaSprites> recetasSprites;
+
+    [SerializeField] private List<IngredienteSpriteList> ingredientesSpritesSerializable;
+    private Dictionary<Ingredientes, Sprite> ingredientesSprites;
 
     private GameObject tablon;
     private GameObject recetasColgadas;
@@ -133,6 +143,7 @@ public class LevelKitchenManager : MonoBehaviour
         CalcularRecetasPorJornada();
         mainCam = Camera.main;
         recetasSprites = recetasSpritesSerializable.ToDictionary(m => m.nombre, m => m.sprites);
+        ingredientesSprites = ingredientesSpritesSerializable.ToDictionary(m => m.nombre, m => m.sprite);
     }
 
     private void Update()
@@ -653,6 +664,7 @@ public class LevelKitchenManager : MonoBehaviour
     public bool GetTutorial() {  return isTutorial; }
 
     public Dictionary<string, RecetaSprites> GetRecetasSprites() { return recetasSprites; }
+    public Dictionary<Ingredientes, Sprite> GetIngredientesSprites() { return ingredientesSprites; }
 
     public void NotifyBookOpened() => OnBookOpenedTutorial?.Invoke();
     public void NotifyTablonOpened() => OnTablonOpenedTutorial?.Invoke();

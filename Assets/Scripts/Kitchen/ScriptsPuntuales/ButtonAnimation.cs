@@ -9,6 +9,8 @@ public class ButtonAnimation : MonoBehaviour
     private Button boton;
     private bool animando = false;
 
+    [SerializeField] private float duracion = 0.1f;
+
     // Evento público que se ejecuta al finalizar la animación
     public event Action OnAnimationEnd;
 
@@ -28,7 +30,7 @@ public class ButtonAnimation : MonoBehaviour
     {
         animando = true;
 
-        float duracion = 0.1f;
+        
         float tiempo = 0f;
         Vector3 original = transform.localScale;
         Vector3 objetivo = original * 1.3f;
