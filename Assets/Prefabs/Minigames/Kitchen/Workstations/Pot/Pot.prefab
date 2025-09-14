@@ -47,6 +47,7 @@ GameObject:
   - component: {fileID: 9181677881611356598}
   - component: {fileID: 6118130472359438172}
   - component: {fileID: 4840427380366382154}
+  - component: {fileID: 5451759576217015151}
   m_Layer: 15
   m_Name: Pot
   m_TagString: Untagged
@@ -70,6 +71,7 @@ Transform:
   - {fileID: 3584679410006676886}
   - {fileID: 7205862992319583800}
   - {fileID: 2549821752110312086}
+  - {fileID: 806480082705982165}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &133799233262800326
@@ -187,6 +189,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 499ebe61710b1344085c9e214efed62c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  inventory: {fileID: 7706861757524764188}
 --- !u!82 &4840427380366382154
 AudioSource:
   m_ObjectHideFlags: 0
@@ -284,6 +287,25 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &5451759576217015151
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4112568160957013698}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c141dba6c5337fd45bd21cd0ee7ffb12, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  uiRoot: {fileID: 3460653353657905978}
+  showDelay: 0
+  hideIfPointerLeavesWhileHeld: 0
+  duration: 0.15
+  hiddenScale: {x: 0.000589, y: 0.000589, z: 0.000589}
+  shownScale: {x: 0.00062, y: 0.00062, z: 0.00062}
+  fadeCanvas: {fileID: 7815275694839140349}
 --- !u!1 &8324284835123253289
 GameObject:
   m_ObjectHideFlags: 0
@@ -543,3 +565,144 @@ ParticleSystem:
   m_CorrespondingSourceObject: {fileID: 198322761928737398, guid: efe021d4c307b5449b8121d46791cf95, type: 3}
   m_PrefabInstance: {fileID: 3580240957604949492}
   m_PrefabAsset: {fileID: 0}
+--- !u!1001 &6833342288640463427
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 3613010244182030294}
+    m_Modifications:
+    - target: {fileID: 1352924856558892194, guid: 15daf8425bc95794a9c4734a060fbac5, type: 3}
+      propertyPath: m_text
+      value: "La olla no contiene ning\xFAn ingrediente"
+      objectReference: {fileID: 0}
+    - target: {fileID: 1352924856558892194, guid: 15daf8425bc95794a9c4734a060fbac5, type: 3}
+      propertyPath: m_fontSize
+      value: 145.45
+      objectReference: {fileID: 0}
+    - target: {fileID: 2913766968179944936, guid: 15daf8425bc95794a9c4734a060fbac5, type: 3}
+      propertyPath: baseWorldScale
+      value: 0.00062
+      objectReference: {fileID: 0}
+    - target: {fileID: 5572415508736517176, guid: 15daf8425bc95794a9c4734a060fbac5, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5572415508736517176, guid: 15daf8425bc95794a9c4734a060fbac5, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5572415508736517176, guid: 15daf8425bc95794a9c4734a060fbac5, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5572415508736517176, guid: 15daf8425bc95794a9c4734a060fbac5, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5572415508736517176, guid: 15daf8425bc95794a9c4734a060fbac5, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: -180
+      objectReference: {fileID: 0}
+    - target: {fileID: 6172035633587740026, guid: 15daf8425bc95794a9c4734a060fbac5, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -678
+      objectReference: {fileID: 0}
+    - target: {fileID: 6189592714280956054, guid: 15daf8425bc95794a9c4734a060fbac5, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.00062
+      objectReference: {fileID: 0}
+    - target: {fileID: 6189592714280956054, guid: 15daf8425bc95794a9c4734a060fbac5, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.00062
+      objectReference: {fileID: 0}
+    - target: {fileID: 6189592714280956054, guid: 15daf8425bc95794a9c4734a060fbac5, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.00062
+      objectReference: {fileID: 0}
+    - target: {fileID: 6189592714280956054, guid: 15daf8425bc95794a9c4734a060fbac5, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.101
+      objectReference: {fileID: 0}
+    - target: {fileID: 6189592714280956054, guid: 15daf8425bc95794a9c4734a060fbac5, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.275
+      objectReference: {fileID: 0}
+    - target: {fileID: 6189592714280956054, guid: 15daf8425bc95794a9c4734a060fbac5, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.438
+      objectReference: {fileID: 0}
+    - target: {fileID: 6189592714280956054, guid: 15daf8425bc95794a9c4734a060fbac5, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.9659258
+      objectReference: {fileID: 0}
+    - target: {fileID: 6189592714280956054, guid: 15daf8425bc95794a9c4734a060fbac5, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.2588191
+      objectReference: {fileID: 0}
+    - target: {fileID: 6189592714280956054, guid: 15daf8425bc95794a9c4734a060fbac5, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6189592714280956054, guid: 15daf8425bc95794a9c4734a060fbac5, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6189592714280956054, guid: 15daf8425bc95794a9c4734a060fbac5, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6189592714280956054, guid: 15daf8425bc95794a9c4734a060fbac5, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6189592714280956054, guid: 15daf8425bc95794a9c4734a060fbac5, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6189592714280956054, guid: 15daf8425bc95794a9c4734a060fbac5, type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7985547861751947641, guid: 15daf8425bc95794a9c4734a060fbac5, type: 3}
+      propertyPath: m_Name
+      value: UIPuestos
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 15daf8425bc95794a9c4734a060fbac5, type: 3}
+--- !u!4 &806480082705982165 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6189592714280956054, guid: 15daf8425bc95794a9c4734a060fbac5, type: 3}
+  m_PrefabInstance: {fileID: 6833342288640463427}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &3460653353657905978 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7985547861751947641, guid: 15daf8425bc95794a9c4734a060fbac5, type: 3}
+  m_PrefabInstance: {fileID: 6833342288640463427}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &7706861757524764188 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3756192806467515487, guid: 15daf8425bc95794a9c4734a060fbac5, type: 3}
+  m_PrefabInstance: {fileID: 6833342288640463427}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 453bb7b09f8e6214292d4c5c5a67dcfa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &7815275694839140349 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3648345937990933950, guid: 15daf8425bc95794a9c4734a060fbac5, type: 3}
+  m_PrefabInstance: {fileID: 6833342288640463427}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 292e5956acd7a58449846912fdcf46a2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
