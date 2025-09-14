@@ -171,6 +171,15 @@ public class MisionLevelManager : MonoBehaviour
         _isAnswering = false;
     }
 
+    void SetVignette()
+    {
+        _sleptHours -= _hourPerSleep; //si no duerme se restan horas de suenyo
+
+        float sleepRatio = (float)_sleptHours / (float)_totalSleepHours;
+        float vignetteAlpha = 1f - sleepRatio;
+        _misionUIManager.SetSleepVignette(vignetteAlpha);
+    }
+
     // Actualiza tiempo
     void UpdateTime()
     {
@@ -208,7 +217,7 @@ public class MisionLevelManager : MonoBehaviour
                 // Actualizo dormir
                 UpdateSleep();
 
-                if (!_shouldSleep &&!_sleeping && _anyQuestionsLeft)
+                if (!_shouldSleep && !_sleeping && _anyQuestionsLeft)
                 {
 
                     if (_auxGameCont.Minutes >= _questionFrecMins)
@@ -271,7 +280,8 @@ public class MisionLevelManager : MonoBehaviour
     void UpdateSleep()
     {
         // si la hora en la que estamos esta en la lista de dormir pongo a true booleano dormir
-        if (_askedSleepTimes.Contains(_gameClock.Hours)) {
+        if (_askedSleepTimes.Contains(_gameClock.Hours))
+        {
             return;
         }
 
@@ -327,7 +337,7 @@ public class MisionLevelManager : MonoBehaviour
 
             _misionUIManager.ChangeQuestion($"Quieres dormir {_hourPerSleep} horas?");
         }
-     
+
         ShowDecisionButtons();
         Debug.Log("Aparece pregunta buena para responder dormir"); // Tiene que parar
     }
@@ -339,16 +349,14 @@ public class MisionLevelManager : MonoBehaviour
 
         if (_shouldSleep) //si esta _shouldSleep es que es una pregunta de dormir si o no
         {
-            if (!yes) _sleptHours -= _hourPerSleep; //si no duerme se restan horas de sue�o
 
-            float sleepRatio = (float)_sleptHours / (float)_totalSleepHours; //si da algo distinto entre 0 y 1 vamos mal
-            float vignetteAlpha = 1f - sleepRatio;
-            if (yes) _misionUIManager.SetSleepVignette(0); //se resetea 
-            else _misionUIManager.SetSleepVignette(vignetteAlpha);
+            if (yes) 
+                _misionUIManager.SetSleepVignette(0); //se resetea 
+            else
+                BadAnswer();
+
             Sleep(yes);
             _shouldSleep = false;
-
-
         }
         else
         {
@@ -357,7 +365,7 @@ public class MisionLevelManager : MonoBehaviour
             else
                 BadAnswer();
         }
-      
+
     }
 
     private void FinishAnswer()
@@ -711,11 +719,20 @@ public class MisionLevelManager : MonoBehaviour
 
     private void BadAnswer()
     {
-        _badAnswers++;
+        if (_shouldSleep)
+        {
+            SetVignette();
+            int index = _selectedSleepTimes.IndexOf(_gameClock.GetHString());
+            _misionUIManager.SetSleepTick(index, false);
+            _shouldSleep = false;
+        }
+        else
+        {
+            _badAnswers++;
 
-        if (_isSelectedStopQuestion)
-            _misionUIManager.SetStopTick(_indexUIQuestion, false);
-
+            if (_isSelectedStopQuestion)
+                _misionUIManager.SetStopTick(_indexUIQuestion, false);
+        }
         Debug.Log("Bad answer");
     }
 
@@ -751,7 +768,7 @@ public class MisionLevelManager : MonoBehaviour
         }
     }
 
- 
+
 
 
     public int HourPerSleep => _hourPerSleep; // getter de solo lectura
