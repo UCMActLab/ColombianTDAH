@@ -115,6 +115,13 @@ public class WorkstationProcessor : MonoBehaviour
         return null;
     }
 
+    public void ClearInventory()
+    {
+        if (inventory != null)
+        {
+            inventory.ClearAll();
+        }
+    }
     private IEnumerator ProcessImmediate(GameObject ingredienteGO, RecetaData data)
     {
         Debug.Log("Procesando receta intermedia");
