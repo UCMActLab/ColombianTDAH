@@ -84,6 +84,7 @@ public class LevelKitchenManager : MonoBehaviour
     private GameObject tablonButton;
     private RecipeBoard rec;
     private GameObject conveyor;
+    private GameObject sponge;
 
     private Transform cameraInitPos;
     private Transform cameraTablonPos;
@@ -655,6 +656,16 @@ public class LevelKitchenManager : MonoBehaviour
     {
         return conveyor;
     }
+
+    public void SetSponge(GameObject s)
+    {
+        sponge = s;
+    }
+    public GameObject GetSponge() 
+    {
+        return sponge; 
+    }
+
     public void SetTutorial(GameObject t)
     {
         tutorialSystemRoot = t;

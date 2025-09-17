@@ -13,7 +13,8 @@ public enum ObjetosAnim
     Olla,
     Olla_A_Presion,
     Sarten,
-    Mano
+    Mano,
+    Esponja
 }
 
 public class AnimatorManager : MonoBehaviour

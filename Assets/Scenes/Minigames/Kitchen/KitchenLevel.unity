@@ -5154,6 +5154,33 @@ MonoBehaviour:
   spawnOnStart: 1
   respawnDelay: 1
   currentInstance: {fileID: 0}
+--- !u!1 &1533476871 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8121462505148570630, guid: efec0d5cdc8dcc0408b3449ff856af75, type: 3}
+  m_PrefabInstance: {fileID: 1697348597}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &1533476875
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1533476871}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 72b8ddd19d4175443bdc9489526cd513, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &1539698746
 GameObject:
   m_ObjectHideFlags: 0
@@ -5550,6 +5577,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 551505890}
     m_Modifications:
+    - target: {fileID: 1243863318893532491, guid: efec0d5cdc8dcc0408b3449ff856af75, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2314193860171027961, guid: efec0d5cdc8dcc0408b3449ff856af75, type: 3}
       propertyPath: m_LocalPosition.x
       value: 5.991
@@ -5594,20 +5625,69 @@ PrefabInstance:
       propertyPath: m_Name
       value: Sponge
       objectReference: {fileID: 0}
-    - target: {fileID: 4822950922580094779, guid: efec0d5cdc8dcc0408b3449ff856af75, type: 3}
-      propertyPath: workstationLayer.m_Bits
-      value: 32768
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 2314193860171027961, guid: efec0d5cdc8dcc0408b3449ff856af75, type: 3}
+      insertIndex: 0
+      addedObject: {fileID: 2119430844}
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 2804293079001196630, guid: efec0d5cdc8dcc0408b3449ff856af75, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1697348600}
+    - targetCorrespondingSourceObject: {fileID: 8121462505148570630, guid: efec0d5cdc8dcc0408b3449ff856af75, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1533476875}
   m_SourcePrefab: {fileID: 100100000, guid: efec0d5cdc8dcc0408b3449ff856af75, type: 3}
 --- !u!4 &1697348598 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2314193860171027961, guid: efec0d5cdc8dcc0408b3449ff856af75, type: 3}
   m_PrefabInstance: {fileID: 1697348597}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1697348599 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2804293079001196630, guid: efec0d5cdc8dcc0408b3449ff856af75, type: 3}
+  m_PrefabInstance: {fileID: 1697348597}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1697348600
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1697348599}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 394ed246e09acea47875e5d6d47b1e0a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spawn: {fileID: 0}
+  spawnTransform: {fileID: 2119430844}
+  returnDuration: 0.35
+  ease:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1001 &1732529399
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5867,6 +5947,7 @@ MonoBehaviour:
   statsLose: {fileID: 986238322}
   tutorialSystem: {fileID: 446169607}
   conveyor: {fileID: 2029760025}
+  sponge: {fileID: 1697348599}
   mixer: {fileID: 1396532682}
   sliceTable: {fileID: 1676942408}
   pot: {fileID: 2480794682900796045}
@@ -6566,6 +6647,37 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &2119430843
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2119430844}
+  m_Layer: 0
+  m_Name: SpongeSpawnPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2119430844
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2119430843}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1697348598}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2122548483
 GameObject:

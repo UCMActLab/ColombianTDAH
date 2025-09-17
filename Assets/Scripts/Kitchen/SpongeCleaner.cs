@@ -74,6 +74,8 @@ public class SpongeCleaner : MonoBehaviour
         currentTarget = ws;
         cleaning = true;
         timer = 0f;
+
+        AnimatorManager.Instance.PlayAndPauseAt(ObjetosAnim.Esponja, "Clean", 2f);
     }
 
     private void StopScrub(bool resetTimer)
@@ -84,6 +86,7 @@ public class SpongeCleaner : MonoBehaviour
         if (resetTimer) timer = 0f;
 
         currentTarget = null;
+        
     }
 
     private void CompleteScrub()

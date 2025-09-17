@@ -16,6 +16,7 @@ public class EscenaKitchenLevelSetup : MonoBehaviour
     [SerializeField] private CalculateStats statsLose;
     [SerializeField] private GameObject tutorialSystem;
     [SerializeField] private GameObject conveyor;
+    [SerializeField] private GameObject sponge;
 
     [Header("Workstations")]
     [SerializeField] private GameObject mixer;
@@ -57,6 +58,7 @@ public class EscenaKitchenLevelSetup : MonoBehaviour
         LevelKitchenManager.Instance.SetStatsLose(statsLose);
         LevelKitchenManager.Instance.SetTutorial(tutorialSystem);
         LevelKitchenManager.Instance.SetConveyor(conveyor);
+        LevelKitchenManager.Instance.SetSponge(sponge);
 
         // Animators
         AnimatorManager.Instance.SetAnimator(ObjetosAnim.Libro, libroDeRecetas.GetComponent<Animator>());
@@ -68,6 +70,7 @@ public class EscenaKitchenLevelSetup : MonoBehaviour
         AnimatorManager.Instance.SetAnimator(ObjetosAnim.Sarten, pan.GetComponent<Animator>());
         AnimatorManager.Instance.SetAnimator(ObjetosAnim.Horno, oven.GetComponent<Animator>());
         AnimatorManager.Instance.SetAnimator(ObjetosAnim.Mano, hand.GetComponent<Animator>());
+        AnimatorManager.Instance.SetAnimator(ObjetosAnim.Esponja, sponge.GetComponentInChildren<Animator>());
 
         // Sonidos
         KitchenSoundManager.Instance.SetAudioSource(ObjetosSound.Mezcladora, mixerSource);
