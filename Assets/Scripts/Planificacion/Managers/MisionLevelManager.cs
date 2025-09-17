@@ -47,8 +47,9 @@ public class MisionLevelManager : MonoBehaviour
     float _timeCont = 0;
     bool _isAnswering = false;
     int _questionFrecMins;
-    int _goodAnswers = 0;
-    int _badAnswers = 0;
+    int _goodStopAnswers = 0;
+    int _badStopAnswers = 0;
+    int _goodSentLocatiton = 0;
     int _indexUIQuestion;
 
     // Reglas
@@ -350,7 +351,7 @@ public class MisionLevelManager : MonoBehaviour
         if (_shouldSleep) //si esta _shouldSleep es que es una pregunta de dormir si o no
         {
 
-            if (yes) 
+            if (yes)
                 _misionUIManager.SetSleepVignette(0); //se resetea 
             else
                 BadAnswer();
@@ -361,7 +362,12 @@ public class MisionLevelManager : MonoBehaviour
         else
         {
             if (yes == _isSelectedStopQuestion)
+            {
+                if (yes)
+                    _goodStopAnswers++;
+
                 GoodAnswer();
+            }
             else
                 BadAnswer();
         }
@@ -709,8 +715,6 @@ public class MisionLevelManager : MonoBehaviour
 
     private void GoodAnswer()
     {
-        _goodAnswers++;
-
         if (_isSelectedStopQuestion)
             _misionUIManager.SetStopTick(_indexUIQuestion, true);
 
@@ -728,7 +732,7 @@ public class MisionLevelManager : MonoBehaviour
         }
         else
         {
-            _badAnswers++;
+            _badStopAnswers++;
 
             if (_isSelectedStopQuestion)
                 _misionUIManager.SetStopTick(_indexUIQuestion, false);
@@ -743,17 +747,12 @@ public class MisionLevelManager : MonoBehaviour
             // Pongo tick en UI
             _misionUIManager.SetLocationTick(_selectedLocationHours.IndexOf(_locHoursList[0].GetHString()), true);
             _locHoursList.RemoveAt(0);
+            _goodSentLocatiton++;
         }
     }
 
-    //para pasarle al ShowResumen
-
     void GoToResumenScreen()
     {
-
-        //en esto lo unico que me da mal rollo es que no hacemos instance null al misionlevelmanager porque necesitamos sus datos
-        //pero lo podemos coger en el start y borrar luego o en el update poner un metodo de if levelfinished no hacer lo del tiempo etc
-        //edit: ahora se pausa y luego se borra al salir del resumen
         if (Input.GetKeyDown(KeyCode.R))
         {
             SceneLoader.LoadScene("MC_Resumen");
@@ -771,12 +770,15 @@ public class MisionLevelManager : MonoBehaviour
 
 
 
-    public int HourPerSleep => _hourPerSleep; // getter de solo lectura
+    public int HourPerSleep => _hourPerSleep;
     public int SleptHours => _sleptHours;
     public int TotalSleepHours => _totalSleepHours;
     public string StartTime => _startTime;
     public List<string> SelectedInitialStops => _selectedInitialStops;
-    public List<string> SelectedStops => _selectedStops; //como se van quitando al final se queda con las respuestas que no fueron correctas
+    public List<string> SelectedStops => _selectedStops;
+    public int GoodStopAnswers => _goodStopAnswers;
     public List<string> SelectedLocationHours => _selectedLocationHours;
+    public int GoodSentLocation => _goodSentLocatiton;
+
 
 }

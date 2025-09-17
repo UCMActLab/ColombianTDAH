@@ -53,15 +53,12 @@ public class ShowResumen : MonoBehaviour
         int numChecks = checkElements.Count;
 
 
-        //para hacer pruebas
-        numSleepHours = 8;
-        horaSalida = "12AM";
-        paradasCorrectas = 0;
-        ubicacionesCorrectas = 3;
-        int ubicacionesTotales = 10;
-        int paradasTotales = 8;
-        int numSleepHoursTotales = 8;
-        //ponerlos de verdad
+        // Data variables
+        int ubicacionesTotales = 0;
+        int paradasTotales = 0;
+        int numSleepHoursTotales = 0;
+
+        // Asignar data MisionLevelManager
         if (MisionLevelManager.Instance != null)
         {
             MisionLevelManager.Instance.Pause(true);
@@ -70,9 +67,9 @@ public class ShowResumen : MonoBehaviour
 
             horaSalida = MisionLevelManager.Instance.StartTime;
             paradasTotales = MisionLevelManager.Instance.SelectedInitialStops.Count;
-            paradasCorrectas = paradasTotales - MisionLevelManager.Instance.SelectedStops.Count;
+            paradasCorrectas = MisionLevelManager.Instance.GoodStopAnswers;
 
-            ubicacionesCorrectas = MisionLevelManager.Instance.SelectedLocationHours.Count;
+            ubicacionesCorrectas = MisionLevelManager.Instance.GoodSentLocation;
             ubicacionesTotales = MisionLevelManager.Instance.SelectedLocationHours.Count;
         }
         
@@ -85,15 +82,10 @@ public class ShowResumen : MonoBehaviour
         checksInfo.Add(new CheckInfo($"Ubicación mandada...{ubicacionesCorrectas}/{ubicacionesTotales}", ubicacionesCorrectas == ubicacionesTotales));
 
 
-        showChecklist();
+        ShowChecklist();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-    void showChecklist()
+    void ShowChecklist()
     {
         StartCoroutine(ShowChecklistCoroutine());
     }
