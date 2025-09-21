@@ -650,6 +650,7 @@ GameObject:
   - component: {fileID: 5736777118916417226}
   - component: {fileID: 3879997023785454850}
   - component: {fileID: 8078732032105934272}
+  - component: {fileID: 2814388937420878718}
   m_Layer: 0
   m_Name: LibroDeRecetas
   m_TagString: Untagged
@@ -764,6 +765,27 @@ MonoBehaviour:
   - {fileID: 2751244823801875743}
   - {fileID: 5036063098810202696}
   - {fileID: 4433143811162581325}
+--- !u!65 &2814388937420878718
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2295256951011993621}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 3.872757, y: 0.375857, z: 2.5492198}
+  m_Center: {x: 0.03420115, y: 0.12758975, z: -0.016941305}
 --- !u!1 &2395647433561986762
 GameObject:
   m_ObjectHideFlags: 0
@@ -897,6 +919,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e5400aec144f34b40a417999b11460f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  duracion: 0.1
 --- !u!1 &2640213372326426270
 GameObject:
   m_ObjectHideFlags: 0
@@ -1335,6 +1358,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e5400aec144f34b40a417999b11460f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  duracion: 0.1
 --- !u!1 &4065171017563311861
 GameObject:
   m_ObjectHideFlags: 0
@@ -1898,6 +1922,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e5400aec144f34b40a417999b11460f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  duracion: 0.1
 --- !u!1 &8015740853754729656
 GameObject:
   m_ObjectHideFlags: 0

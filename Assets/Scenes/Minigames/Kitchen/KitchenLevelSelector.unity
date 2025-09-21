@@ -2853,39 +2853,39 @@ MonoBehaviour:
   - nombre: 0
     sprite: {fileID: 21300000, guid: 62ec27433715d4d4f888fadc587646b5, type: 3}
   - nombre: 1
-    sprite: {fileID: 21300000, guid: 62ec27433715d4d4f888fadc587646b5, type: 3}
+    sprite: {fileID: 21300000, guid: 77c5ccb8fe7c6b4449ae4ffeeab9e6c1, type: 3}
   - nombre: 2
-    sprite: {fileID: 21300000, guid: 62ec27433715d4d4f888fadc587646b5, type: 3}
+    sprite: {fileID: 21300000, guid: e1434a96d2e2b574aa3bef1a935848f2, type: 3}
   - nombre: 3
     sprite: {fileID: 21300000, guid: 62ec27433715d4d4f888fadc587646b5, type: 3}
   - nombre: 4
     sprite: {fileID: 21300000, guid: 62ec27433715d4d4f888fadc587646b5, type: 3}
   - nombre: 5
-    sprite: {fileID: 21300000, guid: 62ec27433715d4d4f888fadc587646b5, type: 3}
+    sprite: {fileID: 21300000, guid: 34391ec4266f87e469741fc5cd591d04, type: 3}
   - nombre: 6
-    sprite: {fileID: 21300000, guid: 62ec27433715d4d4f888fadc587646b5, type: 3}
+    sprite: {fileID: 21300000, guid: ca56d35924b3cf54b9af783ff2e3624b, type: 3}
   - nombre: 7
-    sprite: {fileID: 21300000, guid: 62ec27433715d4d4f888fadc587646b5, type: 3}
+    sprite: {fileID: 21300000, guid: dbc81222d961d4f4e9f35ef11c606f20, type: 3}
   - nombre: 8
-    sprite: {fileID: 21300000, guid: 62ec27433715d4d4f888fadc587646b5, type: 3}
+    sprite: {fileID: 21300000, guid: 93bd807a8f620fa4597ef30007c9c6a0, type: 3}
   - nombre: 9
-    sprite: {fileID: 21300000, guid: 62ec27433715d4d4f888fadc587646b5, type: 3}
+    sprite: {fileID: 21300000, guid: 6eb8cf8624149354aad2521e34ba16f3, type: 3}
   - nombre: 10
-    sprite: {fileID: 21300000, guid: 62ec27433715d4d4f888fadc587646b5, type: 3}
+    sprite: {fileID: 21300000, guid: 53f7f0eb7cc24984d81b23856c072bf5, type: 3}
   - nombre: 11
-    sprite: {fileID: 21300000, guid: 62ec27433715d4d4f888fadc587646b5, type: 3}
+    sprite: {fileID: 21300000, guid: cda6e7f044d16c8448cecd52f8b8d971, type: 3}
   - nombre: 12
-    sprite: {fileID: 21300000, guid: 62ec27433715d4d4f888fadc587646b5, type: 3}
+    sprite: {fileID: 21300000, guid: 5674fbcb98d8c854b89bc9bc5318fd00, type: 3}
   - nombre: 13
-    sprite: {fileID: 21300000, guid: 62ec27433715d4d4f888fadc587646b5, type: 3}
+    sprite: {fileID: 21300000, guid: 93a4cd6393a613643b37c857ad8e50f2, type: 3}
   - nombre: 14
-    sprite: {fileID: 21300000, guid: 62ec27433715d4d4f888fadc587646b5, type: 3}
+    sprite: {fileID: 21300000, guid: 5122337312a1faf46bddaf0084ca24a2, type: 3}
   - nombre: 15
-    sprite: {fileID: 21300000, guid: 62ec27433715d4d4f888fadc587646b5, type: 3}
+    sprite: {fileID: 21300000, guid: 6aefed96531cab84cb831fb46301f26c, type: 3}
   - nombre: 16
-    sprite: {fileID: 21300000, guid: 62ec27433715d4d4f888fadc587646b5, type: 3}
+    sprite: {fileID: 21300000, guid: 85bf8cc8d302dcf45ab410183717a3b9, type: 3}
   - nombre: 17
-    sprite: {fileID: 21300000, guid: 62ec27433715d4d4f888fadc587646b5, type: 3}
+    sprite: {fileID: 21300000, guid: 65fb28139f271cc43936467320530a1b, type: 3}
   - nombre: 18
     sprite: {fileID: 21300000, guid: 62ec27433715d4d4f888fadc587646b5, type: 3}
   - nombre: 19
@@ -2897,23 +2897,23 @@ MonoBehaviour:
   - nombre: 22
     sprite: {fileID: 21300000, guid: da4d77cb235a0a746ab30dc2e3476a5c, type: 3}
   - nombre: 23
-    sprite: {fileID: 21300000, guid: 62ec27433715d4d4f888fadc587646b5, type: 3}
+    sprite: {fileID: 21300000, guid: 59812dd2f9bcc124f820f6bb21596cfb, type: 3}
   - nombre: 24
-    sprite: {fileID: 21300000, guid: 62ec27433715d4d4f888fadc587646b5, type: 3}
+    sprite: {fileID: 21300000, guid: 5b2d2ae6143946c4ead4380ba18f39ea, type: 3}
   - nombre: 25
-    sprite: {fileID: 21300000, guid: 62ec27433715d4d4f888fadc587646b5, type: 3}
+    sprite: {fileID: 21300000, guid: 78d6aa1a619985840ae69e8b6765105b, type: 3}
   - nombre: 26
-    sprite: {fileID: 21300000, guid: 62ec27433715d4d4f888fadc587646b5, type: 3}
+    sprite: {fileID: 21300000, guid: e3e57f60d9eaa58499ec59c11c2982f3, type: 3}
   - nombre: 27
-    sprite: {fileID: 21300000, guid: 62ec27433715d4d4f888fadc587646b5, type: 3}
+    sprite: {fileID: 21300000, guid: 0ef236fd512d19c448ad7356a7af8644, type: 3}
   - nombre: 28
-    sprite: {fileID: 21300000, guid: 62ec27433715d4d4f888fadc587646b5, type: 3}
+    sprite: {fileID: 21300000, guid: bf83f2728e8e5844f8c9a29257a61238, type: 3}
   - nombre: 29
-    sprite: {fileID: 21300000, guid: 62ec27433715d4d4f888fadc587646b5, type: 3}
+    sprite: {fileID: 21300000, guid: 8fd3423bcf4aec24e938c1180a94f437, type: 3}
   - nombre: 30
-    sprite: {fileID: 21300000, guid: 62ec27433715d4d4f888fadc587646b5, type: 3}
+    sprite: {fileID: 21300000, guid: 2f805f4fecc64ce409c3f82c95f39f86, type: 3}
   - nombre: 31
-    sprite: {fileID: 21300000, guid: 62ec27433715d4d4f888fadc587646b5, type: 3}
+    sprite: {fileID: 21300000, guid: 73e2426a296ed384a97380c2caa8a0da, type: 3}
   - nombre: 32
     sprite: {fileID: 21300000, guid: 62ec27433715d4d4f888fadc587646b5, type: 3}
   - nombre: 33
@@ -2923,27 +2923,27 @@ MonoBehaviour:
   - nombre: 35
     sprite: {fileID: 21300000, guid: 62ec27433715d4d4f888fadc587646b5, type: 3}
   - nombre: 36
-    sprite: {fileID: 21300000, guid: 62ec27433715d4d4f888fadc587646b5, type: 3}
+    sprite: {fileID: 21300000, guid: 7674c13cbeda53540a02c906c7fcaea9, type: 3}
   - nombre: 37
-    sprite: {fileID: 21300000, guid: 62ec27433715d4d4f888fadc587646b5, type: 3}
+    sprite: {fileID: 21300000, guid: 591837b5441776946a6673ca2359a50b, type: 3}
   - nombre: 38
-    sprite: {fileID: 21300000, guid: 62ec27433715d4d4f888fadc587646b5, type: 3}
+    sprite: {fileID: 21300000, guid: 949bf669b3dd2fb49ac6cc5c152aa754, type: 3}
   - nombre: 39
-    sprite: {fileID: 21300000, guid: 62ec27433715d4d4f888fadc587646b5, type: 3}
+    sprite: {fileID: 21300000, guid: d7491b74e01515e468de84e452017978, type: 3}
   - nombre: 40
-    sprite: {fileID: 21300000, guid: 62ec27433715d4d4f888fadc587646b5, type: 3}
+    sprite: {fileID: 21300000, guid: cea19466f65d5b54ca91cb6c6573d5f8, type: 3}
   - nombre: 41
-    sprite: {fileID: 21300000, guid: 62ec27433715d4d4f888fadc587646b5, type: 3}
+    sprite: {fileID: 21300000, guid: 73c4d32573bbbad43ae97c179d26b728, type: 3}
   - nombre: 42
-    sprite: {fileID: 21300000, guid: 62ec27433715d4d4f888fadc587646b5, type: 3}
+    sprite: {fileID: 21300000, guid: d87507950b841cf45a262aec95295fc0, type: 3}
   - nombre: 43
-    sprite: {fileID: 21300000, guid: 62ec27433715d4d4f888fadc587646b5, type: 3}
+    sprite: {fileID: 21300000, guid: d18775be0edb7fb43b0d3d46a4671989, type: 3}
   - nombre: 44
-    sprite: {fileID: 21300000, guid: 62ec27433715d4d4f888fadc587646b5, type: 3}
+    sprite: {fileID: 21300000, guid: 12f9274fcee2e064180de415618faec5, type: 3}
   - nombre: 45
-    sprite: {fileID: 21300000, guid: 62ec27433715d4d4f888fadc587646b5, type: 3}
+    sprite: {fileID: 21300000, guid: adf678e83a245c640a344ddca99bfb1d, type: 3}
   - nombre: 46
-    sprite: {fileID: 21300000, guid: 62ec27433715d4d4f888fadc587646b5, type: 3}
+    sprite: {fileID: 21300000, guid: 6c6566d45d1d9144792fc2bd6574bf1c, type: 3}
   - nombre: 47
     sprite: {fileID: 21300000, guid: 62ec27433715d4d4f888fadc587646b5, type: 3}
   - nombre: 48
