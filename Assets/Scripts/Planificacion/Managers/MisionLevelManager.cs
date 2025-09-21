@@ -60,6 +60,8 @@ public class MisionLevelManager : MonoBehaviour
     int _duration; // Hours
     int _durationMax; // Hours
     bool _rules;
+    HourMinSec _lastSentHour;
+    bool _isLocationSentGood = true;
 
     // Horas
     bool[] _depHours;
@@ -262,6 +264,9 @@ public class MisionLevelManager : MonoBehaviour
         // Si ha cambiado la hora
         if (_auxHourClock != _gameClock.Hours)
         {
+            // Comprueba si se cumple la regla
+            CheckLocationSent();
+
             // Si es igual o menor sinifica q se ha saltado la hora de mandar ubicacion
             while (_locHoursList.Count != 0 && _auxHourClock >= _locHoursList[0].Hours)
             {
@@ -493,6 +498,7 @@ public class MisionLevelManager : MonoBehaviour
             aux = 12;
         string auxString = timeSplit[0];
         _gameClock = new HourMinSec(int.Parse(auxString) + aux, 0, 0);
+        _lastSentHour = new HourMinSec(_gameClock.Hours, _gameClock.Minutes, _gameClock.Seconds);
         _auxHourClock = _gameClock.Hours;
     }
 
@@ -742,6 +748,15 @@ public class MisionLevelManager : MonoBehaviour
 
     public void SendLocation()
     {
+        // Comprueba si se cumple la regla
+        CheckLocationSent();
+
+        // Guarda ultima hora de envio
+        _lastSentHour.Hours = _gameClock.Hours;
+        _lastSentHour.Minutes = _gameClock.Minutes;
+        _lastSentHour.Seconds = _gameClock.Seconds;
+
+        // Actualiza UI
         if (_locHoursList.Count != 0 && _gameClock.Hours == _locHoursList[0].Hours)
         {
             // Pongo tick en UI
@@ -749,6 +764,16 @@ public class MisionLevelManager : MonoBehaviour
             _locHoursList.RemoveAt(0);
             _goodSentLocatiton++;
         }
+    }
+
+    void CheckLocationSent()
+    {
+        // Guarda ultima hora de envio
+        int hourDiff = _lastSentHour.GetHoursInBetween(_gameClock.Hours);
+
+        // Mira si se cumple la regla
+        if (hourDiff > _locationFrec)
+            _isLocationSentGood = false;
     }
 
     void GoToResumenScreen()
@@ -767,7 +792,19 @@ public class MisionLevelManager : MonoBehaviour
         }
     }
 
+    public bool Win()
+    {
+        string[] timeSplit = _startTime.Split(' ');
+        int aux = 0;
+        if (timeSplit[1] == "pm")
+            aux = 12;
+        string auxString = timeSplit[0];
 
+        int realDuration = new HourMinSec(int.Parse(auxString) + aux, 0, 0).GetHoursInBetween(_gameClock.Hours);
+
+        return _goodStopAnswers >= _stopsN && _sleptHours >= _totalSleepHours && _isLocationSentGood && realDuration < _durationMax;
+        // Si no se pasa del tiempo maximo
+    }
 
 
     public int HourPerSleep => _hourPerSleep;

@@ -39,7 +39,10 @@ public class ShowResumen : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        win = true;
+        win = MisionLevelManager.Instance.Win();
+
+        // Coger condicion de ganar del GAme Manager
+
         exitButton.SetActive(false);
         winLoseText.gameObject.SetActive(false);
 
@@ -109,7 +112,7 @@ public class ShowResumen : MonoBehaviour
     //que por cada hijo de la checklist haya que ir metiendolos con su info correcta
     void showCheckElement(int childIndex, bool conseguido, string texto)
     {
-        if (!conseguido) win = false; //si alguno de los checks no se cumple no se gana
+        //if (!conseguido) win = false; //si alguno de los checks no se cumple no se gana
 
         Debug.Log("Child number " + childIndex);
         Debug.Log("texto " + texto);
