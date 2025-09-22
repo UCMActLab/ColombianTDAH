@@ -2851,15 +2851,15 @@ MonoBehaviour:
       spriteTablon: {fileID: 2800000, guid: 4fa089eb551d5b7429e089d94354c60a, type: 3}
   ingredientesSpritesSerializable:
   - nombre: 0
-    sprite: {fileID: 21300000, guid: 62ec27433715d4d4f888fadc587646b5, type: 3}
+    sprite: {fileID: 21300000, guid: 618eaea53f718f746ba35eda7d84c5f9, type: 3}
   - nombre: 1
     sprite: {fileID: 21300000, guid: 77c5ccb8fe7c6b4449ae4ffeeab9e6c1, type: 3}
   - nombre: 2
     sprite: {fileID: 21300000, guid: e1434a96d2e2b574aa3bef1a935848f2, type: 3}
   - nombre: 3
-    sprite: {fileID: 21300000, guid: 62ec27433715d4d4f888fadc587646b5, type: 3}
+    sprite: {fileID: 21300000, guid: ef4159ac0a2d4a54c981cd75b63ae9a1, type: 3}
   - nombre: 4
-    sprite: {fileID: 21300000, guid: 62ec27433715d4d4f888fadc587646b5, type: 3}
+    sprite: {fileID: 21300000, guid: 22d824f7023ace448a55667dfabc0931, type: 3}
   - nombre: 5
     sprite: {fileID: 21300000, guid: 34391ec4266f87e469741fc5cd591d04, type: 3}
   - nombre: 6
@@ -2887,11 +2887,11 @@ MonoBehaviour:
   - nombre: 17
     sprite: {fileID: 21300000, guid: 65fb28139f271cc43936467320530a1b, type: 3}
   - nombre: 18
-    sprite: {fileID: 21300000, guid: 62ec27433715d4d4f888fadc587646b5, type: 3}
+    sprite: {fileID: 21300000, guid: e1edb5cb2f8be2245a7f5e73ed1c9d43, type: 3}
   - nombre: 19
-    sprite: {fileID: 21300000, guid: 62ec27433715d4d4f888fadc587646b5, type: 3}
+    sprite: {fileID: 21300000, guid: cae96341ddcc4454d920b616012a6009, type: 3}
   - nombre: 20
-    sprite: {fileID: 21300000, guid: 62ec27433715d4d4f888fadc587646b5, type: 3}
+    sprite: {fileID: 21300000, guid: 75dfa552223e42f41bc8c1101ab47413, type: 3}
   - nombre: 21
     sprite: {fileID: 21300000, guid: 7534dc53ff9774341979aa0f28bf8178, type: 3}
   - nombre: 22
@@ -2915,13 +2915,13 @@ MonoBehaviour:
   - nombre: 31
     sprite: {fileID: 21300000, guid: 73e2426a296ed384a97380c2caa8a0da, type: 3}
   - nombre: 32
-    sprite: {fileID: 21300000, guid: 62ec27433715d4d4f888fadc587646b5, type: 3}
+    sprite: {fileID: 21300000, guid: c09d6e1206cb4014bb78aa66a2fcdd2e, type: 3}
   - nombre: 33
-    sprite: {fileID: 21300000, guid: 62ec27433715d4d4f888fadc587646b5, type: 3}
+    sprite: {fileID: 21300000, guid: 92e6344050988224f97680d41da23b7c, type: 3}
   - nombre: 34
-    sprite: {fileID: 21300000, guid: 62ec27433715d4d4f888fadc587646b5, type: 3}
+    sprite: {fileID: 21300000, guid: 6dcd5983c95b4b641a3d26c06399f6a4, type: 3}
   - nombre: 35
-    sprite: {fileID: 21300000, guid: 62ec27433715d4d4f888fadc587646b5, type: 3}
+    sprite: {fileID: 21300000, guid: 7151e87d59a952443a0f589cecead634, type: 3}
   - nombre: 36
     sprite: {fileID: 21300000, guid: 7674c13cbeda53540a02c906c7fcaea9, type: 3}
   - nombre: 37
@@ -2945,13 +2945,13 @@ MonoBehaviour:
   - nombre: 46
     sprite: {fileID: 21300000, guid: 6c6566d45d1d9144792fc2bd6574bf1c, type: 3}
   - nombre: 47
-    sprite: {fileID: 21300000, guid: 62ec27433715d4d4f888fadc587646b5, type: 3}
+    sprite: {fileID: 21300000, guid: 3c3a076dacf8fa1418f9c092027e8490, type: 3}
   - nombre: 48
-    sprite: {fileID: 21300000, guid: 62ec27433715d4d4f888fadc587646b5, type: 3}
+    sprite: {fileID: 21300000, guid: 590d9c58ef0ed934fa3427ec0f32067a, type: 3}
   - nombre: 49
-    sprite: {fileID: 21300000, guid: 62ec27433715d4d4f888fadc587646b5, type: 3}
+    sprite: {fileID: 21300000, guid: 69d54324aafcf24419f2bbcdd1546c7a, type: 3}
   - nombre: 50
-    sprite: {fileID: 21300000, guid: 62ec27433715d4d4f888fadc587646b5, type: 3}
+    sprite: {fileID: 21300000, guid: e6ac83d58a6ee0d4e9d7db6ca825a7ac, type: 3}
 --- !u!4 &1005304898
 Transform:
   m_ObjectHideFlags: 0
