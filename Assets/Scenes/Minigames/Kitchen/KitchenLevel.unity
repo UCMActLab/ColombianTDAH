@@ -3649,6 +3649,7 @@ Transform:
   - {fileID: 290392820}
   - {fileID: 665772418}
   - {fileID: 1019493295}
+  - {fileID: 2119430844}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1094035420
@@ -5627,10 +5628,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects:
-    - targetCorrespondingSourceObject: {fileID: 2314193860171027961, guid: efec0d5cdc8dcc0408b3449ff856af75, type: 3}
-      insertIndex: 0
-      addedObject: {fileID: 2119430844}
+    m_AddedGameObjects: []
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 2804293079001196630, guid: efec0d5cdc8dcc0408b3449ff856af75, type: 3}
       insertIndex: -1
@@ -5658,11 +5656,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 1697348599}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 394ed246e09acea47875e5d6d47b1e0a, type: 3}
+  m_Script: {fileID: 11500000, guid: a156b696da90d1745b7a8be5d4fc4b25, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   spawn: {fileID: 0}
-  spawnTransform: {fileID: 2119430844}
+  createHomeAtStart: 1
+  copyInitialRotation: 1
+  autoReturnOnDrop: 1
   returnDuration: 0.35
   ease:
     serializedVersion: 2
@@ -5688,6 +5688,9 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  snapDistance: 0.02
+  disableDraggable: 1
+  makeRigidbodyKinematic: 1
 --- !u!1001 &1732529399
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6673,11 +6676,11 @@ Transform:
   m_GameObject: {fileID: 2119430843}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 5.4803395, y: -1.8928788, z: -4.038845}
+  m_LocalScale: {x: 0.012, y: 0.012, z: 0.012}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1697348598}
+  m_Father: {fileID: 1092826597}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2122548483
 GameObject:

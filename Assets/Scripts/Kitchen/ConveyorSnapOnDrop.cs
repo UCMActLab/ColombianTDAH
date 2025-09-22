@@ -40,6 +40,8 @@ public class ConveyorSnapOnDrop : MonoBehaviour
             raycaster?.ForceClearOverlay();
             return;
         }
+        var returner = GetComponent<ReturnToSpawn>();
+        if (returner) returner.MarkDropHandledThisFrame();
 
         var conveyor = raycaster.GetCurrentConveyor();
         if (conveyor == null)
@@ -66,7 +68,7 @@ public class ConveyorSnapOnDrop : MonoBehaviour
             transform.position = conveyor.GetEntryPoint().position;
             transform.rotation = conveyor.GetEntryPoint().rotation;
         }
-
+        
         // Montamos en la cinta
         conveyor.Board(gameObject);
 
