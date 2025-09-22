@@ -85,6 +85,7 @@ public class LevelKitchenManager : MonoBehaviour
     private RecipeBoard rec;
     private GameObject conveyor;
     private GameObject sponge;
+    private GameObject pauseCollider;
 
     private Transform cameraInitPos;
     private Transform cameraTablonPos;
@@ -525,6 +526,7 @@ public class LevelKitchenManager : MonoBehaviour
     {
         paused = pause;
         DraggableBlocker.ConmuteBlock();
+        pauseCollider.SetActive(paused);
         if (paused) contador.Pausar();
         else contador.Reanudar();
 
@@ -664,6 +666,15 @@ public class LevelKitchenManager : MonoBehaviour
     public GameObject GetSponge() 
     {
         return sponge; 
+    }
+
+    public void SetPauseCollider(GameObject p)
+    {
+        pauseCollider = p;
+    }
+    public GameObject GetPauseCollider()
+    {
+        return pauseCollider;
     }
 
     public void SetTutorial(GameObject t)

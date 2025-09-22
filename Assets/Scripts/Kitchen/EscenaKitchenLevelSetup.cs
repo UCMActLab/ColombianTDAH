@@ -17,6 +17,7 @@ public class EscenaKitchenLevelSetup : MonoBehaviour
     [SerializeField] private GameObject tutorialSystem;
     [SerializeField] private GameObject conveyor;
     [SerializeField] private GameObject sponge;
+    [SerializeField] private GameObject pauseCollider;
 
     [Header("Workstations")]
     [SerializeField] private GameObject mixer;
@@ -59,6 +60,7 @@ public class EscenaKitchenLevelSetup : MonoBehaviour
         LevelKitchenManager.Instance.SetTutorial(tutorialSystem);
         LevelKitchenManager.Instance.SetConveyor(conveyor);
         LevelKitchenManager.Instance.SetSponge(sponge);
+        LevelKitchenManager.Instance.SetPauseCollider(pauseCollider);
 
         // Animators
         AnimatorManager.Instance.SetAnimator(ObjetosAnim.Libro, libroDeRecetas.GetComponent<Animator>());
