@@ -127,7 +127,7 @@ public class WorkstationProcessor : MonoBehaviour
 
         processed = true;
         // Anim & sonido inicio      
-        AnimatorManager.Instance.PlayAndPauseAt(animKey, processingAnim, animTime);
+        AnimatorManager.Instance.ChangeAnimation(animKey, processingAnim);
         if (!string.IsNullOrEmpty(processingSfxName))
             KitchenSoundManager.Instance.PlayLoop(soundKey, processingSfxName);
 
@@ -165,10 +165,10 @@ public class WorkstationProcessor : MonoBehaviour
             OnRecipeCraftedGlobal?.Invoke(data, workstationType);
             Debug.Log("Ingrediente Procesado");
         }
-            
+
 
         // Fin anim & sonido
-        AnimatorManager.Instance.PlayAndPauseAt(animKey, idleAnim, 0f);
+        AnimatorManager.Instance.ChangeAnimation(animKey, idleAnim);
         if (!string.IsNullOrEmpty(processingSfxName))
             KitchenSoundManager.Instance.StopLoop(soundKey);
 
@@ -187,7 +187,7 @@ public class WorkstationProcessor : MonoBehaviour
 
         // Anim & sonido inicio
         if (GetComponent<Animator>() != null)
-            AnimatorManager.Instance.PlayAndPauseAt(animKey, processingAnim, animTime);
+            AnimatorManager.Instance.ChangeAnimation(animKey, processingAnim);
         if (!string.IsNullOrEmpty(processingSfxName))
             KitchenSoundManager.Instance.PlayLoop(soundKey, processingSfxName);
 
@@ -229,7 +229,7 @@ public class WorkstationProcessor : MonoBehaviour
 
         // Fin anim & sonido
         if (GetComponent<Animator>() != null)
-            AnimatorManager.Instance.PlayAndPauseAt(animKey, idleAnim, 0f);
+            AnimatorManager.Instance.ChangeAnimation(animKey, idleAnim);
         if (!string.IsNullOrEmpty(processingSfxName))
             KitchenSoundManager.Instance.StopLoop(soundKey);
 
