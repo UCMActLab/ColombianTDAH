@@ -47,8 +47,9 @@ public class MisionLevelManager : MonoBehaviour
     float _timeCont = 0;
     bool _isAnswering = false;
     int _questionFrecMins;
-    int _goodAnswers = 0;
-    int _badAnswers = 0;
+    int _goodStopAnswers = 0;
+    int _badStopAnswers = 0;
+    int _goodSentLocatiton = 0;
     int _indexUIQuestion;
 
     // Reglas
@@ -59,6 +60,8 @@ public class MisionLevelManager : MonoBehaviour
     int _duration; // Hours
     int _durationMax; // Hours
     bool _rules;
+    HourMinSec _lastSentHour;
+    bool _isLocationSentGood = true;
 
     // Horas
     bool[] _depHours;
@@ -171,6 +174,15 @@ public class MisionLevelManager : MonoBehaviour
         _isAnswering = false;
     }
 
+    void SetVignette()
+    {
+        _sleptHours -= _hourPerSleep; //si no duerme se restan horas de suenyo
+
+        float sleepRatio = (float)_sleptHours / (float)_totalSleepHours;
+        float vignetteAlpha = 1f - sleepRatio;
+        _misionUIManager.SetSleepVignette(vignetteAlpha);
+    }
+
     // Actualiza tiempo
     void UpdateTime()
     {
@@ -208,7 +220,7 @@ public class MisionLevelManager : MonoBehaviour
                 // Actualizo dormir
                 UpdateSleep();
 
-                if (!_shouldSleep &&!_sleeping && _anyQuestionsLeft)
+                if (!_shouldSleep && !_sleeping && _anyQuestionsLeft)
                 {
 
                     if (_auxGameCont.Minutes >= _questionFrecMins)
@@ -252,6 +264,9 @@ public class MisionLevelManager : MonoBehaviour
         // Si ha cambiado la hora
         if (_auxHourClock != _gameClock.Hours)
         {
+            // Comprueba si se cumple la regla
+            CheckLocationSent();
+
             // Si es igual o menor sinifica q se ha saltado la hora de mandar ubicacion
             while (_locHoursList.Count != 0 && _auxHourClock >= _locHoursList[0].Hours)
             {
@@ -271,7 +286,8 @@ public class MisionLevelManager : MonoBehaviour
     void UpdateSleep()
     {
         // si la hora en la que estamos esta en la lista de dormir pongo a true booleano dormir
-        if (_askedSleepTimes.Contains(_gameClock.Hours)) {
+        if (_askedSleepTimes.Contains(_gameClock.Hours))
+        {
             return;
         }
 
@@ -327,7 +343,7 @@ public class MisionLevelManager : MonoBehaviour
 
             _misionUIManager.ChangeQuestion($"Quieres dormir {_hourPerSleep} horas?");
         }
-     
+
         ShowDecisionButtons();
         Debug.Log("Aparece pregunta buena para responder dormir"); // Tiene que parar
     }
@@ -339,25 +355,28 @@ public class MisionLevelManager : MonoBehaviour
 
         if (_shouldSleep) //si esta _shouldSleep es que es una pregunta de dormir si o no
         {
-            if (!yes) _sleptHours -= _hourPerSleep; //si no duerme se restan horas de sue�o
 
-            float sleepRatio = (float)_sleptHours / (float)_totalSleepHours; //si da algo distinto entre 0 y 1 vamos mal
-            float vignetteAlpha = 1f - sleepRatio;
-            if (yes) _misionUIManager.SetSleepVignette(0); //se resetea 
-            else _misionUIManager.SetSleepVignette(vignetteAlpha);
+            if (yes)
+                _misionUIManager.SetSleepVignette(0); //se resetea 
+            else
+                BadAnswer();
+
             Sleep(yes);
             _shouldSleep = false;
-
-
         }
         else
         {
             if (yes == _isSelectedStopQuestion)
+            {
+                if (yes)
+                    _goodStopAnswers++;
+
                 GoodAnswer();
+            }
             else
                 BadAnswer();
         }
-      
+
     }
 
     private void FinishAnswer()
@@ -479,6 +498,7 @@ public class MisionLevelManager : MonoBehaviour
             aux = 12;
         string auxString = timeSplit[0];
         _gameClock = new HourMinSec(int.Parse(auxString) + aux, 0, 0);
+        _lastSentHour = new HourMinSec(_gameClock.Hours, _gameClock.Minutes, _gameClock.Seconds);
         _auxHourClock = _gameClock.Hours;
     }
 
@@ -701,8 +721,6 @@ public class MisionLevelManager : MonoBehaviour
 
     private void GoodAnswer()
     {
-        _goodAnswers++;
-
         if (_isSelectedStopQuestion)
             _misionUIManager.SetStopTick(_indexUIQuestion, true);
 
@@ -711,32 +729,55 @@ public class MisionLevelManager : MonoBehaviour
 
     private void BadAnswer()
     {
-        _badAnswers++;
+        if (_shouldSleep)
+        {
+            SetVignette();
+            int index = _selectedSleepTimes.IndexOf(_gameClock.GetHString());
+            _misionUIManager.SetSleepTick(index, false);
+            _shouldSleep = false;
+        }
+        else
+        {
+            _badStopAnswers++;
 
-        if (_isSelectedStopQuestion)
-            _misionUIManager.SetStopTick(_indexUIQuestion, false);
-
+            if (_isSelectedStopQuestion)
+                _misionUIManager.SetStopTick(_indexUIQuestion, false);
+        }
         Debug.Log("Bad answer");
     }
 
     public void SendLocation()
     {
+        // Comprueba si se cumple la regla
+        CheckLocationSent();
+
+        // Guarda ultima hora de envio
+        _lastSentHour.Hours = _gameClock.Hours;
+        _lastSentHour.Minutes = _gameClock.Minutes;
+        _lastSentHour.Seconds = _gameClock.Seconds;
+
+        // Actualiza UI
         if (_locHoursList.Count != 0 && _gameClock.Hours == _locHoursList[0].Hours)
         {
             // Pongo tick en UI
             _misionUIManager.SetLocationTick(_selectedLocationHours.IndexOf(_locHoursList[0].GetHString()), true);
             _locHoursList.RemoveAt(0);
+            _goodSentLocatiton++;
         }
     }
 
-    //para pasarle al ShowResumen
+    void CheckLocationSent()
+    {
+        // Guarda ultima hora de envio
+        int hourDiff = _lastSentHour.GetHoursInBetween(_gameClock.Hours);
+
+        // Mira si se cumple la regla
+        if (hourDiff > _locationFrec)
+            _isLocationSentGood = false;
+    }
 
     void GoToResumenScreen()
     {
-
-        //en esto lo unico que me da mal rollo es que no hacemos instance null al misionlevelmanager porque necesitamos sus datos
-        //pero lo podemos coger en el start y borrar luego o en el update poner un metodo de if levelfinished no hacer lo del tiempo etc
-        //edit: ahora se pausa y luego se borra al salir del resumen
         if (Input.GetKeyDown(KeyCode.R))
         {
             SceneLoader.LoadScene("MC_Resumen");
@@ -751,15 +792,30 @@ public class MisionLevelManager : MonoBehaviour
         }
     }
 
- 
+    public bool Win()
+    {
+        string[] timeSplit = _startTime.Split(' ');
+        int aux = 0;
+        if (timeSplit[1] == "pm")
+            aux = 12;
+        string auxString = timeSplit[0];
+
+        int realDuration = new HourMinSec(int.Parse(auxString) + aux, 0, 0).GetHoursInBetween(_gameClock.Hours);
+
+        return _goodStopAnswers >= _stopsN && _sleptHours >= _totalSleepHours && _isLocationSentGood && realDuration < _durationMax;
+        // Si no se pasa del tiempo maximo
+    }
 
 
-    public int HourPerSleep => _hourPerSleep; // getter de solo lectura
+    public int HourPerSleep => _hourPerSleep;
     public int SleptHours => _sleptHours;
     public int TotalSleepHours => _totalSleepHours;
     public string StartTime => _startTime;
     public List<string> SelectedInitialStops => _selectedInitialStops;
-    public List<string> SelectedStops => _selectedStops; //como se van quitando al final se queda con las respuestas que no fueron correctas
+    public List<string> SelectedStops => _selectedStops;
+    public int GoodStopAnswers => _goodStopAnswers;
     public List<string> SelectedLocationHours => _selectedLocationHours;
+    public int GoodSentLocation => _goodSentLocatiton;
+
 
 }
