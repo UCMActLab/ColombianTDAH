@@ -77,6 +77,13 @@ public class ConveyorBelt : MonoBehaviour
     {
         if (go == null || entryPoint == null || exitPoint == null) return;
 
+        var rts = go.GetComponent<ReturnToSpawn>();
+        if (rts)
+        {
+            rts.MarkDropHandledThisFrame(); 
+            rts.BeginTransit(); // Bloquea retornos mientras viaja
+        }
+
         // Desactiva su draggable mientras viaja
         var drag = go.GetComponent<Draggable>();
         if (drag) drag.enabled = false;

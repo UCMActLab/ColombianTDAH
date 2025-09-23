@@ -1595,6 +1595,22 @@ PrefabInstance:
       propertyPath: m_Name
       value: Flecha
       objectReference: {fileID: 0}
+    - target: {fileID: 3082522400419998518, guid: d9cef7909b86fed45b97576dd9234360, type: 3}
+      propertyPath: defaultMax
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3082522400419998518, guid: d9cef7909b86fed45b97576dd9234360, type: 3}
+      propertyPath: defaultColor.b
+      value: 0.01027944
+      objectReference: {fileID: 0}
+    - target: {fileID: 3082522400419998518, guid: d9cef7909b86fed45b97576dd9234360, type: 3}
+      propertyPath: defaultColor.g
+      value: 0.7024297
+      objectReference: {fileID: 0}
+    - target: {fileID: 3082522400419998518, guid: d9cef7909b86fed45b97576dd9234360, type: 3}
+      propertyPath: defaultColor.r
+      value: 0.7264151
+      objectReference: {fileID: 0}
     - target: {fileID: 3720594777896633241, guid: d9cef7909b86fed45b97576dd9234360, type: 3}
       propertyPath: m_Name
       value: TutorialSystem

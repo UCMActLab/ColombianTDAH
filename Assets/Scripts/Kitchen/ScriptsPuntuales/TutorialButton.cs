@@ -1,6 +1,4 @@
 using UnityEngine;
-using UnityEngine.SceneManagement;
-using UnityEngine.UI;
 
 public class TutorialButton : MonoBehaviour
 {
@@ -17,6 +15,6 @@ public class TutorialButton : MonoBehaviour
     {
         LevelKitchenManager.Instance.StartTutorialMode(); // Activa el flag
         Debug.Log("Tutorial activado");
-        SceneManager.LoadScene(kitchenScene); // Carga la escena de cocina
+        SceneLoader.LoadScene(kitchenScene); // Carga la escena de cocina
     }
 }

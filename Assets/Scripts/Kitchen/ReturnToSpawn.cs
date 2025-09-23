@@ -16,12 +16,15 @@ public class ReturnToSpawn : MonoBehaviour
 
     [SerializeField] private bool disableDraggable = true;
     [SerializeField] private bool makeRigidbodyKinematic = true;
-  
+
+    [SerializeField] private bool blockReturnWhileTransit = true;
+
     public System.Action OnReturnStarted;
     public System.Action OnReturnFinished;
 
     private Draggable drag;
     private bool isReturning;
+    private bool inTransit;
     private bool suppressNextAutoReturn; 
     private bool subscribed;
 
@@ -44,12 +47,18 @@ public class ReturnToSpawn : MonoBehaviour
 
     void OnDisable()
     {
+        StopAllCoroutines();
+        isReturning = false;
+        inTransit = false;
+        suppressNextAutoReturn = false;
+
         TryUnsubscribeFromDraggable();
     }
 
     private void TrySubscribeToDraggable()
     {
         if (drag == null || subscribed) return;
+        drag.onStopDragging.AddListener(HandleStartDragging);
         drag.onStopDragging.AddListener(HandleStopDragging);
         subscribed = true;
     }
@@ -57,14 +66,28 @@ public class ReturnToSpawn : MonoBehaviour
     private void TryUnsubscribeFromDraggable()
     {
         if (drag == null || !subscribed) return;
+        drag.onStopDragging.RemoveListener(HandleStartDragging);
         drag.onStopDragging.RemoveListener(HandleStopDragging);
         subscribed = false;
     }
 
+    private void HandleStartDragging()
+    {
+        // Cancela un retorno en curso
+        if (isReturning)
+        {         
+            StopAllCoroutines();
+            isReturning = false;
+        }
+
+        // Limpiamos el supresor por si quedó activo del drop anterior 
+        suppressNextAutoReturn = false;
+    }
     private void HandleStopDragging()
     {
         if (!autoReturnOnDrop) return;
 
+        if (blockReturnWhileTransit && inTransit) return;
         // Si otro sistema (workstation/cinta) ha gestionado el drop, no retornamos
         if (suppressNextAutoReturn)
         {
@@ -80,9 +103,24 @@ public class ReturnToSpawn : MonoBehaviour
         suppressNextAutoReturn = true;
     }
 
+    public void BeginTransit()
+    {
+        inTransit = true;
+ 
+        if (isReturning)
+        {
+            StopAllCoroutines();
+            isReturning = false;
+        }
+    }
+
+    public void EndTransit() => inTransit = false;
+
     public void Return(bool snap)
     {
         if (spawn == null || isReturning) return;
+        if (blockReturnWhileTransit && inTransit) return;
+
         StopAllCoroutines();
         StartCoroutine(ReturnRoutine(snap));
     }

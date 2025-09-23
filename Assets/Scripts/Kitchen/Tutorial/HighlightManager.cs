@@ -6,7 +6,7 @@ public class HighlightManager : MonoBehaviour
     [Header("Default Style")]
     [SerializeField] private Color defaultColor = new Color(1f, 0.9f, 0.3f);
     [SerializeField] private float defaultMin = 0.0f;
-    [SerializeField] private float defaultMax = 3.0f;
+    [SerializeField] private float defaultMax = 1.0f;
     [SerializeField] private float defaultFrequency = 1.0f;
 
     private readonly Dictionary<GameObject, HighlightObject> actives = new();
