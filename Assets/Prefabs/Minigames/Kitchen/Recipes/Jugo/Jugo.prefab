@@ -104,7 +104,7 @@ GameObject:
   - component: {fileID: 2619417643839236177}
   - component: {fileID: 228198730315370802}
   - component: {fileID: -193608872927724538}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Jugo
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -190,6 +190,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   draggableObject: 1
+  dragStartDelay: 0.02
   dragDistance: 4.5
   onStartDragging:
     m_PersistentCalls:

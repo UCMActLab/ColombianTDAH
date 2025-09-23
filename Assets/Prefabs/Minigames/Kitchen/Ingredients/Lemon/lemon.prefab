@@ -103,7 +103,7 @@ GameObject:
   - component: {fileID: 5115105384881028406}
   - component: {fileID: 5990806045667386942}
   - component: {fileID: -4052879604109531255}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: lemon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -187,6 +187,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   draggableObject: 1
+  dragStartDelay: 0.02
   dragDistance: 4.5
   onStartDragging:
     m_PersistentCalls:

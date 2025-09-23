@@ -103,7 +103,7 @@ GameObject:
   - component: {fileID: 8976063245100463994}
   - component: {fileID: 2891196422809276596}
   - component: {fileID: 2188933153525079564}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Water
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -188,6 +188,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   draggableObject: 1
+  dragStartDelay: 0.02
   dragDistance: 4.5
   onStartDragging:
     m_PersistentCalls:

@@ -102,7 +102,7 @@ GameObject:
   - component: {fileID: 3500994266120949842}
   - component: {fileID: 3505203399427144140}
   - component: {fileID: 2502396798192980586}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Flour
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -186,6 +186,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   draggableObject: 1
+  dragStartDelay: 0.02
   dragDistance: 4.5
   onStartDragging:
     m_PersistentCalls:

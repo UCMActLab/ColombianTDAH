@@ -307,7 +307,7 @@ GameObject:
   - component: {fileID: 4995259280328536528}
   - component: {fileID: 298144106350912729}
   - component: {fileID: 330901804874528587}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Morcilla
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -394,6 +394,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   draggableObject: 1
+  dragStartDelay: 0.02
   dragDistance: 4.5
   onStartDragging:
     m_PersistentCalls:

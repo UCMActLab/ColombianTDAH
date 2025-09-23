@@ -1092,6 +1092,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: RecetaColgada
       objectReference: {fileID: 0}
+    - target: {fileID: 2481578490542061023, guid: bb4d680902b2e2447ba5ece8a5e4952e, type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
     - target: {fileID: 2704395292523029921, guid: bb4d680902b2e2447ba5ece8a5e4952e, type: 3}
       propertyPath: m_text
       value: 'SEGUIR
@@ -1311,6 +1315,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   draggableObject: 0
+  dragStartDelay: 0.02
   dragDistance: 9
   onStartDragging:
     m_PersistentCalls:
@@ -1845,6 +1850,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: bulletin
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 80379bbfe82a0f542a727a28bfef2cb1, type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1874,6 +1883,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   draggableObject: 0
+  dragStartDelay: 0.02
   dragDistance: 9
   onStartDragging:
     m_PersistentCalls:
@@ -7328,6 +7338,10 @@ PrefabInstance:
     - target: {fileID: 2295256951011993621, guid: d4e7a90c1760fda499c7a6e715d1e12a, type: 3}
       propertyPath: m_Name
       value: LibroDeRecetas
+      objectReference: {fileID: 0}
+    - target: {fileID: 2295256951011993621, guid: d4e7a90c1760fda499c7a6e715d1e12a, type: 3}
+      propertyPath: m_Layer
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 4742498691880402049, guid: d4e7a90c1760fda499c7a6e715d1e12a, type: 3}
       propertyPath: cam

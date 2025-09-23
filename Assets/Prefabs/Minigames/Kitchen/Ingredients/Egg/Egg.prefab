@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 739872911392186040}
   - component: {fileID: 7783955515710503696}
   - component: {fileID: 8702651623278612578}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Egg
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -100,6 +100,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   draggableObject: 1
+  dragStartDelay: 0.02
   dragDistance: 4.5
   onStartDragging:
     m_PersistentCalls:

@@ -109,7 +109,7 @@ GameObject:
   - component: {fileID: 7547463895884906054}
   - component: {fileID: -2112367378191080730}
   - component: {fileID: 4162525852080570090}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Merengon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -193,6 +193,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   draggableObject: 1
+  dragStartDelay: 0.02
   dragDistance: 4.5
   onStartDragging:
     m_PersistentCalls:

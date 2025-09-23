@@ -105,7 +105,7 @@ GameObject:
   - component: {fileID: 4286862988968948775}
   - component: {fileID: 821159471799353451}
   - component: {fileID: 2336199914101401998}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: AvocadoHalves
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -190,6 +190,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   draggableObject: 1
+  dragStartDelay: 0.02
   dragDistance: 4.5
   onStartDragging:
     m_PersistentCalls:

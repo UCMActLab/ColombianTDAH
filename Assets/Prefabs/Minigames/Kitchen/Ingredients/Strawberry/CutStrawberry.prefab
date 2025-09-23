@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: 2621326534684114682}
   - component: {fileID: -5037784460566284814}
   - component: {fileID: 1564977181001125205}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: CutStrawberry
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -101,6 +101,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   draggableObject: 1
+  dragStartDelay: 0.02
   dragDistance: 4.5
   onStartDragging:
     m_PersistentCalls:

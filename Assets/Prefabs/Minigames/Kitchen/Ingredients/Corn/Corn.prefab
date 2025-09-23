@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 8630398424154851867}
   - component: {fileID: 546799179664407335}
   - component: {fileID: 7495163798992291956}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Corn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -100,6 +100,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   draggableObject: 1
+  dragStartDelay: 0.02
   dragDistance: 4.5
   onStartDragging:
     m_PersistentCalls:

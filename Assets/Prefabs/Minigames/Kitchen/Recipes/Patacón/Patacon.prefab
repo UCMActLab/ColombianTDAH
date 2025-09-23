@@ -480,7 +480,7 @@ GameObject:
   - component: {fileID: 6143329918687592500}
   - component: {fileID: -5787986793445815566}
   - component: {fileID: -2661665146532517711}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Patacon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -575,6 +575,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   draggableObject: 1
+  dragStartDelay: 0.02
   dragDistance: 4.5
   onStartDragging:
     m_PersistentCalls:

@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: 6948227094769807874}
   - component: {fileID: -735549440734439047}
   - component: {fileID: -4992111262118590754}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: RiceDough
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -101,6 +101,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   draggableObject: 1
+  dragStartDelay: 0.02
   dragDistance: 4.5
   onStartDragging:
     m_PersistentCalls:

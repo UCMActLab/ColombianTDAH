@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: 8319374402175636939}
   - component: {fileID: -3368160043277123439}
   - component: {fileID: 8676763537424788994}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: FishFillet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -101,6 +101,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   draggableObject: 1
+  dragStartDelay: 0.02
   dragDistance: 4.5
   onStartDragging:
     m_PersistentCalls:

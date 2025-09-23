@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: 6948227094769807874}
   - component: {fileID: -2047067704059473304}
   - component: {fileID: -8528763702816406747}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: CheeseDough
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -101,6 +101,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   draggableObject: 1
+  dragStartDelay: 0.02
   dragDistance: 4.5
   onStartDragging:
     m_PersistentCalls:

@@ -275,7 +275,7 @@ GameObject:
   - component: {fileID: 2013094990697744080}
   - component: {fileID: -7656281041315853636}
   - component: {fileID: 6038212359152000081}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: SlicedTomato
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -362,6 +362,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   draggableObject: 1
+  dragStartDelay: 0.02
   dragDistance: 4.5
   onStartDragging:
     m_PersistentCalls:

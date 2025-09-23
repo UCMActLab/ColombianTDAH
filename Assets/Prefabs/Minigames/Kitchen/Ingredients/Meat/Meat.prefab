@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4360657704411548343}
   - component: {fileID: 9029975173557249866}
   - component: {fileID: 5456297981287371048}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: default
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -102,7 +102,7 @@ GameObject:
   - component: {fileID: 6841540127080137784}
   - component: {fileID: 7797307270399247629}
   - component: {fileID: -8464896417472086426}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Meat
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -186,6 +186,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   draggableObject: 1
+  dragStartDelay: 0.02
   dragDistance: 4.5
   onStartDragging:
     m_PersistentCalls:

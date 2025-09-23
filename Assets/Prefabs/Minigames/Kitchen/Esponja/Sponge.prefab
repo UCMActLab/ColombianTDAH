@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 5448361953181776646}
   - component: {fileID: 1134174352575399842}
   - component: {fileID: 4822950922580094779}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Sponge
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -97,6 +97,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   draggableObject: 1
+  dragStartDelay: 0.02
   dragDistance: 4.5
   onStartDragging:
     m_PersistentCalls:
