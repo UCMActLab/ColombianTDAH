@@ -233,6 +233,7 @@ public class UINivelacionData : MonoBehaviour
         recetasScroll.Add(row);
     }
 
+    // No hace falta hacerlo para todas las jornadas ya que al cambiar de jornadas tambien se guarda
     private void GuardarRecetasSeleccionadas()
     {
         if (recetasScroll == null || jornadaActual == null) return;
@@ -247,6 +248,33 @@ public class UINivelacionData : MonoBehaviour
                 var receta = recetasDatabase.recetas.FirstOrDefault(r => r.nombre == toggle.label);
                 if (receta != null)
                     jornadaActual.recetasAsignadas.Add(receta);
+            }
+        }
+
+        // Si no se seleccionó ninguna, usar la primera del scroll
+        if (jornadaActual.recetasAsignadas.Count == 0 && toggles.Count > 0)
+        {
+            var primerToggle = toggles.First();
+            var recetaPorDefecto = recetasDatabase.recetas.FirstOrDefault(r => r.nombre == primerToggle.label);
+            if (recetaPorDefecto != null)
+            {
+                jornadaActual.recetasAsignadas.Add(recetaPorDefecto);
+                Debug.Log($"[GuardarRecetasSeleccionadas] Ninguna seleccionada, se asignó la primera del scroll: {recetaPorDefecto.nombre}");
+            }
+        }
+
+        // Si no hay toggles (ningún puesto seleccionado) -> usa la primera del database
+        if (jornadaActual.recetasAsignadas.Count == 0 && toggles.Count == 0)
+        {
+            var recetaDBPorDefecto = recetasDatabase.recetas.FirstOrDefault();
+            if (recetaDBPorDefecto != null)
+            {
+                jornadaActual.recetasAsignadas.Add(recetaDBPorDefecto);
+                Debug.Log($"[GuardarRecetasSeleccionadas] No hay puestos seleccionados, se asignó la primera del database: {recetaDBPorDefecto.nombre}");
+            }
+            else
+            {
+                Debug.LogWarning("[GuardarRecetasSeleccionadas] Database de recetas vacía. No se pudo asignar receta por defecto.");
             }
         }
     }

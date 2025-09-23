@@ -12,11 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bcd1ae13526ec814d94691e95e9a1f93, type: 3}
   m_Name: Nivelacion
   m_EditorClassIdentifier: 
-  nombre_terapeuta: 
-  nombre_paciente: 
   jornadas:
   - nombreJornada: Jornada Dia 1
-    puestosActivos: 00000000010000000400000003000000
+    puestosActivos: 000000000100000003000000
     margenDeError: 1
     tiempoBaseManual: 180
     recetasAsignadas: []
@@ -26,12 +24,12 @@ MonoBehaviour:
     tiempoBaseManual: 180
     recetasAsignadas: []
   - nombreJornada: Jornada Dia 3
-    puestosActivos: 0000000003000000040000000100000002000000
+    puestosActivos: 0000000001000000020000000300000004000000
     margenDeError: 1
     tiempoBaseManual: 180
     recetasAsignadas: []
   - nombreJornada: Jornada Dia 4
-    puestosActivos: 000000000600000005000000030000000100000002000000
+    puestosActivos: 000000000100000002000000030000000400000005000000
     margenDeError: 1
     tiempoBaseManual: 180
     recetasAsignadas: []

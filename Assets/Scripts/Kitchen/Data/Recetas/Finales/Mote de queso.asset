@@ -15,7 +15,7 @@ MonoBehaviour:
   nombre: Mote de queso
   categoria: Sopa
   ingredientes: 2e000000180000001d0000000d000000
-  puestos: 02000000
+  puestos: 0200000000000000
   tiempo_est_segs: 180
   processedRecipe: {fileID: 961889355477804371, guid: 2c2b4dbd580b1d44fba31aecc05f67ab, type: 3}
   esIntermedia: 0

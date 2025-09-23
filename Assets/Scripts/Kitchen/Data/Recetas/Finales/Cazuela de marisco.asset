@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d4fa4ddff8d3210439be91a15234c4bd, type: 3}
   m_Name: Cazuela de marisco
   m_EditorClassIdentifier: 
-  nombre: Cazuela de marisco
+  nombre: Cazuela de mariscos
   categoria: Sopa
   ingredientes: 2a000000280000000d000000300000001f000000
-  puestos: 02000000
+  puestos: 0200000000000000
   tiempo_est_segs: 210
   processedRecipe: {fileID: 961889355477804371, guid: 6b240cec9dff1cc46960df89ed0f6a98, type: 3}
   esIntermedia: 0
