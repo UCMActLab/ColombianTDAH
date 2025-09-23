@@ -3,9 +3,15 @@ using UnityEngine;
 
 public class SpongeCleaner : MonoBehaviour
 {
-    [SerializeField] private LayerMask workstationLayer;   // Capa de estaciones
+    [SerializeField] private LayerMask workstationLayer; // Capa de estaciones
     [SerializeField] private float raycastDistance = 20f;  
     [SerializeField] private float cleanTime = 1.2f; // Tiempo para limpiar
+
+    [SerializeField] private ObjetosAnim spongeAnimKey = ObjetosAnim.Esponja;
+    [SerializeField] private string idleState = "Idle";
+    [SerializeField] private string cleanLoopState = "Clean";
+
+    [SerializeField] private ParticleSystem cleaningFx;
 
     private Draggable drag;
     private Camera cam;
@@ -13,6 +19,9 @@ public class SpongeCleaner : MonoBehaviour
     private WorkstationProcessor currentTarget;
     private float timer;
     private bool cleaning;
+
+    private Vector3 lastHitPoint;
+    private Vector3 lastHitNormal;
 
     void Awake()
     {
@@ -35,18 +44,14 @@ public class SpongeCleaner : MonoBehaviour
         if (Physics.Raycast(ray, out RaycastHit hit, raycastDistance, workstationLayer))
         {
             var ws = hit.transform.GetComponentInParent<WorkstationProcessor>();
+            lastHitPoint = hit.point;
+            lastHitNormal = hit.normal;
             if (ws != currentTarget)
             {
-                
-                if (!IsStationCleanable(ws))
-                {
-                    StopScrub(true);
-                }
-                else
-                {
-                    StopScrub(true);
+                StopScrub(true);
+
+                if (IsStationCleanable(ws))
                     StartScrub(ws);
-                }
             }
         }
         else
@@ -54,7 +59,6 @@ public class SpongeCleaner : MonoBehaviour
             StopScrub(true);
         }
 
-        // Avanza temporizador si estamos limpiando el mismo objetivo
         if (cleaning && currentTarget != null)
         {
             if (!IsStationCleanable(currentTarget))
@@ -66,6 +70,8 @@ public class SpongeCleaner : MonoBehaviour
             timer += Time.deltaTime;
             if (timer >= cleanTime)
                 CompleteScrub();
+
+            UpdateFxAtContact();
         }
     }
 
@@ -75,7 +81,14 @@ public class SpongeCleaner : MonoBehaviour
         cleaning = true;
         timer = 0f;
 
-        AnimatorManager.Instance.PlayAndPauseAt(ObjetosAnim.Esponja, "Clean", 2f);
+        AnimatorManager.Instance.ChangeAnimation(spongeAnimKey, cleanLoopState, 0.1f);
+
+        // FX
+        if (cleaningFx != null)
+        {
+            UpdateFxAtContact();
+            cleaningFx.Play();
+        }
     }
 
     private void StopScrub(bool resetTimer)
@@ -84,6 +97,12 @@ public class SpongeCleaner : MonoBehaviour
 
         cleaning = false;
         if (resetTimer) timer = 0f;
+
+        AnimatorManager.Instance.ChangeAnimation(spongeAnimKey, idleState, 0.1f);
+
+        // FX
+        if (cleaningFx != null)
+            cleaningFx.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
 
         currentTarget = null;
         
@@ -94,9 +113,7 @@ public class SpongeCleaner : MonoBehaviour
         if (currentTarget != null && IsStationCleanable(currentTarget))
             currentTarget.ClearInventory();
 
-        currentTarget = null;
-        cleaning = false;
-        timer = 0f;
+        StopScrub(resetTimer: true);
     }
 
     private bool IsStationCleanable(WorkstationProcessor ws)
@@ -107,5 +124,13 @@ public class SpongeCleaner : MonoBehaviour
         if (inv == null) inv = ws.GetComponentInChildren<WorkstationInventory>(true);
 
         return inv != null && inv.TotalItems > 0;
+    }
+
+    private void UpdateFxAtContact()
+    {
+        if (cleaningFx == null) return;
+
+        cleaningFx.transform.position = lastHitPoint + lastHitNormal * 0.01f;
+        cleaningFx.transform.rotation = Quaternion.LookRotation(-lastHitNormal, Vector3.up);
     }
 }
