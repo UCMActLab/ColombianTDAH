@@ -81,6 +81,6 @@ public class TurnoBotonUI : MonoBehaviour // Clase para el comportamiento de los
 
         LevelKitchenManager.Instance.SetTiempoPorTurno(Mathf.CeilToInt(baseSegundos * dificultad));
 
-        SceneManager.LoadScene("KitchenLevel");
+        SceneLoader.LoadScene("KitchenLevel");
     }
 }

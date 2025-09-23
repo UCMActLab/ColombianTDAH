@@ -11,7 +11,7 @@ public class WorkstationProcessor : MonoBehaviour
     [Header("Workstation")]
     [SerializeField] public PuestosDeTrabajo workstationType;
     [SerializeField] private float workstationTime = 5f;
-    [SerializeField] private FadeLight light;
+    [SerializeField] private FadeLight myLight;
 
     [Header("Spawn of ingredients")]
     [SerializeField] public Transform spawnPoint;
@@ -139,8 +139,8 @@ public class WorkstationProcessor : MonoBehaviour
         if (particles != null) particles.Play();
 
         // Iniciamos la luz (para el horno pero podria aplicarse para todos los puestos si se necesita en alguno)
-        if (light != null)
-            light.FadeIn();
+        if (myLight != null)
+            myLight.FadeIn();
 
         progressBar.HandleStart(workstationTime);
 
@@ -149,8 +149,8 @@ public class WorkstationProcessor : MonoBehaviour
         progressBar.HandleEnd();
 
         // Iniciamos la luz (para el horno pero podria aplicarse para todos los puestos si se necesita en alguno)
-        if (light != null)
-            light.FadeOut();
+        if (myLight != null)
+            myLight.FadeOut();
 
         if (gameObject.GetComponent<MixerRotation>() != null)
             gameObject.GetComponent<MixerRotation>().Stop();
@@ -198,8 +198,8 @@ public class WorkstationProcessor : MonoBehaviour
         if (particles != null) particles.Play();
 
         // Iniciamos la luz (para el horno pero podria aplicarse para todos los puestos si se necesita en alguno)
-        if (light != null)
-            light.FadeIn();
+        if (myLight != null)
+            myLight.FadeIn();
 
         progressBar.HandleStart(workstationTime);
 
@@ -208,8 +208,8 @@ public class WorkstationProcessor : MonoBehaviour
         progressBar.HandleEnd();
 
         // Iniciamos la luz (para el horno pero podria aplicarse para todos los puestos si se necesita en alguno)
-        if (light != null)
-            light.FadeOut();
+        if (myLight != null)
+            myLight.FadeOut();
 
         if (particles != null) particles.Stop();
 

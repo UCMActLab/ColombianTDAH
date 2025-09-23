@@ -43,6 +43,6 @@ public class CalculateStats : MonoBehaviour
 
     private void Continuar()
     {
-        SceneManager.LoadScene("KitchenLevelSelector");
+        SceneLoader.LoadScene("KitchenLevelSelector");
     }
 }

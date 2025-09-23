@@ -66,8 +66,7 @@ public class LevelKitchenManager : MonoBehaviour
 
     static public LevelKitchenManager Instance { get { return _instance; } }
 
-    private string[] escenasPermitidas = { "KitchenLevel", "KitchenLevelSelector", "KitchenBalanceTerapeuta" };
-    [SerializeField] private string victorySceneName = "KitchenEnd";
+    private string[] escenasPermitidas = { "KitchenLevel", "KitchenLevelSelector" };
 
     [Header("Configuración")]
     [SerializeField] private RecetasDatabase recetasDatabase;
@@ -153,6 +152,11 @@ public class LevelKitchenManager : MonoBehaviour
         
     }
 
+    void OnDestroy()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         bool escenaPermitida = false;
@@ -176,6 +180,7 @@ public class LevelKitchenManager : MonoBehaviour
 
         if (scene.name == escenasPermitidas[0]) // KitchenLevel
         {
+
             Draggable tab = tablon.GetComponent<Draggable>();
             Draggable tabButtonDrag = tablonButton.GetComponent<Draggable>();
             rec = recetasColgadas.GetComponent<RecipeBoard>();

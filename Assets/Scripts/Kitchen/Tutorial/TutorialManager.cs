@@ -207,7 +207,7 @@ public class TutorialManager : MonoBehaviour
         yield return WaitClickPanelClosed();
         Debug.Log("Tutorial terminado");
 
-        SceneManager.LoadScene("KitchenLevelSelector");
+        SceneLoader.LoadScene("KitchenLevelSelector");
     }
 
     private IEnumerator WaitClickPanelClosed()
