@@ -17,7 +17,6 @@ public class WorkstationProcessor : MonoBehaviour
     [SerializeField] public Transform spawnPoint;
 
     [Header("Animation")]
-    [SerializeField] private GameObject objAnim; // Objeto visible que tiene animación
     [SerializeField] private ObjetosAnim animKey;
     [SerializeField] private string idleAnim = "Idle";
     [SerializeField] private string processingAnim = "Processing";
