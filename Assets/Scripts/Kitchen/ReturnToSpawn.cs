@@ -58,7 +58,7 @@ public class ReturnToSpawn : MonoBehaviour
     private void TrySubscribeToDraggable()
     {
         if (drag == null || subscribed) return;
-        drag.onStopDragging.AddListener(HandleStartDragging);
+        drag.onStartDragging.AddListener(HandleStartDragging);
         drag.onStopDragging.AddListener(HandleStopDragging);
         subscribed = true;
     }
@@ -66,7 +66,7 @@ public class ReturnToSpawn : MonoBehaviour
     private void TryUnsubscribeFromDraggable()
     {
         if (drag == null || !subscribed) return;
-        drag.onStopDragging.RemoveListener(HandleStartDragging);
+        drag.onStartDragging.RemoveListener(HandleStartDragging);
         drag.onStopDragging.RemoveListener(HandleStopDragging);
         subscribed = false;
     }
