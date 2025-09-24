@@ -33,12 +33,14 @@ public class TutorialUI : MonoBehaviour
         if (clickCatcher != null)
             clickCatcher.onClick.AddListener(OnClick);
         Hide(false);
+        uiBlocker.SetActive(false);
     }
 
     public void ShowLines(IEnumerable<string> msgs)
     {
         ClosedByUser = false;
         DraggableBlocker.Block(DraggableBlocker.Source.Tutorial);
+        if (uiBlocker) uiBlocker.SetActive(true);
         lines.Clear();
         foreach (var m in msgs) lines.Enqueue(m);
         if (txt != null)
@@ -47,7 +49,7 @@ public class TutorialUI : MonoBehaviour
             txt.maxVisibleCharacters = 0;
         }
         if (panel) panel.SetActive(true);
-        if (uiBlocker) uiBlocker.SetActive(true);
+        
         StartTypingNext();
     }
 
@@ -119,6 +121,7 @@ public class TutorialUI : MonoBehaviour
         {
             panel.SetActive(true);
             hiddenByPause = false;
+            if (uiBlocker) uiBlocker.SetActive(true);
         }
 
         if (!IsOpen || !isTyping || txt == null) return;
