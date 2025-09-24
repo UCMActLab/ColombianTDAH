@@ -213,10 +213,18 @@ public class TutorialManager : MonoBehaviour
     }
 
     private IEnumerator WaitClickPanelClosed()
-    {
-        while (ui != null && ui.IsOpen)
+    { 
+        while (ui != null && !ui.ClosedByUser)
+        {
+            if (LevelKitchenManager.Instance.IsPaused())
+            {
+                yield return null;
+                continue;
+            }
             yield return null;
-        ui?.Hide();
+        }
+  
+        if (ui != null) ui.Hide(false);
     }
 
     private IEnumerator WaitEvent(System.Func<bool> cond)

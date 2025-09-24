@@ -530,7 +530,7 @@ public class LevelKitchenManager : MonoBehaviour
     public void Pause(bool pause)
     {
         paused = pause;
-        DraggableBlocker.ConmuteBlock();
+        DraggableBlocker.ConmuteBlock(paused);
         pauseCollider.SetActive(paused);
         if (paused) contador.Pausar();
         else contador.Reanudar();
@@ -689,6 +689,8 @@ public class LevelKitchenManager : MonoBehaviour
     public void StartTutorialMode() => isTutorial = true;
     public void StopTutorialMode() => isTutorial = false;
     public bool GetTutorial() {  return isTutorial; }
+
+    public bool IsPaused() { return paused; }
 
     public Dictionary<string, RecetaSprites> GetRecetasSprites() { return recetasSprites; }
     public Dictionary<Ingredientes, Sprite> GetIngredientesSprites() { return ingredientesSprites; }

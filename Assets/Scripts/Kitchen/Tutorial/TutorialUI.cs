@@ -10,6 +10,7 @@ public class TutorialUI : MonoBehaviour
     [SerializeField] private GameObject panel;
     [SerializeField] private TextMeshProUGUI txt;
     [SerializeField] private Button clickCatcher; // Botón para completar/pasar al siguiente texto
+    [SerializeField] private GameObject uiBlocker;
 
     [Header("TextSpeed[chars/s]")]
     [SerializeField] private float charsPerSecond = 20f; // Velocidad del texto
@@ -23,16 +24,21 @@ public class TutorialUI : MonoBehaviour
     private float typeTimer;
     public bool IsOpen => panel != null && panel.activeSelf;
 
+    public bool ClosedByUser { get; private set; }
+
+    private bool hiddenByPause;
+
     void Awake()
     {
         if (clickCatcher != null)
             clickCatcher.onClick.AddListener(OnClick);
-        Hide();
+        Hide(false);
     }
 
     public void ShowLines(IEnumerable<string> msgs)
     {
-        DraggableBlocker.Block();
+        ClosedByUser = false;
+        DraggableBlocker.Block(DraggableBlocker.Source.Tutorial);
         lines.Clear();
         foreach (var m in msgs) lines.Enqueue(m);
         if (txt != null)
@@ -41,23 +47,30 @@ public class TutorialUI : MonoBehaviour
             txt.maxVisibleCharacters = 0;
         }
         if (panel) panel.SetActive(true);
+        if (uiBlocker) uiBlocker.SetActive(true);
         StartTypingNext();
     }
 
-    public void Hide()
+    public void Hide(bool byUser)
     {
+        ClosedByUser = byUser;
         if (panel) panel.SetActive(false);
         if (txt != null)
         {
             txt.text = string.Empty;
             txt.maxVisibleCharacters = 0;
         }
-        DraggableBlocker.Unblock();   
+        DraggableBlocker.Unblock(DraggableBlocker.Source.Tutorial);
+        if (!LevelKitchenManager.Instance.IsPaused())
+        {
+            if (uiBlocker) uiBlocker.SetActive(false);
+        }
         isTyping = false;
         skipRequested = false;
         typedChars = 0;
         visibleTarget = 0;
         typeTimer = 0f;
+        hiddenByPause = false;   
     }
 
     private void OnClick()
@@ -73,7 +86,7 @@ public class TutorialUI : MonoBehaviour
 
         // Si ya se terminó de escribir la línea, avanza a la siguiente o cierra panel
         if (lines.Count > 0) StartTypingNext();
-        else Hide();
+        else Hide(true);
     }
 
     private void StartTypingNext()
@@ -94,6 +107,20 @@ public class TutorialUI : MonoBehaviour
 
     void Update()
     {
+        bool paused = LevelKitchenManager.Instance.IsPaused();
+        if (paused && IsOpen)
+        {
+            panel.SetActive(false);
+            hiddenByPause = true;
+            if (uiBlocker) uiBlocker.SetActive(false);
+            return;
+        }
+        else if (!paused && hiddenByPause)
+        {
+            panel.SetActive(true);
+            hiddenByPause = false;
+        }
+
         if (!IsOpen || !isTyping || txt == null) return;
 
         if (skipRequested)
