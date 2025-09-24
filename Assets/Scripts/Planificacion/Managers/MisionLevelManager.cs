@@ -806,6 +806,24 @@ public class MisionLevelManager : MonoBehaviour
         // Si no se pasa del tiempo maximo
     }
 
+    // Este metodo es llamado al conseguir seguir correctamente las paradas de la planificacion
+    public void SongGotten()
+    {
+
+    }
+
+    // Este metodo es llamado al conseguir seguir correctamente las horas de suenyo de la planificacion
+    public void StickerGotten()
+    {
+
+    }
+
+    // Este metodo es llamado al conseguir seguir correctamente las horas de envio de localizacion de la planificacion
+    public void ModelGotten()
+    {
+
+    }
+
 
     public int HourPerSleep => _hourPerSleep;
     public int SleptHours => _sleptHours;

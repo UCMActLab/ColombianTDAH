@@ -112,7 +112,6 @@ public class ShowResumen : MonoBehaviour
     //que por cada hijo de la checklist haya que ir metiendolos con su info correcta
     void showCheckElement(int childIndex, bool conseguido, string texto)
     {
-        //if (!conseguido) win = false; //si alguno de los checks no se cumple no se gana
 
         Debug.Log("Child number " + childIndex);
         Debug.Log("texto " + texto);
