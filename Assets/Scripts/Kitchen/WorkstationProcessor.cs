@@ -2,8 +2,7 @@
 using System.Collections;
 using System.Linq;
 using System.Collections.Generic;
-using UnityEngine.UIElements;
-using UnityEngine.Experimental.GlobalIllumination;
+using System;
 
 public class WorkstationProcessor : MonoBehaviour
 {
@@ -42,9 +41,10 @@ public class WorkstationProcessor : MonoBehaviour
     [SerializeField] private bool immediateSingleProcess;
     #endregion
 
-    public static System.Action<Ingredientes, GameObject> OnIngredientSpawnedGlobal;
-    public static event System.Action<Ingredientes, PuestosDeTrabajo> OnItemPlacedGlobal;
-    public static System.Action<RecetaData, PuestosDeTrabajo> OnRecipeCraftedGlobal;
+    public static Action<Ingredientes, GameObject> OnIngredientSpawnedGlobal;
+    public static event Action<Ingredientes, PuestosDeTrabajo> OnItemPlacedGlobal;
+    public static event Action<PuestosDeTrabajo> OnClean;
+    public static Action<RecetaData, PuestosDeTrabajo> OnRecipeCraftedGlobal;
 
     #region methods
     void Start()
@@ -119,6 +119,7 @@ public class WorkstationProcessor : MonoBehaviour
         if (inventory != null)
         {
             inventory.ClearAll();
+            OnClean?.Invoke(workstationType);
         }
     }
     private IEnumerator ProcessImmediate(GameObject ingredienteGO, RecetaData data)

@@ -18,12 +18,10 @@ public class SpongeCleaner : MonoBehaviour
     private Camera cam;
     private ReturnToSpawn returner;
 
-    //private WorkstationProcessor currentTarget;
-    //private float timer;
-    //private bool cleaning;
     private Coroutine cleaningRoutine;
     private Vector3 lastHitPoint;
     private Vector3 lastHitNormal;
+
 
     void Awake()
     {
@@ -122,7 +120,7 @@ public class SpongeCleaner : MonoBehaviour
 
         // Limpiamos inventario si sigue siendo válido y hay contenido
         if (ws != null && IsStationCleanable(ws))
-            ws.ClearInventory();
+            ws.ClearInventory();         
         
         StopFx();
         SetIdleAnim();

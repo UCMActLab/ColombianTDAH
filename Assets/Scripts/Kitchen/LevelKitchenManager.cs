@@ -1,10 +1,8 @@
-﻿using UnityEditor;
-using UnityEngine;
+﻿using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine.SceneManagement;
 using System.Collections;
-using TMPro;
 using System;
 
 [Serializable]
