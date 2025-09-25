@@ -72,7 +72,7 @@ public class EventRegister : MonoBehaviour
 
     public enum EventosInfo
     {                       //implementado en...
-        Inicio, //...DolphinLevelManager.InitLevel y en MisionLevelManager.ActivateGame
+        Inicio, //...DolphinLevelManager.InitLevel , en MisionLevelManager.ActivateGame y en LevelKitchenManager.ActivateGame
 
         //delfines
         DEntraSuperficie, //...DolphinController.Float
@@ -98,12 +98,33 @@ public class EventRegister : MonoBehaviour
 
         // generales
         PacienteInfo, //...PacienteConfig.OnAceptarClicked o en este mismo usando addPacienteInfoEvent
-        Pause,  //...DolphinLevelManager.Pause
+        Pause,  //...DolphinLevelManager.Pause, LevelKitchenManager.Pause
         ChangeDifficulty, //...DolphinLevelManager.ActivateIncreasedSpeed/DeactivateIncreasedSpeed
 
         // MC
         EmpiezaDecision, //misionlevelmanager.showdecisionsbuttons
-        TerminaDecision //misionlevelmanager.hidedecisionsbuttons yes click, no click
+        TerminaDecision, //misionlevelmanager.hidedecisionsbuttons yes click, no click
+
+        // Cocina
+        KitchenGuardarConfig,
+        KitchenInicioTurno,
+        KitchenFinTurno,
+        KitchenVerTablonComandas,
+        KitchenSalirTablonComandas,
+        KitchenSeleccionarIngrediente,
+        KitchenColocacionCorrecta,
+        KitchenColocacionIncorrecta,
+        KitchenActivarPaso,
+        KitchenPasoCompletado,
+        KitchenPasoFueraSecuencia,
+        KitchenErrorIngrediente,
+        KitchenOmisionPorTiempo,
+        KitchenAbrirLibro,
+        KitchenRecetaCompletada,
+        KitchenRecetaEntregada,        
+        KitchenFinTurnoTiempo,
+        KitchenSeleccionTurno,
+        KitchenLimpiezaEstacion
     }
 
     private Dictionary<EventosInfo, string> EventoMensajes = new()
@@ -132,8 +153,26 @@ public class EventRegister : MonoBehaviour
         { EventosInfo.Pause, "Juego ha sido pausado o reanudado" },
         { EventosInfo.ChangeDifficulty, "Cambio de dificultad" },
         { EventosInfo.EmpiezaDecision, "Empieza pregunta y decision" },
-        { EventosInfo.TerminaDecision, "Termina pregunta y decision" }
-
+        { EventosInfo.TerminaDecision, "Termina pregunta y decision" },
+        { EventosInfo.KitchenGuardarConfig, "Configuración de partida guardada" },
+        { EventosInfo.KitchenInicioTurno, "Inicio del turno" },
+        { EventosInfo.KitchenFinTurno, "Fin del turno" },
+        { EventosInfo.KitchenVerTablonComandas, "Consultamos tablón de recetas" },
+        { EventosInfo.KitchenSalirTablonComandas, "Se oculta la receta" },
+        { EventosInfo.KitchenSeleccionarIngrediente, "Ingrediente agarrado" },
+        { EventosInfo.KitchenColocacionCorrecta, "Ingrediente colocado correctamente" },
+        { EventosInfo.KitchenColocacionIncorrecta, "Ingrediente colocado incorrectamente" },
+        { EventosInfo.KitchenActivarPaso, "Paso activado" },
+        { EventosInfo.KitchenPasoCompletado, "Paso completado" },
+        { EventosInfo.KitchenPasoFueraSecuencia, "Acción válida pero en orden incorrecto" },
+        { EventosInfo.KitchenErrorIngrediente, "Ingrediente incorrecto para el paso actual" },
+        { EventosInfo.KitchenOmisionPorTiempo, "No se terminó la acción en el tiempo requerido" },
+        { EventosInfo.KitchenAbrirLibro, "Consulta del libro de recetas" },
+        { EventosInfo.KitchenRecetaCompletada, "Receta completada" },
+        { EventosInfo.KitchenRecetaEntregada, "Receta entregada" },
+        { EventosInfo.KitchenFinTurnoTiempo, "Turno finalizado por tiempo" },
+        { EventosInfo.KitchenSeleccionTurno, "Turno seleccionado" },
+        { EventosInfo.KitchenLimpiezaEstacion, "Estación limpiada" }
 
     };
 
@@ -166,7 +205,25 @@ public class EventRegister : MonoBehaviour
         whitePixelEvents[(int)EventosInfo.Pause] = true;
         whitePixelEvents[(int)EventosInfo.ChangeDifficulty] = true;
         whitePixelEvents[(int)EventosInfo.EmpiezaDecision] = true;
-        whitePixelEvents[(int)EventosInfo.TerminaDecision] = true;
+        whitePixelEvents[(int)EventosInfo.KitchenGuardarConfig] = true;
+        whitePixelEvents[(int)EventosInfo.KitchenInicioTurno] = true;
+        whitePixelEvents[(int)EventosInfo.KitchenFinTurno] = true;
+        whitePixelEvents[(int)EventosInfo.KitchenVerTablonComandas] = true;
+        whitePixelEvents[(int)EventosInfo.KitchenSalirTablonComandas] = true;
+        whitePixelEvents[(int)EventosInfo.KitchenSeleccionarIngrediente] = true;
+        whitePixelEvents[(int)EventosInfo.KitchenColocacionCorrecta] = true;
+        whitePixelEvents[(int)EventosInfo.KitchenColocacionIncorrecta] = true;
+        whitePixelEvents[(int)EventosInfo.KitchenActivarPaso] = true;
+        whitePixelEvents[(int)EventosInfo.KitchenPasoCompletado] = true;
+        whitePixelEvents[(int)EventosInfo.KitchenPasoFueraSecuencia] = true;
+        whitePixelEvents[(int)EventosInfo.KitchenErrorIngrediente] = true;
+        whitePixelEvents[(int)EventosInfo.KitchenOmisionPorTiempo] = true;
+        whitePixelEvents[(int)EventosInfo.KitchenAbrirLibro] = true;
+        whitePixelEvents[(int)EventosInfo.KitchenRecetaCompletada] = true;
+        whitePixelEvents[(int)EventosInfo.KitchenRecetaEntregada] = true;
+        whitePixelEvents[(int)EventosInfo.KitchenFinTurnoTiempo] = true;
+        whitePixelEvents[(int)EventosInfo.KitchenSeleccionTurno] = true;
+        whitePixelEvents[(int)EventosInfo.KitchenLimpiezaEstacion] = true;
 
     }
 

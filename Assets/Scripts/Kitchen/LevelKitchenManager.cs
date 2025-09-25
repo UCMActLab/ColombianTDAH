@@ -541,6 +541,10 @@ public class LevelKitchenManager : MonoBehaviour
 
     public void Pause(bool pause)
     {
+        string estado = pause ? "Pausado" : "Reanudado";
+        EventRegister.Instance.AddToEvnt(Tuple.Create(EventRegister.EventosInfo.Pause, estado));
+        EventRegister.Instance.EvntToJson();
+
         paused = pause;
         DraggableBlocker.ConmuteBlock(paused);
         pauseCollider.SetActive(paused);
