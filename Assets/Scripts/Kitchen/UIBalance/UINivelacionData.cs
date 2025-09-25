@@ -58,7 +58,13 @@ public class UINivelacionData : MonoBehaviour
 
         root.Q<Button>("btn-comenzar").clicked += () =>
         {
-            GuardarRecetasSeleccionadas();
+            for (int i = 0; i < 6; i++)
+            {
+                int x = i;
+                if (i == 5) x = 0;
+                SeleccionarJornada(x);
+
+            }
             SceneLoader.LoadScene("KitchenLevelSelector");
         };
 

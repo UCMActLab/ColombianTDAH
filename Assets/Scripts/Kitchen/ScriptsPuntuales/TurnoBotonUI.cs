@@ -7,7 +7,7 @@ public class TurnoBotonUI : MonoBehaviour // Clase para el comportamiento de los
 {
     [Header("Informacion del nivel")]
     public Turno tipoTurno;
-    public TurnoEstado tipoTurnoEstado;
+    private TurnoEstado tipoTurnoEstado;
     public int jornada;
 
     private Image iconoTurno;
@@ -49,6 +49,21 @@ public class TurnoBotonUI : MonoBehaviour // Clase para el comportamiento de los
             case Turno.Manana: iconoTurno.sprite = spriteSol; break;
             case Turno.Tarde: iconoTurno.sprite = spriteTarde; break;
             case Turno.Noche: iconoTurno.sprite = spriteLuna; break;
+        }
+
+        if (jornada < LevelKitchenManager.Instance.GetJornadaMaxDesbloqueada())
+        {
+            tipoTurnoEstado = TurnoEstado.Completado;
+        }
+        else if (jornada == LevelKitchenManager.Instance.GetJornadaMaxDesbloqueada())
+        {
+            if (tipoTurno < LevelKitchenManager.Instance.GetTurnoMaxDesbloqueado()) tipoTurnoEstado = TurnoEstado.Completado;
+            else if (tipoTurno == LevelKitchenManager.Instance.GetTurnoMaxDesbloqueado()) tipoTurnoEstado = TurnoEstado.Activo;
+            else if (tipoTurno > LevelKitchenManager.Instance.GetTurnoMaxDesbloqueado()) tipoTurnoEstado = TurnoEstado.Bloqueado;
+        }
+        else
+        {
+            tipoTurnoEstado = TurnoEstado.Bloqueado;
         }
 
         switch (tipoTurnoEstado)

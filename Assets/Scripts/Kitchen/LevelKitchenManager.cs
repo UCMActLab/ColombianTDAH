@@ -70,6 +70,7 @@ public class LevelKitchenManager : MonoBehaviour
     [SerializeField] private RecetasDatabase recetasDatabase;
     [SerializeField] private NivelacionData nivelacionData;
     [SerializeField] private RecetaData recetaTutorialObjetivo;
+
     [SerializeField] private List<RecetaSpriteList> recetasSpritesSerializable;   
     private Dictionary<string, RecetaSprites> recetasSprites;
 
@@ -87,7 +88,10 @@ public class LevelKitchenManager : MonoBehaviour
     private Transform cameraInitPos;
     private Transform cameraTablonPos;
 
-    private int jornadaActual = 1; //nivelacionData.jornadas[jornadaActual].recetasAsignadas
+    private int jornadaMaxDesbloqueada = 0;
+    private Turno turnoMaxDesbloqueado = Turno.Manana;
+
+    private int jornadaActual = 0; //nivelacionData.jornadas[jornadaActual].recetasAsignadas
     private Turno turnoActual = Turno.Manana;
     private int tiempoPorTurnoTotal;
     private List<RecetaData> recetasToDo;
@@ -476,6 +480,16 @@ public class LevelKitchenManager : MonoBehaviour
         {
             contador.Pausar();
             winStats.Calculate(recetasTotalesIniciales - recetasRestantes.Values.Sum(), recetasTotalesIniciales, tiempoPorTurnoTotal, contador.GetTiempo(), NOpenedBook);
+            if (turnoActual == turnoMaxDesbloqueado && jornadaActual == jornadaMaxDesbloqueada)
+            {
+                if (turnoActual == Turno.Manana) turnoMaxDesbloqueado = Turno.Tarde;
+                else if (turnoActual == Turno.Tarde) turnoMaxDesbloqueado = Turno.Noche;
+                else if (turnoActual == Turno.Noche) {
+                    turnoMaxDesbloqueado = Turno.Manana;
+                    jornadaMaxDesbloqueada++;
+                }
+            }
+           
         }
     }
 
@@ -692,6 +706,9 @@ public class LevelKitchenManager : MonoBehaviour
 
     public Dictionary<string, RecetaSprites> GetRecetasSprites() { return recetasSprites; }
     public Dictionary<Ingredientes, Sprite> GetIngredientesSprites() { return ingredientesSprites; }
+
+    public int GetJornadaMaxDesbloqueada() { return jornadaMaxDesbloqueada; }
+    public Turno GetTurnoMaxDesbloqueado() { return turnoMaxDesbloqueado; }
 
     public void NotifyBookOpened() => OnBookOpenedTutorial?.Invoke();
     public void NotifyTablonOpened() => OnTablonOpenedTutorial?.Invoke();
