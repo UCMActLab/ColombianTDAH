@@ -130,7 +130,7 @@ public class WorkstationProcessor : MonoBehaviour
         // Anim & sonido inicio      
         AnimatorManager.Instance.ChangeAnimation(animKey, processingAnim);
         if (!string.IsNullOrEmpty(processingSfxName))
-            KitchenSoundManager.Instance.PlayLoop(soundKey, processingSfxName);
+            KitchenSoundManager.Instance.PlayLoopForDurationFaded(soundKey, processingSfxName, workstationTime);
 
 
         if (gameObject.GetComponent<MixerRotation>() != null)
@@ -168,10 +168,8 @@ public class WorkstationProcessor : MonoBehaviour
         }
 
 
-        // Fin anim & sonido
+        // Fin anim
         AnimatorManager.Instance.ChangeAnimation(animKey, idleAnim);
-        if (!string.IsNullOrEmpty(processingSfxName))
-            KitchenSoundManager.Instance.StopLoop(soundKey);
 
         var ret = ingredienteGO.GetComponent<IngredientSpawn>();
         if (ret != null) ret.ConsumeAndScheduleRespawn(); 
@@ -190,7 +188,7 @@ public class WorkstationProcessor : MonoBehaviour
         if (GetComponent<Animator>() != null)
             AnimatorManager.Instance.ChangeAnimation(animKey, processingAnim);
         if (!string.IsNullOrEmpty(processingSfxName))
-            KitchenSoundManager.Instance.PlayLoop(soundKey, processingSfxName);
+            KitchenSoundManager.Instance.PlayLoopForDurationFaded(soundKey, processingSfxName, workstationTime);
 
         if (gameObject.GetComponent<MixerRotation>() != null)
             gameObject.GetComponent<MixerRotation>().Play(300);
@@ -228,12 +226,9 @@ public class WorkstationProcessor : MonoBehaviour
             }
         }
 
-        // Fin anim & sonido
+        // Fin anim
         if (GetComponent<Animator>() != null)
             AnimatorManager.Instance.ChangeAnimation(animKey, idleAnim);
-        if (!string.IsNullOrEmpty(processingSfxName))
-            KitchenSoundManager.Instance.StopLoop(soundKey);
-
         processed = false;
     }
     #endregion

@@ -4283,6 +4283,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 61c848edb412d3f42a84031b78a55fb1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  queuePlaysWithFadesScheduled: 1
+  defaultSfxFadeIn: 0.06
+  defaultSfxFadeOut: 0.06
+  defaultLoopFadeIn: 1
+  defaultLoopFadeOut: 1
 --- !u!4 &1729851226
 Transform:
   m_ObjectHideFlags: 0
