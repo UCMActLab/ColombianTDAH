@@ -715,6 +715,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   draggableObject: 0
+  dragStartDelay: 0.02
   dragDistance: 9
   onStartDragging:
     m_PersistentCalls:
@@ -1261,7 +1262,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -154.1}
+  m_AnchoredPosition: {x: -157, y: -148}
   m_SizeDelta: {x: 150, y: 26}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1175422086459059800

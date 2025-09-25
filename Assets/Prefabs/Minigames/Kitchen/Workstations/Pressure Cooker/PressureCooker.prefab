@@ -134,9 +134,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   workstationType: 5
   workstationTime: 5
-  light: {fileID: 0}
+  myLight: {fileID: 0}
   spawnPoint: {fileID: 8995635042295361273}
-  objAnim: {fileID: 0}
   animKey: 6
   idleAnim: Idle
   processingAnim: Processing
