@@ -1857,7 +1857,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4546364097833488188, guid: 3585aa15d5133f04382ec41699f9172f, type: 3}
       propertyPath: m_text
-      value: ' El Juego de Cocina'
+      value: Sabores de mi tierra
       objectReference: {fileID: 0}
     - target: {fileID: 4546364097833488188, guid: 3585aa15d5133f04382ec41699f9172f, type: 3}
       propertyPath: m_fontSize

@@ -4,12 +4,20 @@ using UnityEngine;
 public class EscenaKitchenLevelSetup : MonoBehaviour
 {
     [Header("Objetos generales de la escena")]
-    [SerializeField] private GameObject[] lights;
     [SerializeField] private Reloj contador;
     [SerializeField] private GameObject libroDeRecetas;
     [SerializeField] private GameObject tablon;
+    [SerializeField] private GameObject tablonButton;
     [SerializeField] private Transform tablonPos;
+    [SerializeField] private Transform cameraPos;
     [SerializeField] private GameObject recetasColgadas;
+    [SerializeField] private GameObject hand;
+    [SerializeField] private CalculateStats statsWin;
+    [SerializeField] private CalculateStats statsLose;
+    [SerializeField] private GameObject tutorialSystem;
+    [SerializeField] private GameObject conveyor;
+    [SerializeField] private GameObject sponge;
+    [SerializeField] private GameObject pauseCollider;
 
     [Header("Workstations")]
     [SerializeField] private GameObject mixer;
@@ -40,12 +48,19 @@ public class EscenaKitchenLevelSetup : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Awake()
     {
-        LevelKitchenManager.Instance.SetLibro(libroDeRecetas);
-        LevelKitchenManager.Instance.SetLights(lights);
         LevelKitchenManager.Instance.SetContador(contador);
         LevelKitchenManager.Instance.SetTablon(tablon);
         LevelKitchenManager.Instance.SetCameraTablonPos(tablonPos);
+        LevelKitchenManager.Instance.SetCameraInitPos(cameraPos);
         LevelKitchenManager.Instance.SetRecetasColgadas(recetasColgadas);
+        LevelKitchenManager.Instance.SetTablonButton(tablonButton);
+        LevelKitchenManager.Instance.SetHand(hand);
+        LevelKitchenManager.Instance.SetStatsWin(statsWin); 
+        LevelKitchenManager.Instance.SetStatsLose(statsLose);
+        LevelKitchenManager.Instance.SetTutorial(tutorialSystem);
+        LevelKitchenManager.Instance.SetConveyor(conveyor);
+        LevelKitchenManager.Instance.SetSponge(sponge);
+        LevelKitchenManager.Instance.SetPauseCollider(pauseCollider);
 
         // Animators
         AnimatorManager.Instance.SetAnimator(ObjetosAnim.Libro, libroDeRecetas.GetComponent<Animator>());
@@ -56,6 +71,8 @@ public class EscenaKitchenLevelSetup : MonoBehaviour
         AnimatorManager.Instance.SetAnimator(ObjetosAnim.Olla_A_Presion, pressureCooker.GetComponent<Animator>());
         AnimatorManager.Instance.SetAnimator(ObjetosAnim.Sarten, pan.GetComponent<Animator>());
         AnimatorManager.Instance.SetAnimator(ObjetosAnim.Horno, oven.GetComponent<Animator>());
+        AnimatorManager.Instance.SetAnimator(ObjetosAnim.Mano, hand.GetComponent<Animator>());
+        AnimatorManager.Instance.SetAnimator(ObjetosAnim.Esponja, sponge.GetComponentInChildren<Animator>());
 
         // Sonidos
         KitchenSoundManager.Instance.SetAudioSource(ObjetosSound.Mezcladora, mixerSource);

@@ -5,6 +5,8 @@ public class WorkstationInventory : MonoBehaviour
 {
     private readonly Dictionary<Ingredientes, int> counts = new();
 
+    [SerializeField] private InventoryUI inventory;
+
     public int TotalItems
     {
         get { int s = 0; foreach (var v in counts.Values) s += v; return s; }
@@ -12,8 +14,11 @@ public class WorkstationInventory : MonoBehaviour
 
     public bool TryAdd(Ingredientes ing, int capacity = 99)
     {
+        Debug.Log("Added: " + ing.ToString() + " total: " + TotalItems);
         if (TotalItems >= capacity) return false;
         counts[ing] = counts.ContainsKey(ing) ? counts[ing] + 1 : 1;
+        Debug.Log("total: " + TotalItems);
+        inventory.Refresh(counts);
         return true;
     }
 
@@ -39,8 +44,12 @@ public class WorkstationInventory : MonoBehaviour
             counts[ing] = Mathf.Max(0, counts[ing] - 1);
             if (counts[ing] == 0) counts.Remove(ing);
         }
+        inventory.Refresh(counts);
     }
 
-    public void ClearAll() => counts.Clear();
-
+    public void ClearAll()
+    {
+        counts.Clear();
+        inventory.Refresh(counts);
+    }
 }

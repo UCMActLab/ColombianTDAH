@@ -1,11 +1,13 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
+using System;
 
 public class RecipeBoard : MonoBehaviour
 {
     [Header("Refs")]
-    public GameObject recipePrefab;   // Prefab receta (mirando +Z)
-    public Transform boardArea;       // Empty centrado y rotado como el tablón
+    public GameObject recipePrefab;
+    public Transform boardArea;
+    [SerializeField] private Texture tickTexture; 
 
     [Header("Área del tablón (mundo)")]
     public Vector2 boardSize = new Vector2(5f, 3f);
@@ -19,12 +21,12 @@ public class RecipeBoard : MonoBehaviour
 
     [Header("Ajustes de colocación")]
     public float surfaceOffset = 0.01f; // Separación del plano para evitar z-fighting
-    public float extraYaw = 0f;         // 180 si el prefab sale de espaldas
-    public float yNudge = 0.06f;        // Ajuste fino vertical (sube/baja todo el contenido)
+    public float extraYaw = 0f;         
+    public float yNudge = 0.06f;
 
     [Header("Escalado del prefab")]
     public Vector2 prefabSizeXY = new Vector2(0.5f, 0.9f); // tamaño original del prefab en local
-    public float pivotToFrontZ = 0.02f; // distancia del pivote a la cara frontal
+    public float pivotToFrontZ = 0.02f;
 
     private readonly List<GameObject> spawnedRecipes = new();
 
@@ -92,6 +94,12 @@ public class RecipeBoard : MonoBehaviour
                 var text = recipeGO.GetComponentInChildren<TMPro.TextMeshProUGUI>();
                 if (text) text.text = recipes[index].nombre;
 
+                Transform myChild = FindChildByName(recipeGO.transform, "Object_2");
+                if (myChild != null)
+                {
+                    myChild.GetComponent<Renderer>().material.SetTexture("_BaseMap", LevelKitchenManager.Instance.GetRecetasSprites()[recipes[index].nombre].spriteTablon);
+                }
+
                 spawnedRecipes.Add(slot);
                 index++;
             }
@@ -103,6 +111,37 @@ public class RecipeBoard : MonoBehaviour
         foreach (var r in spawnedRecipes) if (r) Destroy(r);
         spawnedRecipes.Clear();
     }
+
+    private Transform FindChildByName(Transform parent, string name)
+    {
+        foreach (Transform child in parent)
+        {
+            if (child.name == name)
+                return child;
+
+            Transform result = FindChildByName(child, name);
+            if (result != null)
+                return result;
+        }
+        return null;
+    }
+
+    public void ChangeTexture(string n)
+    {
+        bool encontrado = false;
+        int i = 0;
+        while (!encontrado && i < spawnedRecipes.Count) { 
+            if (spawnedRecipes[i].GetComponentInChildren<TMPro.TextMeshProUGUI>().text == n && FindChildByName(spawnedRecipes[i].transform, "Object_2").GetComponent<Renderer>().material.GetTexture("_BaseMap").name != tickTexture.name)
+            {
+                encontrado = true;
+                FindChildByName(spawnedRecipes[i].transform, "Object_2").GetComponent<Renderer>().material.SetTexture("_BaseMap", tickTexture);
+
+                Debug.Log("Receta encontrada para cambiar tectura en el tablon");
+            }
+            i++;
+        }
+    }
+
 
     private void OnDrawGizmosSelected()
     {

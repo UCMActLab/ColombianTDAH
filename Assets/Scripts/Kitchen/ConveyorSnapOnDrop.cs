@@ -1,27 +1,31 @@
-using UnityEngine;
+﻿using UnityEngine;
 
-[RequireComponent(typeof(Draggable))]
 public class ConveyorSnapOnDrop : MonoBehaviour
 {
     #region references
     private Draggable draggable;
-    private ConveyorDetector detector; // Debe estar en este mismo GO (igual que con las workstations)
+    private ConveyorDetector raycaster;
+    private CompletedRecipe completedRecipe;
     #endregion
 
-    #region state
-    private bool wasDragging;
+    #region properties
+    private bool wasDragging; // Flag para detectar el soltado
     #endregion
 
-    #region mehods
+    #region methods
     void Start()
     {
         draggable = GetComponent<Draggable>();
-        detector = GetComponent<ConveyorDetector>();
+        raycaster = GetComponent<ConveyorDetector>();
+        completedRecipe = GetComponent<CompletedRecipe>();
+
+        if (draggable == null) Debug.LogError("[ConveyorSnapOnDrop] Falta Draggable.");
+        if (raycaster == null) Debug.LogError("[ConveyorSnapOnDrop] Falta ConveyorDetector.");
+        if (completedRecipe == null) Debug.LogError("[ConveyorSnapOnDrop] Falta CompletedRecipe (marca de plato final).");
     }
 
     void Update()
     {
-        // Solo actuamos cuando soltamos el objeto
         if (wasDragging && !draggable.isDragging)
         {
             HandleDrop();
@@ -31,37 +35,45 @@ public class ConveyorSnapOnDrop : MonoBehaviour
 
     private void HandleDrop()
     {
-        if (detector == null)
+        if (raycaster == null || completedRecipe == null)
         {
+            raycaster?.ForceClearOverlay();
+            return;
+        }
+        var returner = GetComponent<ReturnToSpawn>();
+        if (returner) returner.MarkDropHandledThisFrame();
+
+        var conveyor = raycaster.GetCurrentConveyor();
+        if (conveyor == null)
+        {
+            // No está sobre cinta
+            raycaster.ForceClearOverlay();
+            var ret = GetComponent<IngredientSpawn>();
+            if (ret) ret.ReturnToSpawn();
             return;
         }
 
-        // 1) No hay cinta bajo el cursor
-        ConveyorBelt conv;
-        if (!detector.TryGetCurrentConveyor(out conv) || conv == null)
+        // Solo platos completos
+        if (!conveyor.CanBoard(gameObject))
         {
-            detector.ForceClearOverlay();
-            return;
-        }
-        Debug.Log("Convoyer: "+ conv.name);
-        // 2) �La cinta acepta este objeto? (por defecto: requiere CompletedDish)
-        if (!conv.CanBoard(gameObject))
-        {
-            detector.ForceClearOverlay();      
+            raycaster.ForceClearOverlay();
+            var ret = GetComponent<IngredientSpawn>();
+            if (ret) ret.ReturnToSpawn();
             return;
         }
 
-        // 3) Montamos en la cinta
-        var entry = conv.GetEntryPoint();
-        if (entry != null)
+        // Snap a la entrada de la cinta
+        if (conveyor.GetEntryPoint() != null)
         {
-            transform.position = entry.position;
-            transform.rotation = entry.rotation;
+            transform.position = conveyor.GetEntryPoint().position;
+            transform.rotation = conveyor.GetEntryPoint().rotation;
         }
+        
+        // Montamos en la cinta
+        conveyor.Board(gameObject);
 
-        // Desactivamos overlay y entregamos a la cinta
-        conv.Board(gameObject);
-        detector.ForceClearOverlay();       
+        // Limpiamos overlay
+        raycaster.ForceClearOverlay();
     }
     #endregion
 }

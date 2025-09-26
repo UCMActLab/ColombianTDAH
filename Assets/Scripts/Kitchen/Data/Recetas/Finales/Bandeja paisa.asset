@@ -15,7 +15,7 @@ MonoBehaviour:
   nombre: Bandeja paisa
   categoria: Plato fuerte
   ingredientes: 02000000120000000400000005000000190000000b0000002c000000
-  puestos: 05000000
+  puestos: 050000000000000002000000030000000600000004000000
   tiempo_est_segs: 450
   processedRecipe: {fileID: 961889355477804371, guid: eb6250e02cae39e48b496235cfbbf861, type: 3}
   esIntermedia: 0

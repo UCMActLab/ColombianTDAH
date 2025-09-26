@@ -14,6 +14,9 @@ public class ConveyorBelt : MonoBehaviour
     // Pasajeros activos
     private readonly List<Passenger> passengers = new List<Passenger>();
 
+    public static event System.Action<RecetaData> OnDeliveredGlobal;
+
+
     private struct Passenger
     {
         public Transform t;
@@ -50,6 +53,7 @@ public class ConveyorBelt : MonoBehaviour
                     if (cd != null && cd.receta != null && !cd.receta.esIntermedia)
                     {
                         LevelKitchenManager.Instance?.RegisterDelivery(cd.receta);
+                        OnDeliveredGlobal?.Invoke(cd.receta);
                     }
                     Destroy(p.t.gameObject);
                 }
@@ -72,6 +76,13 @@ public class ConveyorBelt : MonoBehaviour
     public void Board(GameObject go)
     {
         if (go == null || entryPoint == null || exitPoint == null) return;
+
+        var rts = go.GetComponent<ReturnToSpawn>();
+        if (rts)
+        {
+            rts.MarkDropHandledThisFrame(); 
+            rts.BeginTransit(); // Bloquea retornos mientras viaja
+        }
 
         // Desactiva su draggable mientras viaja
         var drag = go.GetComponent<Draggable>();

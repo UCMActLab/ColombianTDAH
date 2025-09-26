@@ -34,7 +34,8 @@ public class EventRegister : MonoBehaviour
     {
         DefaultGame,
         Delfines,
-        MisionColombia
+        MisionColombia,
+        Cocina
     }
 
 

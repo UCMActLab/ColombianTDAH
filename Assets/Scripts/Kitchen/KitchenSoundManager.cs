@@ -56,10 +56,13 @@ public class KitchenSoundManager : MonoBehaviour
         {
             if (sources.ContainsKey(par.Key) && audioQueues.ContainsKey(par.Key))
             {
-                if (!sources[par.Key].isPlaying && par.Value.Count > 0)
+                if (sources[par.Key] != null)
                 {
-                    AudioClip nextClip = par.Value.Dequeue();
-                    sources[par.Key].PlayOneShot(nextClip);
+                    if (!sources[par.Key].isPlaying && par.Value.Count > 0)
+                    {
+                        AudioClip nextClip = par.Value.Dequeue();
+                        sources[par.Key].PlayOneShot(nextClip);
+                    }
                 }
             }
         }

@@ -17,8 +17,12 @@ public class OptionsMenu : MonoBehaviour
         if (gameType == EventRegister.TipoJuego.Delfines)
             DolphinLevelManager.Instance.Pause(gameObject.activeSelf); // pausa el juego
 
-        else if(gameType == EventRegister.TipoJuego.MisionColombia)
+        else if (gameType == EventRegister.TipoJuego.MisionColombia)
             MisionLevelManager.Instance.Pause(gameObject.activeSelf);
+
+        else if (gameType == EventRegister.TipoJuego.Cocina)
+            LevelKitchenManager.Instance.Pause(gameObject.activeSelf);
+        
     }
 
     public void ToggleWithoutPause()

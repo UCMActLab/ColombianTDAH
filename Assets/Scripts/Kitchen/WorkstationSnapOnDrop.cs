@@ -59,6 +59,7 @@ public class WorkstationSnapOnDrop : MonoBehaviour
             raycaster.ForceClearOverlay();
             var ret = GetComponent<IngredientSpawn>();
             if (ret) ret.ReturnToSpawn(); 
+
             return;
         }
 
@@ -68,6 +69,9 @@ public class WorkstationSnapOnDrop : MonoBehaviour
             transform.position = processor.spawnPoint.position;
             transform.rotation = processor.spawnPoint.rotation;
         }
+
+        var rts = GetComponent<ReturnToSpawn>();
+        if (rts) rts.MarkDropHandledThisFrame();
 
         // Lanzamos el flujo de procesado de la estación
         processor.OnItemPlaced(processable);

@@ -5,6 +5,28 @@ using System.Linq;
 using UnityEngine.SceneManagement;
 using System.Collections;
 using TMPro;
+using System;
+
+[Serializable]
+public class IngredienteSpriteList
+{
+    public Ingredientes nombre;
+    public Sprite sprite;
+}
+
+[Serializable]
+public class RecetaSpriteList
+{
+    public string nombre;
+    public RecetaSprites sprites;
+}
+
+[Serializable]
+public struct RecetaSprites
+{
+    public Sprite spriteLibro;
+    public Texture spriteTablon;
+}
 
 public enum TurnoEstado
 {
@@ -44,17 +66,25 @@ public class LevelKitchenManager : MonoBehaviour
 
     static public LevelKitchenManager Instance { get { return _instance; } }
 
-    private string[] escenasPermitidas = { "KitchenLevel", "KitchenLevelSelector", "KitchenBalanceTerapeuta" };
-    [SerializeField] private string victorySceneName = "KitchenEnd";
+    private string[] escenasPermitidas = { "KitchenLevel", "KitchenLevelSelector" };
 
     [Header("Configuración")]
     [SerializeField] private RecetasDatabase recetasDatabase;
     [SerializeField] private NivelacionData nivelacionData;
+    [SerializeField] private RecetaData recetaTutorialObjetivo;
+    [SerializeField] private List<RecetaSpriteList> recetasSpritesSerializable;   
+    private Dictionary<string, RecetaSprites> recetasSprites;
 
-    private GameObject libroDeRecetas;
+    [SerializeField] private List<IngredienteSpriteList> ingredientesSpritesSerializable;
+    private Dictionary<Ingredientes, Sprite> ingredientesSprites;
 
     private GameObject tablon;
     private GameObject recetasColgadas;
+    private GameObject tablonButton;
+    private RecipeBoard rec;
+    private GameObject conveyor;
+    private GameObject sponge;
+    private GameObject pauseCollider;
 
     private Transform cameraInitPos;
     private Transform cameraTablonPos;
@@ -64,15 +94,34 @@ public class LevelKitchenManager : MonoBehaviour
     private int tiempoPorTurnoTotal;
     private List<RecetaData> recetasToDo;
 
-    private Transform bookTargetTransform;
-    private float moveDuration = 1.5f;
-    private GameObject[] lights;
-
     private Reloj contador;
+
+    private CalculateStats winStats;
+    private CalculateStats loseStats;
 
     // Contador de recetas del turno: receta final -> cuántas faltan
     private Dictionary<RecetaData, int> recetasRestantes = new();
+    private int recetasTotalesIniciales;
 
+    private GameObject hand;          
+    private bool hideHandWhenIdle = true;
+    private Transform handFollowTarget;
+    private Vector3 handOffset;        // Offset desde el centro del objeto al punto de agarre
+    private float handRayDepth = 4.5f; 
+    private Camera mainCam;
+
+    private bool paused;
+
+    private GameObject tutorialSystemRoot;
+    private bool isTutorial = false;
+    public event Action OnBookOpenedTutorial;
+    public event Action OnTablonOpenedTutorial;
+    public event Action OnBookClosedTutorial;
+    public event Action OnTablonClosedTutorial;
+
+    #region properties
+    private int NOpenedBook = 0;
+    #endregion
 
     private void Awake()
     {
@@ -87,16 +136,25 @@ public class LevelKitchenManager : MonoBehaviour
 
         DontDestroyOnLoad(gameObject);
         SceneManager.sceneLoaded += OnSceneLoaded;
+        ActivateGame();
     }
 
     private void Start()
     {
         CalcularRecetasPorJornada();
+        mainCam = Camera.main;
+        recetasSprites = recetasSpritesSerializable.ToDictionary(m => m.nombre, m => m.sprites);
+        ingredientesSprites = ingredientesSpritesSerializable.ToDictionary(m => m.nombre, m => m.sprite);
     }
 
     private void Update()
     {
         
+    }
+
+    void OnDestroy()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
     }
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
@@ -122,24 +180,14 @@ public class LevelKitchenManager : MonoBehaviour
 
         if (scene.name == escenasPermitidas[0]) // KitchenLevel
         {
-            cameraInitPos = Camera.main.transform;
-
+            DraggableBlocker.Unblock();
             Draggable tab = tablon.GetComponent<Draggable>();
-            Draggable input = libroDeRecetas.GetComponent<Draggable>();
-
-            RecipeBoard rec = recetasColgadas.GetComponent<RecipeBoard>();
-
-            if (input != null)
-            {
-                input.onStartDragging.AddListener(OnBookClicked);
-            }
-            else
-            {
-                Debug.LogWarning("No se encontró el componente Draggable en libro.");
-            }
+            Draggable tabButtonDrag = tablonButton.GetComponent<Draggable>();
+            rec = recetasColgadas.GetComponent<RecipeBoard>();
 
             if (tab != null)
             {
+                tab.onStartDragging.RemoveListener(OnTabClicked);
                 tab.onStartDragging.AddListener(OnTabClicked);
             }
             else
@@ -147,28 +195,90 @@ public class LevelKitchenManager : MonoBehaviour
                 Debug.LogWarning("No se encontró el componente Draggable en tablon.");
             }
 
-            recetasToDo = CalcularRecetasTurno(nivelacionData.jornadas[jornadaActual].recetasAsignadas, tiempoPorTurnoTotal, Mathf.CeilToInt(tiempoPorTurnoTotal * 0.1f));
-
-            if (rec != null)
+            if (tabButtonDrag != null)
             {
-                rec.ShowRecipes(recetasToDo);
+                tabButtonDrag.onStartDragging.RemoveListener(ButtonTabClicked);
+                tabButtonDrag.onStartDragging.AddListener(ButtonTabClicked);
             }
             else
             {
-                Debug.LogWarning("No se encontró el componente RecipeBoard en recetascolgadas.");
+                Debug.LogWarning("No se encontró el componente Draggable en tablonButton.");
             }
 
-            recetasRestantes = recetasToDo
-                               .Where(r => r != null && !r.esIntermedia)
-                               .GroupBy(r => r)
-                               .ToDictionary(g => g.Key, g => g.Count());
+            if (tutorialSystemRoot != null)
+                tutorialSystemRoot.SetActive(isTutorial);
 
-            foreach (var kv in recetasRestantes)
-                Debug.Log($"[Objetivo] {kv.Key.nombre} x{kv.Value}");
+            if (isTutorial)
+            {
+                if (recetaTutorialObjetivo != null)
+                {
+                    // Lista para mostrar en el tablón/libro (si lo usas)
+                    var listaTutorial = Enumerable.Repeat(recetaTutorialObjetivo, 1).ToList();
 
-            contador.SetTiempoInicial(tiempoPorTurnoTotal);
-            contador.Reanudar();
+                    // Tablón: pinta SOLO la receta del tutorial
+                    if (rec != null) rec.ShowRecipes(listaTutorial);
+
+                    // Objetivos: solo cuenta esa receta
+                    recetasRestantes = listaTutorial
+                                       .Where(r => r != null && !r.esIntermedia)
+                                       .GroupBy(r => r)
+                                       .ToDictionary(g => g.Key, g => g.Count());
+
+                    recetasTotalesIniciales = recetasRestantes.Values.Sum();
+                }
+
+                if (contador != null)
+                {
+                    contador.OnTimeEnd -= OnGameOver; 
+                }
+
+                
+                //if (rec != null)
+                //    rec.ShowRecipes(new List<RecetaData> { recetaObjetivo });
+                // if (rec != null) rec.ShowTutorialLayout(); 
+            }
+            else
+            {
+                recetasToDo = CalcularRecetasTurno(nivelacionData.jornadas[jornadaActual].recetasAsignadas, tiempoPorTurnoTotal, Mathf.CeilToInt(tiempoPorTurnoTotal * 0.1f));
+
+                if (rec != null)
+                {
+                    rec.ShowRecipes(recetasToDo);
+                }
+                else
+                {
+                    Debug.LogWarning("No se encontró el componente RecipeBoard en recetascolgadas.");
+                }
+
+                recetasRestantes = recetasToDo
+                                   .Where(r => r != null && !r.esIntermedia)
+                                   .GroupBy(r => r)
+                                   .ToDictionary(g => g.Key, g => g.Count());
+
+                foreach (var kv in recetasRestantes)
+                    Debug.Log($"[Objetivo] {kv.Key.nombre} x{kv.Value}");
+
+                recetasTotalesIniciales = recetasRestantes.Values.Sum();
+
+                contador.SetTiempoInicial(tiempoPorTurnoTotal);
+                contador.Reanudar();
+                contador.OnTimeEnd += OnGameOver;
+            }
         }
+    }
+
+    private void ButtonTabClicked()
+    {
+        Debug.Log("TabButton clickado");
+        tablonButton.GetComponent<Draggable>().enabled = false;
+
+        // Iniciar el movimiento
+        StartCoroutine(MoverCamara(Camera.main.transform, cameraInitPos, 1f, () =>
+        {
+            tablon.GetComponent<Draggable>().enabled = true;
+        }));
+        NotifyTablonClosed();
+        Debug.Log("TabButton clickado fin");
     }
 
     private void OnTabClicked()
@@ -177,10 +287,15 @@ public class LevelKitchenManager : MonoBehaviour
         tablon.GetComponent<Draggable>().enabled = false;
 
         // Iniciar el movimiento
-        StartCoroutine(MoverCamara(Camera.main.transform, cameraTablonPos, 1f));
+        StartCoroutine(MoverCamara(Camera.main.transform, cameraTablonPos, 1f, () =>
+        {
+            tablonButton.GetComponent<Draggable>().enabled = true;
+        }));
+        NotifyTablonOpened();
+        Debug.Log("Tab clickado fin");
     }
 
-    private IEnumerator MoverCamara(Transform obj, Transform destino, float duracion)
+    private IEnumerator MoverCamara(Transform obj, Transform destino, float duracion, Action onComplete)
     {
         Vector3 origenPos = obj.position;
         Quaternion origenRot = obj.rotation;
@@ -206,57 +321,17 @@ public class LevelKitchenManager : MonoBehaviour
 
         obj.position = destinoPos;
         obj.rotation = destinoRot;
+
+        onComplete?.Invoke();
     }
-
-
-    private void OnBookClicked()
-    {
-        Debug.Log("Libro clickado");
-        libroDeRecetas.GetComponent<Draggable>().enabled = false;
-
-        bookTargetTransform = GameObject.Find("LibroPos").transform;
-        AnimatorManager.Instance.PlayAndPauseAt(ObjetosAnim.Libro, "Open", 0.8f);
-
-        foreach (GameObject l in lights)
-        {
-            l.SetActive(true);
-        }
-        
-        // Iniciar el movimiento con rotación
-        StartCoroutine(MoverLibro(libroDeRecetas.transform, bookTargetTransform.position, bookTargetTransform.rotation, moveDuration));
-    }
-
-    private IEnumerator MoverLibro(Transform objeto, Vector3 destinoPos, Quaternion destinoRot, float duracion)
-    {
-        Vector3 origenPos = objeto.position;
-        Quaternion origenRot = objeto.rotation;
-
-        float tiempo = 0f;
-
-        while (tiempo < duracion)
-        {
-            float t = tiempo / duracion;
-
-            // Easing SmoothStep (ease-in/ease-out)
-            float e = t * t * (3f - 2f * t);
-
-            objeto.position = Vector3.LerpUnclamped(origenPos, destinoPos, e);
-            objeto.rotation = Quaternion.SlerpUnclamped(origenRot, destinoRot, e);
-
-            tiempo += Time.deltaTime;
-            yield return null;
-        }
-
-        // Asegurar posición/rotación final
-        objeto.position = destinoPos;
-        objeto.rotation = destinoRot;
-    }
-
 
 
     // Funcion que elige las recetas que se van a tener que preparar en el turno seleccionado
     public List<RecetaData> CalcularRecetasTurno(List<RecetaData> recetasDisponibles, int tiempoTurno, int margenInicial)
     {
+        if (isTutorial && recetaTutorialObjetivo != null)
+            return Enumerable.Repeat(recetaTutorialObjetivo, 1).ToList();
+
         int maxIntentos = 1000;
         int margen = margenInicial;
         System.Random rng = new System.Random();
@@ -373,12 +448,15 @@ public class LevelKitchenManager : MonoBehaviour
             if (restantes > 0)
             {
                 recetasRestantes[receta] = restantes - 1;
+
+                rec.ChangeTexture(receta.nombre);
+
                 Debug.Log($"Entregado: {receta.nombre}. Restan {recetasRestantes[receta]}.");
 
                 // ¿hemos cumplido todos los objetivos?
                 if (recetasRestantes.Values.All(v => v <= 0))
                 {
-                    //OnVictory();
+                    OnVictory();
                 }
             }
             else
@@ -396,17 +474,108 @@ public class LevelKitchenManager : MonoBehaviour
 
     private void OnVictory()
     {
-        Debug.Log("¡Todas las recetas entregadas! VICTORIA");
-        // contador?.Pausar(); // si quieres parar el reloj aquí
-        if (!string.IsNullOrEmpty(victorySceneName))
-            SceneManager.LoadScene(victorySceneName);
+        if (!isTutorial)
+        {
+            contador.Pausar();
+            winStats.Calculate(recetasTotalesIniciales - recetasRestantes.Values.Sum(), recetasTotalesIniciales, tiempoPorTurnoTotal, contador.GetTiempo(), NOpenedBook);
+        }
     }
+
+    private void OnGameOver()
+    {
+        loseStats.Calculate(recetasTotalesIniciales - recetasRestantes.Values.Sum(), recetasTotalesIniciales, tiempoPorTurnoTotal, contador.GetTiempo(), NOpenedBook);
+    }
+
+    
 
     public IEnumerable<RecetaData> GetRecetasSeleccionadasActuales()
     {
+        if (isTutorial)
+        {
+            if (recetaTutorialObjetivo != null)
+                return Enumerable.Repeat(recetaTutorialObjetivo, 1);
+            return Enumerable.Empty<RecetaData>();
+        }
         return nivelacionData.jornadas[jornadaActual].recetasAsignadas;
     }
 
+
+    public void StartHandFollow(Transform target, Vector3 grabWorldPoint, float dragDepth)
+    {
+        handFollowTarget = target;
+        handRayDepth = dragDepth;
+        handOffset = (target != null) ? (grabWorldPoint - target.position) : Vector3.zero;
+
+        if (hand != null)
+        {
+            if (hideHandWhenIdle && !hand.activeSelf) hand.SetActive(true);
+            hand.transform.position = grabWorldPoint;
+        }
+
+        // Cambiamos animación 
+        AnimatorManager.Instance.ChangeAnimation(ObjetosAnim.Mano, "Closed", 0.1f);        
+    }
+
+    public void StopHandFollow()
+    {
+        // Cambiamos animación 
+        AnimatorManager.Instance.ChangeAnimation(ObjetosAnim.Mano, "Open", 0.1f);        
+
+        if (hideHandWhenIdle && hand != null)
+            StartCoroutine(HideHandAfter(0.5f));
+
+        handFollowTarget = null;
+    }
+
+    public void Pause(bool pause)
+    {
+        paused = pause;
+        DraggableBlocker.ConmuteBlock();
+        pauseCollider.SetActive(paused);
+        if (paused) contador.Pausar();
+        else contador.Reanudar();
+
+        Debug.Log("Cocina Pausada/Reanudada");
+    }
+
+    public void ActivateGame()
+    {
+        if (EventRegister.Instance)
+        {
+            EventRegister.Instance.AddInitialEvent(EventRegister.EventosInfo.Inicio, "nivel " + SceneLoader.Instance.getCurrentLevelId(EventRegister.TipoJuego.Cocina).ToString("00"), EventRegister.TipoJuego.Cocina);
+            Debug.Log("se pudo iniciar el evento Inicio en KitchenLevelManager.");
+        }
+        else
+        {
+            Debug.Log("No se pudo iniciar el evento Inicio en KitchenLevelManager.");
+        }  
+    }
+
+
+    private IEnumerator HideHandAfter(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        if (hand != null) hand.SetActive(false);
+    }
+
+    void LateUpdate()
+    {
+        if (hand == null) return;
+
+        if (handFollowTarget != null)
+        {
+            // Sigue al objeto con el mismo punto de agarre
+            var targetPos = handFollowTarget.position + handOffset;
+            hand.transform.position = targetPos;
+        }
+        else if (hand.activeSelf && mainCam != null)
+        {             
+            var ray = mainCam.ScreenPointToRay(Input.mousePosition);
+            hand.transform.position = ray.GetPoint(handRayDepth);
+        }
+    }
+
+    #region SettersGetters
     public void SetJornada(int newValue)
     {
         jornadaActual = newValue;
@@ -422,24 +591,22 @@ public class LevelKitchenManager : MonoBehaviour
         tiempoPorTurnoTotal = newValue;
     }
 
-    public GameObject GetLibro()
-    {
-        return libroDeRecetas;
-    }
-
-    public void SetLibro(GameObject l)
-    {
-        libroDeRecetas = l;
-    }
 
     public void SetTablon(GameObject t)
     {
         tablon = t;
     }
 
-    public void SetLights(GameObject[] ls)
+    public GameObject GetTablon() { return tablon; }
+
+    public void SetTablonButton(GameObject tb)
     {
-        lights = ls;
+        tablonButton = tb;
+    }
+
+    public void SetHand(GameObject h)
+    {
+        hand = h;
     }
 
     public NivelacionData GetNivelacionData() {
@@ -455,8 +622,80 @@ public class LevelKitchenManager : MonoBehaviour
         cameraTablonPos = tr;
     }
 
+    public void SetCameraInitPos(Transform tr)
+    {
+        cameraInitPos = tr;
+    }
+
     public void SetRecetasColgadas(GameObject rc)
     {
         recetasColgadas = rc;
     }
+
+    public Dictionary<RecetaData, int> GetRecetasRestantes()
+    {
+        return recetasRestantes;
+    }
+
+    public void SetStatsWin(CalculateStats cs)
+    {
+        winStats = cs;
+    }
+
+    public void SetStatsLose(CalculateStats cs)
+    {
+        loseStats = cs;
+    }
+
+    public void SetNOpenedBook(int ob)
+    {
+        NOpenedBook = ob;
+    }
+
+    public int GetNOpenedBook() { return NOpenedBook; }
+
+    public void SetConveyor(GameObject c)
+    {
+        conveyor = c;
+    }
+
+    public GameObject GetConveyor()
+    {
+        return conveyor;
+    }
+
+    public void SetSponge(GameObject s)
+    {
+        sponge = s;
+    }
+    public GameObject GetSponge() 
+    {
+        return sponge; 
+    }
+
+    public void SetPauseCollider(GameObject p)
+    {
+        pauseCollider = p;
+    }
+    public GameObject GetPauseCollider()
+    {
+        return pauseCollider;
+    }
+
+    public void SetTutorial(GameObject t)
+    {
+        tutorialSystemRoot = t;
+    }
+    public void StartTutorialMode() => isTutorial = true;
+    public void StopTutorialMode() => isTutorial = false;
+    public bool GetTutorial() {  return isTutorial; }
+
+    public Dictionary<string, RecetaSprites> GetRecetasSprites() { return recetasSprites; }
+    public Dictionary<Ingredientes, Sprite> GetIngredientesSprites() { return ingredientesSprites; }
+
+    public void NotifyBookOpened() => OnBookOpenedTutorial?.Invoke();
+    public void NotifyTablonOpened() => OnTablonOpenedTutorial?.Invoke();
+    public void NotifyBookClosed() => OnBookClosedTutorial?.Invoke();
+    public void NotifyTablonClosed() => OnTablonClosedTutorial?.Invoke();
+    #endregion
 }

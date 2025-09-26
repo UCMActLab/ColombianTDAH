@@ -15,7 +15,7 @@ MonoBehaviour:
   nombre: Arepa
   categoria: Para picar
   ingredientes: 22000000
-  puestos: 06000000
+  puestos: 0600000004000000
   tiempo_est_segs: 75
   processedRecipe: {fileID: 892658504407314045, guid: 0e71e6e60fbcca643939ddb60dcd6bae, type: 3}
   esIntermedia: 1
