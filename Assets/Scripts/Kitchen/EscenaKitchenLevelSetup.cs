@@ -45,6 +45,8 @@ public class EscenaKitchenLevelSetup : MonoBehaviour
     [SerializeField] private AudioClip ovenClip;
     [SerializeField] private AudioSource spongeSource;
     [SerializeField] private AudioClip spongeClip;
+    [SerializeField] private AudioSource recipeDeliveredSource;
+    [SerializeField] private AudioClip recipeDeliveredClip;
 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -91,8 +93,10 @@ public class EscenaKitchenLevelSetup : MonoBehaviour
         KitchenSoundManager.Instance.SetClip(ObjetosSound.Sarten, panClip);
         KitchenSoundManager.Instance.SetAudioSource(ObjetosSound.Horno, ovenSource);
         KitchenSoundManager.Instance.SetClip(ObjetosSound.Horno, ovenClip);
-        KitchenSoundManager.Instance.SetAudioSource(ObjetosSound.Sponge, spongeSource);
-        KitchenSoundManager.Instance.SetClip(ObjetosSound.Sponge, spongeClip);
+        KitchenSoundManager.Instance.SetAudioSource(ObjetosSound.Esponja, spongeSource);
+        KitchenSoundManager.Instance.SetClip(ObjetosSound.Esponja, spongeClip);
+        KitchenSoundManager.Instance.SetAudioSource(ObjetosSound.RecetaEntregada, recipeDeliveredSource);
+        KitchenSoundManager.Instance.SetClip(ObjetosSound.RecetaEntregada, recipeDeliveredClip);
 
 
     }

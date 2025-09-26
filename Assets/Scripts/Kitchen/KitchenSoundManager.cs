@@ -11,7 +11,8 @@ public enum ObjetosSound
     Olla,
     Olla_A_Presion,
     Sarten, 
-    Sponge
+    Esponja,
+    RecetaEntregada
 }
 
 /// <summary>

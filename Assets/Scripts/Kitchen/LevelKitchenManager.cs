@@ -454,7 +454,7 @@ public class LevelKitchenManager : MonoBehaviour
                 rec.ChangeTexture(receta.nombre);
 
                 Debug.Log($"Entregado: {receta.nombre}. Restan {recetasRestantes[receta]}.");
-
+                KitchenSoundManager.Instance.PlaySound(ObjetosSound.RecetaEntregada, "RecipeDelivered");
                 // ¿hemos cumplido todos los objetivos?
                 if (recetasRestantes.Values.All(v => v <= 0))
                 {
