@@ -1,23 +1,50 @@
+using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using UnityEngine;
 
 public class SoundManager : MonoBehaviour
 {
-    AudioSource _audioSource;
+    public enum SoundName { UI_CLICK = 0, MOTOR, QUESTION, GOOD_ANSWER, BAD_ANSWER,MUSIC_LEVEL1, MUSIC_LEVEL2, MUSIC_LEVEL3, SOUND_NUMBER };
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        _audioSource = GetComponent<AudioSource>();
-    }
+    // Singleton
+    static private SoundManager _instance;
+    public static SoundManager Instance { get { return _instance; } }
 
-    // Update is called once per frame
-    void Update()
+    [SerializeField]
+    List<AudioSource> _audioSources = new List<AudioSource>((int)SoundName.SOUND_NUMBER);
+
+    private void Awake()
     {
-        
+        // Si no hay instancia de esta clase ya creada se almacena
+        if (_instance == null)
+            _instance = this;
+        // Si esta creada se destruye porque no necesitamos una mas
+        else
+            Destroy(this.gameObject);
+
+        DontDestroyOnLoad(this.gameObject);
     }
 
     public void Click()
     {
-        _audioSource.Play();
+        _audioSources[(int)SoundName.UI_CLICK].Play();
+    }
+
+    // Play del sonido que se indique como parametro
+    public void PlaySound(SoundName sound)
+    {
+        if ((int)sound < _audioSources.Count)
+            _audioSources[(int)sound].Play();
+        else
+            Debug.Log("El sonido indicado esta fuera del indice posible");
+    }
+
+    // Registra audio source que se indica como parametro
+    public void RegisterSound(SoundName sound, AudioSource audioSource)
+    {
+        if ((int)sound < _audioSources.Count)
+            _audioSources[(int)sound] = audioSource;
+        else
+            Debug.Log("El sonido indicado esta fuera del indice posible");
     }
 }
