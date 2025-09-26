@@ -10,7 +10,8 @@ public enum ObjetosSound
     Horno,
     Olla,
     Olla_A_Presion,
-    Sarten
+    Sarten, 
+    Sponge
 }
 
 /// <summary>

@@ -5,12 +5,15 @@ public class SpongeCleaner : MonoBehaviour
 {
     [SerializeField] private LayerMask workstationLayer; // Capa de estaciones
     [SerializeField] private float raycastDistance = 20f;  
-    [SerializeField] private float cleanTime = 1.2f; // Tiempo para limpiar
+    [SerializeField] private float cleanTime = 2.3f; // Tiempo para limpiar
     [SerializeField] private float contactOffset = 0.01f; // Separación del FX respecto a la superficie
 
     [SerializeField] private ObjetosAnim spongeAnimKey = ObjetosAnim.Esponja;
     [SerializeField] private string idleState = "Idle";
     [SerializeField] private string cleanLoopState = "Clean";
+
+    [SerializeField] private ObjetosSound soundKey;
+    [SerializeField] private string cleaningSfxName = "";
 
     [SerializeField] private ParticleSystem cleaningFx;
 
@@ -105,6 +108,11 @@ public class SpongeCleaner : MonoBehaviour
         // Anim de limpiar
         AnimatorManager.Instance.ChangeAnimation(spongeAnimKey, cleanLoopState, 0.1f);
 
+        // Sonido
+        if (!string.IsNullOrEmpty(cleaningSfxName))
+            //KitchenSoundManager.Instance.PlayLoopForDurationFaded(soundKey, cleaningSfxName, cleanTime);
+        KitchenSoundManager.Instance.PlayLoopFaded(soundKey, cleaningSfxName, 0.2f);
+
         // Posicionamos FX en el punto de contacto del drop
         PlayFxAtContact();
 
@@ -120,8 +128,9 @@ public class SpongeCleaner : MonoBehaviour
 
         // Limpiamos inventario si sigue siendo válido y hay contenido
         if (ws != null && IsStationCleanable(ws))
-            ws.ClearInventory();         
-        
+            ws.ClearInventory();
+
+        KitchenSoundManager.Instance.StopLoopFaded(soundKey, 0.2f);
         StopFx();
         SetIdleAnim();
         
