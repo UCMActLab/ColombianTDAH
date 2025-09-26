@@ -26,6 +26,7 @@ public class Draggable : MonoBehaviour
     [Header("Events")]
     public UnityEvent onStartDragging;
     public UnityEvent onStopDragging;
+
     #endregion
 
     #region methods
@@ -103,7 +104,7 @@ public class Draggable : MonoBehaviour
                 clickablePressActive = false;
             }
 
-            pressedOnThis = false;
+            pressedOnThis = false;  
         }
     }
 
@@ -113,6 +114,7 @@ public class Draggable : MonoBehaviour
         anyDragging = true;
         isDragging = true;
         onStartDragging?.Invoke();
+        KitchenSoundManager.Instance.PlayOneShotRaw(ObjetosSound.HandGrab, "Grab");  
     }
 
     private void StopDrag()
@@ -120,6 +122,7 @@ public class Draggable : MonoBehaviour
         isDragging = false;
         anyDragging = false;
         onStopDragging?.Invoke();
+        KitchenSoundManager.Instance.PlayOneShotRaw(ObjetosSound.HandDrop, "Drop");
     }
 
     private bool RayHitsMe(Vector2 screenPos)

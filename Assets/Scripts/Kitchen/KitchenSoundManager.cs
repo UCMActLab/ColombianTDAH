@@ -12,7 +12,9 @@ public enum ObjetosSound
     Olla_A_Presion,
     Sarten, 
     Esponja,
-    RecetaEntregada
+    RecetaEntregada,
+    HandGrab,
+    HandDrop
 }
 
 /// <summary>
@@ -96,7 +98,7 @@ public class KitchenSoundManager : MonoBehaviour
     {
         if (clips.ContainsKey(ob) && clips[ob].ContainsKey(clipName))
         {
-            AudioClip toPlay = clips[ob][clipName];
+            AudioClip toPlay = clips[ob][clipName]; 
             if (toPlay != null)
                 audioQueues[ob].Enqueue(toPlay);
         }
@@ -130,6 +132,26 @@ public class KitchenSoundManager : MonoBehaviour
 
         StartCoroutine(PlayOneShotWithFadesScheduled(src, clip, fadeIn, fadeOut, tgt));
     }
+
+    public void PlayOneShotRaw(ObjetosSound ob, string clipName, float volumeScale = 1f)
+    {
+        if (!sources.ContainsKey(ob) || sources[ob] == null)
+        {
+            Debug.LogWarning($"[SoundManager] No hay AudioSource registrado para {ob} (PlayOneShotRaw)");
+            return;
+        }
+        if (!clips.ContainsKey(ob) || !clips[ob].ContainsKey(clipName))
+        {
+            Debug.LogWarning($"[SoundManager] Clip '{clipName}' no encontrado para {ob} (PlayOneShotRaw)");
+            return;
+        }
+
+        var src = sources[ob];
+        var clip = clips[ob][clipName];
+
+        src.PlayOneShot(clip, volumeScale);
+    }
+
 
     public void PlayLoop(ObjetosSound ob, string clipName)
     {
