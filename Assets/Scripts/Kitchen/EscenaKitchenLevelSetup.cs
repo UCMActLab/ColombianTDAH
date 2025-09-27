@@ -51,7 +51,16 @@ public class EscenaKitchenLevelSetup : MonoBehaviour
     [SerializeField] private AudioClip handGrabClip;
     [SerializeField] private AudioSource handDropSource;
     [SerializeField] private AudioClip handDropClip;
-
+    [SerializeField] private AudioSource ambienceMorningSource;
+    [SerializeField] private AudioClip ambienceMorningClip;
+    [SerializeField] private AudioSource ambienceAfternoonSource;
+    [SerializeField] private AudioClip ambienceAfternoonClip;
+    [SerializeField] private AudioSource ambienceNightSource;
+    [SerializeField] private AudioClip ambienceNightClip;
+    [SerializeField] private AudioSource winSource;
+    [SerializeField] private AudioClip winClip;
+    [SerializeField] private AudioSource gameOverSource;
+    [SerializeField] private AudioClip gameOverClip;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Awake()
@@ -105,8 +114,16 @@ public class EscenaKitchenLevelSetup : MonoBehaviour
         KitchenSoundManager.Instance.SetClip(ObjetosSound.HandGrab, handGrabClip);
         KitchenSoundManager.Instance.SetAudioSource(ObjetosSound.HandDrop, handDropSource);
         KitchenSoundManager.Instance.SetClip(ObjetosSound.HandDrop, handDropClip);
-
-
+        KitchenSoundManager.Instance.SetAudioSource(ObjetosSound.AmbienceMorning, ambienceMorningSource);
+        KitchenSoundManager.Instance.SetClip(ObjetosSound.AmbienceMorning, ambienceMorningClip);
+        KitchenSoundManager.Instance.SetAudioSource(ObjetosSound.AmbienceAfternoon, ambienceAfternoonSource);
+        KitchenSoundManager.Instance.SetClip(ObjetosSound.AmbienceAfternoon, ambienceAfternoonClip);
+        KitchenSoundManager.Instance.SetAudioSource(ObjetosSound.AmbienceNight, ambienceNightSource);
+        KitchenSoundManager.Instance.SetClip(ObjetosSound.AmbienceNight, ambienceNightClip);
+        KitchenSoundManager.Instance.SetAudioSource(ObjetosSound.Win, winSource);
+        KitchenSoundManager.Instance.SetClip(ObjetosSound.Win, winClip);
+        KitchenSoundManager.Instance.SetAudioSource(ObjetosSound.GameOver, gameOverSource);
+        KitchenSoundManager.Instance.SetClip(ObjetosSound.GameOver, gameOverClip);
     }
 
     // Update is called once per frame

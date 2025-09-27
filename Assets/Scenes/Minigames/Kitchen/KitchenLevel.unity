@@ -5322,6 +5322,7 @@ GameObject:
   - component: {fileID: 1539698747}
   - component: {fileID: 1539698751}
   - component: {fileID: 1539698752}
+  - component: {fileID: 1539698753}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -5474,6 +5475,103 @@ MonoBehaviour:
   MovementSmoothingValue: 25
   RotationSmoothingValue: 5
   MoveSensitivity: 2
+--- !u!82 &1539698753
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1539698746}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_Resource: {fileID: 0}
+  m_PlayOnAwake: 1
+  m_Volume: 0.015
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &1608812830
 GameObject:
   m_ObjectHideFlags: 0
@@ -6193,6 +6291,16 @@ MonoBehaviour:
   handGrabClip: {fileID: 8300000, guid: 28800bcefa8a9bd4e822a3fd587dc4f8, type: 3}
   handDropSource: {fileID: 606410449}
   handDropClip: {fileID: 8300000, guid: 1e818e2cded9f5a4eaaca0c1e2db1666, type: 3}
+  ambienceMorningSource: {fileID: 1539698753}
+  ambienceMorningClip: {fileID: 8300000, guid: 313b59bee78f4554f9534b616e650da9, type: 3}
+  ambienceAfternoonSource: {fileID: 1539698753}
+  ambienceAfternoonClip: {fileID: 8300000, guid: 91253027312404e408ef557c044f167d, type: 3}
+  ambienceNightSource: {fileID: 1539698753}
+  ambienceNightClip: {fileID: 8300000, guid: 765e9728601e0f8488df5c3fc94fcf4f, type: 3}
+  winSource: {fileID: 1539698753}
+  winClip: {fileID: 8300000, guid: 1868be367708f3c4aa471f2f45509e6f, type: 3}
+  gameOverSource: {fileID: 1539698753}
+  gameOverClip: {fileID: 8300000, guid: e2aafa3feb1c6a04fa19bd442454e808, type: 3}
 --- !u!4 &1894923663
 Transform:
   m_ObjectHideFlags: 0

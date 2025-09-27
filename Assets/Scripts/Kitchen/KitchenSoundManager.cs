@@ -14,7 +14,13 @@ public enum ObjetosSound
     Esponja,
     RecetaEntregada,
     HandGrab,
-    HandDrop
+    HandDrop,
+    AmbienceMorning,
+    AmbienceAfternoon,
+    AmbienceNight,
+    Win,
+    GameOver
+
 }
 
 /// <summary>

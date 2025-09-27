@@ -207,6 +207,7 @@ public class LevelKitchenManager : MonoBehaviour
                 Debug.LogWarning("No se encontró el componente Draggable en tablonButton.");
             }
 
+
             if (tutorialSystemRoot != null)
                 tutorialSystemRoot.SetActive(isTutorial);
 
@@ -241,6 +242,7 @@ public class LevelKitchenManager : MonoBehaviour
             }
             else
             {
+                SetAmbienceMusic(turnoActual);
                 recetasToDo = CalcularRecetasTurno(nivelacionData.jornadas[jornadaActual].recetasAsignadas, tiempoPorTurnoTotal, Mathf.CeilToInt(tiempoPorTurnoTotal * 0.1f));
 
                 if (rec != null)
@@ -478,6 +480,8 @@ public class LevelKitchenManager : MonoBehaviour
     {
         if (!isTutorial)
         {
+            StopAmbienceMusic(turnoActual);
+            KitchenSoundManager.Instance.PlayOneShotRaw(ObjetosSound.Win, "KitchenWin", 10.0f);
             contador.Pausar();
             winStats.Calculate(recetasTotalesIniciales - recetasRestantes.Values.Sum(), recetasTotalesIniciales, tiempoPorTurnoTotal, contador.GetTiempo(), NOpenedBook);
             if (turnoActual == turnoMaxDesbloqueado && jornadaActual == jornadaMaxDesbloqueada)
@@ -495,6 +499,8 @@ public class LevelKitchenManager : MonoBehaviour
 
     private void OnGameOver()
     {
+        StopAmbienceMusic(turnoActual);
+        KitchenSoundManager.Instance.PlayOneShotRaw(ObjetosSound.GameOver, "KitchenGameOver", 10.0f);
         loseStats.Calculate(recetasTotalesIniciales - recetasRestantes.Values.Sum(), recetasTotalesIniciales, tiempoPorTurnoTotal, contador.GetTiempo(), NOpenedBook);
     }
 
@@ -567,6 +573,19 @@ public class LevelKitchenManager : MonoBehaviour
         }  
     }
 
+    public void SetAmbienceMusic(Turno t)
+    {
+        if (t == Turno.Manana) KitchenSoundManager.Instance.PlayLoopFaded(ObjetosSound.AmbienceMorning, "MorningAmbience");
+        else if( t == Turno.Tarde) KitchenSoundManager.Instance.PlayLoopFaded(ObjetosSound.AmbienceAfternoon, "AfternoonAmbience");
+        else if (t == Turno.Noche) KitchenSoundManager.Instance.PlayLoopFaded(ObjetosSound.AmbienceNight, "NightAmbience");
+    }
+
+    public void StopAmbienceMusic(Turno t)
+    {
+        if (t == Turno.Manana) KitchenSoundManager.Instance.StopLoopFaded(ObjetosSound.AmbienceMorning);
+        else if (t == Turno.Tarde) KitchenSoundManager.Instance.StopLoopFaded(ObjetosSound.AmbienceAfternoon);
+        else if (t == Turno.Noche) KitchenSoundManager.Instance.StopLoopFaded(ObjetosSound.AmbienceNight);
+    }
 
     private IEnumerator HideHandAfter(float delay)
     {
