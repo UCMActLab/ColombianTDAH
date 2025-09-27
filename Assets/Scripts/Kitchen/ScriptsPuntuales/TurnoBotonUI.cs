@@ -94,7 +94,20 @@ public class TurnoBotonUI : MonoBehaviour // Clase para el comportamiento de los
         int baseSegundos = LevelKitchenManager.Instance.GetNivelacionData().jornadas[jornada].tiempoBaseManual;
         float dificultad = LevelKitchenManager.Instance.GetNivelacionData().jornadas[jornada].margenDeError;
 
-        LevelKitchenManager.Instance.SetTiempoPorTurno(Mathf.CeilToInt(baseSegundos * dificultad));
+        float dificultadporturno = 1.0f;
+
+        switch (tipoTurno)
+        {
+            case Turno.Tarde:
+                dificultadporturno = 0.9f;
+                break;
+            case Turno.Noche:
+                dificultadporturno = 0.8f;
+                break;
+        }
+            
+
+        LevelKitchenManager.Instance.SetTiempoPorTurno(Mathf.CeilToInt(baseSegundos * dificultad * dificultadporturno));
 
         SceneLoader.LoadScene("KitchenLevel");
     }
