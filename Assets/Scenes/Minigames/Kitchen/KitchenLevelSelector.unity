@@ -2618,7 +2618,7 @@ MonoBehaviour:
       spriteTablon: {fileID: 2800000, guid: 064e2ba9b76c63843bdd6a253be77db4, type: 3}
   - nombre: Bandeja paisa
     sprites:
-      spriteLibro: {fileID: 21300000, guid: e2a553f3df28d694d9ec76780f76d30c, type: 3}
+      spriteLibro: {fileID: 21300000, guid: 75fafd90fe6b68547b15a0acec836e9d, type: 3}
       spriteTablon: {fileID: 2800000, guid: 7362377c699fad147ad49924adbc17af, type: 3}
   - nombre: Bocadillo
     sprites:
