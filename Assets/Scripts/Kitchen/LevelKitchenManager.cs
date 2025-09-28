@@ -621,6 +621,8 @@ public class LevelKitchenManager : MonoBehaviour
         turnoActual = newValue;
     }
 
+    public Turno GetTurno() { return turnoActual; }
+
     public void SetTiempoPorTurno(int newValue)
     {
         tiempoPorTurnoTotal = newValue;

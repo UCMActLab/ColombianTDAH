@@ -28,6 +28,11 @@ public class EscenaKitchenLevelSetup : MonoBehaviour
     [SerializeField] private GameObject pan;
     [SerializeField] private GameObject oven;
 
+    [Header("Lights")]
+    [SerializeField] private GameObject lightMorning;
+    [SerializeField] private GameObject lightEvening;
+    [SerializeField] private GameObject lightNight;
+
     [Header("Sounds")]
     [SerializeField] private AudioSource mixerSource;
     [SerializeField] private AudioClip mixerClip;
@@ -124,6 +129,22 @@ public class EscenaKitchenLevelSetup : MonoBehaviour
         KitchenSoundManager.Instance.SetClip(ObjetosSound.Win, winClip);
         KitchenSoundManager.Instance.SetAudioSource(ObjetosSound.GameOver, gameOverSource);
         KitchenSoundManager.Instance.SetClip(ObjetosSound.GameOver, gameOverClip);
+
+        if (LevelKitchenManager.Instance.GetTurno() == Turno.Manana)
+        {
+            lightEvening.SetActive(false);
+            lightNight.SetActive(false);
+        }
+        else if (LevelKitchenManager.Instance.GetTurno() == Turno.Tarde)
+        {
+            lightMorning.SetActive(false);
+            lightNight.SetActive(false);
+        }
+        else
+        {
+            lightMorning.SetActive(false);
+            lightEvening.SetActive(false);
+        }
     }
 
     // Update is called once per frame
