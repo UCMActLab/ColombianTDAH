@@ -274,6 +274,9 @@ public class LevelKitchenManager : MonoBehaviour
     private void ButtonTabClicked()
     {
         Debug.Log("TabButton clickado");
+        string s = "Salir tablón de comandas";
+        EventRegister.Instance.AddToEvnt(Tuple.Create(EventRegister.EventosInfo.KitchenSalirTablonComandas, s));
+        EventRegister.Instance.EvntToJson();
         tablonButton.GetComponent<Draggable>().enabled = false;
 
         // Iniciar el movimiento
@@ -288,6 +291,9 @@ public class LevelKitchenManager : MonoBehaviour
     private void OnTabClicked()
     {
         Debug.Log("Tab clickado");
+        string s = "Ver tablón de comandas";
+        EventRegister.Instance.AddToEvnt(Tuple.Create(EventRegister.EventosInfo.KitchenVerTablonComandas, s));
+        EventRegister.Instance.EvntToJson();
         tablon.GetComponent<Draggable>().enabled = false;
 
         // Iniciar el movimiento
@@ -480,6 +486,9 @@ public class LevelKitchenManager : MonoBehaviour
     {
         if (!isTutorial)
         {
+            string s = "Finaliza la jornada " + jornadaActual.ToString("00") + " en el turno de " + turnoActual.ToString();
+            EventRegister.Instance.AddToEvnt(Tuple.Create(EventRegister.EventosInfo.KitchenFinTurno, s));
+            EventRegister.Instance.EvntToJson();
             StopAmbienceMusic(turnoActual);
             KitchenSoundManager.Instance.PlayOneShotRaw(ObjetosSound.Win, "KitchenWin", 10.0f);
             contador.Pausar();
@@ -499,6 +508,9 @@ public class LevelKitchenManager : MonoBehaviour
 
     private void OnGameOver()
     {
+        string s = "Juego terminado por tiempo";
+        EventRegister.Instance.AddToEvnt(Tuple.Create(EventRegister.EventosInfo.KitchenFinTurnoTiempo, s));
+        EventRegister.Instance.EvntToJson();
         StopAmbienceMusic(turnoActual);
         KitchenSoundManager.Instance.PlayOneShotRaw(ObjetosSound.GameOver, "KitchenGameOver", 10.0f);
         loseStats.Calculate(recetasTotalesIniciales - recetasRestantes.Values.Sum(), recetasTotalesIniciales, tiempoPorTurnoTotal, contador.GetTiempo(), NOpenedBook);
@@ -556,8 +568,6 @@ public class LevelKitchenManager : MonoBehaviour
         pauseCollider.SetActive(paused);
         if (paused) contador.Pausar();
         else contador.Reanudar();
-
-        Debug.Log("Cocina Pausada/Reanudada");
     }
 
     public void ActivateGame()

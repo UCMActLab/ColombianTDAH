@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -110,7 +111,9 @@ public class BookGestor : MonoBehaviour
 
     private void OnBookClicked()
     {
-        Debug.Log("Libro clickado");
+        string s = "Libro consultado";
+        EventRegister.Instance.AddToEvnt(Tuple.Create(EventRegister.EventosInfo.KitchenAbrirLibro, s));
+        EventRegister.Instance.EvntToJson();
         GetComponent<Draggable>().enabled = false;
 
         LevelKitchenManager.Instance.SetNOpenedBook(LevelKitchenManager.Instance.GetNOpenedBook() + 1);
