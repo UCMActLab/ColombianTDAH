@@ -2610,19 +2610,19 @@ MonoBehaviour:
   recetasSpritesSerializable:
   - nombre: Aguapanela
     sprites:
-      spriteLibro: {fileID: 21300000, guid: ef7f253449ad0054fb512c133d86f684, type: 3}
+      spriteLibro: {fileID: 21300000, guid: 7c1309c1ea042474f879fb1e7f758034, type: 3}
       spriteTablon: {fileID: 2800000, guid: 72eefddced811de47a29f3a1349970df, type: 3}
   - nombre: Ajiaco
     sprites:
-      spriteLibro: {fileID: 21300000, guid: e894d254ef8d59f4cabaf57c8c52a6ab, type: 3}
+      spriteLibro: {fileID: 21300000, guid: a4f6e022e096f9b449901eb54823a15f, type: 3}
       spriteTablon: {fileID: 2800000, guid: 064e2ba9b76c63843bdd6a253be77db4, type: 3}
   - nombre: Bandeja paisa
     sprites:
-      spriteLibro: {fileID: 21300000, guid: 75fafd90fe6b68547b15a0acec836e9d, type: 3}
+      spriteLibro: {fileID: 21300000, guid: fb5c8c7619bbd72488e0e8cc20e64898, type: 3}
       spriteTablon: {fileID: 2800000, guid: 7362377c699fad147ad49924adbc17af, type: 3}
   - nombre: Bocadillo
     sprites:
-      spriteLibro: {fileID: 21300000, guid: 8c662eae9144c4b4d9769fb7c486af88, type: 3}
+      spriteLibro: {fileID: 21300000, guid: 7743ad04fde67ce47b4ab515fa817f61, type: 3}
       spriteTablon: {fileID: 2800000, guid: e47c344d89c284a4aaf1b50f2c9f3375, type: 3}
   - nombre: "Bu\xF1uelos"
     sprites:
@@ -2630,7 +2630,7 @@ MonoBehaviour:
       spriteTablon: {fileID: 2800000, guid: bfc5afdeb6b417b4e8b12cfe1d92e10e, type: 3}
   - nombre: Cafe
     sprites:
-      spriteLibro: {fileID: 0}
+      spriteLibro: {fileID: 21300000, guid: 1cc220936e3bb3c4481171501de3e38d, type: 3}
       spriteTablon: {fileID: 2800000, guid: 21904bc40903d3d4e97dc7e7dc5a53b0, type: 3}
   - nombre: Caldo de costilla
     sprites:
@@ -2650,7 +2650,7 @@ MonoBehaviour:
       spriteTablon: {fileID: 2800000, guid: ba42cce6701dcf74a8ccce98b527414f, type: 3}
   - nombre: Cocada
     sprites:
-      spriteLibro: {fileID: 0}
+      spriteLibro: {fileID: 21300000, guid: d921f50845e335744be3d306f549a5ce, type: 3}
       spriteTablon: {fileID: 2800000, guid: a2bce50da6e2ca04794c8d6a5aa0e5b4, type: 3}
   - nombre: Empanadas
     sprites:
@@ -2678,7 +2678,7 @@ MonoBehaviour:
       spriteTablon: {fileID: 2800000, guid: 7d35b5f1da2ebaa448bee3a58effbee2, type: 3}
   - nombre: Mielmesabe
     sprites:
-      spriteLibro: {fileID: 0}
+      spriteLibro: {fileID: 21300000, guid: dcfd1e7013c312748a038d861036eb77, type: 3}
       spriteTablon: {fileID: 2800000, guid: c1dbdf5f3f3cc8b44907834e75bb15f7, type: 3}
   - nombre: Morcilla
     sprites:
