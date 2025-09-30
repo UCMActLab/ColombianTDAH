@@ -7497,7 +7497,7 @@ MonoBehaviour:
   handGrabSource: {fileID: 606410449}
   handGrabClip: {fileID: 8300000, guid: 28800bcefa8a9bd4e822a3fd587dc4f8, type: 3}
   handDropSource: {fileID: 606410449}
-  handDropClip: {fileID: 8300000, guid: 1e818e2cded9f5a4eaaca0c1e2db1666, type: 3}
+  handDropClip: {fileID: 8300000, guid: 90c782875a0e9ce4bbdb6c7689702a1e, type: 3}
   ambienceMorningSource: {fileID: 1539698753}
   ambienceMorningClip: {fileID: 8300000, guid: 313b59bee78f4554f9534b616e650da9, type: 3}
   ambienceAfternoonSource: {fileID: 1539698753}
@@ -8937,6 +8937,30 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 851702293719271708, guid: bc0e27d9a9df09c4990b3594c1309b55, type: 3}
+      propertyPath: m_Size.x
+      value: 1.0518819
+      objectReference: {fileID: 0}
+    - target: {fileID: 851702293719271708, guid: bc0e27d9a9df09c4990b3594c1309b55, type: 3}
+      propertyPath: m_Size.y
+      value: 0.62489325
+      objectReference: {fileID: 0}
+    - target: {fileID: 851702293719271708, guid: bc0e27d9a9df09c4990b3594c1309b55, type: 3}
+      propertyPath: m_Size.z
+      value: 0.82484454
+      objectReference: {fileID: 0}
+    - target: {fileID: 851702293719271708, guid: bc0e27d9a9df09c4990b3594c1309b55, type: 3}
+      propertyPath: m_Center.x
+      value: -0.27202564
+      objectReference: {fileID: 0}
+    - target: {fileID: 851702293719271708, guid: bc0e27d9a9df09c4990b3594c1309b55, type: 3}
+      propertyPath: m_Center.y
+      value: -0.74000144
+      objectReference: {fileID: 0}
+    - target: {fileID: 851702293719271708, guid: bc0e27d9a9df09c4990b3594c1309b55, type: 3}
+      propertyPath: m_Center.z
+      value: -0.13686278
+      objectReference: {fileID: 0}
     - target: {fileID: 2516551965446313957, guid: bc0e27d9a9df09c4990b3594c1309b55, type: 3}
       propertyPath: m_RenderingLayerMask
       value: 129
@@ -8973,6 +8997,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Oven
       objectReference: {fileID: 0}
+    - target: {fileID: 8445822186165308954, guid: bc0e27d9a9df09c4990b3594c1309b55, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8738522325020908958, guid: bc0e27d9a9df09c4990b3594c1309b55, type: 3}
       propertyPath: light
       value: 
@@ -8999,15 +9027,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8875095375189514759, guid: bc0e27d9a9df09c4990b3594c1309b55, type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8875095375189514759, guid: bc0e27d9a9df09c4990b3594c1309b55, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.9345275
+      value: 0.9345279
       objectReference: {fileID: 0}
     - target: {fileID: 8875095375189514759, guid: bc0e27d9a9df09c4990b3594c1309b55, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.35589102
+      value: -0.35589
       objectReference: {fileID: 0}
     - target: {fileID: 8875095375189514759, guid: bc0e27d9a9df09c4990b3594c1309b55, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
