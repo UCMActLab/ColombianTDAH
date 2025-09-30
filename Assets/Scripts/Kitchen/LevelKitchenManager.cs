@@ -84,6 +84,7 @@ public class LevelKitchenManager : MonoBehaviour
     private GameObject conveyor;
     private GameObject sponge;
     private GameObject pauseCollider;
+    private GameObject endCollider;
 
     private Transform cameraInitPos;
     private Transform cameraTablonPos;
@@ -486,6 +487,8 @@ public class LevelKitchenManager : MonoBehaviour
     {
         if (!isTutorial)
         {
+            DraggableBlocker.Block();
+            endCollider.SetActive(true);
             string s = "Finaliza la jornada " + jornadaActual.ToString("00") + " en el turno de " + turnoActual.ToString();
             EventRegister.Instance.AddToEvnt(Tuple.Create(EventRegister.EventosInfo.KitchenFinTurno, s));
             EventRegister.Instance.EvntToJson();
@@ -508,6 +511,8 @@ public class LevelKitchenManager : MonoBehaviour
 
     private void OnGameOver()
     {
+        DraggableBlocker.Block();
+        endCollider.SetActive(true);
         string s = "Juego terminado por tiempo";
         EventRegister.Instance.AddToEvnt(Tuple.Create(EventRegister.EventosInfo.KitchenFinTurnoTiempo, s));
         EventRegister.Instance.EvntToJson();
@@ -723,6 +728,10 @@ public class LevelKitchenManager : MonoBehaviour
     public void SetPauseCollider(GameObject p)
     {
         pauseCollider = p;
+    }
+    public void SetEndCollider(GameObject e)
+    {
+        endCollider = e;
     }
     public GameObject GetPauseCollider()
     {
