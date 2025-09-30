@@ -122,6 +122,13 @@ public class WorkstationProcessor : MonoBehaviour
             OnClean?.Invoke(workstationType);
         }
     }
+
+    public void PlaySoundWithAnimationEvent()
+    {
+        if (!string.IsNullOrEmpty(processingSfxName))
+            KitchenSoundManager.Instance.PlayOneShotRaw(soundKey, processingSfxName);
+    }
+
     private IEnumerator ProcessImmediate(GameObject ingredienteGO, RecetaData data)
     {
         Debug.Log("Procesando receta intermedia");
@@ -129,9 +136,6 @@ public class WorkstationProcessor : MonoBehaviour
         processed = true;
         // Anim & sonido inicio      
         AnimatorManager.Instance.ChangeAnimation(animKey, processingAnim);
-        if (!string.IsNullOrEmpty(processingSfxName))
-            KitchenSoundManager.Instance.PlayLoopForDurationFaded(soundKey, processingSfxName, workstationTime);
-
 
         if (gameObject.GetComponent<MixerRotation>() != null)
             gameObject.GetComponent<MixerRotation>().Play(300);
