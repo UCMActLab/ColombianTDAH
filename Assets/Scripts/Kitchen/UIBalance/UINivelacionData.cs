@@ -53,7 +53,11 @@ public class UINivelacionData : MonoBehaviour
         {
             int index = i;
             var btn = toolbarJornadas.Q<Button>($"btn-j{i + 1}");
-            btn.clickable.clicked += () => SeleccionarJornada(index);
+            btn.clickable.clicked += () =>
+            {
+                GetComponent<AudioSource>().Play();
+                SeleccionarJornada(index);
+            };
         }
 
         root.Q<Button>("btn-comenzar").clicked += () =>
@@ -65,6 +69,7 @@ public class UINivelacionData : MonoBehaviour
                 SeleccionarJornada(x);
 
             }
+            GetComponent<AudioSource>().Play();
             SceneLoader.LoadScene("KitchenLevelSelector");
         };
 
@@ -80,8 +85,10 @@ public class UINivelacionData : MonoBehaviour
         {
             toggle.RegisterValueChangedCallback(evt =>
             {
+
                 if (evt.newValue)
                 {
+                    GetComponent<AudioSource>().Play();
                     jornadaActual.margenDeError = factor;
                     toggleFacil.value = (toggle == toggleFacil);
                     toggleNormal.value = (toggle == toggleNormal);
@@ -170,6 +177,7 @@ public class UINivelacionData : MonoBehaviour
             toggle.value = jornadaActual.puestosActivos.Contains(puesto);
             toggle.RegisterValueChangedCallback(evt =>
             {
+                GetComponent<AudioSource>().Play();
                 if (evt.newValue && !jornadaActual.puestosActivos.Contains(puesto))
                 {
                     jornadaActual.puestosActivos.Add(puesto);
@@ -231,11 +239,11 @@ public class UINivelacionData : MonoBehaviour
 
             toggle.RegisterValueChangedCallback(evt =>
             {
+                GetComponent<AudioSource>().Play();
                 if (evt.newValue && !jornadaActual.recetasAsignadas.Contains(receta))
                     jornadaActual.recetasAsignadas.Add(receta);
                 else if (!evt.newValue && jornadaActual.recetasAsignadas.Contains(receta))
                     jornadaActual.recetasAsignadas.Remove(receta);
-
                 GuardarRecetasSeleccionadas();
             });
 
