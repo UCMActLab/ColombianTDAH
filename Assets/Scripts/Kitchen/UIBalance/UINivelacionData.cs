@@ -115,7 +115,7 @@ public class UINivelacionData : MonoBehaviour
         {
             var btn = toolbarJornadas.Q<Button>($"btn-j{i + 1}");
             btn.text = (i == 0) ? $"Jornada {i + 1}" : $"J{i + 1}";
-            btn.style.fontSize = (i == 0) ? 30 : 26;
+            btn.style.fontSize = (i == 0) ? 35 : 30;
         }
 
         ActualizarUI();
@@ -132,7 +132,7 @@ public class UINivelacionData : MonoBehaviour
         {
             var btn = toolbarJornadas.Q<Button>($"btn-j{i + 1}");
             btn.text = (i == index) ? $"Jornada {i + 1}" : $"J{i + 1}";
-            btn.style.fontSize = (i == index) ? 30 : 26;
+            btn.style.fontSize = (i == index) ? 35 : 30;
         }
 
         ActualizarUI();
@@ -153,6 +153,17 @@ public class UINivelacionData : MonoBehaviour
         puestosContainer.Clear();
         foreach (var puesto in System.Enum.GetValues(typeof(PuestosDeTrabajo)).Cast<PuestosDeTrabajo>())
         {
+            // Si es el puesto "Tabla_De_Picar", lo omitimos de la UI pero lo dejamos siempre activo
+            if (puesto == PuestosDeTrabajo.Tabla_De_Picar)
+            {
+                if (!jornadaActual.puestosActivos.Contains(puesto))
+                {
+                    jornadaActual.puestosActivos.Add(puesto);
+                    ActualizarRecetasPuestos(puesto, true);
+                }
+                continue; // saltamos a la siguiente iteración
+            }
+
             var toggle = new Toggle(puesto.ToString().Replace("_", " "));
 
             toggle.value = jornadaActual.puestosActivos.Contains(puesto);

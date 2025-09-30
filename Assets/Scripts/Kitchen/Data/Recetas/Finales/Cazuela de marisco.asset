@@ -15,7 +15,7 @@ MonoBehaviour:
   nombre: Cazuela de mariscos
   categoria: Sopa
   ingredientes: 2a000000280000000d000000300000001f000000
-  puestos: 0200000000000000
+  puestos: 02000000
   tiempo_est_segs: 210
   processedRecipe: {fileID: 961889355477804371, guid: 6b240cec9dff1cc46960df89ed0f6a98, type: 3}
   esIntermedia: 0

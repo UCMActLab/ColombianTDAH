@@ -15,7 +15,7 @@ MonoBehaviour:
   nombre: Platano calado
   categoria: Postre
   ingredientes: 2c00000026000000
-  puestos: 0200000000000000
+  puestos: 02000000
   tiempo_est_segs: 135
   processedRecipe: {fileID: 2244577606202969946, guid: 4aed231971544d5429e447eaf764663a, type: 3}
   esIntermedia: 0
