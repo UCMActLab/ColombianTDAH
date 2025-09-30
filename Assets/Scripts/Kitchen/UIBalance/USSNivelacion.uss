@@ -1,17 +1,29 @@
 .titulo {
     -unity-font-definition: url("project://database/Assets/Fonts/Fredoka-VariableFont_wdth,wght.ttf?fileID=12800000&guid=884662cc446614748ab9b57c22413735&type=3#Fredoka-VariableFont_wdth,wght");
     -unity-font-style: bold;
-    font-size: 46px;
+    font-size: 50px;
 }
 
 .semititulo {
     -unity-font-definition: url("project://database/Assets/Fonts/Fredoka-VariableFont_wdth,wght.ttf?fileID=12800000&guid=884662cc446614748ab9b57c22413735&type=3#Fredoka-VariableFont_wdth,wght");
     -unity-font-style: bold;
-    font-size: 30px;
+    font-size: 35px;
 }
 
 .label {
     -unity-font-definition: url("project://database/Assets/Fonts/Fredoka-VariableFont_wdth,wght.ttf?fileID=12800000&guid=884662cc446614748ab9b57c22413735&type=3#Fredoka-VariableFont_wdth,wght");
     -unity-font-style: bold;
-    font-size: 21px;
+    font-size: 24px;
+}
+
+.toggle {
+    font-size: 18px;
+}
+
+.toggle > .unity-label {
+    min-width: 210px;
+    max-width: 210px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }

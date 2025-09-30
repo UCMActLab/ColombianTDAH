@@ -165,6 +165,7 @@ public class UINivelacionData : MonoBehaviour
             }
 
             var toggle = new Toggle(puesto.ToString().Replace("_", " "));
+            toggle.AddToClassList("toggle");
 
             toggle.value = jornadaActual.puestosActivos.Contains(puesto);
             toggle.RegisterValueChangedCallback(evt =>
@@ -217,6 +218,7 @@ public class UINivelacionData : MonoBehaviour
         {
             var receta = recetasFiltradas[i];
             var toggle = new Toggle(receta.nombre);
+            toggle.AddToClassList("toggle");
             if (added)
             {
                 if (!recetasFiltradasAntes.Contains(receta))

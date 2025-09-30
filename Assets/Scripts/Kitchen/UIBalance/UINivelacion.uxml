@@ -1,19 +1,9 @@
 <engine:UXML xmlns:engine="UnityEngine.UIElements" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
     <Style src="project://database/Assets/Scripts/Kitchen/UIBalance/USSNivelacion.uss?fileID=7433441132597879392&amp;guid=d7a26a7ea0695fa4395df5cab5a021ed&amp;type=3#USSNivelacion" />
     <engine:VisualElement name="root" style="flex-direction: column; padding: 10px; gap: 10px; flex-grow: 1; height: 100%; background-image: resource(&apos;UI/hoja-papel-rayada-ancha-cuaderno_696657-12814&apos;);">
-        <engine:Label text="Equilibrio Terapéutico" class="titulo" style="unity-text-align: middle-center; align-items: stretch; align-content: flex-start; align-self: center;" />
-        <!--<engine:VisualElement name="form-datos" style="flex-direction: row; justify-content: center; margin-top: 20px; margin-bottom: 20px;">
-            <engine:VisualElement style="flex-direction: row; align-items: center; margin-right: 100px;">
-                <engine:Label text="Terapeuta:" class="label" style="margin-right: 6px;" />
-                <engine:TextField name="field-terapeuta" style="width: 200px;" />
-            </engine:VisualElement>
-            <engine:VisualElement style="flex-direction: row; align-items: center;">
-                <engine:Label text="Paciente:" class="label" style="margin-right: 6px;" />
-                <engine:TextField name="field-paciente" style="width: 200px;" />
-            </engine:VisualElement>
-        </engine:VisualElement>-->
+        <engine:Label text="Configuración Terapéutica" class="titulo" style="unity-text-align: middle-center; align-items: stretch; align-content: flex-start; align-self: center; margin-right: 0; margin-left: 0; margin-bottom: 15px; margin-top: 5px;" />
         <engine:VisualElement name="row-container" style="flex-direction: row; justify-content: space-between; gap: 40px; flex-grow: 1;">
-            <engine:VisualElement name="jornada-panel" style="flex-direction: column; flex-grow: 1;">
+            <engine:VisualElement name="jornada-panel" style="flex-direction: column; flex-grow: 1; margin-right: 5px;">
                 <engine:VisualElement name="toolbar-jornadas" style="flex-direction: row; justify-content: center; gap: 5px; margin-bottom: 10px;">
                     <engine:Button name="btn-j1" text="J1" class="semititulo" />
                     <engine:Button name="btn-j2" text="J2" class="semititulo" />
@@ -28,19 +18,19 @@
                     <engine:Slider name="slider-tiempo-manual" low-value="180" high-value="900" value="180" />
                     <engine:Label name="label-dificultad" text="Dificultad" class="label" />
                     <engine:VisualElement name="dificultad-container" style="flex-direction: row; justify-content: space-between;">
-                        <engine:Toggle name="toggle-facil" text="Fácil" />
-                        <engine:Toggle name="toggle-normal" text="Normal" />
-                        <engine:Toggle name="toggle-dificil" text="Difícil" />
-                        <engine:Toggle name="toggle-muydificil" text="Muy Difícil" />
+                        <engine:Toggle name="toggle-facil" text="Fácil" class="toggle" />
+                        <engine:Toggle name="toggle-normal" text="Normal" class="toggle" />
+                        <engine:Toggle name="toggle-dificil" text="Difícil" class="toggle" />
+                        <engine:Toggle name="toggle-muydificil" text="Muy Difícil" class="toggle" />
                     </engine:VisualElement>
-                    <engine:Label name="label-tiempo-total" text="Tiempo aproximado por turno: 15m 0s" style="margin-top: 10px;" class="label"/>
+                    <engine:Label name="label-tiempo-total" text="Tiempo aproximado por turno: 15m 0s" class="label" style="margin-top: 10px;" />
                 </engine:VisualElement>
             </engine:VisualElement>
-            <engine:VisualElement name="recetas-panel" style="flex-direction: column; flex-grow: 1;">
+            <engine:VisualElement name="recetas-panel" style="flex-direction: column; flex-grow: 1; margin-left: 5px;">
                 <engine:Label name="recetas-label" text="Recetas Disponibles" class="semititulo" style="unity-text-align: middle-center; align-self: center; margin-bottom: 5px;" />
                 <engine:ScrollView name="recetas-scroll" style="flex-grow: 1; height: 100%;" />
             </engine:VisualElement>
         </engine:VisualElement>
-        <engine:Button name="btn-comenzar" text="COMENZAR SESIÓN" class="semititulo" style="height: 40px; margin-top: 10px;" />
+        <engine:Button name="btn-comenzar" text="COMENZAR SESIÓN" class="semititulo" style="height: 7.5%; margin-top: 10px;" />
     </engine:VisualElement>
 </engine:UXML>
