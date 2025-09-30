@@ -139,7 +139,7 @@ public class LevelKitchenManager : MonoBehaviour
 
         DontDestroyOnLoad(gameObject);
         SceneManager.sceneLoaded += OnSceneLoaded;
-        ActivateGame();
+        //ActivateGame();
     }
 
     private void Start()
@@ -275,9 +275,7 @@ public class LevelKitchenManager : MonoBehaviour
     private void ButtonTabClicked()
     {
         Debug.Log("TabButton clickado");
-        string s = "Salir tablón de comandas";
-        EventRegister.Instance.AddToEvnt(Tuple.Create(EventRegister.EventosInfo.KitchenSalirTablonComandas, s));
-        EventRegister.Instance.EvntToJson();
+        
         tablonButton.GetComponent<Draggable>().enabled = false;
 
         // Iniciar el movimiento
@@ -291,9 +289,8 @@ public class LevelKitchenManager : MonoBehaviour
 
     private void OnTabClicked()
     {
-        Debug.Log("Tab clickado");
-        string s = "Ver tablón de comandas";
-        EventRegister.Instance.AddToEvnt(Tuple.Create(EventRegister.EventosInfo.KitchenVerTablonComandas, s));
+        Debug.Log("Tab clickado");  
+        EventRegister.Instance.AddToEvnt(Tuple.Create(EventRegister.EventosInfo.KitchenVerTablonComandas, ""));
         EventRegister.Instance.EvntToJson();
         tablon.GetComponent<Draggable>().enabled = false;
 
@@ -464,6 +461,9 @@ public class LevelKitchenManager : MonoBehaviour
 
                 Debug.Log($"Entregado: {receta.nombre}. Restan {recetasRestantes[receta]}.");
                 KitchenSoundManager.Instance.PlaySound(ObjetosSound.RecetaEntregada, "RecipeDelivered");
+                string s = receta.nombre;
+                EventRegister.Instance.AddToEvnt(Tuple.Create(EventRegister.EventosInfo.KitchenRecetaEntregada, s));
+                EventRegister.Instance.EvntToJson();
                 // ¿hemos cumplido todos los objetivos?
                 if (recetasRestantes.Values.All(v => v <= 0))
                 {
@@ -479,6 +479,9 @@ public class LevelKitchenManager : MonoBehaviour
         else
         {
             // No estaba en los objetivos del turno (receta no pedida)
+            string s = receta.nombre;
+            EventRegister.Instance.AddToEvnt(Tuple.Create(EventRegister.EventosInfo.KitchenRecetaErronea, s));
+            EventRegister.Instance.EvntToJson();
             Debug.Log($"Receta no pedida: {receta.nombre}");
         }
     }
@@ -488,10 +491,11 @@ public class LevelKitchenManager : MonoBehaviour
         if (!isTutorial)
         {
             DraggableBlocker.Block();
-            endCollider.SetActive(true);
-            string s = "Finaliza la jornada " + jornadaActual.ToString("00") + " en el turno de " + turnoActual.ToString();
-            EventRegister.Instance.AddToEvnt(Tuple.Create(EventRegister.EventosInfo.KitchenFinTurno, s));
+            endCollider.SetActive(true);    
+
+            EventRegister.Instance.AddToEvnt(Tuple.Create(EventRegister.EventosInfo.KitchenFinTurno, ""));
             EventRegister.Instance.EvntToJson();
+
             StopAmbienceMusic(turnoActual);
             KitchenSoundManager.Instance.PlayOneShotRaw(ObjetosSound.Win, "KitchenWin", 10.0f);
             contador.Pausar();
@@ -513,8 +517,7 @@ public class LevelKitchenManager : MonoBehaviour
     {
         DraggableBlocker.Block();
         endCollider.SetActive(true);
-        string s = "Juego terminado por tiempo";
-        EventRegister.Instance.AddToEvnt(Tuple.Create(EventRegister.EventosInfo.KitchenFinTurnoTiempo, s));
+        EventRegister.Instance.AddToEvnt(Tuple.Create(EventRegister.EventosInfo.KitchenFinTurnoTiempo, ""));
         EventRegister.Instance.EvntToJson();
         StopAmbienceMusic(turnoActual);
         KitchenSoundManager.Instance.PlayOneShotRaw(ObjetosSound.GameOver, "KitchenGameOver", 10.0f);
@@ -575,18 +578,18 @@ public class LevelKitchenManager : MonoBehaviour
         else contador.Reanudar();
     }
 
-    public void ActivateGame()
-    {
-        if (EventRegister.Instance)
-        {
-            EventRegister.Instance.AddInitialEvent(EventRegister.EventosInfo.Inicio, "nivel " + SceneLoader.Instance.getCurrentLevelId(EventRegister.TipoJuego.Cocina).ToString("00"), EventRegister.TipoJuego.Cocina);
-            Debug.Log("se pudo iniciar el evento Inicio en KitchenLevelManager.");
-        }
-        else
-        {
-            Debug.Log("No se pudo iniciar el evento Inicio en KitchenLevelManager.");
-        }  
-    }
+    //public void ActivateGame()
+    //{
+    //    if (EventRegister.Instance)
+    //    {
+    //        EventRegister.Instance.AddInitialEvent(EventRegister.EventosInfo.Inicio, "nivel " + SceneLoader.Instance.getCurrentLevelId(EventRegister.TipoJuego.Cocina).ToString("00"), EventRegister.TipoJuego.Cocina);
+    //        Debug.Log("se pudo iniciar el evento Inicio en KitchenLevelManager.");
+    //    }
+    //    else
+    //    {
+    //        Debug.Log("No se pudo iniciar el evento Inicio en KitchenLevelManager.");
+    //    }  
+    //}
 
     public void SetAmbienceMusic(Turno t)
     {

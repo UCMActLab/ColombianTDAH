@@ -1,9 +1,10 @@
-using UnityEngine;
-using UnityEngine.UIElements;
-using UnityEngine.SceneManagement;
-using System.Linq;
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.UIElements;
 
 public class UINivelacionData : MonoBehaviour
 {
@@ -28,9 +29,13 @@ public class UINivelacionData : MonoBehaviour
     private Toggle toggleFacil, toggleNormal, toggleDificil, toggleMuyDificil;
     private float[] valueToggles = { 1.5f, 1.0f, 0.75f, 0.5f };
 
+    private bool useBase64 = true;
+
 
     private void OnEnable()
     {
+        ActivateGame();
+
         root = GetComponent<UIDocument>().rootVisualElement;
 
         puestosContainer = root.Q<VisualElement>("puestos-container");
@@ -70,6 +75,9 @@ public class UINivelacionData : MonoBehaviour
 
             }
             GetComponent<AudioSource>().Play();
+
+            SendSavedConfig();           
+
             SceneLoader.LoadScene("KitchenLevelSelector");
         };
 
@@ -127,6 +135,20 @@ public class UINivelacionData : MonoBehaviour
 
         ActualizarUI();
     }
+
+    public void ActivateGame()
+    {
+        if (EventRegister.Instance)
+        {
+            EventRegister.Instance.AddInitialEvent(EventRegister.EventosInfo.Inicio, "nivel " + SceneLoader.Instance.getCurrentLevelId(EventRegister.TipoJuego.Cocina).ToString("00"), EventRegister.TipoJuego.Cocina);
+            Debug.Log("se pudo iniciar el evento Inicio en KitchenLevelManager.");
+        }
+        else
+        {
+            Debug.Log("No se pudo iniciar el evento Inicio en KitchenLevelManager.");
+        }
+    }
+
 
     private void SeleccionarJornada(int index)
     {
@@ -321,5 +343,66 @@ public class UINivelacionData : MonoBehaviour
 
         labelTiempoManual.text = $"Tiempo: {minutosBase}m {segundosBase}s";
         labelTiempoTotal.text = $"Tiempo aproximado por turno: {minutosTotal}m {segundosTotal}s";
+    }
+
+    [Serializable]
+    private class ConfigSnapshot
+    {   
+        public string jornada;
+        public int tiempo;
+        public string dificultad;
+        public string[] puestosActivos;
+        public string[] recetasHabilitadas;  
+    }
+
+    private Dictionary<string, object> BuildConfigDict()
+    {
+        GuardarRecetasSeleccionadas();
+
+        return new Dictionary<string, object>
+        {
+            ["jornada"] = $"Jornada {jornadaIndex + 1}",
+            ["duración"] = jornadaActual.tiempoBaseManual,
+            ["dificultad"] = GetDificultadNombre(jornadaActual.margenDeError),
+            ["puestosActivos"] = jornadaActual.puestosActivos.Select(p => p.ToString()).ToArray(),
+            ["recetasHabilitadas"] = jornadaActual.recetasAsignadas.Where(r => r != null).Select(r => r.nombre).ToArray()  
+        };
+    }
+
+    private static string DictToInlineText(Dictionary<string, object> d)
+    {
+        string FormatVal(object v)
+        {
+            if (v is Array arr) return "[" + string.Join(",", arr.Cast<object>()) + "]";
+            return v?.ToString() ?? "null";
+        }
+        return string.Join("; ", d.Select(kvp => $"{kvp.Key}={FormatVal(kvp.Value)}"));
+    }
+
+    private void SendSavedConfig()
+    {
+        var er = EventRegister.Instance;
+        if (er == null)
+        {
+            Debug.LogError("[Config] EventRegister.Instance es null.");
+            return;
+        }
+
+        var dict = BuildConfigDict();
+        string payload = DictToInlineText(dict);
+
+        er.AddToEvnt(Tuple.Create(EventRegister.EventosInfo.KitchenGuardarConfig, payload));
+        er.EvntToJson();
+
+        Debug.Log("[Config] Guardada: " + payload);
+    }
+
+    private string GetDificultadNombre(float factor)
+    {
+        if (Mathf.Approximately(factor, 1.5f)) return "Fácil";
+        if (Mathf.Approximately(factor, 1.0f)) return "Normal";
+        if (Mathf.Approximately(factor, 0.75f)) return "Difícil";
+        if (Mathf.Approximately(factor, 0.5f)) return "Muy Difícil";
+        return factor.ToString("0.##");
     }
 }

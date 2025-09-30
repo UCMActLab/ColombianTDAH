@@ -136,7 +136,7 @@ public class RecipeBoard : MonoBehaviour
                 encontrado = true;
                 FindChildByName(spawnedRecipes[i].transform, "Object_2").GetComponent<Renderer>().material.SetTexture("_BaseMap", tickTexture);
 
-                Debug.Log("Receta encontrada para cambiar tectura en el tablon");
+                Debug.Log("Receta encontrada para cambiar textura en el tablon");
             }
             i++;
         }

@@ -1,8 +1,9 @@
-﻿using UnityEngine;
+﻿using System;
 using System.Collections;
-using System.Linq;
 using System.Collections.Generic;
-using System;
+using System.Linq;
+using UnityEngine;
+using UnityEngine.UIElements;
 
 public class WorkstationProcessor : MonoBehaviour
 {
@@ -56,6 +57,11 @@ public class WorkstationProcessor : MonoBehaviour
     {
         if (processed || pi == null) return;
         OnItemPlacedGlobal?.Invoke(pi.ingredientType, workstationType);
+
+        string s = pi.ingredientType + " en " + workstationType;
+        EventRegister.Instance.AddToEvnt(Tuple.Create(EventRegister.EventosInfo.KitchenRegistrarAccion, s));
+        EventRegister.Instance.EvntToJson();
+        Debug.Log(s);
 
         // Lo que se selecciona para cada jornada
         var seleccion = LevelKitchenManager.Instance != null
@@ -168,7 +174,7 @@ public class WorkstationProcessor : MonoBehaviour
             var pi = go.GetComponent<ProcessableIngredient>();
             if (pi != null) OnIngredientSpawnedGlobal?.Invoke(pi.ingredientType, go);
             OnRecipeCraftedGlobal?.Invoke(data, workstationType);
-            Debug.Log("Ingrediente Procesado");
+            Debug.Log("Ingrediente Procesado: " + data.nombre);
         }
 
 
@@ -178,7 +184,7 @@ public class WorkstationProcessor : MonoBehaviour
         var ret = ingredienteGO.GetComponent<IngredientSpawn>();
         if (ret != null) ret.ConsumeAndScheduleRespawn(); 
         else ingredienteGO.SetActive(false); // fallback
-        //Destroy(ingredienteGO);
+        
         processed = false;
     }
 
@@ -223,10 +229,14 @@ public class WorkstationProcessor : MonoBehaviour
         {
             var go = Instantiate(data.processedRecipe, spawnPoint.position, spawnPoint.rotation);
             OnRecipeCraftedGlobal?.Invoke(data, workstationType);
+            
             if (!data.esIntermedia)
             {
                 var cd = go.GetComponent<CompletedRecipe>() ?? go.AddComponent<CompletedRecipe>();
                 cd.receta = data;
+                string s = cd.receta.nombre;
+                EventRegister.Instance.AddToEvnt(Tuple.Create(EventRegister.EventosInfo.KitchenRecetaCompletada, s));
+                EventRegister.Instance.EvntToJson();
             }
         }
 

@@ -111,8 +111,7 @@ public class BookGestor : MonoBehaviour
 
     private void OnBookClicked()
     {
-        string s = "Libro consultado";
-        EventRegister.Instance.AddToEvnt(Tuple.Create(EventRegister.EventosInfo.KitchenAbrirLibro, s));
+        EventRegister.Instance.AddToEvnt(Tuple.Create(EventRegister.EventosInfo.KitchenConsultarLibro, ""));
         EventRegister.Instance.EvntToJson();
         GetComponent<Draggable>().enabled = false;
 

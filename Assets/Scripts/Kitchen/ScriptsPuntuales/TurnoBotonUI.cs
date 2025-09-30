@@ -109,8 +109,11 @@ public class TurnoBotonUI : MonoBehaviour // Clase para el comportamiento de los
             
         LevelKitchenManager.Instance.SetTiempoPorTurno(Mathf.CeilToInt(baseSegundos * dificultad * dificultadporturno));
 
-        string s = "Empieza la jornada " + jornada.ToString("00") + " en el turno de " + LevelKitchenManager.Instance.GetTurno().ToString();
-        EventRegister.Instance.AddToEvnt(Tuple.Create(EventRegister.EventosInfo.KitchenInicioTurno, s));
+        string s = jornada.ToString("00") + "/" + LevelKitchenManager.Instance.GetTurno().ToString();
+        EventRegister.Instance.AddToEvnt(Tuple.Create(EventRegister.EventosInfo.KitchenSeleccionJornadaTurno, s));
+        EventRegister.Instance.EvntToJson();
+
+        EventRegister.Instance.AddToEvnt(Tuple.Create(EventRegister.EventosInfo.KitchenInicioTurno, ""));
         EventRegister.Instance.EvntToJson();
 
         SceneLoader.LoadScene("KitchenLevel");

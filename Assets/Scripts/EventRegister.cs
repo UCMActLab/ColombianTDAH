@@ -110,20 +110,14 @@ public class EventRegister : MonoBehaviour
         KitchenInicioTurno,
         KitchenFinTurno,
         KitchenVerTablonComandas,
-        KitchenSalirTablonComandas,
         KitchenSeleccionarIngrediente,
-        KitchenColocacionCorrecta,
-        KitchenColocacionIncorrecta,
-        KitchenActivarPaso,
-        KitchenPasoCompletado,
-        KitchenPasoFueraSecuencia,
-        KitchenErrorIngrediente,
-        KitchenOmisionPorTiempo,
-        KitchenAbrirLibro,
+        KitchenRegistrarAccion,
+        KitchenConsultarLibro,
         KitchenRecetaCompletada,
-        KitchenRecetaEntregada,        
+        KitchenRecetaEntregada,
+        KitchenRecetaErronea,
         KitchenFinTurnoTiempo,
-        KitchenSeleccionTurno,
+        KitchenSeleccionJornadaTurno,
         KitchenLimpiezaEstacion
     }
 
@@ -157,21 +151,15 @@ public class EventRegister : MonoBehaviour
         { EventosInfo.KitchenGuardarConfig, "Configuración de partida guardada" },
         { EventosInfo.KitchenInicioTurno, "Inicio del turno" },
         { EventosInfo.KitchenFinTurno, "Fin del turno" },
-        { EventosInfo.KitchenVerTablonComandas, "Consultamos tablón de comandas" },
-        { EventosInfo.KitchenSalirTablonComandas, "Salimos del tablón de comandas" },
+        { EventosInfo.KitchenVerTablonComandas, "Consulta del tablón de comandas" },
         { EventosInfo.KitchenSeleccionarIngrediente, "Ingrediente agarrado" },
-        { EventosInfo.KitchenColocacionCorrecta, "Ingrediente colocado correctamente" },
-        { EventosInfo.KitchenColocacionIncorrecta, "Ingrediente colocado incorrectamente" },
-        { EventosInfo.KitchenActivarPaso, "Paso activado" },
-        { EventosInfo.KitchenPasoCompletado, "Paso completado" },
-        { EventosInfo.KitchenPasoFueraSecuencia, "Acción válida pero en orden incorrecto" },
-        { EventosInfo.KitchenErrorIngrediente, "Ingrediente incorrecto para el paso actual" },
-        { EventosInfo.KitchenOmisionPorTiempo, "No se terminó la acción en el tiempo requerido" },
-        { EventosInfo.KitchenAbrirLibro, "Consulta del libro de recetas" },
+        { EventosInfo.KitchenRegistrarAccion, "Acción completada" },
+        { EventosInfo.KitchenConsultarLibro, "Consulta del libro de recetas" },
         { EventosInfo.KitchenRecetaCompletada, "Receta completada" },
-        { EventosInfo.KitchenRecetaEntregada, "Receta entregada" },
+        { EventosInfo.KitchenRecetaEntregada, "Receta entregada correctamente" },
+        { EventosInfo.KitchenRecetaErronea, "Receta entregada erroneamente" },
         { EventosInfo.KitchenFinTurnoTiempo, "Turno finalizado por tiempo" },
-        { EventosInfo.KitchenSeleccionTurno, "Turno seleccionado" },
+        { EventosInfo.KitchenSeleccionJornadaTurno, "Jornada/Turno seleccionados" },
         { EventosInfo.KitchenLimpiezaEstacion, "Estación limpiada" }
 
     };
@@ -209,20 +197,14 @@ public class EventRegister : MonoBehaviour
         whitePixelEvents[(int)EventosInfo.KitchenInicioTurno] = true;
         whitePixelEvents[(int)EventosInfo.KitchenFinTurno] = true;
         whitePixelEvents[(int)EventosInfo.KitchenVerTablonComandas] = true;
-        whitePixelEvents[(int)EventosInfo.KitchenSalirTablonComandas] = true;
         whitePixelEvents[(int)EventosInfo.KitchenSeleccionarIngrediente] = true;
-        whitePixelEvents[(int)EventosInfo.KitchenColocacionCorrecta] = true;
-        whitePixelEvents[(int)EventosInfo.KitchenColocacionIncorrecta] = true;
-        whitePixelEvents[(int)EventosInfo.KitchenActivarPaso] = true;
-        whitePixelEvents[(int)EventosInfo.KitchenPasoCompletado] = true;
-        whitePixelEvents[(int)EventosInfo.KitchenPasoFueraSecuencia] = true;
-        whitePixelEvents[(int)EventosInfo.KitchenErrorIngrediente] = true;
-        whitePixelEvents[(int)EventosInfo.KitchenOmisionPorTiempo] = true;
-        whitePixelEvents[(int)EventosInfo.KitchenAbrirLibro] = true;
+        whitePixelEvents[(int)EventosInfo.KitchenRegistrarAccion] = true;
+        whitePixelEvents[(int)EventosInfo.KitchenConsultarLibro] = true;
         whitePixelEvents[(int)EventosInfo.KitchenRecetaCompletada] = true;
         whitePixelEvents[(int)EventosInfo.KitchenRecetaEntregada] = true;
+        whitePixelEvents[(int)EventosInfo.KitchenRecetaErronea] = true;
         whitePixelEvents[(int)EventosInfo.KitchenFinTurnoTiempo] = true;
-        whitePixelEvents[(int)EventosInfo.KitchenSeleccionTurno] = true;
+        whitePixelEvents[(int)EventosInfo.KitchenSeleccionJornadaTurno] = true;
         whitePixelEvents[(int)EventosInfo.KitchenLimpiezaEstacion] = true;
 
     }

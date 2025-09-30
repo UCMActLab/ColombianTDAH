@@ -1,5 +1,6 @@
-using UnityEngine;
+using System;
 using System.Collections;
+using UnityEngine;
 
 public class SpongeCleaner : MonoBehaviour
 {
@@ -133,7 +134,9 @@ public class SpongeCleaner : MonoBehaviour
         KitchenSoundManager.Instance.StopLoopFaded(soundKey, 0.2f);
         StopFx();
         SetIdleAnim();
-        
+        EventRegister.Instance.AddToEvnt(Tuple.Create(EventRegister.EventosInfo.KitchenLimpiezaEstacion, ""));
+        EventRegister.Instance.EvntToJson();
+
         if (drag != null) drag.enabled = true;
 
         // Volvemos al spawn
