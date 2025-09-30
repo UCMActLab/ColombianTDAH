@@ -17,8 +17,8 @@ public class PlanificationList : MonoBehaviour
     GameObject _textPrefab;
 
 
-    Vector3 _offset = 14 * Vector3.down;
-    float _distance = 12f;
+    Vector3 _offset = 28 * Vector3.down;
+    float _distance = 24f;
 
     public void SetDepartureTime(string newTime)
     {
