@@ -47,4 +47,10 @@ public class SoundManager : MonoBehaviour
         else
             Debug.Log("El sonido indicado esta fuera del indice posible");
     }
+
+    // Destruye el Sound Manager
+    public void DestroySoundManager()
+    {
+        Destroy(gameObject);
+    }
 }

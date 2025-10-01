@@ -777,6 +777,7 @@ public class MisionLevelManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.R))
         {
+            SoundManager.Instance.DestroySoundManager();
             SceneLoader.LoadScene("MC_Resumen");
         }
     }
@@ -784,6 +785,7 @@ public class MisionLevelManager : MonoBehaviour
     {
         if (_gameClock.Hours == 0)
         {
+            SoundManager.Instance.DestroySoundManager();
             Debug.Log("terminando nivel");
             SceneLoader.LoadScene("MC_Resumen");
         }
