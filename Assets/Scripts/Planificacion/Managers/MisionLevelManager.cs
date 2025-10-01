@@ -20,10 +20,6 @@ public class MisionLevelManager : MonoBehaviour
     [SerializeField]
     MapUIManager _mapUIManager;
 
-    // Audio
-    [SerializeField]
-    SoundManager _soundManager;
-
     // Time
     int _freeTime; // Tiempo que no esta durmiendo 
     float _playTimeCont = 0;
@@ -618,7 +614,7 @@ public class MisionLevelManager : MonoBehaviour
     public void AcceptPlanning()
     {
         _paused = false;
-        _soundManager.Click();
+        SoundManager.Instance.PlaySound(SoundManager.SoundName.UI_CLICK);
         CalculateQuestionFrec();
     }
 
@@ -629,6 +625,7 @@ public class MisionLevelManager : MonoBehaviour
 
         _map.SetActive(true);
         _dialogs.SetActive(true);
+        SoundManager.Instance.PlaySound(SoundManager.SoundName.MUSIC_LEVEL1);
     }
 
     // Cambia imagen del mapa
@@ -780,6 +777,7 @@ public class MisionLevelManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.R))
         {
+            SoundManager.Instance.DestroySoundManager();
             SceneLoader.LoadScene("MC_Resumen");
         }
     }
@@ -787,6 +785,7 @@ public class MisionLevelManager : MonoBehaviour
     {
         if (_gameClock.Hours == 0)
         {
+            SoundManager.Instance.DestroySoundManager();
             Debug.Log("terminando nivel");
             SceneLoader.LoadScene("MC_Resumen");
         }
@@ -806,23 +805,7 @@ public class MisionLevelManager : MonoBehaviour
         // Si no se pasa del tiempo maximo
     }
 
-    // Este metodo es llamado al conseguir seguir correctamente las paradas de la planificacion
-    public void SongGotten()
-    {
 
-    }
-
-    // Este metodo es llamado al conseguir seguir correctamente las horas de suenyo de la planificacion
-    public void StickerGotten()
-    {
-
-    }
-
-    // Este metodo es llamado al conseguir seguir correctamente las horas de envio de localizacion de la planificacion
-    public void ModelGotten()
-    {
-
-    }
 
 
     public int HourPerSleep => _hourPerSleep;

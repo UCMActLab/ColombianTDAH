@@ -75,7 +75,7 @@ public class ShowResumen : MonoBehaviour
             ubicacionesCorrectas = MisionLevelManager.Instance.GoodSentLocation;
             ubicacionesTotales = MisionLevelManager.Instance.SelectedLocationHours.Count;
         }
-        
+
 
         checksInfo = new List<CheckInfo>(numChecks);
 
@@ -161,14 +161,21 @@ public class ShowResumen : MonoBehaviour
 
     public void ExitButtonPress()
     {
-        if (MisionLevelManager.Instance != null)
-        {
-            MisionLevelManager.Instance.ExitLevel();
+        CheckLevelWinCondition();
 
-        }
+        if (MisionLevelManager.Instance != null)
+            MisionLevelManager.Instance.ExitLevel();
         else
-        {
             Debug.Log("MisionLevelManager nulo");
+
+    }
+
+    void CheckLevelWinCondition()
+    {
+        if (win)
+        {
+            int levelId = SceneLoader.Instance.getCurrentLevelId(TipoJuego.MisionColombia);
+            SceneLoader.Instance.setMaxLevelId(levelId + 1, TipoJuego.MisionColombia);
         }
     }
 }
