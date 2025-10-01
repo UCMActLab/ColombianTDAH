@@ -72,7 +72,7 @@ public class EventRegister : MonoBehaviour
 
     public enum EventosInfo
     {                       //implementado en...
-        Inicio, //...DolphinLevelManager.InitLevel y en MisionLevelManager.ActivateGame
+        Inicio, //...DolphinLevelManager.InitLevel , en MisionLevelManager.ActivateGame y en LevelKitchenManager.ActivateGame
 
         //delfines
         DEntraSuperficie, //...DolphinController.Float
@@ -98,12 +98,27 @@ public class EventRegister : MonoBehaviour
 
         // generales
         PacienteInfo, //...PacienteConfig.OnAceptarClicked o en este mismo usando addPacienteInfoEvent
-        Pause,  //...DolphinLevelManager.Pause
+        Pause,  //...DolphinLevelManager.Pause, LevelKitchenManager.Pause
         ChangeDifficulty, //...DolphinLevelManager.ActivateIncreasedSpeed/DeactivateIncreasedSpeed
 
         // MC
         EmpiezaDecision, //misionlevelmanager.showdecisionsbuttons
-        TerminaDecision //misionlevelmanager.hidedecisionsbuttons yes click, no click
+        TerminaDecision, //misionlevelmanager.hidedecisionsbuttons yes click, no click
+
+        // Cocina
+        KitchenGuardarConfig,
+        KitchenInicioTurno,
+        KitchenFinTurno,
+        KitchenVerTablonComandas,
+        KitchenSeleccionarIngrediente,
+        KitchenRegistrarAccion,
+        KitchenConsultarLibro,
+        KitchenRecetaCompletada,
+        KitchenRecetaEntregada,
+        KitchenRecetaErronea,
+        KitchenFinTurnoTiempo,
+        KitchenSeleccionJornadaTurno,
+        KitchenLimpiezaEstacion
     }
 
     private Dictionary<EventosInfo, string> EventoMensajes = new()
@@ -132,8 +147,20 @@ public class EventRegister : MonoBehaviour
         { EventosInfo.Pause, "Juego ha sido pausado o reanudado" },
         { EventosInfo.ChangeDifficulty, "Cambio de dificultad" },
         { EventosInfo.EmpiezaDecision, "Empieza pregunta y decision" },
-        { EventosInfo.TerminaDecision, "Termina pregunta y decision" }
-
+        { EventosInfo.TerminaDecision, "Termina pregunta y decision" },
+        { EventosInfo.KitchenGuardarConfig, "Configuración de partida guardada" },
+        { EventosInfo.KitchenInicioTurno, "Inicio del turno" },
+        { EventosInfo.KitchenFinTurno, "Fin del turno" },
+        { EventosInfo.KitchenVerTablonComandas, "Consulta del tablón de comandas" },
+        { EventosInfo.KitchenSeleccionarIngrediente, "Ingrediente agarrado" },
+        { EventosInfo.KitchenRegistrarAccion, "Acción completada" },
+        { EventosInfo.KitchenConsultarLibro, "Consulta del libro de recetas" },
+        { EventosInfo.KitchenRecetaCompletada, "Receta completada" },
+        { EventosInfo.KitchenRecetaEntregada, "Receta entregada correctamente" },
+        { EventosInfo.KitchenRecetaErronea, "Receta entregada erroneamente" },
+        { EventosInfo.KitchenFinTurnoTiempo, "Turno finalizado por tiempo" },
+        { EventosInfo.KitchenSeleccionJornadaTurno, "Jornada/Turno seleccionados" },
+        { EventosInfo.KitchenLimpiezaEstacion, "Estación limpiada" }
 
     };
 
@@ -166,7 +193,19 @@ public class EventRegister : MonoBehaviour
         whitePixelEvents[(int)EventosInfo.Pause] = true;
         whitePixelEvents[(int)EventosInfo.ChangeDifficulty] = true;
         whitePixelEvents[(int)EventosInfo.EmpiezaDecision] = true;
-        whitePixelEvents[(int)EventosInfo.TerminaDecision] = true;
+        whitePixelEvents[(int)EventosInfo.KitchenGuardarConfig] = true;
+        whitePixelEvents[(int)EventosInfo.KitchenInicioTurno] = true;
+        whitePixelEvents[(int)EventosInfo.KitchenFinTurno] = true;
+        whitePixelEvents[(int)EventosInfo.KitchenVerTablonComandas] = true;
+        whitePixelEvents[(int)EventosInfo.KitchenSeleccionarIngrediente] = true;
+        whitePixelEvents[(int)EventosInfo.KitchenRegistrarAccion] = true;
+        whitePixelEvents[(int)EventosInfo.KitchenConsultarLibro] = true;
+        whitePixelEvents[(int)EventosInfo.KitchenRecetaCompletada] = true;
+        whitePixelEvents[(int)EventosInfo.KitchenRecetaEntregada] = true;
+        whitePixelEvents[(int)EventosInfo.KitchenRecetaErronea] = true;
+        whitePixelEvents[(int)EventosInfo.KitchenFinTurnoTiempo] = true;
+        whitePixelEvents[(int)EventosInfo.KitchenSeleccionJornadaTurno] = true;
+        whitePixelEvents[(int)EventosInfo.KitchenLimpiezaEstacion] = true;
 
     }
 

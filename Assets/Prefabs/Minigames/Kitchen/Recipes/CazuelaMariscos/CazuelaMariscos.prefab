@@ -61,7 +61,7 @@ MeshRenderer:
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
   m_SmallMeshCulling: 1
-  m_RenderingLayerMask: 1
+  m_RenderingLayerMask: 129
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: 30c5e465dc21c534bada8d020bae91f4, type: 2}
@@ -301,6 +301,7 @@ MonoBehaviour:
   snapDistance: 0.02
   disableDraggable: 1
   makeRigidbodyKinematic: 1
+  blockReturnWhileTransit: 1
 --- !u!1 &4935782453463810935
 GameObject:
   m_ObjectHideFlags: 0
@@ -362,7 +363,7 @@ MeshRenderer:
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
   m_SmallMeshCulling: 1
-  m_RenderingLayerMask: 1
+  m_RenderingLayerMask: 129
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 4310586713465477566, guid: 5f7ae96048080f34584ec92a266e4285, type: 3}
@@ -448,7 +449,7 @@ MeshRenderer:
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
   m_SmallMeshCulling: 1
-  m_RenderingLayerMask: 1
+  m_RenderingLayerMask: 129
   m_RendererPriority: 0
   m_Materials:
   - {fileID: -2609809028551464901, guid: bb549aace3a1d354cb5bb9d353cbcec0, type: 3}
@@ -566,7 +567,7 @@ MeshRenderer:
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
   m_SmallMeshCulling: 1
-  m_RenderingLayerMask: 1
+  m_RenderingLayerMask: 129
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: 30c5e465dc21c534bada8d020bae91f4, type: 2}
@@ -684,7 +685,7 @@ MeshRenderer:
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
   m_SmallMeshCulling: 1
-  m_RenderingLayerMask: 1
+  m_RenderingLayerMask: 129
   m_RendererPriority: 0
   m_Materials:
   - {fileID: -364905699845747727, guid: 5a88e13854966324e8fec06246eeed8b, type: 3}
@@ -770,7 +771,7 @@ MeshRenderer:
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
   m_SmallMeshCulling: 1
-  m_RenderingLayerMask: 1
+  m_RenderingLayerMask: 129
   m_RendererPriority: 0
   m_Materials:
   - {fileID: -1580535799172915004, guid: 99cae207f47635b46a2ee305292a57d8, type: 3}

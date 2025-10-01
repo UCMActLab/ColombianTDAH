@@ -1,119 +1,152 @@
-using UnityEditor;
+using System;
+using System.Collections;
 using UnityEngine;
 
 public class SpongeCleaner : MonoBehaviour
 {
     [SerializeField] private LayerMask workstationLayer; // Capa de estaciones
     [SerializeField] private float raycastDistance = 20f;  
-    [SerializeField] private float cleanTime = 1.2f; // Tiempo para limpiar
+    [SerializeField] private float cleanTime = 2.3f; // Tiempo para limpiar
+    [SerializeField] private float contactOffset = 0.01f; // Separación del FX respecto a la superficie
 
     [SerializeField] private ObjetosAnim spongeAnimKey = ObjetosAnim.Esponja;
     [SerializeField] private string idleState = "Idle";
     [SerializeField] private string cleanLoopState = "Clean";
 
+    [SerializeField] private ObjetosSound soundKey;
+    [SerializeField] private string cleaningSfxName = "";
+
     [SerializeField] private ParticleSystem cleaningFx;
 
     private Draggable drag;
     private Camera cam;
+    private ReturnToSpawn returner;
 
-    private WorkstationProcessor currentTarget;
-    private float timer;
-    private bool cleaning;
-
+    private Coroutine cleaningRoutine;
     private Vector3 lastHitPoint;
     private Vector3 lastHitNormal;
+
 
     void Awake()
     {
         drag = GetComponent<Draggable>();
         cam = Camera.main;
+        returner = GetComponent<ReturnToSpawn>();
+    }
+    void OnEnable()
+    {
+        if (drag != null)
+        {
+            drag.onStartDragging.AddListener(OnStartDragging);
+            drag.onStopDragging.AddListener(OnStopDragging);
+        }
     }
 
-    void Update()
+    void OnDisable()
     {
-        if (drag == null || cam == null) return;
-
-        if (!drag.isDragging)
+        if (drag != null)
         {
-            StopScrub(resetTimer: true);
-            return;
+            drag.onStartDragging.RemoveListener(OnStartDragging);
+            drag.onStopDragging.RemoveListener(OnStopDragging);
         }
+        StopCleaningRoutine();
+    }
+
+    private void OnStartDragging()
+    {
+        // Si alguien la coge durante (o justo después) de un ciclo, cancelamos
+        StopCleaningRoutine();
+        SetIdleAnim();
+        StopFx();
+    }
+
+    private void OnStopDragging()
+    {
+        // Al soltar, lanzamos un raycast desde el puntero para ver si hay Workstation
+        if (cam == null) return;
 
         Ray ray = cam.ScreenPointToRay(Input.mousePosition);
-
         if (Physics.Raycast(ray, out RaycastHit hit, raycastDistance, workstationLayer))
         {
             var ws = hit.transform.GetComponentInParent<WorkstationProcessor>();
-            lastHitPoint = hit.point;
-            lastHitNormal = hit.normal;
-            if (ws != currentTarget)
+            if (IsStationCleanable(ws))
             {
-                StopScrub(true);
+                lastHitPoint = hit.point;
+                lastHitNormal = hit.normal;
 
-                if (IsStationCleanable(ws))
-                    StartScrub(ws);
-            }
-        }
-        else
-        {
-            StopScrub(true);
-        }
+                if (returner != null)
+                {
+                    returner.MarkDropHandledThisFrame();
+                    returner.BeginTransit();
+                }
 
-        if (cleaning && currentTarget != null)
-        {
-            if (!IsStationCleanable(currentTarget))
-            {       
-                StopScrub(true);
+                // Iniciamos ciclo de limpieza
+                StartCleaningRoutine(ws);
                 return;
             }
-            // Debug.Log(timer);
-            timer += Time.deltaTime;
-            if (timer >= cleanTime)
-                CompleteScrub();
+        }
+    }
+    private void StartCleaningRoutine(WorkstationProcessor ws)
+    {
+        StopCleaningRoutine();
+        cleaningRoutine = StartCoroutine(CleanThenReturn(ws));
+    }
 
-            UpdateFxAtContact();
+    private void StopCleaningRoutine()
+    {
+        if (cleaningRoutine != null)
+        {
+            StopCoroutine(cleaningRoutine);
+            cleaningRoutine = null;
         }
     }
 
-    private void StartScrub(WorkstationProcessor ws)
+    private IEnumerator CleanThenReturn(WorkstationProcessor ws)
     {
-        currentTarget = ws;
-        cleaning = true;
-        timer = 0f;
+        // Bloqueamos interacción mientras limpia
+        if (drag != null) drag.enabled = false;
 
+        // Anim de limpiar
         AnimatorManager.Instance.ChangeAnimation(spongeAnimKey, cleanLoopState, 0.1f);
 
-        // FX
-        if (cleaningFx != null)
+        // Sonido
+        if (!string.IsNullOrEmpty(cleaningSfxName))
+            //KitchenSoundManager.Instance.PlayLoopForDurationFaded(soundKey, cleaningSfxName, cleanTime);
+        KitchenSoundManager.Instance.PlayLoopFaded(soundKey, cleaningSfxName, 0.2f);
+
+        // Posicionamos FX en el punto de contacto del drop
+        PlayFxAtContact();
+
+        // Alineamos la esponja visualmente con la superficie durante la limpieza
+        AlignSpongeAtContact();
+
+        float t = 0f;
+        while (t < cleanTime)
         {
-            UpdateFxAtContact();
-            cleaningFx.Play();
+            t += Time.deltaTime;
+            yield return null;
         }
-    }
 
-    private void StopScrub(bool resetTimer)
-    {
-        if (!cleaning) return;
+        // Limpiamos inventario si sigue siendo válido y hay contenido
+        if (ws != null && IsStationCleanable(ws))
+            ws.ClearInventory();
 
-        cleaning = false;
-        if (resetTimer) timer = 0f;
+        KitchenSoundManager.Instance.StopLoopFaded(soundKey, 0.2f);
+        StopFx();
+        SetIdleAnim();
+        EventRegister.Instance.AddToEvnt(Tuple.Create(EventRegister.EventosInfo.KitchenLimpiezaEstacion, ""));
+        EventRegister.Instance.EvntToJson();
 
-        AnimatorManager.Instance.ChangeAnimation(spongeAnimKey, idleState, 0.1f);
+        if (drag != null) drag.enabled = true;
 
-        // FX
-        if (cleaningFx != null)
-            cleaningFx.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
+        // Volvemos al spawn
+        if (returner != null)
+        {
+            returner.EndTransit();   // Libera el bloqueo
+            returner.Return(false);  
+        }
 
-        currentTarget = null;
-        
-    }
-
-    private void CompleteScrub()
-    {
-        if (currentTarget != null && IsStationCleanable(currentTarget))
-            currentTarget.ClearInventory();
-
-        StopScrub(resetTimer: true);
+        cleaningRoutine = null;
     }
 
     private bool IsStationCleanable(WorkstationProcessor ws)
@@ -126,11 +159,28 @@ public class SpongeCleaner : MonoBehaviour
         return inv != null && inv.TotalItems > 0;
     }
 
-    private void UpdateFxAtContact()
+    private void PlayFxAtContact()
     {
         if (cleaningFx == null) return;
-
-        cleaningFx.transform.position = lastHitPoint + lastHitNormal * 0.01f;
+        cleaningFx.transform.position = lastHitPoint + lastHitNormal * contactOffset;
         cleaningFx.transform.rotation = Quaternion.LookRotation(-lastHitNormal, Vector3.up);
+        cleaningFx.Play();
+    }
+
+    private void StopFx()
+    {
+        if (cleaningFx != null)
+            cleaningFx.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
+    }
+
+    private void AlignSpongeAtContact()
+    {
+        transform.position = lastHitPoint + lastHitNormal * contactOffset;
+        transform.rotation = Quaternion.LookRotation(-lastHitNormal, Vector3.up);
+    }
+
+    private void SetIdleAnim()
+    {
+        AnimatorManager.Instance.ChangeAnimation(spongeAnimKey, idleState, 0.1f);
     }
 }

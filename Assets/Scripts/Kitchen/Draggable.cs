@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -6,6 +7,7 @@ public class Draggable : MonoBehaviour
     #region references
     private Camera mainCamera;
     private LayerMask layerMask;
+    private ProcessableIngredient p;
     #endregion
 
     #region properties
@@ -26,6 +28,7 @@ public class Draggable : MonoBehaviour
     [Header("Events")]
     public UnityEvent onStartDragging;
     public UnityEvent onStopDragging;
+
     #endregion
 
     #region methods
@@ -35,6 +38,7 @@ public class Draggable : MonoBehaviour
         isDragging = false;
         layerMask = LayerMask.GetMask("Click");
         Input.simulateMouseWithTouches = true;
+        p = GetComponent<ProcessableIngredient>();
     }
 
     void Update()
@@ -103,7 +107,7 @@ public class Draggable : MonoBehaviour
                 clickablePressActive = false;
             }
 
-            pressedOnThis = false;
+            pressedOnThis = false;  
         }
     }
 
@@ -113,6 +117,15 @@ public class Draggable : MonoBehaviour
         anyDragging = true;
         isDragging = true;
         onStartDragging?.Invoke();
+        if(p != null)
+        {
+            string s = p.ingredientType.ToString();
+            EventRegister.Instance.AddToEvnt(Tuple.Create(EventRegister.EventosInfo.KitchenSeleccionarIngrediente, s));
+            EventRegister.Instance.EvntToJson();
+            Debug.Log("Agarramos: " + s);
+        }
+        
+        KitchenSoundManager.Instance.PlayOneShotRaw(ObjetosSound.HandGrab, "Grab");  
     }
 
     private void StopDrag()
@@ -120,6 +133,7 @@ public class Draggable : MonoBehaviour
         isDragging = false;
         anyDragging = false;
         onStopDragging?.Invoke();
+        KitchenSoundManager.Instance.PlayOneShotRaw(ObjetosSound.HandDrop, "Drop");
     }
 
     private bool RayHitsMe(Vector2 screenPos)

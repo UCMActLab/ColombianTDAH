@@ -18,6 +18,7 @@ public class EscenaKitchenLevelSetup : MonoBehaviour
     [SerializeField] private GameObject conveyor;
     [SerializeField] private GameObject sponge;
     [SerializeField] private GameObject pauseCollider;
+    [SerializeField] private GameObject endCollider;
 
     [Header("Workstations")]
     [SerializeField] private GameObject mixer;
@@ -27,6 +28,11 @@ public class EscenaKitchenLevelSetup : MonoBehaviour
     [SerializeField] private GameObject pressureCooker;
     [SerializeField] private GameObject pan;
     [SerializeField] private GameObject oven;
+
+    [Header("Lights")]
+    [SerializeField] private GameObject lightMorning;
+    [SerializeField] private GameObject lightEvening;
+    [SerializeField] private GameObject lightNight;
 
     [Header("Sounds")]
     [SerializeField] private AudioSource mixerSource;
@@ -43,7 +49,24 @@ public class EscenaKitchenLevelSetup : MonoBehaviour
     [SerializeField] private AudioClip panClip;
     [SerializeField] private AudioSource ovenSource;
     [SerializeField] private AudioClip ovenClip;
-
+    [SerializeField] private AudioSource spongeSource;
+    [SerializeField] private AudioClip spongeClip;
+    [SerializeField] private AudioSource recipeDeliveredSource;
+    [SerializeField] private AudioClip recipeDeliveredClip;
+    [SerializeField] private AudioSource handGrabSource;
+    [SerializeField] private AudioClip handGrabClip;
+    [SerializeField] private AudioSource handDropSource;
+    [SerializeField] private AudioClip handDropClip;
+    [SerializeField] private AudioSource ambienceMorningSource;
+    [SerializeField] private AudioClip ambienceMorningClip;
+    [SerializeField] private AudioSource ambienceAfternoonSource;
+    [SerializeField] private AudioClip ambienceAfternoonClip;
+    [SerializeField] private AudioSource ambienceNightSource;
+    [SerializeField] private AudioClip ambienceNightClip;
+    [SerializeField] private AudioSource winSource;
+    [SerializeField] private AudioClip winClip;
+    [SerializeField] private AudioSource gameOverSource;
+    [SerializeField] private AudioClip gameOverClip;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Awake()
@@ -61,6 +84,7 @@ public class EscenaKitchenLevelSetup : MonoBehaviour
         LevelKitchenManager.Instance.SetConveyor(conveyor);
         LevelKitchenManager.Instance.SetSponge(sponge);
         LevelKitchenManager.Instance.SetPauseCollider(pauseCollider);
+        LevelKitchenManager.Instance.SetEndCollider(endCollider);
 
         // Animators
         AnimatorManager.Instance.SetAnimator(ObjetosAnim.Libro, libroDeRecetas.GetComponent<Animator>());
@@ -89,7 +113,40 @@ public class EscenaKitchenLevelSetup : MonoBehaviour
         KitchenSoundManager.Instance.SetClip(ObjetosSound.Sarten, panClip);
         KitchenSoundManager.Instance.SetAudioSource(ObjetosSound.Horno, ovenSource);
         KitchenSoundManager.Instance.SetClip(ObjetosSound.Horno, ovenClip);
+        KitchenSoundManager.Instance.SetAudioSource(ObjetosSound.Esponja, spongeSource);
+        KitchenSoundManager.Instance.SetClip(ObjetosSound.Esponja, spongeClip);
+        KitchenSoundManager.Instance.SetAudioSource(ObjetosSound.RecetaEntregada, recipeDeliveredSource);
+        KitchenSoundManager.Instance.SetClip(ObjetosSound.RecetaEntregada, recipeDeliveredClip);
+        KitchenSoundManager.Instance.SetAudioSource(ObjetosSound.HandGrab, handGrabSource);
+        KitchenSoundManager.Instance.SetClip(ObjetosSound.HandGrab, handGrabClip);
+        KitchenSoundManager.Instance.SetAudioSource(ObjetosSound.HandDrop, handDropSource);
+        KitchenSoundManager.Instance.SetClip(ObjetosSound.HandDrop, handDropClip);
+        KitchenSoundManager.Instance.SetAudioSource(ObjetosSound.AmbienceMorning, ambienceMorningSource);
+        KitchenSoundManager.Instance.SetClip(ObjetosSound.AmbienceMorning, ambienceMorningClip);
+        KitchenSoundManager.Instance.SetAudioSource(ObjetosSound.AmbienceAfternoon, ambienceAfternoonSource);
+        KitchenSoundManager.Instance.SetClip(ObjetosSound.AmbienceAfternoon, ambienceAfternoonClip);
+        KitchenSoundManager.Instance.SetAudioSource(ObjetosSound.AmbienceNight, ambienceNightSource);
+        KitchenSoundManager.Instance.SetClip(ObjetosSound.AmbienceNight, ambienceNightClip);
+        KitchenSoundManager.Instance.SetAudioSource(ObjetosSound.Win, winSource);
+        KitchenSoundManager.Instance.SetClip(ObjetosSound.Win, winClip);
+        KitchenSoundManager.Instance.SetAudioSource(ObjetosSound.GameOver, gameOverSource);
+        KitchenSoundManager.Instance.SetClip(ObjetosSound.GameOver, gameOverClip);
 
+        if (LevelKitchenManager.Instance.GetTurno() == Turno.Manana)
+        {
+            lightEvening.SetActive(false);
+            lightNight.SetActive(false);
+        }
+        else if (LevelKitchenManager.Instance.GetTurno() == Turno.Tarde)
+        {
+            lightMorning.SetActive(false);
+            lightNight.SetActive(false);
+        }
+        else
+        {
+            lightMorning.SetActive(false);
+            lightEvening.SetActive(false);
+        }
     }
 
     // Update is called once per frame

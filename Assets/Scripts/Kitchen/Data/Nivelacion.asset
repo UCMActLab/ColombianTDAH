@@ -15,26 +15,31 @@ MonoBehaviour:
   jornadas:
   - nombreJornada: Jornada Dia 1
     puestosActivos: 000000000100000003000000
-    margenDeError: 1
+    margenDeError: 0.5
     tiempoBaseManual: 180
-    recetasAsignadas: []
+    recetasAsignadas:
+    - {fileID: 11400000, guid: 2e81ad19e421fdd448892106afbe3871, type: 2}
   - nombreJornada: Jornada Dia 2
-    puestosActivos: 00000000010000000200000003000000
+    puestosActivos: 0000000003000000
     margenDeError: 1
     tiempoBaseManual: 180
-    recetasAsignadas: []
+    recetasAsignadas:
+    - {fileID: 11400000, guid: cfc791f511ea8344fb19af5587c88ab5, type: 2}
   - nombreJornada: Jornada Dia 3
     puestosActivos: 0000000001000000020000000300000004000000
     margenDeError: 1
     tiempoBaseManual: 180
-    recetasAsignadas: []
+    recetasAsignadas:
+    - {fileID: 11400000, guid: cf445a37a4e36994fbb128b26f903dd0, type: 2}
   - nombreJornada: Jornada Dia 4
     puestosActivos: 000000000100000002000000030000000400000005000000
     margenDeError: 1
     tiempoBaseManual: 180
-    recetasAsignadas: []
+    recetasAsignadas:
+    - {fileID: 11400000, guid: cf445a37a4e36994fbb128b26f903dd0, type: 2}
   - nombreJornada: Jornada Dia 5
     puestosActivos: 00000000010000000200000003000000040000000500000006000000
     margenDeError: 1
     tiempoBaseManual: 180
-    recetasAsignadas: []
+    recetasAsignadas:
+    - {fileID: 11400000, guid: cf445a37a4e36994fbb128b26f903dd0, type: 2}

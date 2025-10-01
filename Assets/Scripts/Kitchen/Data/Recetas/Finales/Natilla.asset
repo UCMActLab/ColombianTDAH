@@ -15,7 +15,7 @@ MonoBehaviour:
   nombre: Natilla
   categoria: Postre
   ingredientes: 21000000070000000900000026000000
-  puestos: 0200000004000000
-  tiempo_est_segs: 120
+  puestos: 02000000
+  tiempo_est_segs: 75
   processedRecipe: {fileID: 2244577606202969946, guid: d61eebd964effb343af5612a6fceff79, type: 3}
   esIntermedia: 0

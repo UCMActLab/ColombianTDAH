@@ -1,10 +1,8 @@
-﻿using UnityEditor;
-using UnityEngine;
+﻿using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine.SceneManagement;
 using System.Collections;
-using TMPro;
 using System;
 
 [Serializable]
@@ -72,6 +70,7 @@ public class LevelKitchenManager : MonoBehaviour
     [SerializeField] private RecetasDatabase recetasDatabase;
     [SerializeField] private NivelacionData nivelacionData;
     [SerializeField] private RecetaData recetaTutorialObjetivo;
+
     [SerializeField] private List<RecetaSpriteList> recetasSpritesSerializable;   
     private Dictionary<string, RecetaSprites> recetasSprites;
 
@@ -85,11 +84,15 @@ public class LevelKitchenManager : MonoBehaviour
     private GameObject conveyor;
     private GameObject sponge;
     private GameObject pauseCollider;
+    private GameObject endCollider;
 
     private Transform cameraInitPos;
     private Transform cameraTablonPos;
 
-    private int jornadaActual = 1; //nivelacionData.jornadas[jornadaActual].recetasAsignadas
+    private int jornadaMaxDesbloqueada = 0;
+    private Turno turnoMaxDesbloqueado = Turno.Manana;
+
+    private int jornadaActual = 0; //nivelacionData.jornadas[jornadaActual].recetasAsignadas
     private Turno turnoActual = Turno.Manana;
     private int tiempoPorTurnoTotal;
     private List<RecetaData> recetasToDo;
@@ -136,7 +139,7 @@ public class LevelKitchenManager : MonoBehaviour
 
         DontDestroyOnLoad(gameObject);
         SceneManager.sceneLoaded += OnSceneLoaded;
-        ActivateGame();
+        //ActivateGame();
     }
 
     private void Start()
@@ -180,7 +183,7 @@ public class LevelKitchenManager : MonoBehaviour
 
         if (scene.name == escenasPermitidas[0]) // KitchenLevel
         {
-            DraggableBlocker.Unblock();
+            DraggableBlocker.ResetAll();     
             Draggable tab = tablon.GetComponent<Draggable>();
             Draggable tabButtonDrag = tablonButton.GetComponent<Draggable>();
             rec = recetasColgadas.GetComponent<RecipeBoard>();
@@ -204,6 +207,7 @@ public class LevelKitchenManager : MonoBehaviour
             {
                 Debug.LogWarning("No se encontró el componente Draggable en tablonButton.");
             }
+
 
             if (tutorialSystemRoot != null)
                 tutorialSystemRoot.SetActive(isTutorial);
@@ -239,6 +243,7 @@ public class LevelKitchenManager : MonoBehaviour
             }
             else
             {
+                SetAmbienceMusic(turnoActual);
                 recetasToDo = CalcularRecetasTurno(nivelacionData.jornadas[jornadaActual].recetasAsignadas, tiempoPorTurnoTotal, Mathf.CeilToInt(tiempoPorTurnoTotal * 0.1f));
 
                 if (rec != null)
@@ -270,6 +275,7 @@ public class LevelKitchenManager : MonoBehaviour
     private void ButtonTabClicked()
     {
         Debug.Log("TabButton clickado");
+        
         tablonButton.GetComponent<Draggable>().enabled = false;
 
         // Iniciar el movimiento
@@ -283,7 +289,9 @@ public class LevelKitchenManager : MonoBehaviour
 
     private void OnTabClicked()
     {
-        Debug.Log("Tab clickado");
+        Debug.Log("Tab clickado");  
+        EventRegister.Instance.AddToEvnt(Tuple.Create(EventRegister.EventosInfo.KitchenVerTablonComandas, ""));
+        EventRegister.Instance.EvntToJson();
         tablon.GetComponent<Draggable>().enabled = false;
 
         // Iniciar el movimiento
@@ -452,7 +460,10 @@ public class LevelKitchenManager : MonoBehaviour
                 rec.ChangeTexture(receta.nombre);
 
                 Debug.Log($"Entregado: {receta.nombre}. Restan {recetasRestantes[receta]}.");
-
+                KitchenSoundManager.Instance.PlaySound(ObjetosSound.RecetaEntregada, "RecipeDelivered");
+                string s = receta.nombre;
+                EventRegister.Instance.AddToEvnt(Tuple.Create(EventRegister.EventosInfo.KitchenRecetaEntregada, s));
+                EventRegister.Instance.EvntToJson();
                 // ¿hemos cumplido todos los objetivos?
                 if (recetasRestantes.Values.All(v => v <= 0))
                 {
@@ -468,6 +479,9 @@ public class LevelKitchenManager : MonoBehaviour
         else
         {
             // No estaba en los objetivos del turno (receta no pedida)
+            string s = receta.nombre;
+            EventRegister.Instance.AddToEvnt(Tuple.Create(EventRegister.EventosInfo.KitchenRecetaErronea, s));
+            EventRegister.Instance.EvntToJson();
             Debug.Log($"Receta no pedida: {receta.nombre}");
         }
     }
@@ -476,13 +490,37 @@ public class LevelKitchenManager : MonoBehaviour
     {
         if (!isTutorial)
         {
+            DraggableBlocker.Block();
+            endCollider.SetActive(true);    
+
+            EventRegister.Instance.AddToEvnt(Tuple.Create(EventRegister.EventosInfo.KitchenFinTurno, ""));
+            EventRegister.Instance.EvntToJson();
+
+            StopAmbienceMusic(turnoActual);
+            KitchenSoundManager.Instance.PlayOneShotRaw(ObjetosSound.Win, "KitchenWin", 10.0f);
             contador.Pausar();
             winStats.Calculate(recetasTotalesIniciales - recetasRestantes.Values.Sum(), recetasTotalesIniciales, tiempoPorTurnoTotal, contador.GetTiempo(), NOpenedBook);
+            if (turnoActual == turnoMaxDesbloqueado && jornadaActual == jornadaMaxDesbloqueada)
+            {
+                if (turnoActual == Turno.Manana) turnoMaxDesbloqueado = Turno.Tarde;
+                else if (turnoActual == Turno.Tarde) turnoMaxDesbloqueado = Turno.Noche;
+                else if (turnoActual == Turno.Noche) {
+                    turnoMaxDesbloqueado = Turno.Manana;
+                    jornadaMaxDesbloqueada++;
+                }
+            }
+           
         }
     }
 
     private void OnGameOver()
     {
+        DraggableBlocker.Block();
+        endCollider.SetActive(true);
+        EventRegister.Instance.AddToEvnt(Tuple.Create(EventRegister.EventosInfo.KitchenFinTurnoTiempo, ""));
+        EventRegister.Instance.EvntToJson();
+        StopAmbienceMusic(turnoActual);
+        KitchenSoundManager.Instance.PlayOneShotRaw(ObjetosSound.GameOver, "KitchenGameOver", 10.0f);
         loseStats.Calculate(recetasTotalesIniciales - recetasRestantes.Values.Sum(), recetasTotalesIniciales, tiempoPorTurnoTotal, contador.GetTiempo(), NOpenedBook);
     }
 
@@ -529,28 +567,43 @@ public class LevelKitchenManager : MonoBehaviour
 
     public void Pause(bool pause)
     {
+        string estado = pause ? "Pausado" : "Reanudado";
+        EventRegister.Instance.AddToEvnt(Tuple.Create(EventRegister.EventosInfo.Pause, estado));
+        EventRegister.Instance.EvntToJson();
+
         paused = pause;
-        DraggableBlocker.ConmuteBlock();
+        DraggableBlocker.ConmuteBlock(paused);
         pauseCollider.SetActive(paused);
         if (paused) contador.Pausar();
         else contador.Reanudar();
-
-        Debug.Log("Cocina Pausada/Reanudada");
     }
 
-    public void ActivateGame()
+    //public void ActivateGame()
+    //{
+    //    if (EventRegister.Instance)
+    //    {
+    //        EventRegister.Instance.AddInitialEvent(EventRegister.EventosInfo.Inicio, "nivel " + SceneLoader.Instance.getCurrentLevelId(EventRegister.TipoJuego.Cocina).ToString("00"), EventRegister.TipoJuego.Cocina);
+    //        Debug.Log("se pudo iniciar el evento Inicio en KitchenLevelManager.");
+    //    }
+    //    else
+    //    {
+    //        Debug.Log("No se pudo iniciar el evento Inicio en KitchenLevelManager.");
+    //    }  
+    //}
+
+    public void SetAmbienceMusic(Turno t)
     {
-        if (EventRegister.Instance)
-        {
-            EventRegister.Instance.AddInitialEvent(EventRegister.EventosInfo.Inicio, "nivel " + SceneLoader.Instance.getCurrentLevelId(EventRegister.TipoJuego.Cocina).ToString("00"), EventRegister.TipoJuego.Cocina);
-            Debug.Log("se pudo iniciar el evento Inicio en KitchenLevelManager.");
-        }
-        else
-        {
-            Debug.Log("No se pudo iniciar el evento Inicio en KitchenLevelManager.");
-        }  
+        if (t == Turno.Manana) KitchenSoundManager.Instance.PlayLoopFaded(ObjetosSound.AmbienceMorning, "MorningAmbience");
+        else if( t == Turno.Tarde) KitchenSoundManager.Instance.PlayLoopFaded(ObjetosSound.AmbienceAfternoon, "AfternoonAmbience");
+        else if (t == Turno.Noche) KitchenSoundManager.Instance.PlayLoopFaded(ObjetosSound.AmbienceNight, "NightAmbience");
     }
 
+    public void StopAmbienceMusic(Turno t)
+    {
+        if (t == Turno.Manana) KitchenSoundManager.Instance.StopLoopFaded(ObjetosSound.AmbienceMorning);
+        else if (t == Turno.Tarde) KitchenSoundManager.Instance.StopLoopFaded(ObjetosSound.AmbienceAfternoon);
+        else if (t == Turno.Noche) KitchenSoundManager.Instance.StopLoopFaded(ObjetosSound.AmbienceNight);
+    }
 
     private IEnumerator HideHandAfter(float delay)
     {
@@ -585,6 +638,8 @@ public class LevelKitchenManager : MonoBehaviour
     {
         turnoActual = newValue;
     }
+
+    public Turno GetTurno() { return turnoActual; }
 
     public void SetTiempoPorTurno(int newValue)
     {
@@ -677,6 +732,10 @@ public class LevelKitchenManager : MonoBehaviour
     {
         pauseCollider = p;
     }
+    public void SetEndCollider(GameObject e)
+    {
+        endCollider = e;
+    }
     public GameObject GetPauseCollider()
     {
         return pauseCollider;
@@ -690,8 +749,13 @@ public class LevelKitchenManager : MonoBehaviour
     public void StopTutorialMode() => isTutorial = false;
     public bool GetTutorial() {  return isTutorial; }
 
+    public bool IsPaused() { return paused; }
+
     public Dictionary<string, RecetaSprites> GetRecetasSprites() { return recetasSprites; }
     public Dictionary<Ingredientes, Sprite> GetIngredientesSprites() { return ingredientesSprites; }
+
+    public int GetJornadaMaxDesbloqueada() { return jornadaMaxDesbloqueada; }
+    public Turno GetTurnoMaxDesbloqueado() { return turnoMaxDesbloqueado; }
 
     public void NotifyBookOpened() => OnBookOpenedTutorial?.Invoke();
     public void NotifyTablonOpened() => OnTablonOpenedTutorial?.Invoke();

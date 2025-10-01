@@ -15,7 +15,7 @@ MonoBehaviour:
   nombre: Ajiaco
   categoria: Sopa
   ingredientes: 0a0000001b0000002800000032000000
-  puestos: 0500000000000000
-  tiempo_est_segs: 270
+  puestos: 05000000
+  tiempo_est_segs: 70
   processedRecipe: {fileID: 961889355477804371, guid: 4ac8e5d6b0b052f4588d4392a7fdd2df, type: 3}
   esIntermedia: 0

@@ -213,6 +213,7 @@ MonoBehaviour:
   snapDistance: 0.02
   disableDraggable: 1
   makeRigidbodyKinematic: 1
+  blockReturnWhileTransit: 1
 --- !u!1 &2226340249222521545
 GameObject:
   m_ObjectHideFlags: 0
@@ -274,7 +275,7 @@ MeshRenderer:
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
   m_SmallMeshCulling: 1
-  m_RenderingLayerMask: 1
+  m_RenderingLayerMask: 129
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: 7889932e33cb6604c9e2e2d1cf0941d2, type: 2}
@@ -424,7 +425,7 @@ MeshRenderer:
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
   m_SmallMeshCulling: 1
-  m_RenderingLayerMask: 1
+  m_RenderingLayerMask: 129
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 4310586713465477566, guid: 50e7ff6353177da46acfac03e2e77375, type: 3}
@@ -542,7 +543,7 @@ MeshRenderer:
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
   m_SmallMeshCulling: 1
-  m_RenderingLayerMask: 1
+  m_RenderingLayerMask: 129
   m_RendererPriority: 0
   m_Materials:
   - {fileID: -364905699845747727, guid: 5a88e13854966324e8fec06246eeed8b, type: 3}
@@ -628,7 +629,7 @@ MeshRenderer:
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
   m_SmallMeshCulling: 1
-  m_RenderingLayerMask: 1
+  m_RenderingLayerMask: 129
   m_RendererPriority: 0
   m_Materials:
   - {fileID: -2076810627799551325, guid: ebc9086f9c264734ba19c9865cfc64a2, type: 3}
@@ -714,7 +715,7 @@ MeshRenderer:
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
   m_SmallMeshCulling: 1
-  m_RenderingLayerMask: 1
+  m_RenderingLayerMask: 129
   m_RendererPriority: 0
   m_Materials:
   - {fileID: -1580535799172915004, guid: 99cae207f47635b46a2ee305292a57d8, type: 3}

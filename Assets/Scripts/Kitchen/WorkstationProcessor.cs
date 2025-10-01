@@ -1,9 +1,9 @@
-﻿using UnityEngine;
+﻿using System;
 using System.Collections;
-using System.Linq;
 using System.Collections.Generic;
+using System.Linq;
+using UnityEngine;
 using UnityEngine.UIElements;
-using UnityEngine.Experimental.GlobalIllumination;
 
 public class WorkstationProcessor : MonoBehaviour
 {
@@ -42,9 +42,10 @@ public class WorkstationProcessor : MonoBehaviour
     [SerializeField] private bool immediateSingleProcess;
     #endregion
 
-    public static System.Action<Ingredientes, GameObject> OnIngredientSpawnedGlobal;
-    public static event System.Action<Ingredientes, PuestosDeTrabajo> OnItemPlacedGlobal;
-    public static System.Action<RecetaData, PuestosDeTrabajo> OnRecipeCraftedGlobal;
+    public static Action<Ingredientes, GameObject> OnIngredientSpawnedGlobal;
+    public static event Action<Ingredientes, PuestosDeTrabajo> OnItemPlacedGlobal;
+    public static event Action<PuestosDeTrabajo> OnClean;
+    public static Action<RecetaData, PuestosDeTrabajo> OnRecipeCraftedGlobal;
 
     #region methods
     void Start()
@@ -56,6 +57,11 @@ public class WorkstationProcessor : MonoBehaviour
     {
         if (processed || pi == null) return;
         OnItemPlacedGlobal?.Invoke(pi.ingredientType, workstationType);
+
+        string s = pi.ingredientType + " en " + workstationType;
+        EventRegister.Instance.AddToEvnt(Tuple.Create(EventRegister.EventosInfo.KitchenRegistrarAccion, s));
+        EventRegister.Instance.EvntToJson();
+        Debug.Log(s);
 
         // Lo que se selecciona para cada jornada
         var seleccion = LevelKitchenManager.Instance != null
@@ -119,8 +125,16 @@ public class WorkstationProcessor : MonoBehaviour
         if (inventory != null)
         {
             inventory.ClearAll();
+            OnClean?.Invoke(workstationType);
         }
     }
+
+    public void PlaySoundWithAnimationEvent()
+    {
+        if (!string.IsNullOrEmpty(processingSfxName))
+            KitchenSoundManager.Instance.PlayOneShotRaw(soundKey, processingSfxName);
+    }
+
     private IEnumerator ProcessImmediate(GameObject ingredienteGO, RecetaData data)
     {
         Debug.Log("Procesando receta intermedia");
@@ -128,9 +142,6 @@ public class WorkstationProcessor : MonoBehaviour
         processed = true;
         // Anim & sonido inicio      
         AnimatorManager.Instance.ChangeAnimation(animKey, processingAnim);
-        if (!string.IsNullOrEmpty(processingSfxName))
-            KitchenSoundManager.Instance.PlayLoop(soundKey, processingSfxName);
-
 
         if (gameObject.GetComponent<MixerRotation>() != null)
             gameObject.GetComponent<MixerRotation>().Play(300);
@@ -163,19 +174,17 @@ public class WorkstationProcessor : MonoBehaviour
             var pi = go.GetComponent<ProcessableIngredient>();
             if (pi != null) OnIngredientSpawnedGlobal?.Invoke(pi.ingredientType, go);
             OnRecipeCraftedGlobal?.Invoke(data, workstationType);
-            Debug.Log("Ingrediente Procesado");
+            Debug.Log("Ingrediente Procesado: " + data.nombre);
         }
 
 
-        // Fin anim & sonido
+        // Fin anim
         AnimatorManager.Instance.ChangeAnimation(animKey, idleAnim);
-        if (!string.IsNullOrEmpty(processingSfxName))
-            KitchenSoundManager.Instance.StopLoop(soundKey);
 
         var ret = ingredienteGO.GetComponent<IngredientSpawn>();
         if (ret != null) ret.ConsumeAndScheduleRespawn(); 
         else ingredienteGO.SetActive(false); // fallback
-        //Destroy(ingredienteGO);
+        
         processed = false;
     }
 
@@ -189,7 +198,7 @@ public class WorkstationProcessor : MonoBehaviour
         if (GetComponent<Animator>() != null)
             AnimatorManager.Instance.ChangeAnimation(animKey, processingAnim);
         if (!string.IsNullOrEmpty(processingSfxName))
-            KitchenSoundManager.Instance.PlayLoop(soundKey, processingSfxName);
+            KitchenSoundManager.Instance.PlayLoopForDurationFaded(soundKey, processingSfxName, workstationTime);
 
         if (gameObject.GetComponent<MixerRotation>() != null)
             gameObject.GetComponent<MixerRotation>().Play(300);
@@ -220,19 +229,20 @@ public class WorkstationProcessor : MonoBehaviour
         {
             var go = Instantiate(data.processedRecipe, spawnPoint.position, spawnPoint.rotation);
             OnRecipeCraftedGlobal?.Invoke(data, workstationType);
+            
             if (!data.esIntermedia)
             {
                 var cd = go.GetComponent<CompletedRecipe>() ?? go.AddComponent<CompletedRecipe>();
                 cd.receta = data;
+                string s = cd.receta.nombre;
+                EventRegister.Instance.AddToEvnt(Tuple.Create(EventRegister.EventosInfo.KitchenRecetaCompletada, s));
+                EventRegister.Instance.EvntToJson();
             }
         }
 
-        // Fin anim & sonido
+        // Fin anim
         if (GetComponent<Animator>() != null)
             AnimatorManager.Instance.ChangeAnimation(animKey, idleAnim);
-        if (!string.IsNullOrEmpty(processingSfxName))
-            KitchenSoundManager.Instance.StopLoop(soundKey);
-
         processed = false;
     }
     #endregion

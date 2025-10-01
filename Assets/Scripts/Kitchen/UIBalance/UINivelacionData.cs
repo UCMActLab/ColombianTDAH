@@ -1,9 +1,10 @@
-using UnityEngine;
-using UnityEngine.UIElements;
-using UnityEngine.SceneManagement;
-using System.Linq;
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.UIElements;
 
 public class UINivelacionData : MonoBehaviour
 {
@@ -28,9 +29,13 @@ public class UINivelacionData : MonoBehaviour
     private Toggle toggleFacil, toggleNormal, toggleDificil, toggleMuyDificil;
     private float[] valueToggles = { 1.5f, 1.0f, 0.75f, 0.5f };
 
+    private bool useBase64 = true;
+
 
     private void OnEnable()
     {
+        ActivateGame();
+
         root = GetComponent<UIDocument>().rootVisualElement;
 
         puestosContainer = root.Q<VisualElement>("puestos-container");
@@ -53,12 +58,26 @@ public class UINivelacionData : MonoBehaviour
         {
             int index = i;
             var btn = toolbarJornadas.Q<Button>($"btn-j{i + 1}");
-            btn.clickable.clicked += () => SeleccionarJornada(index);
+            btn.clickable.clicked += () =>
+            {
+                GetComponent<AudioSource>().Play();
+                SeleccionarJornada(index);
+            };
         }
 
         root.Q<Button>("btn-comenzar").clicked += () =>
         {
-            GuardarRecetasSeleccionadas();
+            for (int i = 0; i < 6; i++)
+            {
+                int x = i;
+                if (i == 5) x = 0;
+                SeleccionarJornada(x);
+
+            }
+            GetComponent<AudioSource>().Play();
+
+            SendSavedConfig();           
+
             SceneLoader.LoadScene("KitchenLevelSelector");
         };
 
@@ -74,8 +93,10 @@ public class UINivelacionData : MonoBehaviour
         {
             toggle.RegisterValueChangedCallback(evt =>
             {
+
                 if (evt.newValue)
                 {
+                    GetComponent<AudioSource>().Play();
                     jornadaActual.margenDeError = factor;
                     toggleFacil.value = (toggle == toggleFacil);
                     toggleNormal.value = (toggle == toggleNormal);
@@ -109,11 +130,25 @@ public class UINivelacionData : MonoBehaviour
         {
             var btn = toolbarJornadas.Q<Button>($"btn-j{i + 1}");
             btn.text = (i == 0) ? $"Jornada {i + 1}" : $"J{i + 1}";
-            btn.style.fontSize = (i == 0) ? 30 : 26;
+            btn.style.fontSize = (i == 0) ? 35 : 30;
         }
 
         ActualizarUI();
     }
+
+    public void ActivateGame()
+    {
+        if (EventRegister.Instance)
+        {
+            EventRegister.Instance.AddInitialEvent(EventRegister.EventosInfo.Inicio, "nivel " + SceneLoader.Instance.getCurrentLevelId(EventRegister.TipoJuego.Cocina).ToString("00"), EventRegister.TipoJuego.Cocina);
+            Debug.Log("se pudo iniciar el evento Inicio en KitchenLevelManager.");
+        }
+        else
+        {
+            Debug.Log("No se pudo iniciar el evento Inicio en KitchenLevelManager.");
+        }
+    }
+
 
     private void SeleccionarJornada(int index)
     {
@@ -126,7 +161,7 @@ public class UINivelacionData : MonoBehaviour
         {
             var btn = toolbarJornadas.Q<Button>($"btn-j{i + 1}");
             btn.text = (i == index) ? $"Jornada {i + 1}" : $"J{i + 1}";
-            btn.style.fontSize = (i == index) ? 30 : 26;
+            btn.style.fontSize = (i == index) ? 35 : 30;
         }
 
         ActualizarUI();
@@ -147,11 +182,24 @@ public class UINivelacionData : MonoBehaviour
         puestosContainer.Clear();
         foreach (var puesto in System.Enum.GetValues(typeof(PuestosDeTrabajo)).Cast<PuestosDeTrabajo>())
         {
+            // Si es el puesto "Tabla_De_Picar", lo omitimos de la UI pero lo dejamos siempre activo
+            if (puesto == PuestosDeTrabajo.Tabla_De_Picar)
+            {
+                if (!jornadaActual.puestosActivos.Contains(puesto))
+                {
+                    jornadaActual.puestosActivos.Add(puesto);
+                    ActualizarRecetasPuestos(puesto, true);
+                }
+                continue; // saltamos a la siguiente iteración
+            }
+
             var toggle = new Toggle(puesto.ToString().Replace("_", " "));
+            toggle.AddToClassList("toggle");
 
             toggle.value = jornadaActual.puestosActivos.Contains(puesto);
             toggle.RegisterValueChangedCallback(evt =>
             {
+                GetComponent<AudioSource>().Play();
                 if (evt.newValue && !jornadaActual.puestosActivos.Contains(puesto))
                 {
                     jornadaActual.puestosActivos.Add(puesto);
@@ -200,6 +248,7 @@ public class UINivelacionData : MonoBehaviour
         {
             var receta = recetasFiltradas[i];
             var toggle = new Toggle(receta.nombre);
+            toggle.AddToClassList("toggle");
             if (added)
             {
                 if (!recetasFiltradasAntes.Contains(receta))
@@ -212,11 +261,11 @@ public class UINivelacionData : MonoBehaviour
 
             toggle.RegisterValueChangedCallback(evt =>
             {
+                GetComponent<AudioSource>().Play();
                 if (evt.newValue && !jornadaActual.recetasAsignadas.Contains(receta))
                     jornadaActual.recetasAsignadas.Add(receta);
                 else if (!evt.newValue && jornadaActual.recetasAsignadas.Contains(receta))
                     jornadaActual.recetasAsignadas.Remove(receta);
-
                 GuardarRecetasSeleccionadas();
             });
 
@@ -294,5 +343,66 @@ public class UINivelacionData : MonoBehaviour
 
         labelTiempoManual.text = $"Tiempo: {minutosBase}m {segundosBase}s";
         labelTiempoTotal.text = $"Tiempo aproximado por turno: {minutosTotal}m {segundosTotal}s";
+    }
+
+    [Serializable]
+    private class ConfigSnapshot
+    {   
+        public string jornada;
+        public int tiempo;
+        public string dificultad;
+        public string[] puestosActivos;
+        public string[] recetasHabilitadas;  
+    }
+
+    private Dictionary<string, object> BuildConfigDict()
+    {
+        GuardarRecetasSeleccionadas();
+
+        return new Dictionary<string, object>
+        {
+            ["jornada"] = $"Jornada {jornadaIndex + 1}",
+            ["duración"] = jornadaActual.tiempoBaseManual,
+            ["dificultad"] = GetDificultadNombre(jornadaActual.margenDeError),
+            ["puestosActivos"] = jornadaActual.puestosActivos.Select(p => p.ToString()).ToArray(),
+            ["recetasHabilitadas"] = jornadaActual.recetasAsignadas.Where(r => r != null).Select(r => r.nombre).ToArray()  
+        };
+    }
+
+    private static string DictToInlineText(Dictionary<string, object> d)
+    {
+        string FormatVal(object v)
+        {
+            if (v is Array arr) return "[" + string.Join(",", arr.Cast<object>()) + "]";
+            return v?.ToString() ?? "null";
+        }
+        return string.Join("; ", d.Select(kvp => $"{kvp.Key}={FormatVal(kvp.Value)}"));
+    }
+
+    private void SendSavedConfig()
+    {
+        var er = EventRegister.Instance;
+        if (er == null)
+        {
+            Debug.LogError("[Config] EventRegister.Instance es null.");
+            return;
+        }
+
+        var dict = BuildConfigDict();
+        string payload = DictToInlineText(dict);
+
+        er.AddToEvnt(Tuple.Create(EventRegister.EventosInfo.KitchenGuardarConfig, payload));
+        er.EvntToJson();
+
+        Debug.Log("[Config] Guardada: " + payload);
+    }
+
+    private string GetDificultadNombre(float factor)
+    {
+        if (Mathf.Approximately(factor, 1.5f)) return "Fácil";
+        if (Mathf.Approximately(factor, 1.0f)) return "Normal";
+        if (Mathf.Approximately(factor, 0.75f)) return "Difícil";
+        if (Mathf.Approximately(factor, 0.5f)) return "Muy Difícil";
+        return factor.ToString("0.##");
     }
 }

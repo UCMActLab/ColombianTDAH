@@ -15,7 +15,7 @@ MonoBehaviour:
   nombre: Mielmesabe
   categoria: Postre
   ingredientes: 100000001b00000024000000
-  puestos: 0300000000000000
-  tiempo_est_segs: 150
+  puestos: 03000000
+  tiempo_est_segs: 50
   processedRecipe: {fileID: 961889355477804371, guid: ce78d54794785e544ab19ca1d521983a, type: 3}
   esIntermedia: 0

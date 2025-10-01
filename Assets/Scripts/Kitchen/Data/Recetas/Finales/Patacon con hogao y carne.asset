@@ -15,7 +15,7 @@ MonoBehaviour:
   nombre: Patacon
   categoria: Para picar
   ingredientes: 2c000000300000000d0000000b000000
-  puestos: 0300000000000000
-  tiempo_est_segs: 90
+  puestos: 03000000
+  tiempo_est_segs: 70
   processedRecipe: {fileID: 3030029168856468108, guid: 4cc3a2d450e8cef43afacd97d58e8d71, type: 3}
   esIntermedia: 0

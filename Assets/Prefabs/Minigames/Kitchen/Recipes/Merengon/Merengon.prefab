@@ -27,7 +27,7 @@ Transform:
   m_GameObject: {fileID: 7479242214915841304}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0, y: 0, z: 0}
+  m_LocalPosition: {x: -0, y: 0.3766, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -61,7 +61,7 @@ MeshRenderer:
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
   m_SmallMeshCulling: 1
-  m_RenderingLayerMask: 1
+  m_RenderingLayerMask: 129
   m_RendererPriority: 0
   m_Materials:
   - {fileID: -6443035220513836574, guid: cc0e86b99ae6d13408c1b3330fc11938, type: 3}
@@ -151,8 +151,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.7806298, y: 0.622589, z: 0.898571}
-  m_Center: {x: 0.0035382211, y: -0.16747618, z: -0.050714493}
+  m_Size: {x: 0.7806298, y: 0.578279, z: 0.8402684}
+  m_Center: {x: 0.0035382211, y: 0.22781515, z: -0.065873146}
 --- !u!54 &6969485612326061212
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -256,7 +256,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bed4d19cfdc4627438c075d2e7474dc6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  localGrabOffset: {x: 0, y: 0.1, z: 0}
+  localGrabOffset: {x: 0, y: 0.4, z: 0}
 --- !u!114 &4162525852080570090
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -301,3 +301,4 @@ MonoBehaviour:
   snapDistance: 0.02
   disableDraggable: 1
   makeRigidbodyKinematic: 1
+  blockReturnWhileTransit: 1

@@ -28,6 +28,7 @@ public class ButtonAnimation : MonoBehaviour
 
     IEnumerator EscalarIcono()
     {
+        GetComponentInParent<AudioSource>().Play();
         animando = true;
 
         
