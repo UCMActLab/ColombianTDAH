@@ -2712,19 +2712,19 @@ MonoBehaviour:
       spriteTablon: {fileID: 2800000, guid: 72eefddced811de47a29f3a1349970df, type: 3}
   - nombre: Ajiaco
     sprites:
-      spriteLibro: {fileID: 21300000, guid: a4f6e022e096f9b449901eb54823a15f, type: 3}
+      spriteLibro: {fileID: 21300000, guid: df8385770ed22f44db9b9f57058ef3e5, type: 3}
       spriteTablon: {fileID: 2800000, guid: 064e2ba9b76c63843bdd6a253be77db4, type: 3}
   - nombre: Bandeja paisa
     sprites:
-      spriteLibro: {fileID: 21300000, guid: fb5c8c7619bbd72488e0e8cc20e64898, type: 3}
+      spriteLibro: {fileID: 21300000, guid: 9fa0c1a1c71d23746ad5a0e724fdb7c8, type: 3}
       spriteTablon: {fileID: 2800000, guid: 7362377c699fad147ad49924adbc17af, type: 3}
   - nombre: Bocadillo
     sprites:
-      spriteLibro: {fileID: 21300000, guid: 7743ad04fde67ce47b4ab515fa817f61, type: 3}
+      spriteLibro: {fileID: 21300000, guid: a8d8b2fb0b7438047b00a257577ce54c, type: 3}
       spriteTablon: {fileID: 2800000, guid: e47c344d89c284a4aaf1b50f2c9f3375, type: 3}
   - nombre: "Bu\xF1uelos"
     sprites:
-      spriteLibro: {fileID: 0}
+      spriteLibro: {fileID: 21300000, guid: bbc16616e8cd6334a84beec7a65f9cca, type: 3}
       spriteTablon: {fileID: 2800000, guid: bfc5afdeb6b417b4e8b12cfe1d92e10e, type: 3}
   - nombre: Cafe
     sprites:
@@ -2732,19 +2732,19 @@ MonoBehaviour:
       spriteTablon: {fileID: 2800000, guid: 21904bc40903d3d4e97dc7e7dc5a53b0, type: 3}
   - nombre: Caldo de costilla
     sprites:
-      spriteLibro: {fileID: 0}
+      spriteLibro: {fileID: 21300000, guid: f88394bd7e5d2784bb8392c1c27c8527, type: 3}
       spriteTablon: {fileID: 2800000, guid: 5c53e511c4bce874f92a4b356a821af3, type: 3}
   - nombre: Carne a la llanera
     sprites:
-      spriteLibro: {fileID: 0}
+      spriteLibro: {fileID: 21300000, guid: 873a3628dc6cb70458245024cbe3de96, type: 3}
       spriteTablon: {fileID: 2800000, guid: c21283320b63fda4eae0a1c708184471, type: 3}
   - nombre: Cazuela de mariscos
     sprites:
-      spriteLibro: {fileID: 0}
+      spriteLibro: {fileID: 21300000, guid: e31f7fc8a7322c640866817b77491b47, type: 3}
       spriteTablon: {fileID: 2800000, guid: 8f5915191d3117f4ca9f16a3f39416ba, type: 3}
   - nombre: Chicha
     sprites:
-      spriteLibro: {fileID: 0}
+      spriteLibro: {fileID: 21300000, guid: 022eab8a2a2d7ca42ac0629ab8eb7f12, type: 3}
       spriteTablon: {fileID: 2800000, guid: ba42cce6701dcf74a8ccce98b527414f, type: 3}
   - nombre: Cocada
     sprites:
@@ -2752,27 +2752,27 @@ MonoBehaviour:
       spriteTablon: {fileID: 2800000, guid: a2bce50da6e2ca04794c8d6a5aa0e5b4, type: 3}
   - nombre: Empanadas
     sprites:
-      spriteLibro: {fileID: 0}
+      spriteLibro: {fileID: 21300000, guid: 7f26b710556cb9b47bd7811ef9f8602a, type: 3}
       spriteTablon: {fileID: 2800000, guid: 0acd79acf1e12bd459fa8127132c682c, type: 3}
   - nombre: Fritanga
     sprites:
-      spriteLibro: {fileID: 0}
+      spriteLibro: {fileID: 21300000, guid: c6072fbcc5cb75840bd5230fb0a2e1f0, type: 3}
       spriteTablon: {fileID: 2800000, guid: da7b31f31d33a844a87ead0249d16915, type: 3}
   - nombre: Jugo
     sprites:
-      spriteLibro: {fileID: 0}
+      spriteLibro: {fileID: 21300000, guid: 284c050917c9075438b1d9063e4534f5, type: 3}
       spriteTablon: {fileID: 2800000, guid: ebec60768e049ba4f9c0a42e7de531d1, type: 3}
   - nombre: Lechona
     sprites:
-      spriteLibro: {fileID: 0}
+      spriteLibro: {fileID: 21300000, guid: 036d9c670bcd04a4f9902adda920ee02, type: 3}
       spriteTablon: {fileID: 2800000, guid: 7a6692ad62cb7f440ba5743e1a9e733d, type: 3}
   - nombre: Mazamorra
     sprites:
-      spriteLibro: {fileID: 0}
+      spriteLibro: {fileID: 21300000, guid: 8d40ca3b5c5c07648b4ec48ae494440f, type: 3}
       spriteTablon: {fileID: 2800000, guid: 12fcfc27071d51c42807869d83d4219c, type: 3}
   - nombre: Merengon
     sprites:
-      spriteLibro: {fileID: 0}
+      spriteLibro: {fileID: 21300000, guid: 0e2ab5e9bfeadba489e7875cc338e0e9, type: 3}
       spriteTablon: {fileID: 2800000, guid: 7d35b5f1da2ebaa448bee3a58effbee2, type: 3}
   - nombre: Mielmesabe
     sprites:
@@ -2780,35 +2780,35 @@ MonoBehaviour:
       spriteTablon: {fileID: 2800000, guid: c1dbdf5f3f3cc8b44907834e75bb15f7, type: 3}
   - nombre: Morcilla
     sprites:
-      spriteLibro: {fileID: 0}
+      spriteLibro: {fileID: 21300000, guid: 90c60def37cf0c64eb9046c13d66b908, type: 3}
       spriteTablon: {fileID: 2800000, guid: 55189727f4403f549b310364466d4c73, type: 3}
   - nombre: Mote de queso
     sprites:
-      spriteLibro: {fileID: 0}
+      spriteLibro: {fileID: 21300000, guid: 3a2e1a3ae7231b043a0fc268af3d33ab, type: 3}
       spriteTablon: {fileID: 2800000, guid: 1b974f4fda8a5d44290af14df423e2f7, type: 3}
   - nombre: Natilla
     sprites:
-      spriteLibro: {fileID: 0}
+      spriteLibro: {fileID: 21300000, guid: b3134d6b6e4c8bb4e82d4288b2052b1b, type: 3}
       spriteTablon: {fileID: 2800000, guid: 671c386b8092dd648aa337251cdd1463, type: 3}
   - nombre: Pandebonos
     sprites:
-      spriteLibro: {fileID: 0}
+      spriteLibro: {fileID: 21300000, guid: 98750ea2d60b2544da6887aa8a57245f, type: 3}
       spriteTablon: {fileID: 2800000, guid: 688e74dab2a642f419b632f6b4e5ce87, type: 3}
   - nombre: Patacon
     sprites:
-      spriteLibro: {fileID: 0}
+      spriteLibro: {fileID: 21300000, guid: ddcb9209452ed664eb52c95193d44576, type: 3}
       spriteTablon: {fileID: 2800000, guid: 3eed624f3d1126d459887ad89e3e33ac, type: 3}
   - nombre: Platano calado
     sprites:
-      spriteLibro: {fileID: 0}
+      spriteLibro: {fileID: 21300000, guid: e30a6fb861bd8ec468be41ac13bbe08a, type: 3}
       spriteTablon: {fileID: 2800000, guid: f956350f19be8fc409df8e4af4fcac98, type: 3}
   - nombre: Sancocho
     sprites:
-      spriteLibro: {fileID: 0}
+      spriteLibro: {fileID: 21300000, guid: d88d4ef579f648549acfa9424696c725, type: 3}
       spriteTablon: {fileID: 2800000, guid: 9ac03fcbd9b486d44b994bfdd95bc9fd, type: 3}
   - nombre: Tamal
     sprites:
-      spriteLibro: {fileID: 0}
+      spriteLibro: {fileID: 21300000, guid: 906785605f4fc9a4091076c61150ec2d, type: 3}
       spriteTablon: {fileID: 2800000, guid: 4fa089eb551d5b7429e089d94354c60a, type: 3}
   ingredientesSpritesSerializable:
   - nombre: 0
