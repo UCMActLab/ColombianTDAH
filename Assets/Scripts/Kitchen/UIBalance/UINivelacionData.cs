@@ -341,8 +341,8 @@ public class UINivelacionData : MonoBehaviour
         int minutosTotal = totalSegundos / 60;
         int segundosTotal = totalSegundos % 60;
 
-        labelTiempoManual.text = $"Tiempo: {minutosBase}m {segundosBase}s";
-        labelTiempoTotal.text = $"Tiempo aproximado por turno: {minutosTotal}m {segundosTotal}s";
+        labelTiempoManual.text = $"Tiempo de recetas: {minutosBase}m {segundosBase}s";
+        labelTiempoTotal.text = $"Tiempo real por turno: {minutosTotal}m {segundosTotal}s";
     }
 
     [Serializable]
