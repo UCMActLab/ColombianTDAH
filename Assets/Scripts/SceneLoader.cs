@@ -18,6 +18,12 @@ public class SceneLoader : MonoBehaviour
         public string introScene;
         public int currentLevelId;
         public int maxLevelIdUnlocked;
+        public int numLevels;
+    }
+
+    public class MisionColombiaSceneData : GameSceneData
+    {
+        public List<bool[]> _collectables;
     }
 
     public static bool teacherMode;
@@ -36,7 +42,9 @@ public class SceneLoader : MonoBehaviour
         levelScene = "DolphinLevel",
         introScene = "Dialogs",
         currentLevelId = 1,
-        maxLevelIdUnlocked = 1
+        maxLevelIdUnlocked = 1,
+        numLevels = 1
+
     };
 
     [SerializeField]
@@ -46,7 +54,8 @@ public class SceneLoader : MonoBehaviour
         levelScene = "MC_Level",
         introScene = "MC_Mapa",
         currentLevelId = 1,
-        maxLevelIdUnlocked = 1
+        maxLevelIdUnlocked = 1,
+        numLevels = 1
     };
 
     [SerializeField]
@@ -56,7 +65,8 @@ public class SceneLoader : MonoBehaviour
         levelScene = "KitchenLevel",
         introScene = "KitchenBalanceTerapeuta",
         currentLevelId = 1,
-        maxLevelIdUnlocked = 1
+        maxLevelIdUnlocked = 1,
+        numLevels = 1
     };
 
     void Awake()
@@ -217,6 +227,25 @@ public class SceneLoader : MonoBehaviour
     public void setMaxLevelId(int id, int tipoJuegoEnum)
     {
         setMaxLevelId(id, ParseTipoJuego(tipoJuegoEnum));
+    }
+
+    // Numero de niveles
+    public int getLevelNumber(TipoJuego tipo)
+    {
+        return juegos[tipo].numLevels;
+    }
+    public int getLevelNumber(int tipoJuegoEnum)
+    {
+        return getLevelNumber(ParseTipoJuego(tipoJuegoEnum));
+    }
+
+    public void setLevelNumber(int num, TipoJuego tipo)
+    {
+        juegos[tipo].numLevels = num;
+    }
+    public void setLevelNumber(int num, int tipoJuegoEnum)
+    {
+        setLevelNumber(num, ParseTipoJuego(tipoJuegoEnum));
     }
 
     //para pasar de int a enum
