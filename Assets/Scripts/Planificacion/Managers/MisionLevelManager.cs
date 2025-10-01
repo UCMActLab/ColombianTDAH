@@ -805,6 +805,9 @@ public class MisionLevelManager : MonoBehaviour
         // Si no se pasa del tiempo maximo
     }
 
+
+
+
     public int HourPerSleep => _hourPerSleep;
     public int SleptHours => _sleptHours;
     public int TotalSleepHours => _totalSleepHours;
