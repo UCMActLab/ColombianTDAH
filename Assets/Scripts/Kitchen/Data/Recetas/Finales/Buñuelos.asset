@@ -15,7 +15,7 @@ MonoBehaviour:
   nombre: "Bu\xF1uelos"
   categoria: Para picar
   ingredientes: 23000000
-  puestos: 0300000004000000
-  tiempo_est_segs: 135
+  puestos: 03000000
+  tiempo_est_segs: 60
   processedRecipe: {fileID: 3030029168856468108, guid: df42446bd3c024347a59be66a173ed46, type: 3}
   esIntermedia: 0

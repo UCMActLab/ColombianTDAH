@@ -2738,7 +2738,7 @@ MonoBehaviour:
     sprites:
       spriteLibro: {fileID: 0}
       spriteTablon: {fileID: 2800000, guid: c21283320b63fda4eae0a1c708184471, type: 3}
-  - nombre: Cazuela de marisco
+  - nombre: Cazuela de mariscos
     sprites:
       spriteLibro: {fileID: 0}
       spriteTablon: {fileID: 2800000, guid: 8f5915191d3117f4ca9f16a3f39416ba, type: 3}

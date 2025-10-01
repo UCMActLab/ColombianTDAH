@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nombre: Morcilla
   categoria: Plato fuerte
-  ingredientes: 280000000d0000002500000006000000190000000a000000
+  ingredientes: 280000000d0000002500000006000000190000000a00000004000000
   puestos: 02000000
-  tiempo_est_segs: 300
+  tiempo_est_segs: 160
   processedRecipe: {fileID: 961889355477804371, guid: 0bdf2bef61d708546ac733fab2c09a71, type: 3}
   esIntermedia: 0

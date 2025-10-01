@@ -15,7 +15,7 @@ MonoBehaviour:
   nombre: Pandebonos
   categoria: Para picar
   ingredientes: 23000000
-  puestos: 0600000004000000
-  tiempo_est_segs: 105
+  puestos: 06000000
+  tiempo_est_segs: 60
   processedRecipe: {fileID: 3030029168856468108, guid: f1a191ade4cbf894a8f836a942cfbc08, type: 3}
   esIntermedia: 0

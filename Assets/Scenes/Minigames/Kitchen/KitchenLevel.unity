@@ -9988,6 +9988,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2694324961438396601, guid: 50df4cb7d877301479640354284b3422, type: 3}
+      propertyPath: capacity
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 2750193273981918455, guid: 50df4cb7d877301479640354284b3422, type: 3}
       propertyPath: m_RenderingLayerMask
       value: 129

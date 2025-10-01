@@ -16,6 +16,6 @@ MonoBehaviour:
   categoria: Plato fuerte
   ingredientes: 0b000000
   puestos: 0600000003000000
-  tiempo_est_segs: 180
+  tiempo_est_segs: 40
   processedRecipe: {fileID: 2244577606202969946, guid: 34d14a57fcdeaa5499c0ec4c1cc595a0, type: 3}
   esIntermedia: 0

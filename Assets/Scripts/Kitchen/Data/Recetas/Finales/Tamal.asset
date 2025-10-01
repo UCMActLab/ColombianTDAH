@@ -15,7 +15,7 @@ MonoBehaviour:
   nombre: Tamal
   categoria: Plato fuerte
   ingredientes: 200000000a0000002d0000002500000019000000
-  puestos: 0200000004000000
-  tiempo_est_segs: 450
+  puestos: 02000000
+  tiempo_est_segs: 90
   processedRecipe: {fileID: 961889355477804371, guid: b5e688d290e21514ea1998bd6e32999c, type: 3}
   esIntermedia: 0

@@ -16,6 +16,6 @@ MonoBehaviour:
   categoria: Bebida
   ingredientes: 000000001e0000001b000000
   puestos: 02000000
-  tiempo_est_segs: 225
+  tiempo_est_segs: 40
   processedRecipe: {fileID: 961889355477804371, guid: f6f115255369c18478cbc183832789fd, type: 3}
   esIntermedia: 0

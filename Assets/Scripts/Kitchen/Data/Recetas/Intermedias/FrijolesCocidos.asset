@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nombre: FrijolesCocidos
   categoria: Complementario
-  ingredientes: 11000000
-  puestos: 00000000
+  ingredientes: 1100000000000000
+  puestos: 02000000
   tiempo_est_segs: 30
   processedRecipe: {fileID: 6727798014268057450, guid: 6694777c6eee1434386cfff40945fe5a, type: 3}
   esIntermedia: 1

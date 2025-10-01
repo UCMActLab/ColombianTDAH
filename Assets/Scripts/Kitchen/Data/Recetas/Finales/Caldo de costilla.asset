@@ -16,6 +16,6 @@ MonoBehaviour:
   categoria: Sopa
   ingredientes: 000000000e0000001a0000002800000032000000
   puestos: 05000000
-  tiempo_est_segs: 225
+  tiempo_est_segs: 75
   processedRecipe: {fileID: 961889355477804371, guid: 5e14de8b4b3d8fb4da1c52d6966938a1, type: 3}
   esIntermedia: 0

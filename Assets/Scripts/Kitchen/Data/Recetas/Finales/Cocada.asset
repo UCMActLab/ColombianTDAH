@@ -16,6 +16,6 @@ MonoBehaviour:
   categoria: Postre
   ingredientes: 100000002600000007000000
   puestos: 02000000
-  tiempo_est_segs: 240
+  tiempo_est_segs: 50
   processedRecipe: {fileID: 3030029168856468108, guid: 3bd983618612a034e96ca96b7a6ec9d4, type: 3}
   esIntermedia: 0
