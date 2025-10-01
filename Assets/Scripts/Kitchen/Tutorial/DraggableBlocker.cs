@@ -19,4 +19,6 @@ public static class DraggableBlocker
         if (b) Block(Source.Pause);
         else Unblock(Source.Pause);
     }
+
+    public static void ResetAll() => active.Clear();
 }

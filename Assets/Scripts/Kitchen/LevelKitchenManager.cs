@@ -183,7 +183,7 @@ public class LevelKitchenManager : MonoBehaviour
 
         if (scene.name == escenasPermitidas[0]) // KitchenLevel
         {
-            DraggableBlocker.Unblock();
+            DraggableBlocker.ResetAll();     
             Draggable tab = tablon.GetComponent<Draggable>();
             Draggable tabButtonDrag = tablonButton.GetComponent<Draggable>();
             rec = recetasColgadas.GetComponent<RecipeBoard>();
