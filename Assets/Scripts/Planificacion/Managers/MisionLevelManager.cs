@@ -624,6 +624,13 @@ public class MisionLevelManager : MonoBehaviour
         CalculateQuestionFrec();
     }
 
+    public void InitLevel()
+    {
+        // For recorriendo de atras a alante los colleccionables y pongo el ultimo q esta a true
+        // Por lo menos en la musica
+        SoundManager.Instance.PlaySound(SoundManager.SoundName.MUSIC_LEVEL1);
+    }
+
     public void ActivateGame()
     {
         EventRegister.Instance.AddInitialEvent(EventRegister.EventosInfo.Inicio, "nivel " + SceneLoader.Instance.getCurrentLevelId(EventRegister.TipoJuego.MisionColombia).ToString("00"), EventRegister.TipoJuego.MisionColombia);
@@ -631,7 +638,7 @@ public class MisionLevelManager : MonoBehaviour
 
         _map.SetActive(true);
         _dialogs.SetActive(true);
-        //SoundManager.Instance.PlaySound(SoundManager.SoundName.MUSIC_LEVEL1);
+   
     }
 
     // Cambia imagen del mapa

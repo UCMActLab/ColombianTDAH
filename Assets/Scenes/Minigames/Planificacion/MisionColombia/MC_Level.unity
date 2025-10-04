@@ -3191,6 +3191,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1248144297}
+  - {fileID: 1964404005}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &206867526
@@ -13111,6 +13112,7 @@ GameObject:
   m_Component:
   - component: {fileID: 753725352}
   - component: {fileID: 753725353}
+  - component: {fileID: 753725354}
   m_Layer: 0
   m_Name: Music2
   m_TagString: Untagged
@@ -13230,6 +13232,19 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &753725354
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 753725351}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9aec8d6f675962646a6df3413bd81863, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _audioIndex: 6
 --- !u!1 &765005207 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 2440d7b6ad381c345ab54de87df13639, type: 3}
@@ -16722,6 +16737,7 @@ GameObject:
   m_Component:
   - component: {fileID: 966354458}
   - component: {fileID: 966354459}
+  - component: {fileID: 966354460}
   m_Layer: 0
   m_Name: Music3
   m_TagString: Untagged
@@ -16841,6 +16857,19 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &966354460
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 966354457}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9aec8d6f675962646a6df3413bd81863, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _audioIndex: 7
 --- !u!1 &969772469 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6859055300799419565, guid: 2ae0f43faab57a0489dbef8c3a782f58, type: 3}
@@ -37048,6 +37077,50 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _deadZoneObj: {fileID: 1479012651}
   _spawnZoneObj: {fileID: 941040273}
+--- !u!1 &1964404004
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1964404005}
+  - component: {fileID: 1964404006}
+  m_Layer: 0
+  m_Name: LevelInitializer
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1964404005
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1964404004}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 205169871}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1964404006
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1964404004}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 440c8c93944d68a4783e95a36fdd49f5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1964548507 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 2440d7b6ad381c345ab54de87df13639, type: 3}

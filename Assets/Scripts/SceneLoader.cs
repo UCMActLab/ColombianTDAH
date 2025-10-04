@@ -23,7 +23,8 @@ public class SceneLoader : MonoBehaviour
 
     public class MisionColombiaSceneData : GameSceneData
     {
-        public List<bool[]> _collectables;
+        public List<bool[]> collectables;
+
     }
 
     public static bool teacherMode;
@@ -48,14 +49,15 @@ public class SceneLoader : MonoBehaviour
     };
 
     [SerializeField]
-    GameSceneData misionColombiaData = new GameSceneData
+    MisionColombiaSceneData misionColombiaData = new MisionColombiaSceneData
     {
         selectorScene = "MisionColombiaLevelSelector",
         levelScene = "MC_Level",
         introScene = "MC_Mapa",
         currentLevelId = 1,
         maxLevelIdUnlocked = 1,
-        numLevels = 1
+        numLevels = 1,
+        collectables = new List<bool[]>()
     };
 
     [SerializeField]
@@ -69,11 +71,13 @@ public class SceneLoader : MonoBehaviour
         numLevels = 1
     };
 
+    int _numCollectables = 3;
+
     void Awake()
     {
-        if(_instance == null)
+        if (_instance == null)
         {
-          
+
             juegos[TipoJuego.Delfines] = delfinesData;
             juegos[TipoJuego.MisionColombia] = misionColombiaData;
             juegos[TipoJuego.Cocina] = cocinaData;
@@ -90,6 +94,20 @@ public class SceneLoader : MonoBehaviour
         DontDestroyOnLoad(this.gameObject);
     }
 
+    private void Start()
+    {
+        // Vacio
+        for (int i = 0; i < _numCollectables; i++)
+        {
+            misionColombiaData.collectables.Add(new bool[_numCollectables]);
+        }
+
+        // Inicializo nivel 1 con todos los colleccionables (musica,sticker,modelo)
+        for(int i = 0; i < _numCollectables; i++)
+        {
+            misionColombiaData.collectables[0][i] = true;
+        }
+    }
     public static void LoadScene(string name = "DolphinLevel")
     {
         Debug.Log("Loading scene: " + name);
@@ -103,7 +121,7 @@ public class SceneLoader : MonoBehaviour
         {
             //Solo pasaremos a los dialogos si vamos desde el selector de niveles
             if (!teacherMode && SceneManager.GetActiveScene().name == "DolphinLevelSelector" && _instance.getCurrentLevelId(TipoJuego.Delfines) == 1)
-            { 
+            {
 
                 //dialogSeen = true;
                 name = "Dialogs";
