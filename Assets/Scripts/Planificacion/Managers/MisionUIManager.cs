@@ -83,14 +83,12 @@ public class MisionUIManager : MonoBehaviour
     // Respuesta si
     public void YesClicked()
     {
-        Debug.Log("YEEES");
         Clicked(true);
     }
 
     // Respuesta no
     public void NoClicked()
     {
-        Debug.Log("NOOO");
         Clicked(false);
     }
 
@@ -225,7 +223,6 @@ public class MisionUIManager : MonoBehaviour
             Blink();
         
         }
-        Debug.Log("Sleeping vignette alpha " + alpha);
         // _misionUIManager.SetSleepVignetteAlpha(alpha);
         if (_vignetteFadeCoroutine != null) // si ya existe una la paramos, solo deberia ocurrir una simultanea
             StopCoroutine(_vignetteFadeCoroutine);

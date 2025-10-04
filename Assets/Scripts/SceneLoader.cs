@@ -105,7 +105,7 @@ public class SceneLoader : MonoBehaviour
         // Inicializo nivel 1 con todos los colleccionables (musica,sticker,modelo)
         for(int i = 0; i < _numCollectables; i++)
         {
-            misionColombiaData.collectables[0][i] = true;
+            misionColombiaData.collectables[2][i] = true;
         }
     }
     public static void LoadScene(string name = "DolphinLevel")
@@ -264,6 +264,18 @@ public class SceneLoader : MonoBehaviour
     public void setLevelNumber(int num, int tipoJuegoEnum)
     {
         setLevelNumber(num, ParseTipoJuego(tipoJuegoEnum));
+    }
+
+    // Get collectable
+    public List<bool[]> GetCollectablesInfo()
+    {
+        return misionColombiaData.collectables;
+    }
+
+    // Enable collectable
+    public void SetCollectablesInfo(int level, int collectable, bool enabled)
+    {
+        misionColombiaData.collectables[level][collectable] = enabled;
     }
 
     //para pasar de int a enum

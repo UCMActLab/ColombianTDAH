@@ -303,7 +303,6 @@ public class MisionLevelManager : MonoBehaviour
 
     void Sleep(bool enabled)
     {
-        Debug.Log("Sleeping enabled " + enabled);
         _sleeping = enabled;
 
 
@@ -311,17 +310,13 @@ public class MisionLevelManager : MonoBehaviour
         {
             int index = _selectedSleepTimes.IndexOf(_gameClock.GetHString());
 
-            Debug.Log("Index sleep: " + _selectedSleepTimes[index]);
             _misionUIManager.SetSleepTick(index, true);
 
             // Sumo horas dormidas
             _gameClock += new HourMinSec(_hourPerSleep, 0, 0);
-            Debug.Log("Activo dormir");
         }
         else
         {
-
-            Debug.Log("Desactivo dormir");
             _misionUIManager.SetSleepImageAlpha(0);
         }
     }
@@ -342,7 +337,6 @@ public class MisionLevelManager : MonoBehaviour
 
         ShowDecisionButtons();
         SoundManager.Instance.PlaySound(SoundManager.SoundName.QUESTION);
-        Debug.Log("Aparece pregunta buena para responder dormir"); // Tiene que parar
     }
 
     // Reestablece contador
@@ -628,17 +622,30 @@ public class MisionLevelManager : MonoBehaviour
     {
         // For recorriendo de atras a alante los colleccionables y pongo el ultimo q esta a true
         // Por lo menos en la musica
-        SoundManager.Instance.PlaySound(SoundManager.SoundName.MUSIC_LEVEL1);
+
+        List<bool[]> cInfo = SceneLoader.Instance.GetCollectablesInfo();
+
+        bool musicFound = false;
+        int i = cInfo.Count - 1;
+        while (i >= 0 && !musicFound)
+        {
+            if (cInfo[i][0])
+                musicFound = true;
+            else
+                i--;
+        }
+
+        Debug.Log("PLay: Cancion " + (SoundManager.SoundName.MUSIC_LEVEL1 + i));
+        SoundManager.Instance.PlaySound(SoundManager.SoundName.MUSIC_LEVEL1 + i);
     }
 
     public void ActivateGame()
     {
         EventRegister.Instance.AddInitialEvent(EventRegister.EventosInfo.Inicio, "nivel " + SceneLoader.Instance.getCurrentLevelId(EventRegister.TipoJuego.MisionColombia).ToString("00"), EventRegister.TipoJuego.MisionColombia);
-        Debug.Log("se pudo iniciar el evento Inicio en MisionLevelManager.");
 
         _map.SetActive(true);
         _dialogs.SetActive(true);
-   
+
     }
 
     // Cambia imagen del mapa
@@ -721,13 +728,11 @@ public class MisionLevelManager : MonoBehaviour
         if (_selectedStops.Count == 0 && _distractionStops.Count == 0)
         {
             _anyQuestionsLeft = false;
-            Debug.Log("Ya no hay m�s preguntas");
         }
 
         // Aparece pregunta con botones de decision
         ShowDecisionButtons();
         SoundManager.Instance.PlaySound(SoundManager.SoundName.QUESTION);
-        Debug.Log("Aparece pregunta buena para responder"); // Tiene que parar
     }
 
     private void GoodAnswer()
@@ -736,7 +741,6 @@ public class MisionLevelManager : MonoBehaviour
             _misionUIManager.SetStopTick(_indexUIQuestion, true);
 
         SoundManager.Instance.PlaySound(SoundManager.SoundName.GOOD_ANSWER);
-        Debug.Log("Good answer");
     }
 
     private void BadAnswer()

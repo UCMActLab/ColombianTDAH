@@ -24,11 +24,6 @@ public class SoundManager : MonoBehaviour
         DontDestroyOnLoad(this.gameObject);
     }
 
-    private void Start()
-    {
-        Debug.Log("Audios lenght: " + _audioSources.Length);
-    }
-
     public void Click()
     {
         _audioSources[(int)SoundName.UI_CLICK].Play();
@@ -46,7 +41,6 @@ public class SoundManager : MonoBehaviour
     // Registra audio source que se indica como parametro
     public void RegisterSound(SoundName sound, AudioSource audioSource)
     {
-        Debug.Log("Audios lenght: " + _audioSources.Length);
         if (sound < SoundName.SOUND_NUMBER)
             _audioSources[(int)sound] = audioSource;
         else
