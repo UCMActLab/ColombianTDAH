@@ -341,6 +341,7 @@ public class MisionLevelManager : MonoBehaviour
         }
 
         ShowDecisionButtons();
+        SoundManager.Instance.PlaySound(SoundManager.SoundName.QUESTION);
         Debug.Log("Aparece pregunta buena para responder dormir"); // Tiene que parar
     }
 
@@ -353,9 +354,14 @@ public class MisionLevelManager : MonoBehaviour
         {
 
             if (yes)
+            {
+                SoundManager.Instance.PlaySound(SoundManager.SoundName.GOOD_ANSWER);
                 _misionUIManager.SetSleepVignette(0); //se resetea 
+            }
             else
+            {
                 BadAnswer();
+            }
 
             Sleep(yes);
             _shouldSleep = false;
@@ -625,7 +631,7 @@ public class MisionLevelManager : MonoBehaviour
 
         _map.SetActive(true);
         _dialogs.SetActive(true);
-        SoundManager.Instance.PlaySound(SoundManager.SoundName.MUSIC_LEVEL1);
+        //SoundManager.Instance.PlaySound(SoundManager.SoundName.MUSIC_LEVEL1);
     }
 
     // Cambia imagen del mapa
@@ -713,6 +719,7 @@ public class MisionLevelManager : MonoBehaviour
 
         // Aparece pregunta con botones de decision
         ShowDecisionButtons();
+        SoundManager.Instance.PlaySound(SoundManager.SoundName.QUESTION);
         Debug.Log("Aparece pregunta buena para responder"); // Tiene que parar
     }
 
@@ -721,6 +728,7 @@ public class MisionLevelManager : MonoBehaviour
         if (_isSelectedStopQuestion)
             _misionUIManager.SetStopTick(_indexUIQuestion, true);
 
+        SoundManager.Instance.PlaySound(SoundManager.SoundName.GOOD_ANSWER);
         Debug.Log("Good answer");
     }
 
@@ -740,6 +748,8 @@ public class MisionLevelManager : MonoBehaviour
             if (_isSelectedStopQuestion)
                 _misionUIManager.SetStopTick(_indexUIQuestion, false);
         }
+
+        SoundManager.Instance.PlaySound(SoundManager.SoundName.BAD_ANSWER);
         Debug.Log("Bad answer");
     }
 

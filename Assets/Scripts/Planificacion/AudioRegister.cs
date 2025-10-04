@@ -12,6 +12,8 @@ public class AudioRegister : MonoBehaviour
     {
         _audioSource = GetComponent<AudioSource>();
 
+        Debug.Log("Me he guardado en " + (SoundManager.SoundName)_audioIndex + " con indice " + _audioIndex);
+
         // Registra en el manager de sonido el audio deseado
         SoundManager.Instance.RegisterSound((SoundManager.SoundName)_audioIndex, _audioSource);
     }

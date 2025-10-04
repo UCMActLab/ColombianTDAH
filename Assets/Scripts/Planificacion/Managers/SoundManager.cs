@@ -10,8 +10,7 @@ public class SoundManager : MonoBehaviour
     static private SoundManager _instance;
     public static SoundManager Instance { get { return _instance; } }
 
-    [SerializeField]
-    List<AudioSource> _audioSources = new List<AudioSource>((int)SoundName.SOUND_NUMBER);
+    AudioSource[] _audioSources = new AudioSource[(int)SoundName.SOUND_NUMBER];
 
     private void Awake()
     {
@@ -25,6 +24,11 @@ public class SoundManager : MonoBehaviour
         DontDestroyOnLoad(this.gameObject);
     }
 
+    private void Start()
+    {
+        Debug.Log("Audios lenght: " + _audioSources.Length);
+    }
+
     public void Click()
     {
         _audioSources[(int)SoundName.UI_CLICK].Play();
@@ -33,7 +37,7 @@ public class SoundManager : MonoBehaviour
     // Play del sonido que se indique como parametro
     public void PlaySound(SoundName sound)
     {
-        if ((int)sound < _audioSources.Count)
+        if ((int)sound < _audioSources.Length)
             _audioSources[(int)sound].Play();
         else
             Debug.Log("El sonido indicado esta fuera del indice posible");
@@ -42,7 +46,8 @@ public class SoundManager : MonoBehaviour
     // Registra audio source que se indica como parametro
     public void RegisterSound(SoundName sound, AudioSource audioSource)
     {
-        if ((int)sound < _audioSources.Count)
+        Debug.Log("Audios lenght: " + _audioSources.Length);
+        if (sound < SoundName.SOUND_NUMBER)
             _audioSources[(int)sound] = audioSource;
         else
             Debug.Log("El sonido indicado esta fuera del indice posible");
