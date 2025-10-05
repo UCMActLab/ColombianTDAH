@@ -619,14 +619,12 @@ public class MisionLevelManager : MonoBehaviour
     }
 
     public void InitLevel()
-    {
-        // For recorriendo de atras a alante los colleccionables y pongo el ultimo q esta a true
-        // Por lo menos en la musica
-
+    {     
         List<bool[]> cInfo = SceneLoader.Instance.GetCollectablesInfo();
+        int level = SceneLoader.Instance.getCurrentLevelId(EventRegister.TipoJuego.MisionColombia);
 
         bool musicFound = false;
-        int i = cInfo.Count - 1;
+        int i = level - 1;
         while (i >= 0 && !musicFound)
         {
             if (cInfo[i][0])
@@ -635,7 +633,6 @@ public class MisionLevelManager : MonoBehaviour
                 i--;
         }
 
-        Debug.Log("PLay: Cancion " + (SoundManager.SoundName.MUSIC_LEVEL1 + i));
         SoundManager.Instance.PlaySound(SoundManager.SoundName.MUSIC_LEVEL1 + i);
     }
 
@@ -826,7 +823,10 @@ public class MisionLevelManager : MonoBehaviour
         // Si no se pasa del tiempo maximo
     }
 
-
+    public bool MusicUnlocked()
+    {
+        return _goodStopAnswers >= _stopsN;
+    }
 
 
     public int HourPerSleep => _hourPerSleep;

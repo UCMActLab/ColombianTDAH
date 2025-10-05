@@ -16,12 +16,15 @@ public class ShowResumen : MonoBehaviour
 
     [SerializeField] private AudioManagerResumen audioManager;
 
+    [SerializeField] List<GameObject> collectablesGO;
+
     private int numSleepHours;
     private string horaSalida;
     private int paradasCorrectas;
     private int ubicacionesCorrectas;
 
     bool win;
+    bool music;
     public struct CheckInfo
     {
         public string Texto;
@@ -40,6 +43,20 @@ public class ShowResumen : MonoBehaviour
     void Start()
     {
         win = MisionLevelManager.Instance.Win();
+        music = MisionLevelManager.Instance.MusicUnlocked();
+
+        // Desbloqueo musica en caso de que haya conseguido las horas planificadas
+        if (win && music)
+        {
+            int collectNumber = 0;
+            SceneLoader sl = SceneLoader.Instance;
+
+            sl.SetCollectablesInfo(sl.getCurrentLevelId(TipoJuego.MisionColombia), collectNumber, true);
+
+            collectablesGO[collectNumber].SetActive(true);
+        }
+
+
 
         // Coger condicion de ganar del GAme Manager
 
