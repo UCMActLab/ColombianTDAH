@@ -188,6 +188,8 @@ public class LevelKitchenManager : MonoBehaviour
             Draggable tabButtonDrag = tablonButton.GetComponent<Draggable>();
             rec = recetasColgadas.GetComponent<RecipeBoard>();
 
+            NOpenedBook = 0;
+
             if (tab != null)
             {
                 tab.onStartDragging.RemoveListener(OnTabClicked);
