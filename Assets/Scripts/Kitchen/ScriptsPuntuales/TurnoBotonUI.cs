@@ -47,7 +47,7 @@ public class TurnoBotonUI : MonoBehaviour // Clase para el comportamiento de los
     {
         switch (tipoTurno)
         {
-            case Turno.Manana: iconoTurno.sprite = spriteSol; break;
+            case Turno.Mañana: iconoTurno.sprite = spriteSol; break;
             case Turno.Tarde: iconoTurno.sprite = spriteTarde; break;
             case Turno.Noche: iconoTurno.sprite = spriteLuna; break;
         }

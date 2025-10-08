@@ -35,7 +35,7 @@ public enum TurnoEstado
 
 public enum Turno
 {
-    Manana,
+    Mañana,
     Tarde,
     Noche
 }
@@ -90,10 +90,10 @@ public class LevelKitchenManager : MonoBehaviour
     private Transform cameraTablonPos;
 
     private int jornadaMaxDesbloqueada = 0;
-    private Turno turnoMaxDesbloqueado = Turno.Manana;
+    private Turno turnoMaxDesbloqueado = Turno.Mañana;
 
     private int jornadaActual = 0; //nivelacionData.jornadas[jornadaActual].recetasAsignadas
-    private Turno turnoActual = Turno.Manana;
+    private Turno turnoActual = Turno.Mañana;
     private int tiempoPorTurnoTotal;
     private List<RecetaData> recetasToDo;
 
@@ -139,6 +139,8 @@ public class LevelKitchenManager : MonoBehaviour
 
         DontDestroyOnLoad(gameObject);
         SceneManager.sceneLoaded += OnSceneLoaded;
+        jornadaMaxDesbloqueada = nivelacionData.jornadaDesbloqueada;
+        turnoMaxDesbloqueado = nivelacionData.turnoDesbloqueado;
         //ActivateGame();
     }
 
@@ -148,6 +150,7 @@ public class LevelKitchenManager : MonoBehaviour
         mainCam = Camera.main;
         recetasSprites = recetasSpritesSerializable.ToDictionary(m => m.nombre, m => m.sprites);
         ingredientesSprites = ingredientesSpritesSerializable.ToDictionary(m => m.nombre, m => m.sprite);
+        
     }
 
     private void Update()
@@ -504,10 +507,10 @@ public class LevelKitchenManager : MonoBehaviour
             winStats.Calculate(recetasTotalesIniciales - recetasRestantes.Values.Sum(), recetasTotalesIniciales, tiempoPorTurnoTotal, contador.GetTiempo(), NOpenedBook);
             if (turnoActual == turnoMaxDesbloqueado && jornadaActual == jornadaMaxDesbloqueada)
             {
-                if (turnoActual == Turno.Manana) turnoMaxDesbloqueado = Turno.Tarde;
+                if (turnoActual == Turno.Mañana) turnoMaxDesbloqueado = Turno.Tarde;
                 else if (turnoActual == Turno.Tarde) turnoMaxDesbloqueado = Turno.Noche;
                 else if (turnoActual == Turno.Noche) {
-                    turnoMaxDesbloqueado = Turno.Manana;
+                    turnoMaxDesbloqueado = Turno.Mañana;
                     jornadaMaxDesbloqueada++;
                 }
             }
@@ -595,14 +598,14 @@ public class LevelKitchenManager : MonoBehaviour
 
     public void SetAmbienceMusic(Turno t)
     {
-        if (t == Turno.Manana) KitchenSoundManager.Instance.PlayLoopFaded(ObjetosSound.AmbienceMorning, "MorningAmbience");
+        if (t == Turno.Mañana) KitchenSoundManager.Instance.PlayLoopFaded(ObjetosSound.AmbienceMorning, "MorningAmbience");
         else if( t == Turno.Tarde) KitchenSoundManager.Instance.PlayLoopFaded(ObjetosSound.AmbienceAfternoon, "AfternoonAmbience");
         else if (t == Turno.Noche) KitchenSoundManager.Instance.PlayLoopFaded(ObjetosSound.AmbienceNight, "NightAmbience");
     }
 
     public void StopAmbienceMusic(Turno t)
     {
-        if (t == Turno.Manana) KitchenSoundManager.Instance.StopLoopFaded(ObjetosSound.AmbienceMorning);
+        if (t == Turno.Mañana) KitchenSoundManager.Instance.StopLoopFaded(ObjetosSound.AmbienceMorning);
         else if (t == Turno.Tarde) KitchenSoundManager.Instance.StopLoopFaded(ObjetosSound.AmbienceAfternoon);
         else if (t == Turno.Noche) KitchenSoundManager.Instance.StopLoopFaded(ObjetosSound.AmbienceNight);
     }

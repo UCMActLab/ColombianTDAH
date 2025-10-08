@@ -12,6 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bcd1ae13526ec814d94691e95e9a1f93, type: 3}
   m_Name: Nivelacion
   m_EditorClassIdentifier: 
+  jornadaDesbloqueada: 0
+  turnoDesbloqueado: 0
   jornadas:
   - nombreJornada: Jornada Dia 1
     puestosActivos: 00000000010000000400000006000000

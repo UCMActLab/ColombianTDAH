@@ -31,6 +31,19 @@
                 <engine:ScrollView name="recetas-scroll" style="flex-grow: 1; height: 100%;" />
             </engine:VisualElement>
         </engine:VisualElement>
+        <engine:VisualElement name="unlock-controls" style="flex-direction: row; justify-content: space-between; gap: 40px; flex-grow: 1; margin-top: 14px;">
+            <engine:VisualElement class="unlock-item" style="margin-right: 5px;">
+                <engine:Label text="Jornadas desbloqueadas" class="label" />
+                <engine:VisualElement class="unlock-slider-row">
+                    <engine:SliderInt name="levels-unlocked-slider" low-value="1" high-value="5" value="1" />
+                    <engine:Label name="levels-unlocked-value" text="1" class="unlock-value" />
+                </engine:VisualElement>
+            </engine:VisualElement>
+            <engine:VisualElement class="unlock-item" style="margin-left: 5px;">
+                <engine:Label text="Turno desbloqueado" class="label" />
+                <engine:DropdownField name="turno-dropdown" style="font-size: 18px;" />
+            </engine:VisualElement>
+        </engine:VisualElement>
         <engine:Button name="btn-comenzar" text="COMENZAR SESIÓN" class="semititulo" style="height: 7.5%; margin-top: 10px;" />
     </engine:VisualElement>
 </engine:UXML>
