@@ -653,8 +653,6 @@ public class MisionLevelManager : MonoBehaviour
 
     public void Pause(bool enabled)
     {
-        Debug.Log("Pauso que voy ardiendooo~");
-
         _paused = enabled;
     }
 
@@ -669,8 +667,6 @@ public class MisionLevelManager : MonoBehaviour
     {
         _freeTime = _duration - _totalSleepHours; // Tiempo que no esta dormido
         _questionFrecMins = (_freeTime / _questions.Count) * 60;
-
-        Debug.Log("Pregunta buena cada: " + _questionFrecMins);
     }
 
     // Hace que aparezca una pregunta en pantalla
@@ -758,7 +754,6 @@ public class MisionLevelManager : MonoBehaviour
         }
 
         SoundManager.Instance.PlaySound(SoundManager.SoundName.BAD_ANSWER);
-        Debug.Log("Bad answer");
     }
 
     public void SendLocation()
@@ -804,7 +799,6 @@ public class MisionLevelManager : MonoBehaviour
         if (_gameClock.Hours == 0)
         {
             SoundManager.Instance.DestroySoundManager();
-            Debug.Log("terminando nivel");
             SceneLoader.LoadScene("MC_Resumen");
         }
     }
@@ -825,9 +819,13 @@ public class MisionLevelManager : MonoBehaviour
 
     public bool MusicUnlocked()
     {
-        return _goodStopAnswers >= _stopsN;
+        return _sleptHours >= _totalSleepHours;
     }
 
+    public bool StickerUnlocked()
+    {
+        return _goodStopAnswers >= _stopsN;
+    }
 
     public int HourPerSleep => _hourPerSleep;
     public int SleptHours => _sleptHours;

@@ -25,6 +25,7 @@ public class ShowResumen : MonoBehaviour
 
     bool win;
     bool music;
+    bool sticker;
     public struct CheckInfo
     {
         public string Texto;
@@ -42,18 +43,35 @@ public class ShowResumen : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        // Booleano si ha conseguido desbloquear coleccionables
         win = MisionLevelManager.Instance.Win();
         music = MisionLevelManager.Instance.MusicUnlocked();
+        sticker = MisionLevelManager.Instance.StickerUnlocked();
 
-        // Desbloqueo musica en caso de que haya conseguido las horas planificadas
-        if (win && music)
+
+        if (win)
         {
+            // Variables comunes 
             int collectNumber = 0;
             SceneLoader sl = SceneLoader.Instance;
+            int currentLevel = sl.getCurrentLevelId(TipoJuego.MisionColombia);
+            int maxLevel = sl.getMaxLevelId(TipoJuego.MisionColombia);
 
-            sl.SetCollectablesInfo(sl.getCurrentLevelId(TipoJuego.MisionColombia), collectNumber, true);
-
-            collectablesGO[collectNumber].SetActive(true);
+            // Desbloqueo musica en caso de que haya conseguido las horas planificadas
+            if (music && currentLevel < maxLevel)
+            {
+                collectNumber = 0;
+                sl.SetCollectablesInfo(currentLevel, collectNumber, true);
+                collectablesGO[collectNumber].SetActive(true);
+                Debug.Log("MUSIKA: Current Level: " + currentLevel + " Colleccionable: " + collectNumber);
+            }
+            if (sticker)
+            {
+                collectNumber = 2;
+                sl.SetCollectablesInfo(currentLevel - 1, collectNumber, true);
+                collectablesGO[collectNumber].SetActive(true);
+                Debug.Log("STICKER: Current Level: " + currentLevel + " Colleccionable: " + collectNumber);
+            }
         }
 
 

@@ -103,7 +103,7 @@ public class SceneLoader : MonoBehaviour
         }
 
         // Inicializo nivel 1 con todos los colleccionables (musica,sticker,modelo)
-        for(int i = 0; i < _numCollectables; i++)
+        for(int i = 0; i < _numCollectables - 1; i++)
         {
             misionColombiaData.collectables[0][i] = true;
         }
