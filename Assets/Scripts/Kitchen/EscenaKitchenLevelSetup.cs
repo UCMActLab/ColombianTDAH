@@ -132,7 +132,7 @@ public class EscenaKitchenLevelSetup : MonoBehaviour
         KitchenSoundManager.Instance.SetAudioSource(ObjetosSound.GameOver, gameOverSource);
         KitchenSoundManager.Instance.SetClip(ObjetosSound.GameOver, gameOverClip);
 
-        if (LevelKitchenManager.Instance.GetTurno() == Turno.Manana)
+        if (LevelKitchenManager.Instance.GetTurno() == Turno.Mañana)
         {
             lightEvening.SetActive(false);
             lightNight.SetActive(false);

@@ -25,6 +25,9 @@ public class UINivelacionData : MonoBehaviour
     //private TextField fieldTerapeuta;
     //private TextField fieldPaciente;
     private Label labelTiempoTotal;
+    private SliderInt sliderJornadasDesbloqueadas;
+    private DropdownField dropdownTurnoDesbloqueado;
+    private Label labelJornadasDesbloqueadas;
 
     private Toggle toggleFacil, toggleNormal, toggleDificil, toggleMuyDificil;
     private float[] valueToggles = { 1.5f, 1.0f, 0.75f, 0.5f };
@@ -47,6 +50,9 @@ public class UINivelacionData : MonoBehaviour
         //fieldTerapeuta = root.Q<TextField>("field-terapeuta");
         //fieldPaciente = root.Q<TextField>("field-paciente");
         labelTiempoTotal = root.Q<Label>("label-tiempo-total");
+        sliderJornadasDesbloqueadas = root.Q<SliderInt>("levels-unlocked-slider");
+        dropdownTurnoDesbloqueado = root.Q<DropdownField>("turno-dropdown");
+        labelJornadasDesbloqueadas = root.Q<Label>("levels-unlocked-value");
         toggleFacil = root.Q<Toggle>("toggle-facil");
         toggleNormal = root.Q<Toggle>("toggle-normal");
         toggleDificil = root.Q<Toggle>("toggle-dificil");
@@ -131,6 +137,39 @@ public class UINivelacionData : MonoBehaviour
             var btn = toolbarJornadas.Q<Button>($"btn-j{i + 1}");
             btn.text = (i == 0) ? $"Jornada {i + 1}" : $"J{i + 1}";
             btn.style.fontSize = (i == 0) ? 35 : 30;
+        }
+
+        if (sliderJornadasDesbloqueadas != null)
+        {
+            sliderJornadasDesbloqueadas.lowValue = 1;
+            sliderJornadasDesbloqueadas.highValue = 5;
+            sliderJornadasDesbloqueadas.value = Mathf.Clamp(0, 1, 5);
+            nivelacionData.jornadaDesbloqueada = sliderJornadasDesbloqueadas.value - 1;
+            if (labelJornadasDesbloqueadas != null) labelJornadasDesbloqueadas.text = sliderJornadasDesbloqueadas.value.ToString();
+
+            sliderJornadasDesbloqueadas.RegisterValueChangedCallback(evt =>
+            {
+                nivelacionData.jornadaDesbloqueada = evt.newValue - 1;
+                if (labelJornadasDesbloqueadas != null) labelJornadasDesbloqueadas.text = evt.newValue.ToString();
+            });
+        }
+
+        if (dropdownTurnoDesbloqueado != null)
+        {
+            // Rellenar opciones desde el enum
+            var nombres = Enum.GetNames(typeof(Turno));
+            dropdownTurnoDesbloqueado.choices = new List<string>(nombres);
+
+            // Selección inicial
+            dropdownTurnoDesbloqueado.value = nivelacionData.turnoDesbloqueado.ToString();
+
+            dropdownTurnoDesbloqueado.RegisterValueChangedCallback(evt =>
+            {
+                if (Enum.TryParse<Turno>(evt.newValue, out var t))
+                {
+                    nivelacionData.turnoDesbloqueado = t;
+                }
+            });
         }
 
         ActualizarUI();
@@ -341,8 +380,8 @@ public class UINivelacionData : MonoBehaviour
         int minutosTotal = totalSegundos / 60;
         int segundosTotal = totalSegundos % 60;
 
-        labelTiempoManual.text = $"Tiempo: {minutosBase}m {segundosBase}s";
-        labelTiempoTotal.text = $"Tiempo aproximado por turno: {minutosTotal}m {segundosTotal}s";
+        labelTiempoManual.text = $"Tiempo de recetas: {minutosBase}m {segundosBase}s";
+        labelTiempoTotal.text = $"Tiempo real por turno: {minutosTotal}m {segundosTotal}s";
     }
 
     [Serializable]

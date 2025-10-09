@@ -42,7 +42,18 @@ public class HighlightObject : MonoBehaviour
         maxIntensity = max;
         frequency = Mathf.Max(0.01f, freq);
     }
+    private static void EnsureEmissionKeyword(Material m)
+    {
+        if (!m || !m.HasProperty(ID_EmissionColor)) return;
 
+        // Asegura un color no negro (algunos shaders ignoran emisión si es 0)
+        var c = m.GetColor(ID_EmissionColor);
+        if (c.maxColorComponent <= 0f)
+            m.SetColor(ID_EmissionColor, new Color(0.001f, 0.001f, 0.001f));
+
+        // Activa keyword en el sharedMaterial (importante con SRP Batcher)
+        m.EnableKeyword("_EMISSION");
+    }
     void OnEnable()
     {
         // Recolecta todos los renderers (MeshRenderer, SkinnedMeshRenderer, SpriteRenderer…)
@@ -71,6 +82,8 @@ public class HighlightObject : MonoBehaviour
                     continue;
                 }
 
+                EnsureEmissionKeyword(sm);
+
                 // 1) Emission
                 if (sm.HasProperty(ID_EmissionColor))
                 {
@@ -79,7 +92,7 @@ public class HighlightObject : MonoBehaviour
                     info.hadEmissionKeyword = sm.IsKeywordEnabled("_EMISSION");
 
                     // Intentamos habilitar keyword una vez en el sharedMaterial
-                    sm.EnableKeyword("_EMISSION");
+                    //sm.EnableKeyword("_EMISSION");
                 }
                 else
                 {
