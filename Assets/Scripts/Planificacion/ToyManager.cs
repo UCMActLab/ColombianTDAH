@@ -16,19 +16,19 @@ public class ToyManager : MonoBehaviour
         }
 
         // Quito filtro en negro a los conseguidos
-        //int collec = 1;
-        //List<bool[]> info = SceneLoader.Instance.GetCollectablesInfo();
-        //for (int i = 0; i < info.Count; i++)
-        //{
-        //    if (info[i][collec])
-        //    {
-        //        UnlockToy(i);
-        //    }
-        //}
+        int collec = 1;
+        List<bool[]> info = SceneLoader.Instance.GetCollectablesInfo();
+        for (int i = 0; i < info.Count; i++)
+        {
+            if (info[i][collec])
+            {
+                UnlockToy(i);
+            }
+        }
     }
 
     void UnlockToy(int index)
     {
-
+        _toys[index].SetActive(true);
     }
 }

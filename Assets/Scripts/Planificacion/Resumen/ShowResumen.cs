@@ -43,39 +43,6 @@ public class ShowResumen : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        // Booleano si ha conseguido desbloquear coleccionables
-        win = MisionLevelManager.Instance.Win();
-        music = MisionLevelManager.Instance.MusicUnlocked();
-        sticker = MisionLevelManager.Instance.StickerUnlocked();
-
-
-        if (win)
-        {
-            // Variables comunes 
-            int collectNumber = 0;
-            SceneLoader sl = SceneLoader.Instance;
-            int currentLevel = sl.getCurrentLevelId(TipoJuego.MisionColombia);
-            int maxLevel = sl.getMaxLevelId(TipoJuego.MisionColombia);
-
-            // Desbloqueo musica en caso de que haya conseguido las horas planificadas
-            if (music && currentLevel < maxLevel)
-            {
-                collectNumber = 0;
-                sl.SetCollectablesInfo(currentLevel, collectNumber, true);
-                collectablesGO[collectNumber].SetActive(true);
-                Debug.Log("MUSIKA: Current Level: " + currentLevel + " Colleccionable: " + collectNumber);
-            }
-            if (sticker)
-            {
-                collectNumber = 2;
-                sl.SetCollectablesInfo(currentLevel - 1, collectNumber, true);
-                collectablesGO[collectNumber].SetActive(true);
-                Debug.Log("STICKER: Current Level: " + currentLevel + " Colleccionable: " + collectNumber);
-            }
-        }
-
-
-
         // Coger condicion de ganar del GAme Manager
 
         exitButton.SetActive(false);
@@ -90,11 +57,10 @@ public class ShowResumen : MonoBehaviour
 
         int numChecks = checkElements.Count;
 
-
         // Data variables
-        int ubicacionesTotales = 0;
         int paradasTotales = 0;
         int numSleepHoursTotales = 0;
+        int ubicacionesTotales = 0;
 
         // Asignar data MisionLevelManager
         if (MisionLevelManager.Instance != null)
@@ -119,6 +85,7 @@ public class ShowResumen : MonoBehaviour
         checksInfo.Add(new CheckInfo($"Paradas correctas...{paradasCorrectas}/{paradasTotales}", paradasCorrectas == paradasTotales));
         checksInfo.Add(new CheckInfo($"Ubicación mandada...{ubicacionesCorrectas}/{ubicacionesTotales}", ubicacionesCorrectas == ubicacionesTotales));
 
+        Collectables((ubicacionesCorrectas == ubicacionesTotales));
 
         ShowChecklist();
     }
@@ -132,9 +99,6 @@ public class ShowResumen : MonoBehaviour
     {
         for (int i = 0; i < checkElements.Count; i++)
         {
-            Debug.Log("count " + checkElements.Count);
-
-            Debug.Log(i);
             audioManager.PlayChecklistSound(checksInfo[i].Conseguido);
 
             showCheckElement(i, checksInfo[i].Conseguido, checksInfo[i].Texto);
@@ -148,7 +112,7 @@ public class ShowResumen : MonoBehaviour
     void showCheckElement(int childIndex, bool conseguido, string texto)
     {
 
-        Debug.Log("Child number " + childIndex);
+        //Debug.Log("Child number " + childIndex);
         Debug.Log("texto " + texto);
 
         //tiene que estar asi
@@ -173,6 +137,48 @@ public class ShowResumen : MonoBehaviour
 
         checkElements[childIndex].GetChild(1).gameObject.SetActive(conseguido);
         checkElements[childIndex].GetChild(2).gameObject.SetActive(!conseguido);
+    }
+
+    void Collectables(bool toy)
+    {
+        // Booleano si ha conseguido desbloquear coleccionables
+        win = MisionLevelManager.Instance.Win();
+        music = MisionLevelManager.Instance.MusicUnlocked();
+        sticker = MisionLevelManager.Instance.StickerUnlocked();
+
+
+        if (win)
+        {
+            // Variables comunes 
+            int collectNumber = 0;
+            SceneLoader sl = SceneLoader.Instance;
+            int currentLevel = sl.getCurrentLevelId(TipoJuego.MisionColombia);
+            int maxLevel = sl.getLevelNumber(TipoJuego.MisionColombia);
+
+            // Desbloqueo musica en caso de que haya conseguido las horas planificadas
+            if (music && currentLevel < maxLevel)
+            {
+                collectNumber = 0;
+                sl.SetCollectablesInfo(currentLevel, collectNumber, true);
+                collectablesGO[collectNumber].SetActive(true);
+                Debug.Log("MUSIKA: Current Level: " + currentLevel + " Colleccionable: " + collectNumber);
+            }
+            if (toy && currentLevel < maxLevel)
+            {
+                collectNumber = 1;
+                sl.SetCollectablesInfo(currentLevel, collectNumber, true);
+                collectablesGO[collectNumber].SetActive(true);
+                Debug.Log("MUSIKA: Current Level: " + currentLevel + " Colleccionable: " + collectNumber);
+            }
+            if (sticker)
+            {
+                collectNumber = 2;
+                sl.SetCollectablesInfo(currentLevel - 1, collectNumber, true);
+                collectablesGO[collectNumber].SetActive(true);
+                Debug.Log("STICKER: Current Level: " + currentLevel + " Colleccionable: " + collectNumber);
+            }
+
+        }
     }
 
     void ActivateWinMessage()

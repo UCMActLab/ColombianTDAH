@@ -21,6 +21,7 @@ public class SceneLoader : MonoBehaviour
         public int numLevels;
     }
 
+    [System.Serializable]
     public class MisionColombiaSceneData : GameSceneData
     {
         public List<bool[]> collectables;
