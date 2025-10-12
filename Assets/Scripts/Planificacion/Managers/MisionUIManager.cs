@@ -96,7 +96,7 @@ public class MisionUIManager : MonoBehaviour
     void Clicked(bool yes)
     {
         string mensaje = "Pregunta final, se ha contestado";
-        EventRegister.Instance.AddToEvnt(Tuple.Create(EventRegister.EventosInfo.TerminaDecision, mensaje));
+        EventRegister.Instance.AddToEvnt(Tuple.Create(EventRegister.EventosInfo.MCTerminaDecision, mensaje));
         EventRegister.Instance.EvntToJson();
 
         _decisionGO.SetActive(false);

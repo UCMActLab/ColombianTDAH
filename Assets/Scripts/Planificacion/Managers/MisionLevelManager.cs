@@ -160,7 +160,11 @@ public class MisionLevelManager : MonoBehaviour
     void HideDecisionButtons()
     {
         string mensaje = "Pregunta final, no se ha contestado";
-        EventRegister.Instance.AddToEvnt(Tuple.Create(EventRegister.EventosInfo.TerminaDecision, mensaje));
+        EventRegister.Instance.AddToEvnt(Tuple.Create(EventRegister.EventosInfo.MCTerminaDecision, mensaje));
+        EventRegister.Instance.EvntToJson();
+
+        mensaje = "Tiempo de respuesta excedido";
+        EventRegister.Instance.AddToEvnt(Tuple.Create(EventRegister.EventosInfo.MCPreguntaSinRespuesta, mensaje));
         EventRegister.Instance.EvntToJson();
 
         FinishAnswer(); // Sin contestar
@@ -266,8 +270,12 @@ public class MisionLevelManager : MonoBehaviour
             // Si es igual o menor sinifica q se ha saltado la hora de mandar ubicacion
             while (_locHoursList.Count != 0 && _auxHourClock >= _locHoursList[0].Hours)
             {
+                // Evento
+                string mensaje = "Envio de ubicacion omitido";
+                EventRegister.Instance.AddToEvnt(Tuple.Create(EventRegister.EventosInfo.MCUbicacionOmisionEnvio, mensaje));
+                EventRegister.Instance.EvntToJson();
+
                 // Pongo cross en UI
-                Debug.Log("Aux Hour Clock: " + _auxHourClock + " Comprobadno y eliminando: " + _locHoursList[0].GetHString());
                 _misionUIManager.SetLocationTick(_selectedLocationHours.IndexOf(_locHoursList[0].GetHString()), false);
 
                 // Elimino hora de la lista
@@ -304,6 +312,7 @@ public class MisionLevelManager : MonoBehaviour
     void Sleep(bool enabled)
     {
         _sleeping = enabled;
+        string mensaje;
 
 
         if (enabled)
@@ -314,18 +323,32 @@ public class MisionLevelManager : MonoBehaviour
 
             // Sumo horas dormidas
             _gameClock += new HourMinSec(_hourPerSleep, 0, 0);
+
+            // Evento comienzo dormir
+            mensaje = "Comienza a dormir";
+            EventRegister.Instance.AddToEvnt(Tuple.Create(EventRegister.EventosInfo.MCComienzoDormir, mensaje));
+            EventRegister.Instance.EvntToJson();
         }
         else
         {
             _misionUIManager.SetSleepImageAlpha(0);
+
+            // Evento termino dormir
+            mensaje = "Termina de dormir";
+            EventRegister.Instance.AddToEvnt(Tuple.Create(EventRegister.EventosInfo.MCTerminoDormir, mensaje));
+            EventRegister.Instance.EvntToJson();
         }
     }
     void SleepQuestion()
     {
         string mensaje = "Pregunta inicio";
-        EventRegister.Instance.AddToEvnt(Tuple.Create(EventRegister.EventosInfo.EmpiezaDecision, mensaje));
+        EventRegister.Instance.AddToEvnt(Tuple.Create(EventRegister.EventosInfo.MCEmpiezaDecision, mensaje));
         EventRegister.Instance.EvntToJson();
 
+        // Pregunta de dormir
+        mensaje = "Pregunta de dormir";
+        EventRegister.Instance.AddToEvnt(Tuple.Create(EventRegister.EventosInfo.MCPreguntaDormir, mensaje));
+        EventRegister.Instance.EvntToJson();
 
         int randomNum = 0;
         // Busco pregunta en seleccionadas
@@ -351,10 +374,20 @@ public class MisionLevelManager : MonoBehaviour
             {
                 SoundManager.Instance.PlaySound(SoundManager.SoundName.GOOD_ANSWER);
                 _misionUIManager.SetSleepVignette(0); //se resetea 
+
+                // Respuesta dormir si
+                string mensaje = "Respuesta de dormir SI";
+                EventRegister.Instance.AddToEvnt(Tuple.Create(EventRegister.EventosInfo.MCRespuestaDormirSi, mensaje));
+                EventRegister.Instance.EvntToJson();
             }
             else
             {
                 BadAnswer();
+
+                // Respuesta dormir si
+                string mensaje = "Respuesta de dormir NO";
+                EventRegister.Instance.AddToEvnt(Tuple.Create(EventRegister.EventosInfo.MCRespuestaDormirNo, mensaje));
+                EventRegister.Instance.EvntToJson();
             }
 
             Sleep(yes);
@@ -371,6 +404,22 @@ public class MisionLevelManager : MonoBehaviour
             }
             else
                 BadAnswer();
+
+            // Eventos
+            if (yes)
+            {
+                // Respuesta parada si
+                string mensaje = "Respuesta de parada SI";
+                EventRegister.Instance.AddToEvnt(Tuple.Create(EventRegister.EventosInfo.MCRespuestaParadaSi, mensaje));
+                EventRegister.Instance.EvntToJson();
+            }
+            else
+            {
+                // Respuesta parada no
+                string mensaje = "Respuesta de parada NO";
+                EventRegister.Instance.AddToEvnt(Tuple.Create(EventRegister.EventosInfo.MCRespuestaParadaNo, mensaje));
+                EventRegister.Instance.EvntToJson();
+            }
         }
 
     }
@@ -552,6 +601,23 @@ public class MisionLevelManager : MonoBehaviour
 
             // Mensaje aviso reglas UI
             _mapUIManager.SetWarning(!_rules);
+
+            // Evento
+            string mensaje;
+            // Se cumplen las reglas
+            if (_rules)
+            {
+                mensaje = "Se cumplen las reglas";
+                EventRegister.Instance.AddToEvnt(Tuple.Create(EventRegister.EventosInfo.MCReglasCumplidas, mensaje));
+                EventRegister.Instance.EvntToJson();
+            }
+            // No se cumplen las reglas
+            else
+            {
+                mensaje = "No se cumplen las reglas";
+                EventRegister.Instance.AddToEvnt(Tuple.Create(EventRegister.EventosInfo.MCReglasIncumplidas, mensaje));
+                EventRegister.Instance.EvntToJson();
+            }
         }
     }
 
@@ -613,13 +679,17 @@ public class MisionLevelManager : MonoBehaviour
 
     public void AcceptPlanning()
     {
+        string mensaje = "Confguración de la planificación guardada";
+        EventRegister.Instance.AddToEvnt(Tuple.Create(EventRegister.EventosInfo.MCPlanifcacionGuardada, mensaje));
+        EventRegister.Instance.EvntToJson();
+
         _paused = false;
         SoundManager.Instance.PlaySound(SoundManager.SoundName.UI_CLICK);
         CalculateQuestionFrec();
     }
 
     public void InitLevel()
-    {     
+    {
         List<bool[]> cInfo = SceneLoader.Instance.GetCollectablesInfo();
         int level = SceneLoader.Instance.getCurrentLevelId(EventRegister.TipoJuego.MisionColombia);
 
@@ -673,7 +743,11 @@ public class MisionLevelManager : MonoBehaviour
     void Question()
     {
         string mensaje = "Pregunta inicio";
-        EventRegister.Instance.AddToEvnt(Tuple.Create(EventRegister.EventosInfo.EmpiezaDecision, mensaje));
+        EventRegister.Instance.AddToEvnt(Tuple.Create(EventRegister.EventosInfo.MCEmpiezaDecision, mensaje));
+        EventRegister.Instance.EvntToJson();
+
+        mensaje = "Pregunta de parada";
+        EventRegister.Instance.AddToEvnt(Tuple.Create(EventRegister.EventosInfo.MCPreguntaParada, mensaje));
         EventRegister.Instance.EvntToJson();
 
         int randomNum;
@@ -758,6 +832,10 @@ public class MisionLevelManager : MonoBehaviour
 
     public void SendLocation()
     {
+        string mensaje = "Ubicacion enviada";
+        EventRegister.Instance.AddToEvnt(Tuple.Create(EventRegister.EventosInfo.MCUbicacionEnviada, mensaje));
+        EventRegister.Instance.EvntToJson();
+
         // Comprueba si se cumple la regla
         CheckLocationSent();
 
@@ -769,6 +847,10 @@ public class MisionLevelManager : MonoBehaviour
         // Actualiza UI
         if (_locHoursList.Count != 0 && _gameClock.Hours == _locHoursList[0].Hours)
         {
+            mensaje = "Ubicacion bien enviada";
+            EventRegister.Instance.AddToEvnt(Tuple.Create(EventRegister.EventosInfo.MCUbicacionEnviadaBien, mensaje));
+            EventRegister.Instance.EvntToJson();
+
             // Pongo tick en UI
             _misionUIManager.SetLocationTick(_selectedLocationHours.IndexOf(_locHoursList[0].GetHString()), true);
             _locHoursList.RemoveAt(0);

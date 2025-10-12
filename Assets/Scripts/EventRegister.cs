@@ -102,8 +102,24 @@ public class EventRegister : MonoBehaviour
         ChangeDifficulty, //...DolphinLevelManager.ActivateIncreasedSpeed/DeactivateIncreasedSpeed
 
         // MC
-        EmpiezaDecision, //misionlevelmanager.showdecisionsbuttons
-        TerminaDecision, //misionlevelmanager.hidedecisionsbuttons yes click, no click
+        MCEmpiezaDecision, //misionlevelmanager.showdecisionsbuttons
+        MCTerminaDecision, //misionlevelmanager.hidedecisionsbuttons yes click, no click
+        MCPlanifcacionGuardada,
+        MCHoraSalidaSeleccionada,
+        MCPreguntaParada,
+        MCRespuestaParadaSi,
+        MCRespuestaParadaNo,
+        MCPreguntaDormir,
+        MCRespuestaDormirSi,
+        MCRespuestaDormirNo,
+        MCComienzoDormir,
+        MCTerminoDormir,
+        MCUbicacionEnviada,
+        MCUbicacionEnviadaBien,
+        MCUbicacionOmisionEnvio,
+        MCPreguntaSinRespuesta,
+        MCReglasCumplidas,
+        MCReglasIncumplidas,
 
         // Cocina
         KitchenGuardarConfig,
@@ -146,8 +162,24 @@ public class EventRegister : MonoBehaviour
         { EventosInfo.PacienteInfo, "Paciente y numero de sesion" },
         { EventosInfo.Pause, "Juego ha sido pausado o reanudado" },
         { EventosInfo.ChangeDifficulty, "Cambio de dificultad" },
-        { EventosInfo.EmpiezaDecision, "Empieza pregunta y decision" },
-        { EventosInfo.TerminaDecision, "Termina pregunta y decision" },
+        { EventosInfo.MCEmpiezaDecision, "Empieza pregunta y decision" },
+        { EventosInfo.MCTerminaDecision, "Termina pregunta y decision" },
+        { EventosInfo.MCPlanifcacionGuardada, "Planificacion guardada" },
+        { EventosInfo.MCHoraSalidaSeleccionada, "Hora de salda seleccionada" },
+        { EventosInfo.MCPreguntaParada, "Solicitud de parada" },
+        { EventosInfo.MCRespuestaParadaSi, "Respuesta de parada SI" },
+        { EventosInfo.MCRespuestaParadaNo, "Respuesta de parada NO" },
+        { EventosInfo.MCPreguntaDormir, "Solicitud de dormir" },
+        { EventosInfo.MCRespuestaDormirSi, "Respuesta de dormir SI" },
+        { EventosInfo.MCRespuestaDormirNo, "Respuesta de dormir NO" },
+        { EventosInfo.MCComienzoDormir, "Inicio de dormir" },
+        { EventosInfo.MCTerminoDormir, "Final de dormir" },
+        { EventosInfo.MCUbicacionEnviada, "Ubcacion enviada" },
+        { EventosInfo.MCUbicacionEnviadaBien, "Ubicacion bien enviada" },
+        { EventosInfo.MCUbicacionOmisionEnvio, "Envio de ubicación omitido" },
+        { EventosInfo.MCPreguntaSinRespuesta, "Tiempo de respuesta excedido" },
+        { EventosInfo.MCReglasCumplidas, "Se cumplen las reglas" },
+        { EventosInfo.MCReglasIncumplidas, "Se incumplen las reglas" },
         { EventosInfo.KitchenGuardarConfig, "Configuración de partida guardada" },
         { EventosInfo.KitchenInicioTurno, "Inicio del turno" },
         { EventosInfo.KitchenFinTurno, "Fin del turno" },
@@ -192,7 +224,23 @@ public class EventRegister : MonoBehaviour
         whitePixelEvents[(int)EventosInfo.PacienteInfo] = false;
         whitePixelEvents[(int)EventosInfo.Pause] = true;
         whitePixelEvents[(int)EventosInfo.ChangeDifficulty] = true;
-        whitePixelEvents[(int)EventosInfo.EmpiezaDecision] = true;
+        whitePixelEvents[(int)EventosInfo.MCEmpiezaDecision] = true;
+        whitePixelEvents[(int)EventosInfo.MCPlanifcacionGuardada] = true;
+        whitePixelEvents[(int)EventosInfo.MCHoraSalidaSeleccionada] = true;
+        whitePixelEvents[(int)EventosInfo.MCPreguntaParada] = true;
+        whitePixelEvents[(int)EventosInfo.MCRespuestaParadaSi] = true;
+        whitePixelEvents[(int)EventosInfo.MCRespuestaParadaNo] = true;
+        whitePixelEvents[(int)EventosInfo.MCPreguntaDormir] = true;
+        whitePixelEvents[(int)EventosInfo.MCRespuestaDormirSi] = true;
+        whitePixelEvents[(int)EventosInfo.MCRespuestaDormirNo] = true;
+        whitePixelEvents[(int)EventosInfo.MCComienzoDormir] = true;
+        whitePixelEvents[(int)EventosInfo.MCTerminoDormir] = true;
+        whitePixelEvents[(int)EventosInfo.MCUbicacionEnviada] = true;
+        whitePixelEvents[(int)EventosInfo.MCUbicacionEnviadaBien] = true;
+        whitePixelEvents[(int)EventosInfo.MCUbicacionOmisionEnvio] = true;
+        whitePixelEvents[(int)EventosInfo.MCPreguntaSinRespuesta] = true;
+        whitePixelEvents[(int)EventosInfo.MCReglasCumplidas] = true;
+        whitePixelEvents[(int)EventosInfo.MCReglasIncumplidas] = true;
         whitePixelEvents[(int)EventosInfo.KitchenGuardarConfig] = true;
         whitePixelEvents[(int)EventosInfo.KitchenInicioTurno] = true;
         whitePixelEvents[(int)EventosInfo.KitchenFinTurno] = true;

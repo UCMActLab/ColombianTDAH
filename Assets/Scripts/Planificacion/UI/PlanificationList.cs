@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -23,6 +24,11 @@ public class PlanificationList : MonoBehaviour
     public void SetDepartureTime(string newTime)
     {
         _departureText.transform.GetChild(0).GetComponentInChildren<TextMeshProUGUI>().text = newTime;
+
+        // Evento
+        string mensaje = "Hora de salida seleccionada";
+        EventRegister.Instance.AddToEvnt(Tuple.Create(EventRegister.EventosInfo.MCHoraSalidaSeleccionada, mensaje));
+        EventRegister.Instance.EvntToJson();
     }
 
     public void SetStops(List<string> stops)
