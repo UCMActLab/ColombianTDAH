@@ -51,7 +51,7 @@ public class Draggable : MonoBehaviour
 
         if (Input.GetMouseButtonDown(0))
         {
-            if (DraggableBlocker.Blocked) return;
+            if (!DraggableBlocker.IsAllowed(gameObject)) return;
 
             if (RayHitsMe(Input.mousePosition))
             {
@@ -114,6 +114,7 @@ public class Draggable : MonoBehaviour
     private void StartDrag()
     {
         if (anyDragging) return;
+        if (!DraggableBlocker.IsAllowed(gameObject)) return;
         anyDragging = true;
         isDragging = true;
         onStartDragging?.Invoke();

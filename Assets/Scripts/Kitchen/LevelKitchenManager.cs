@@ -78,6 +78,7 @@ public class LevelKitchenManager : MonoBehaviour
     private Dictionary<Ingredientes, Sprite> ingredientesSprites;
 
     private GameObject tablon;
+    private GameObject book;
     private GameObject recetasColgadas;
     private GameObject tablonButton;
     private RecipeBoard rec;
@@ -141,7 +142,6 @@ public class LevelKitchenManager : MonoBehaviour
         SceneManager.sceneLoaded += OnSceneLoaded;
         jornadaMaxDesbloqueada = nivelacionData.jornadaDesbloqueada;
         turnoMaxDesbloqueado = nivelacionData.turnoDesbloqueado;
-        //ActivateGame();
     }
 
     private void Start()
@@ -583,19 +583,6 @@ public class LevelKitchenManager : MonoBehaviour
         else contador.Reanudar();
     }
 
-    //public void ActivateGame()
-    //{
-    //    if (EventRegister.Instance)
-    //    {
-    //        EventRegister.Instance.AddInitialEvent(EventRegister.EventosInfo.Inicio, "nivel " + SceneLoader.Instance.getCurrentLevelId(EventRegister.TipoJuego.Cocina).ToString("00"), EventRegister.TipoJuego.Cocina);
-    //        Debug.Log("se pudo iniciar el evento Inicio en KitchenLevelManager.");
-    //    }
-    //    else
-    //    {
-    //        Debug.Log("No se pudo iniciar el evento Inicio en KitchenLevelManager.");
-    //    }  
-    //}
-
     public void SetAmbienceMusic(Turno t)
     {
         if (t == Turno.Mañana) KitchenSoundManager.Instance.PlayLoopFaded(ObjetosSound.AmbienceMorning, "MorningAmbience");
@@ -664,6 +651,8 @@ public class LevelKitchenManager : MonoBehaviour
         tablonButton = tb;
     }
 
+    public GameObject GetTablonButton() {  return tablonButton; }
+
     public void SetHand(GameObject h)
     {
         hand = h;
@@ -705,6 +694,15 @@ public class LevelKitchenManager : MonoBehaviour
     public void SetStatsLose(CalculateStats cs)
     {
         loseStats = cs;
+    }
+
+    public void SetBook(GameObject b)
+    {
+        book = b;
+    }
+    public GameObject GetBook() 
+    {
+        return book; 
     }
 
     public void SetNOpenedBook(int ob)

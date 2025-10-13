@@ -32,9 +32,6 @@ public class UINivelacionData : MonoBehaviour
     private Toggle toggleFacil, toggleNormal, toggleDificil, toggleMuyDificil;
     private float[] valueToggles = { 1.5f, 1.0f, 0.75f, 0.5f };
 
-    private bool useBase64 = true;
-
-
     private void OnEnable()
     {
         ActivateGame();

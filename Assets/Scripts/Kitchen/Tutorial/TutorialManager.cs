@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -26,13 +27,16 @@ public class TutorialManager : MonoBehaviour
     [SerializeField] private PuestosDeTrabajo pot = PuestosDeTrabajo.Olla;
 
     private Step current;
-    private WorkstationProcessor sliceWs;
-    private WorkstationProcessor potWs;
+    [SerializeField] private GameObject sliceWs;
+    [SerializeField] private GameObject potWs;
     private GameObject guayabaGO;
     private GameObject guayabaChoppedGO;
     private GameObject sugarGO;
     private GameObject sponge;
-    private BookGestor book;
+    private GameObject book;
+    private GameObject tablonGO;
+    private GameObject tablonButtonGO;
+    private GameObject conveyorGO;
 
     private bool tablonOpened, tablonClosed, bookOpened, bookClosed, placedOnSliceTableFake, guayabaDropInPot, cleanPot, placedOnSliceTable, bocadilloReadyAtPot, bocadilloDelivered;
 
@@ -58,7 +62,8 @@ public class TutorialManager : MonoBehaviour
     }
     void OnDisable()
     {
-        TryUnsubscribe();      
+        TryUnsubscribe();
+        DraggableBlocker.ResetAll();
     }
 
     void Start()
@@ -74,15 +79,18 @@ public class TutorialManager : MonoBehaviour
 
     private void ResolveSceneRefs()
     {
-        sliceWs = FindObjectsOfType<WorkstationProcessor>().FirstOrDefault(w => w.workstationType == sliceTable);
-        potWs = FindObjectsOfType<WorkstationProcessor>().FirstOrDefault(w => w.workstationType == pot);
-
         guayabaGO = IngredientSpawnManager.Instance?.GetLiveInstance(guayaba);
         sugarGO = IngredientSpawnManager.Instance?.GetLiveInstance(sugar);
 
-        book = FindObjectOfType<BookGestor>(true);
+        book = LevelKitchenManager.Instance.GetBook();
 
         sponge = LevelKitchenManager.Instance.GetSponge();
+        tablonGO = LevelKitchenManager.Instance.GetTablon();
+        tablonButtonGO = LevelKitchenManager.Instance.GetTablonButton();
+        conveyorGO = LevelKitchenManager.Instance.GetConveyor();
+
+        DraggableBlocker.Block(DraggableBlocker.Source.Tutorial);
+        DraggableBlocker.ClearAllowed();
     }
 
 
@@ -128,10 +136,16 @@ public class TutorialManager : MonoBehaviour
         subscribed = false;
     }
 
+    private void AllowOnly(params GameObject[] gos)
+    {
+        DraggableBlocker.AllowOnly(gos);
+    }
+
     private IEnumerator Run()
     {
         // STEP: Intro
         current = Step.Intro;
+        DraggableBlocker.ClearAllowed();
         ui.ShowLines(new[]
         {
             "¡Bienvenido a la cocina!",
@@ -145,9 +159,11 @@ public class TutorialManager : MonoBehaviour
 
         // STEP: Tablon
         current = Step.Tablon;
+        AllowOnly(tablonGO);
         highlighter.Highlight(LevelKitchenManager.Instance.GetTablon());         
         yield return WaitEvent(() => tablonOpened);
         Debug.Log("Tablon abierto(tutorial)");
+        AllowOnly(tablonButtonGO);
         highlighter.ClearAll();
         yield return WaitEvent(() => tablonClosed);
         Debug.Log("Tablon cerrado(tutorial)");
@@ -156,6 +172,7 @@ public class TutorialManager : MonoBehaviour
         current = Step.Book;
         ui.ShowLines(new[] { "Ahora, abre el libro de recetas." });
         yield return WaitClickPanelClosed();
+        AllowOnly(book ? book.gameObject : null);
         highlighter.Highlight(book.gameObject);
         yield return WaitEvent(() => bookOpened);
         Debug.Log("Libro abierto(tutorial)");
@@ -165,42 +182,45 @@ public class TutorialManager : MonoBehaviour
 
         // STEP: GrabGuayabaFake
         current = Step.GrabGuayabaFake;
-        RefreshIngredientRefs(); // Por si había respawn
+        RefreshIngredientRefs(); 
         ui.ShowLines(new[]
         {
             "¡Muy bien! Ya sabemos que necesitamos.",
             "Ahora agarra la guayaba y llévala a la tabla de cortar."
         });
         yield return WaitClickPanelClosed();
+        AllowOnly(guayabaGO);
         if (guayabaGO) highlighter.Highlight(guayabaGO);
         yield return WaitUntilDragging(guayabaGO);
         Debug.Log("Guayaba agarrada para limpiar(tutorial)");
-        highlighter.ClearAll();
 
         // STEP: DropOnSliceTableFake
         current = Step.DropOnSliceTableFake;
+        AllowOnly(guayabaGO, sliceWs ? sliceWs.gameObject : null);
         if (sliceWs) highlighter.Highlight(sliceWs.gameObject);
         yield return WaitEvent(() => placedOnSliceTableFake);
+        DraggableBlocker.ClearAllowed();
         Debug.Log("Guayaba en tabla de cortar(tutorial)");
         highlighter.ClearAll();
         yield return WaitEvent(() => guayabaChoppedGO != null);
 
         // STEP: DropInPot
-        current = Step.DropInPot;   
+        current = Step.DropInPot;     
         ui.ShowLines(new[]
         {
             "Tras un tiempo...La guayaba se procesa.",
             "Vale, ahora lleva la guayaba picada a la olla."
         });
         yield return WaitClickPanelClosed();
-        if (potWs) highlighter.Highlight(potWs.gameObject);
+        AllowOnly(guayabaChoppedGO, potWs);
+        if (potWs) highlighter.Highlight(potWs);
         if (guayabaChoppedGO) highlighter.Highlight(guayabaChoppedGO);
         yield return WaitEvent(() => guayabaDropInPot);
         highlighter.ClearAll();
         Debug.Log("Guayaba en olla(tutorial)");
 
         // STEP: Sponge
-        current = Step.Sponge;
+        current = Step.Sponge; 
         ui.ShowLines(new[]
         {
             "Vamos a ver ahora como limpiar la olla.",
@@ -210,27 +230,29 @@ public class TutorialManager : MonoBehaviour
             "Agarra la esponja y suéltala en la olla"
         });
         yield return WaitClickPanelClosed();
+        AllowOnly(sponge, potWs);
         if (sponge) highlighter.Highlight(sponge);
         yield return WaitEvent(() => cleanPot);
         highlighter.ClearAll();
         Debug.Log("Limpieza finalizada(tutorial)");
 
         // STEP: GrabGuayaba
-        current = Step.GrabGuayaba;
-        RefreshIngredientRefs(); // Por si había respawn
+        current = Step.GrabGuayaba;    
+        RefreshIngredientRefs();        
         ui.ShowLines(new[] 
         { 
             "¡Muy bien! Vamos a repetir el proceso anterior",
             "Agarra de nuevo la guayaba y llévala a la tabla de cortar." 
         });
         yield return WaitClickPanelClosed();
+        AllowOnly(guayabaGO);
         if (guayabaGO) highlighter.Highlight(guayabaGO);
         yield return WaitUntilDragging(guayabaGO);
         Debug.Log("Guayaba agarrada(tutorial)");
-        highlighter.ClearAll();
 
         // STEP: DropOnSliceTable
         current = Step.DropOnSliceTable;
+        AllowOnly(guayabaGO, sliceWs ? sliceWs.gameObject : null);
         if (guayabaGO && sliceWs) highlighter.Highlight(sliceWs.gameObject);                
         yield return WaitEvent(() => placedOnSliceTable);
         Debug.Log("Guayaba en tabla de cortar(tutorial)");
@@ -238,14 +260,15 @@ public class TutorialManager : MonoBehaviour
         yield return WaitEvent(() => guayabaChoppedGO != null);
 
         // STEP: MakeBocadillo
-        current = Step.MakeBocadillo;   
+        current = Step.MakeBocadillo;       
         ui.ShowLines(new[] 
         {
             "¡Es hora de hacer el bocadillo!",
             "Lleva la guayaba picada y el azúcar a la olla." 
         });
         yield return WaitClickPanelClosed();
-        if (potWs) highlighter.Highlight(potWs.gameObject);
+        AllowOnly(potWs, sugarGO, guayabaChoppedGO);
+        if (potWs) highlighter.Highlight(potWs);
         if (sugarGO) highlighter.Highlight(sugarGO);
         if (guayabaChoppedGO) highlighter.Highlight(guayabaChoppedGO);
         yield return WaitEvent(() => bocadilloReadyAtPot);
@@ -253,9 +276,10 @@ public class TutorialManager : MonoBehaviour
         Debug.Log("Bocadillo hecho(tutorial)");
 
         // STEP: DeliverBocadillo
-        current = Step.DeliverBocadillo;
+        current = Step.DeliverBocadillo; 
         ui.ShowLines(new[] { "¡Perfecto! Lleva el bocadillo a la cinta transportadora para entregarlo." });
         yield return WaitClickPanelClosed();
+        AllowOnly(conveyorGO, GetCompletedRecipe());
         highlighter.Highlight(LevelKitchenManager.Instance.GetConveyor());
         yield return WaitEvent(() => bocadilloDelivered);
         highlighter.ClearAll();
@@ -301,6 +325,14 @@ public class TutorialManager : MonoBehaviour
         if (!go) yield break;
         var d = go.GetComponent<Draggable>();
         while (d == null || !d.isDragging) yield return null;
+    }
+
+    private GameObject GetCompletedRecipe()
+    {
+        GameObject plate = null;
+        var cr = FindFirstObjectByType<CompletedRecipe>();
+        if (cr != null) plate = cr.gameObject;
+        return plate;       
     }
 
     private void RefreshIngredientRefs()
@@ -373,6 +405,8 @@ public class TutorialManager : MonoBehaviour
         WorkstationProcessor.OnClean -= OnCleanPot;
         WorkstationProcessor.OnRecipeCraftedGlobal -= OnRecipeCrafted;
         ConveyorBelt.OnDeliveredGlobal -= OnDelivered;
+
+        DraggableBlocker.ResetAll();
     }
     #endregion
 }

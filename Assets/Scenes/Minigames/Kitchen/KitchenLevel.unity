@@ -1805,6 +1805,14 @@ PrefabInstance:
       propertyPath: m_ConstrainProportionsScale
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4452871568016761906, guid: d9cef7909b86fed45b97576dd9234360, type: 3}
+      propertyPath: potWs
+      value: 
+      objectReference: {fileID: 2480794682900796045}
+    - target: {fileID: 4452871568016761906, guid: d9cef7909b86fed45b97576dd9234360, type: 3}
+      propertyPath: sliceWs
+      value: 
+      objectReference: {fileID: 1676942408}
     - target: {fileID: 5691002100029674780, guid: d9cef7909b86fed45b97576dd9234360, type: 3}
       propertyPath: m_PreserveAspect
       value: 1
