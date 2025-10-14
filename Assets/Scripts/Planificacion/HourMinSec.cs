@@ -24,6 +24,8 @@ public class HourMinSec
 
     public HourMinSec(string h)
     {
+        Debug.Log("Hora Metida en Clase (texto): " + h);
+
         string[] hSplit = h.Split(' '); // Separo numero texto
         string htype = hSplit[1].ToLower(); // Paso a minusculas
 
@@ -42,6 +44,7 @@ public class HourMinSec
                 Hours += 12;
         }
 
+        Debug.Log("Hora después del calculo a 24: " +  Hours);
     }
 
     // Sobrecarga operador +
@@ -92,9 +95,12 @@ public class HourMinSec
     public string GetString()
     {
         string aux;
-        if (Hours > 12)
+        if (Hours >= 12)
             aux = "PM";
         else
+            aux = "AM";
+
+        if (Hours == 24)
             aux = "AM";
 
         string t = Hours + ":" + Minutes + ":" + Seconds + " " + aux;

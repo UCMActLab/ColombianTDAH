@@ -32,6 +32,7 @@ public class MisionLevelManager : MonoBehaviour
     int _auxHourClock;
 
     // Estados
+    bool _init = false;
     bool _paused = true;
     bool _shouldSleep = false;
     bool _sleeping = false;
@@ -284,6 +285,9 @@ public class MisionLevelManager : MonoBehaviour
 
             // Actualizo e igualo auxde reloj
             _auxHourClock = _gameClock.Hours;
+
+            if (!_init)
+                _init = true;
         }
     }
 
@@ -439,6 +443,7 @@ public class MisionLevelManager : MonoBehaviour
         _misionUIManager = misionUIManager;
         _selectedInitialStops = new List<string>(_selectedStops);
         _misionUIManager.SetStops(_selectedStops);
+        Debug.Log("Hora de salida register: " + _gameClock.GetString());
         _misionUIManager.SetStartTime(_gameClock);
         _misionUIManager.SetSleepHours(_selectedSleepTimes);
         _misionUIManager.SetLocationHours(_selectedLocationHours);
@@ -541,6 +546,11 @@ public class MisionLevelManager : MonoBehaviour
         int aux = 0;
         if (timeSplit[1] == "pm")
             aux = 12;
+
+        if (timeSplit[0] == "12")
+            aux -= 12;
+
+
         string auxString = timeSplit[0];
         _gameClock = new HourMinSec(int.Parse(auxString) + aux, 0, 0);
         _lastSentHour = new HourMinSec(_gameClock.Hours, _gameClock.Minutes, _gameClock.Seconds);
@@ -878,7 +888,7 @@ public class MisionLevelManager : MonoBehaviour
     }
     void isLevelFinished()
     {
-        if (_gameClock.Hours == 0)
+        if (_init && _gameClock.Hours == 0)
         {
             SoundManager.Instance.DestroySoundManager();
             SceneLoader.LoadScene("MC_Resumen");

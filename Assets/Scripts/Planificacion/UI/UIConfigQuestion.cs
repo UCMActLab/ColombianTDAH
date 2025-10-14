@@ -89,17 +89,6 @@ public class UIConfigQuestion : MonoBehaviour
         // Desbloqueo
         _config.Desbloqueado = _unlock.value;
 
-
-        for (int i = 0; i < _config.DistractionStops.Count; i++)
-        {
-            Debug.Log("Paradas distracci�n ANTES: " + _config.DistractionStops[i] + " i: " + i);
-        }
-
-        for (int i = 0; i < _config.SelectableStops.Count; i++)
-        {
-            Debug.Log("Paradas seleccionables ANTES: " + _config.SelectableStops[i] + " i: " + i);
-        }
-
         // Preguntas
         Dictionary<string, string> q = new Dictionary<string, string>();
         _config.DistractionStops.Clear();
@@ -121,23 +110,11 @@ public class UIConfigQuestion : MonoBehaviour
             else
             {
                 _config.SelectableStops.Add(_config.StopsNames[i]);
-                Debug.Log("Paradas Seleccionables: " + _config.StopsNames[i]);
             }
 
-            Debug.Log("i: " + i);
         }
 
         _config.Questions.FromDictionary(q);
-
-        for (int i = 0; i < _config.DistractionStops.Count; i++)
-        {
-            Debug.Log("Paradas distracci�n: " + _config.DistractionStops[i] + " i: " + i);
-        }
-
-        for (int i = 0; i < _config.SelectableStops.Count; i++)
-        {
-            Debug.Log("Paradas seleccionables: " + _config.SelectableStops[i] + " i: " + i);
-        }
 
         MisionLevelManager.Instance.LoadQuestions(q, _config.DistractionStops, _config.SelectableStops);
     }
