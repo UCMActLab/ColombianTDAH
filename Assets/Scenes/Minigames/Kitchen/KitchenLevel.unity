@@ -7992,7 +7992,7 @@ MonoBehaviour:
   ovenSource: {fileID: 5208348167252063204}
   ovenClip: {fileID: 8300000, guid: c87a0fdc1de6ba74b8ac9c24487bf85a, type: 3}
   spongeSource: {fileID: 1697348600}
-  spongeClip: {fileID: 8300000, guid: 92ea236c8b6e64b45ba91cc464fb4352, type: 3}
+  spongeClip: {fileID: 8300000, guid: 498d9ff96c8b1e246a263d685947a92a, type: 3}
   recipeDeliveredSource: {fileID: 2029760028}
   recipeDeliveredClip: {fileID: 8300000, guid: 9c62bb4f5710c86498dffe595c6a590a, type: 3}
   handGrabSource: {fileID: 606410449}
