@@ -22,7 +22,7 @@ public class TutorialManager : MonoBehaviour
     [Header("Ingredientes&Puestos")]
     [SerializeField] private Ingredientes guayaba = Ingredientes.Guayaba;
     [SerializeField] private Ingredientes sugar = Ingredientes.Azucar;
-    [SerializeField] private Ingredientes guayabaChopped = Ingredientes.GuayabaPicada;
+    [SerializeField] private Ingredientes guayabaChopped = Ingredientes.Guayaba_picada;
     [SerializeField] private PuestosDeTrabajo sliceTable = PuestosDeTrabajo.Tabla_De_Picar;
     [SerializeField] private PuestosDeTrabajo pot = PuestosDeTrabajo.Olla;
 

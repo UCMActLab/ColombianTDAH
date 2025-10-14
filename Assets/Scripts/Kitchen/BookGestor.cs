@@ -11,12 +11,15 @@ public class BookGestor : MonoBehaviour
     private List<string> recetasTurno;
 
     [SerializeField] private FadeCanvas myCanvas;
+    [SerializeField] private FadeCanvas ingredientsCanvas;
     [SerializeField] private Image recetaImage;
 
 
     [SerializeField] private ButtonAnimation leftButton;
     [SerializeField] private ButtonAnimation rightButton;
     [SerializeField] private ButtonAnimation seguirButton;
+    [SerializeField] private ButtonAnimation ingredientsButton;
+    [SerializeField] private ButtonAnimation volverButton;
 
     private int indiceActual = 0;
 
@@ -58,6 +61,8 @@ public class BookGestor : MonoBehaviour
         leftButton.OnAnimationEnd += MostrarAnterior;
         rightButton.OnAnimationEnd += MostrarSiguiente;
         seguirButton.OnAnimationEnd += Salir;
+        ingredientsButton.OnAnimationEnd += MostrarIngredientes;
+        volverButton.OnAnimationEnd += Volver;
     }
 
     // Update is called once per frame
@@ -87,6 +92,20 @@ public class BookGestor : MonoBehaviour
         recetaImage.sprite = LevelKitchenManager.Instance.GetRecetasSprites()[recetasTurno[indiceActual]].spriteLibro;
     }
 
+    void MostrarIngredientes()
+    {
+        Debug.Log("Lista de ingredientes");
+        myCanvas.FadeOut();
+        ingredientsCanvas.FadeIn();
+    }
+
+    void Volver()
+    {
+        
+        ingredientsCanvas.FadeOut();
+        myCanvas.FadeIn();
+    }
+
     void Salir()
     {
         Debug.Log("Libro clickado para salir");
@@ -108,6 +127,7 @@ public class BookGestor : MonoBehaviour
             GetComponent<Draggable>().enabled = true;
         }));
     }
+
 
     private void OnBookClicked()
     {
