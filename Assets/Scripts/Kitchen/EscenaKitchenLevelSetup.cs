@@ -73,6 +73,7 @@ public class EscenaKitchenLevelSetup : MonoBehaviour
     {
         LevelKitchenManager.Instance.SetContador(contador);
         LevelKitchenManager.Instance.SetTablon(tablon);
+        LevelKitchenManager.Instance.SetBook(libroDeRecetas);
         LevelKitchenManager.Instance.SetCameraTablonPos(tablonPos);
         LevelKitchenManager.Instance.SetCameraInitPos(cameraPos);
         LevelKitchenManager.Instance.SetRecetasColgadas(recetasColgadas);

@@ -15,7 +15,6 @@ public class ReturnToSpawn : MonoBehaviour
     [SerializeField] private float snapDistance = 0.02f; 
 
     [SerializeField] private bool disableDraggable = true;
-    [SerializeField] private bool makeRigidbodyKinematic = true;
 
     [SerializeField] private bool blockReturnWhileTransit = true;
 

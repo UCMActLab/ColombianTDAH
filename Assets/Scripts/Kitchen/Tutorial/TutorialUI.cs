@@ -62,7 +62,7 @@ public class TutorialUI : MonoBehaviour
             txt.text = string.Empty;
             txt.maxVisibleCharacters = 0;
         }
-        DraggableBlocker.Unblock(DraggableBlocker.Source.Tutorial);
+        //DraggableBlocker.Unblock(DraggableBlocker.Source.Tutorial);
         if (!LevelKitchenManager.Instance.IsPaused())
         {
             if (uiBlocker) uiBlocker.SetActive(false);
