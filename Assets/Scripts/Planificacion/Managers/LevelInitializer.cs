@@ -6,6 +6,7 @@ public class LevelInitializer : MonoBehaviour
     void Start()
     {
         MisionLevelManager.Instance.InitLevel();
+
         Destroy(gameObject);
     }
 }

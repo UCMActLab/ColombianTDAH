@@ -16,16 +16,10 @@ public class ImageChanger : MonoBehaviour
     GameObject _imageGO;
     Image _image;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    private void Awake()
     {
         _image = _imageGO.GetComponent<Image>();
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
+        
     }
 
     // Pone Imagen de Tick o Cross dependiendo del parámetro

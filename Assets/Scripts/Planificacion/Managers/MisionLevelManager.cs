@@ -448,6 +448,8 @@ public class MisionLevelManager : MonoBehaviour
         _misionUIManager.SetSleepHours(_selectedSleepTimes);
         _misionUIManager.SetLocationHours(_selectedLocationHours);
         _locHoursList = new List<HourMinSec>(selectedLocationHours);
+
+        CheckHoursBeforeStartHour();
     }
 
     // Carga las preguntas de las paradas
@@ -696,6 +698,7 @@ public class MisionLevelManager : MonoBehaviour
         _paused = false;
         SoundManager.Instance.PlaySound(SoundManager.SoundName.UI_CLICK);
         CalculateQuestionFrec();
+
     }
 
     public void InitLevel()
@@ -876,6 +879,28 @@ public class MisionLevelManager : MonoBehaviour
         // Mira si se cumple la regla
         if (hourDiff > _locationFrec)
             _isLocationSentGood = false;
+    }
+
+    void CheckHoursBeforeStartHour()
+    {
+        int i = 0;
+        // Si alguna hora es mayor que la hora de inicio
+        while (i < selectedSleepTimes.Count && selectedSleepTimes[i].Hours < _gameClock.Hours)
+        {
+            // Le pongo el cross y resto las horas q no ha dormido
+            int index = _selectedSleepTimes.IndexOf(selectedSleepTimes[i].GetHString());
+            _misionUIManager.SetSleepTick(index, false);
+
+            // Resto horas no dormidas
+            if ((i + 1) < selectedSleepTimes.Count && selectedSleepTimes[i].GetHoursInBetween(selectedSleepTimes[i + 1].Hours) < _hourPerSleep)
+            {
+                _sleptHours -= selectedSleepTimes[i].GetHoursInBetween(selectedSleepTimes[i + 1].Hours);
+            }
+            else
+                _sleptHours -= _hourPerSleep;
+
+            selectedSleepTimes.RemoveAt(i);
+        }
     }
 
     void GoToResumenScreen()
