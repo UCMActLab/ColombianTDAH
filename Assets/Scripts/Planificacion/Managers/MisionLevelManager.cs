@@ -268,26 +268,31 @@ public class MisionLevelManager : MonoBehaviour
             // Comprueba si se cumple la regla
             CheckLocationSent();
 
-            // Si es igual o menor sinifica q se ha saltado la hora de mandar ubicacion
-            while (_locHoursList.Count != 0 && _auxHourClock >= _locHoursList[0].Hours)
-            {
-                // Evento
-                string mensaje = "Envio de ubicacion omitido";
-                EventRegister.Instance.AddToEvnt(Tuple.Create(EventRegister.EventosInfo.MCUbicacionOmisionEnvio, mensaje));
-                EventRegister.Instance.EvntToJson();
-
-                // Pongo cross en UI
-                _misionUIManager.SetLocationTick(_selectedLocationHours.IndexOf(_locHoursList[0].GetHString()), false);
-
-                // Elimino hora de la lista
-                _locHoursList.RemoveAt(0);
-            }
+            UpdateLocationAux();
 
             // Actualizo e igualo auxde reloj
             _auxHourClock = _gameClock.Hours;
 
             if (!_init)
                 _init = true;
+        }
+    }
+
+    void UpdateLocationAux()
+    {
+        // Si es igual o menor sinifica q se ha saltado la hora de mandar ubicacion
+        while (_locHoursList.Count != 0 && _auxHourClock >= _locHoursList[0].Hours)
+        {
+            // Evento
+            string mensaje = "Envio de ubicacion omitido";
+            EventRegister.Instance.AddToEvnt(Tuple.Create(EventRegister.EventosInfo.MCUbicacionOmisionEnvio, mensaje));
+            EventRegister.Instance.EvntToJson();
+
+            // Pongo cross en UI
+            _misionUIManager.SetLocationTick(_selectedLocationHours.IndexOf(_locHoursList[0].GetHString()), false);
+
+            // Elimino hora de la lista
+            _locHoursList.RemoveAt(0);
         }
     }
 
@@ -327,6 +332,7 @@ public class MisionLevelManager : MonoBehaviour
 
             // Sumo horas dormidas
             _gameClock += new HourMinSec(_hourPerSleep, 0, 0);
+            _auxHourClock = _gameClock.Hours;
 
             // Evento comienzo dormir
             mensaje = "Comienza a dormir";
@@ -341,6 +347,12 @@ public class MisionLevelManager : MonoBehaviour
             mensaje = "Termina de dormir";
             EventRegister.Instance.AddToEvnt(Tuple.Create(EventRegister.EventosInfo.MCTerminoDormir, mensaje));
             EventRegister.Instance.EvntToJson();
+
+            // Comprueba horas de dormir y pone tick a true
+            CheckSleepHours(true);
+
+            // Comprueba horas de ubicacion
+            UpdateLocationAux();
         }
     }
     void SleepQuestion()
@@ -883,22 +895,33 @@ public class MisionLevelManager : MonoBehaviour
 
     void CheckHoursBeforeStartHour()
     {
+        // Comprueba horas de dormir
+        CheckSleepHours(false);
+
+        // Comprueba horas de ubicacion
+        UpdateLocationAux();
+    }
+
+    void CheckSleepHours(bool tick)
+    {
         int i = 0;
         // Si alguna hora es mayor que la hora de inicio
         while (i < selectedSleepTimes.Count && selectedSleepTimes[i].Hours < _gameClock.Hours)
         {
             // Le pongo el cross y resto las horas q no ha dormido
             int index = _selectedSleepTimes.IndexOf(selectedSleepTimes[i].GetHString());
-            _misionUIManager.SetSleepTick(index, false);
+            _misionUIManager.SetSleepTick(index, tick);
 
-            // Resto horas no dormidas
-            if ((i + 1) < selectedSleepTimes.Count && selectedSleepTimes[i].GetHoursInBetween(selectedSleepTimes[i + 1].Hours) < _hourPerSleep)
+            if (!tick)
             {
-                _sleptHours -= selectedSleepTimes[i].GetHoursInBetween(selectedSleepTimes[i + 1].Hours);
+                // Resto horas no dormidas
+                if ((i + 1) < selectedSleepTimes.Count && selectedSleepTimes[i].GetHoursInBetween(selectedSleepTimes[i + 1].Hours) < _hourPerSleep)
+                {
+                    _sleptHours -= selectedSleepTimes[i].GetHoursInBetween(selectedSleepTimes[i + 1].Hours);
+                }
+                else
+                    _sleptHours -= _hourPerSleep;
             }
-            else
-                _sleptHours -= _hourPerSleep;
-
             selectedSleepTimes.RemoveAt(i);
         }
     }
