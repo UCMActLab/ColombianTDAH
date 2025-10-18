@@ -1,8 +1,6 @@
 using System.Collections.Generic;
-using Unity.VisualScripting.FullSerializer;
 using UnityEngine;
 using UnityEngine.UIElements;
-using static UnityEngine.Rendering.STP;
 
 public class UIConfigQuestion : MonoBehaviour
 {

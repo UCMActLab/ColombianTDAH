@@ -1,9 +1,5 @@
-using NUnit.Framework;
-using System;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UIElements;
-using static Unity.VisualScripting.Metadata;
 
 public class StickerManager : MonoBehaviour
 {

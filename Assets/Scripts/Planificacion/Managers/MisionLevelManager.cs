@@ -1,11 +1,6 @@
-using System;
-using System.Collections;
+using System;                
 using System.Collections.Generic;
-using Unity.VisualScripting;
-using Unity.VisualScripting.FullSerializer;
 using UnityEngine;
-using UnityEngine.InputSystem;
-using static UnityEngine.Rendering.STP;
 
 
 public class MisionLevelManager : MonoBehaviour
@@ -641,6 +636,16 @@ public class MisionLevelManager : MonoBehaviour
                 mensaje = "No se cumplen las reglas";
                 EventRegister.Instance.AddToEvnt(Tuple.Create(EventRegister.EventosInfo.MCReglasIncumplidas, mensaje));
                 EventRegister.Instance.EvntToJson();
+
+                if(!(_stopsN <= _selectedStops.Count)) {
+                    Debug.Log("Paradas mal");
+                }
+                if(!(_sleepHours <= _totalSleepHours))
+                    Debug.Log("Dormir mal");
+                if(!(totalTimeCorrect))
+                    Debug.Log("Duracion viaje mal");
+                if(!(totalLocMessCorrect))
+                    Debug.Log("Ubicacion mal");
             }
         }
     }
@@ -669,7 +674,12 @@ public class MisionLevelManager : MonoBehaviour
             {
                 // True si de la hora de inicio hasta el primer aviso de ubicacion y desde el ultimo aviso hasta el final hay menos de la frecuencia de aviso
                 HourMinSec startTime = new HourMinSec(_startTime);
-                totalLocMessCorrect = (startTime.GetHoursInBetween(selectedLocationHours[0].Hours)) <= _locationFrec && (_totalDurationMins - 60 * (startTime.GetHoursInBetween(selectedLocationHours[nElem - 1].Hours)) <= (_locationFrec * 60));
+                int j = 0;
+                while (selectedLocationHours[j].Hours < startTime.Hours)
+                    j++;
+                bool initHour = (startTime.GetHoursInBetween(selectedLocationHours[j].Hours)) <= _locationFrec;
+                int calculo = _totalDurationMins - 60 * (startTime.GetHoursInBetween(selectedLocationHours[nElem - 1].Hours));
+                totalLocMessCorrect = initHour && (calculo <= (_locationFrec * 60));
 
             }
             else
