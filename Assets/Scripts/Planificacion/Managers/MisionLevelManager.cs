@@ -861,6 +861,11 @@ public class MisionLevelManager : MonoBehaviour
 
             if (_isSelectedStopQuestion)
                 _misionUIManager.SetStopTick(_indexUIQuestion, false);
+            else
+            {
+                _gameClock += new HourMinSec(0, _stopMins, 0);
+                _misionUIManager.ChangeTime(_gameClock); // Cambio en UI
+            }
         }
 
         SoundManager.Instance.PlaySound(SoundManager.SoundName.BAD_ANSWER);
@@ -961,7 +966,7 @@ public class MisionLevelManager : MonoBehaviour
 
         int realDuration = new HourMinSec(int.Parse(auxString) + aux, 0, 0).GetHoursInBetween(_gameClock.Hours);
 
-        return _goodStopAnswers >= _stopsN && _sleptHours >= _totalSleepHours && _isLocationSentGood && realDuration < _durationMax;
+        return _goodStopAnswers >= _stopsN && _sleptHours >= _sleepHours && _isLocationSentGood && realDuration < _durationMax;
         // Si no se pasa del tiempo maximo
     }
 
