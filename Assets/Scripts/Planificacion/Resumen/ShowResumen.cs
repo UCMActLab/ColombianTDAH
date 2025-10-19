@@ -160,21 +160,18 @@ public class ShowResumen : MonoBehaviour
                 collectNumber = 0;
                 sl.SetCollectablesInfo(currentLevel, collectNumber, true);
                 collectablesGO[collectNumber].SetActive(true);
-                Debug.Log("MUSIKA: Current Level: " + currentLevel + " Colleccionable: " + collectNumber);
             }
             if (toy && currentLevel < maxLevel)
             {
                 collectNumber = 1;
                 sl.SetCollectablesInfo(currentLevel, collectNumber, true);
                 collectablesGO[collectNumber].SetActive(true);
-                Debug.Log("MUSIKA: Current Level: " + currentLevel + " Colleccionable: " + collectNumber);
             }
             if (sticker)
             {
                 collectNumber = 2;
                 sl.SetCollectablesInfo(currentLevel - 1, collectNumber, true);
                 collectablesGO[collectNumber].SetActive(true);
-                Debug.Log("STICKER: Current Level: " + currentLevel + " Colleccionable: " + collectNumber);
             }
 
         }
