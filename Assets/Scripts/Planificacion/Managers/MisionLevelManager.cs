@@ -458,7 +458,6 @@ public class MisionLevelManager : MonoBehaviour
         _misionUIManager = misionUIManager;
         _selectedInitialStops = new List<string>(_selectedStops);
         _misionUIManager.SetStops(_selectedStops);
-        Debug.Log("Hora de salida register: " + _gameClock.GetString());
         _misionUIManager.SetStartTime(_gameClock);
         _misionUIManager.SetSleepHours(_selectedSleepTimes);
         _misionUIManager.SetLocationHours(_selectedLocationHours);
@@ -676,7 +675,13 @@ public class MisionLevelManager : MonoBehaviour
                 while (selectedLocationHours[j].Hours < startTime.Hours)
                     j++;
 
-                totalLocMessCorrect = (startTime.GetHoursInBetween(selectedLocationHours[j].Hours) <= _locationFrec) && (selectedLocationHours[nElem - 1].GetHoursInBetween(0) <= _locationFrec);
+                bool initLocHour = true;
+                if(j < selectedLocationHours.Count)
+                {
+                    initLocHour = (startTime.GetHoursInBetween(selectedLocationHours[j].Hours) <= _locationFrec);
+                }
+
+                totalLocMessCorrect = initLocHour && (selectedLocationHours[nElem - 1].GetHoursInBetween(0) <= _locationFrec);
             }
             else
                 totalLocMessCorrect = _totalDurationMins <= _locationFrec * 60;
