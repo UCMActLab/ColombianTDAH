@@ -329,7 +329,7 @@ public class MisionLevelManager : MonoBehaviour
                 _end = true;
 
             _gameClock += new HourMinSec(_hourPerSleep, 0, 0);
-            _auxHourClock = _gameClock.Hours;
+            _auxHourClock = _gameClock.Hours-1;
 
             // Evento comienzo dormir
             mensaje = "Comienza a dormir";
@@ -428,6 +428,9 @@ public class MisionLevelManager : MonoBehaviour
                 string mensaje = "Respuesta de parada SI";
                 EventRegister.Instance.AddToEvnt(Tuple.Create(EventRegister.EventosInfo.MCRespuestaParadaSi, mensaje));
                 EventRegister.Instance.EvntToJson();
+
+                _gameClock += new HourMinSec(0, _stopMins, 0);
+                _misionUIManager.ChangeTime(_gameClock); // Cambio en UI
             }
             else
             {
@@ -672,10 +675,8 @@ public class MisionLevelManager : MonoBehaviour
                 int j = 0;
                 while (selectedLocationHours[j].Hours < startTime.Hours)
                     j++;
-                bool initHour = (startTime.GetHoursInBetween(selectedLocationHours[j].Hours)) <= _locationFrec;
-                int calculo = _totalDurationMins - 60 * (startTime.GetHoursInBetween(selectedLocationHours[nElem - 1].Hours));
-                totalLocMessCorrect = initHour && (calculo <= (_locationFrec * 60));
 
+                totalLocMessCorrect = (startTime.GetHoursInBetween(selectedLocationHours[j].Hours) <= _locationFrec) && (selectedLocationHours[nElem - 1].GetHoursInBetween(0) <= _locationFrec);
             }
             else
                 totalLocMessCorrect = _totalDurationMins <= _locationFrec * 60;
