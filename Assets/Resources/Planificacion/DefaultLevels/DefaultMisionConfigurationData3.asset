@@ -32,13 +32,13 @@ MonoBehaviour:
   Questions:
     list:
     - Key: Hotel
-      Value: "Hay un hotel cerca, \xBFquieres parar??"
+      Value: "Hay un hotel cerca, \xBFquieres parar?"
     - Key: Gasolinera
-      Value: "HAy una estaci\xF3n de gasolina cerca, \xBFparamos a repostar??"
+      Value: "Hay una estaci\xF3n de gasolina cerca, \xBFparamos a repostar?"
     - Key: "Restaurante t\xEDpico"
       Value: "\xA1Qu\xE9 bien huele! \xBFParamos a comer?"
     - Key: Parque
-      Value: "Hay un parque de juegos cerca, \xBFparamos a divertirnos??"
+      Value: "Hay un parque de juegos cerca, \xBFparamos a divertirnos?"
   _distractionStops:
   - Parque
   _selectableStops:

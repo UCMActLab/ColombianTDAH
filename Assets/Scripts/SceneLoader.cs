@@ -276,7 +276,6 @@ public class SceneLoader : MonoBehaviour
     // Enable collectable
     public void SetCollectablesInfo(int level, int collectable, bool enabled)
     {
-        Debug.Log("Level: " + level + " Collectable: " + collectable);
         misionColombiaData.collectables[level][collectable] = enabled;
     }
 

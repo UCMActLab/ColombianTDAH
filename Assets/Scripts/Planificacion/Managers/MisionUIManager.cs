@@ -115,13 +115,11 @@ public class MisionUIManager : MonoBehaviour
     // Cambia tiempo de la hora
     public void ChangeTime(HourMinSec newTime)
     {
-        Debug.Log("Hora de inicio: " + newTime.GetString());
         _time.text = newTime.GetHMString();
     }
 
     public void SetStartTime(HourMinSec newTime)
     {
-        Debug.Log("Hora recogida en UI: " + newTime.GetString());
         _planificationListComp.SetDepartureTime(newTime.GetHString());
 
         ChangeTime(newTime);

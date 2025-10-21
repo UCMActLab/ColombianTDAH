@@ -1,4 +1,4 @@
-using System;                
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -29,6 +29,7 @@ public class MisionLevelManager : MonoBehaviour
     // Estados
     bool _init = false;
     bool _paused = true;
+    bool _end = false;
     bool _shouldSleep = false;
     bool _sleeping = false;
     bool _anyQuestionsLeft = true;
@@ -138,9 +139,7 @@ public class MisionLevelManager : MonoBehaviour
             if (_isAnswering) UpdateTime();
             else UpdateClock();
 
-            GoToResumenScreen();
-
-            isLevelFinished();
+            IsLevelFinished();
         }
     }
 
@@ -326,8 +325,11 @@ public class MisionLevelManager : MonoBehaviour
             _misionUIManager.SetSleepTick(index, true);
 
             // Sumo horas dormidas
+            if (_gameClock.Hours + _hourPerSleep >= 24)
+                _end = true;
+
             _gameClock += new HourMinSec(_hourPerSleep, 0, 0);
-            _auxHourClock = _gameClock.Hours;
+            _auxHourClock = _gameClock.Hours-1;
 
             // Evento comienzo dormir
             mensaje = "Comienza a dormir";
@@ -348,6 +350,9 @@ public class MisionLevelManager : MonoBehaviour
 
             // Comprueba horas de ubicacion
             UpdateLocationAux();
+
+            if (_end)
+                GoToResumenScreen();
         }
     }
     void SleepQuestion()
@@ -423,6 +428,9 @@ public class MisionLevelManager : MonoBehaviour
                 string mensaje = "Respuesta de parada SI";
                 EventRegister.Instance.AddToEvnt(Tuple.Create(EventRegister.EventosInfo.MCRespuestaParadaSi, mensaje));
                 EventRegister.Instance.EvntToJson();
+
+                _gameClock += new HourMinSec(0, _stopMins, 0);
+                _misionUIManager.ChangeTime(_gameClock); // Cambio en UI
             }
             else
             {
@@ -450,7 +458,6 @@ public class MisionLevelManager : MonoBehaviour
         _misionUIManager = misionUIManager;
         _selectedInitialStops = new List<string>(_selectedStops);
         _misionUIManager.SetStops(_selectedStops);
-        Debug.Log("Hora de salida register: " + _gameClock.GetString());
         _misionUIManager.SetStartTime(_gameClock);
         _misionUIManager.SetSleepHours(_selectedSleepTimes);
         _misionUIManager.SetLocationHours(_selectedLocationHours);
@@ -636,16 +643,6 @@ public class MisionLevelManager : MonoBehaviour
                 mensaje = "No se cumplen las reglas";
                 EventRegister.Instance.AddToEvnt(Tuple.Create(EventRegister.EventosInfo.MCReglasIncumplidas, mensaje));
                 EventRegister.Instance.EvntToJson();
-
-                if(!(_stopsN <= _selectedStops.Count)) {
-                    Debug.Log("Paradas mal");
-                }
-                if(!(_sleepHours <= _totalSleepHours))
-                    Debug.Log("Dormir mal");
-                if(!(totalTimeCorrect))
-                    Debug.Log("Duracion viaje mal");
-                if(!(totalLocMessCorrect))
-                    Debug.Log("Ubicacion mal");
             }
         }
     }
@@ -677,10 +674,14 @@ public class MisionLevelManager : MonoBehaviour
                 int j = 0;
                 while (selectedLocationHours[j].Hours < startTime.Hours)
                     j++;
-                bool initHour = (startTime.GetHoursInBetween(selectedLocationHours[j].Hours)) <= _locationFrec;
-                int calculo = _totalDurationMins - 60 * (startTime.GetHoursInBetween(selectedLocationHours[nElem - 1].Hours));
-                totalLocMessCorrect = initHour && (calculo <= (_locationFrec * 60));
 
+                bool initLocHour = true;
+                if(j < selectedLocationHours.Count)
+                {
+                    initLocHour = (startTime.GetHoursInBetween(selectedLocationHours[j].Hours) <= _locationFrec);
+                }
+
+                totalLocMessCorrect = initLocHour && (selectedLocationHours[nElem - 1].GetHoursInBetween(0) <= _locationFrec);
             }
             else
                 totalLocMessCorrect = _totalDurationMins <= _locationFrec * 60;
@@ -860,6 +861,11 @@ public class MisionLevelManager : MonoBehaviour
 
             if (_isSelectedStopQuestion)
                 _misionUIManager.SetStopTick(_indexUIQuestion, false);
+            else
+            {
+                _gameClock += new HourMinSec(0, _stopMins, 0);
+                _misionUIManager.ChangeTime(_gameClock); // Cambio en UI
+            }
         }
 
         SoundManager.Instance.PlaySound(SoundManager.SoundName.BAD_ANSWER);
@@ -938,18 +944,15 @@ public class MisionLevelManager : MonoBehaviour
 
     void GoToResumenScreen()
     {
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-            SoundManager.Instance.DestroySoundManager();
-            SceneLoader.LoadScene("MC_Resumen");
-        }
+        SoundManager.Instance.DestroySoundManager();
+        SceneLoader.LoadScene("MC_Resumen");
     }
-    void isLevelFinished()
+
+    void IsLevelFinished()
     {
         if (_init && _gameClock.Hours == 0)
         {
-            SoundManager.Instance.DestroySoundManager();
-            SceneLoader.LoadScene("MC_Resumen");
+            GoToResumenScreen();
         }
     }
 
@@ -963,7 +966,7 @@ public class MisionLevelManager : MonoBehaviour
 
         int realDuration = new HourMinSec(int.Parse(auxString) + aux, 0, 0).GetHoursInBetween(_gameClock.Hours);
 
-        return _goodStopAnswers >= _stopsN && _sleptHours >= _totalSleepHours && _isLocationSentGood && realDuration < _durationMax;
+        return _goodStopAnswers >= _stopsN && _sleptHours >= _sleepHours && _isLocationSentGood && realDuration < _durationMax;
         // Si no se pasa del tiempo maximo
     }
 
