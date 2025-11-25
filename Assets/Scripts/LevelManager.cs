@@ -12,7 +12,9 @@ public class DolphinLevelSelectorManager : MonoBehaviour
     int currentGameType = 1;
     private void Awake()
     {
-        if(_levelSelectors.Length == 0)
+        //Inicializar MoneLibrary en Awake o Enable o Start, donde se considere pertinente, el script debe ser un componente de un elemento en el proyecto
+        MoneLibrary.InitializePlugin("com.beepro.monelib.PluginInstance");
+        if (_levelSelectors.Length == 0)
         {
             _levelSelectors = GetComponentsInChildren<DolphinLevelSelector>();
         }
