@@ -6,8 +6,10 @@ using static UnityEngine.Rendering.STP;
 
 public class PacienteConfig : MonoBehaviour
 {
+    [SerializeField]
+    private TMP_InputField nombrePacienteInput;
     [SerializeField] 
-    private TMP_InputField pacienteInput;
+    private TMP_InputField idPacienteInput;
     [SerializeField] 
     private TMP_InputField sesionInput;
 
@@ -41,9 +43,13 @@ public class PacienteConfig : MonoBehaviour
             EventRegister.InfoSesion currentInfo = EventRegister.Instance.GetInfoSesion();
 
             // si ya hay datos guardados, ponerlos en los inputs
+            if (!string.IsNullOrWhiteSpace(currentInfo.nombrePaciente))
+            {
+                nombrePacienteInput.text = currentInfo.nombrePaciente;
+            }
             if (!string.IsNullOrWhiteSpace(currentInfo.idPaciente))
             {
-                pacienteInput.text = currentInfo.idPaciente;
+                idPacienteInput.text = currentInfo.idPaciente;
             }
 
             if (!string.IsNullOrWhiteSpace(currentInfo.numeroSesion))
@@ -71,21 +77,22 @@ public class PacienteConfig : MonoBehaviour
 
     public void OnAceptarClicked()
     {
-        string paciente = string.IsNullOrWhiteSpace(pacienteInput.text) ? "TEMP" : pacienteInput.text;
+        string nombrePaciente = string.IsNullOrWhiteSpace(nombrePacienteInput.text) ? "TEMP" : nombrePacienteInput.text;
+        string idPaciente = string.IsNullOrWhiteSpace(idPacienteInput.text) ? "TEMP" : idPacienteInput.text;
         string numSesion = string.IsNullOrWhiteSpace(sesionInput.text) ? "TEMP" : sesionInput.text;
 
         //si cambia el numero de la sesion o el paciente que termine el json para empezar otro al meterse en un juego
-        if (EventRegister.Instance.GetInfoSesion().idPaciente != paciente || EventRegister.Instance.GetInfoSesion().numeroSesion != numSesion)
+        if (EventRegister.Instance.GetInfoSesion().nombrePaciente != nombrePaciente || EventRegister.Instance.GetInfoSesion().idPaciente != idPaciente || EventRegister.Instance.GetInfoSesion().numeroSesion != numSesion)
         {
             EventRegister.Instance.WriteEnd();
 
         }
         //todavia no le ponemos el juego porque no ha entrado a ninguno, se pondra al
-        infoSesion = new EventRegister.InfoSesion(paciente, numSesion, EventRegister.TipoJuego.DefaultGame); 
+        infoSesion = new EventRegister.InfoSesion(nombrePaciente, idPaciente, numSesion, EventRegister.TipoJuego.DefaultGame); 
 
         EventRegister.Instance.SetInfoSesion(infoSesion);
 
-        Debug.Log($"Evento PacienteInfo. Datos guardados: Paciente={paciente}, numsesion={numSesion}");
+        Debug.Log($"Evento PacienteInfo. Datos guardados: Paciente={nombrePaciente}, ID={idPaciente}, numsesion={numSesion}");
 
         //desactivar el canvas actual y ponemos las casas de fondo
         edificios.SetActive(true);

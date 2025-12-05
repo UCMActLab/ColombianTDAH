@@ -19,6 +19,7 @@ public class EventRegister : MonoBehaviour
     int whitePixelsFramesDuation = 10;
     int frameCont = 0;
     bool whitePixelsActive;
+    private bool firstEventWritten = false;
 
     [SerializeField]
     private GameObject whitePixels = null;
@@ -54,17 +55,19 @@ public class EventRegister : MonoBehaviour
     //infosesion esta hecho para crear el nombre del archivo, que sera "$"{id}_{juego}_{fechaStr}_{numSesion}.json"
     public struct InfoSesion
     {
+        public string nombrePaciente;
         public string idPaciente;
         public string numeroSesion;
         public TipoJuego nombreJuego;
-        public DateTime fechaHora;
+        public DateTimeOffset fechaHora;
 
-        public InfoSesion(string paciente, string numSesion, TipoJuego nombreJuego)
+        public InfoSesion(string nombrePaciente, string id, string numSesion, TipoJuego nombreJuego)
         {
-            this.idPaciente = paciente;
+            this.nombrePaciente = nombrePaciente;
+            this.idPaciente = id;
             this.numeroSesion = numSesion;
             this.nombreJuego = nombreJuego;
-            this.fechaHora = DateTime.UtcNow.AddHours(-5);
+            this.fechaHora = NowBogota();
         }
 
         
@@ -360,9 +363,26 @@ public class EventRegister : MonoBehaviour
         WriteTo = System.IO.Path.Combine(WriteDir, WritePath);
 
         Debug.Log($"nuevo path: {WriteTo}");
-        System.IO.StreamWriter file = new System.IO.StreamWriter(WriteTo);
-        file.WriteLine("{ " + $"\"{WritePath}\": [");
-        file.Close();
+        using (var file = new System.IO.StreamWriter(WriteTo))
+        {
+            string nombre = infoSesion.nombrePaciente ?? string.Empty;
+            string docId = infoSesion.idPaciente ?? string.Empty; // documentoIdentidad
+            string sesion = infoSesion.numeroSesion ?? string.Empty;
+            string juego = infoSesion.nombreJuego.ToString();
+
+            // fechaInicio = infoSesion.fechaHora (UTC)
+            string fechaIni = infoSesion.fechaHora.ToString("yyyy-MM-dd'T'HH:mm:ss'Z'");
+
+            file.WriteLine("{");
+            file.WriteLine($"  \"nombrePaciente\": \"{Escape(nombre)}\",");
+            file.WriteLine($"  \"documentoIdentidad\": \"{Escape(docId)}\",");
+            file.WriteLine($"  \"numeroSesion\": \"{Escape(sesion)}\",");
+            file.WriteLine($"  \"tipoJuego\": \"{Escape(juego)}\",");
+            file.WriteLine($"  \"fechaInicio\": \"{fechaIni}\",");
+            file.WriteLine($"  \"interacciones\": [");
+        }
+
+        firstEventWritten = false;
         canWrite = true;
     }
     private void CreateDir()
@@ -408,37 +428,34 @@ public class EventRegister : MonoBehaviour
     public void EvntToJson()
     {
 
-        // Events
-        if (canWrite)
+        if (!canWrite || auxEvntInfo == null || auxEvntInfo.Count == 0) return;
+
+        using (var fs = new System.IO.FileStream(WriteTo, System.IO.FileMode.Append, System.IO.FileAccess.Write))
+        using (var file = new System.IO.StreamWriter(fs))
         {
-            System.IO.FileStream fs = new System.IO.FileStream(WriteTo, System.IO.FileMode.Append, System.IO.FileAccess.Write);
+            // si ya hay eventos escritos, añadimos coma antes de los nuevos
+            if (firstEventWritten)
+                file.WriteLine(",");
 
-
-            string text = "{\n" +
-               $"    \"Tiempo\": \"{DateTime.UtcNow.AddHours(-5):yyyy-MM-dd HH:mm:ss.fff}\",\n" +
-               "    \"Eventos\": [\n        "; // Vamos a poner los eventos en un array por si hay dos o mas eventos del mismo tipo a la vez no tener claves duplicadas
-
-            List<string> eventosJson = new List<string>();
-
-            foreach (var evento in auxEvntInfo)
+            // todos los que haya en auxEvntInfo se escriben en bloque separados por coma
+            for (int i = 0; i < auxEvntInfo.Count; i++)
             {
+                var ev = auxEvntInfo[i];
+                string tiempoIso = NowBogotaIso();
+                string evento = EventoMensajes.TryGetValue(ev.Item1, out var msg) ? msg : ev.Item1.ToString();
+                string detalle = ev.Item2 ?? string.Empty;
 
+                file.Write("    {");
+                file.Write($"\"tiempo\":\"{tiempoIso}\",\"evento\":\"{Escape(evento)}\",\"detalle\":\"{Escape(detalle)}\"");
+                file.Write("}");
 
-                if (EventoMensajes.TryGetValue(evento.Item1, out string mensaje))
-                {
-                    eventosJson.Add($"{{ \"{mensaje}\": \"{evento.Item2}\" }}"); // Algunos item2 (mensaje extra) estan vacios pero no afecta
-                }
+                if (i < auxEvntInfo.Count - 1)
+                    file.WriteLine(",");
             }
 
-            text += string.Join(",\n        ", eventosJson);
-            text += "]\n},";
-
-            System.IO.StreamWriter file = new System.IO.StreamWriter(fs);
-            file.WriteLine(text);
-            file.Close();
-            fs.Close();
+            firstEventWritten = true;
         }
-        
+
         auxEvntInfo.Clear();
     }
 
@@ -452,13 +469,15 @@ public class EventRegister : MonoBehaviour
     {
         if (!canWrite) return; // Si no está empezada la escritura que tampoco pueda finalizarse
 
-        Debug.Log("Escribiendo fin del json.");
-        System.IO.FileStream fs = new System.IO.FileStream(WriteTo, System.IO.FileMode.Append, System.IO.FileAccess.Write);
-        string text = "{\n" + "    \"Time\": \"" + DateTime.UtcNow.AddHours(-5).ToString("yyyy-MM-dd HH:mm:ss.fff") + "\" , \n    \"Test\": \"Acabado\" } ]}";
-        System.IO.StreamWriter file = new System.IO.StreamWriter(fs);
-        file.WriteLine(text);
-        file.Close();
-        fs.Close();
+        using (var fs = new System.IO.FileStream(WriteTo, System.IO.FileMode.Append, System.IO.FileAccess.Write))
+        using (var file = new System.IO.StreamWriter(fs))
+        {
+            file.WriteLine();                      
+            file.WriteLine("  ],");                
+            string fechaFin = NowBogotaIso();
+            file.WriteLine($"  \"fechaFin\": \"{fechaFin}\"");
+            file.WriteLine("}");
+        }
         canWrite = false;
 
         // volvemos a sin .json
@@ -538,5 +557,34 @@ public class EventRegister : MonoBehaviour
         return infoSesion.idPaciente;
     }
 
+    private static string Escape(string s)
+    {
+        return string.IsNullOrEmpty(s) ? string.Empty : s.Replace("\\", "\\\\").Replace("\"", "\\\"");
+    }
 
+    // Hora Colombia (Bogotá) 
+    private static TimeZoneInfo _bogotaTz;
+
+    private static TimeZoneInfo GetBogotaTz()
+    {
+        if (_bogotaTz != null) return _bogotaTz;
+
+        // Intentamos primero ID de Unix (Android, macOS, Linux)
+        try { _bogotaTz = TimeZoneInfo.FindSystemTimeZoneById("America/Bogota"); return _bogotaTz; } catch { }
+
+        // Luego ID de Windows
+        try { _bogotaTz = TimeZoneInfo.FindSystemTimeZoneById("SA Pacific Standard Time"); return _bogotaTz; } catch { }
+
+        // Fallback: usamos UTC 
+        _bogotaTz = TimeZoneInfo.Utc;
+        return _bogotaTz;
+    }
+
+    private static DateTimeOffset NowBogota()
+    {
+        var tz = GetBogotaTz();
+        return TimeZoneInfo.ConvertTime(DateTimeOffset.UtcNow, tz);
+    }
+
+    private static string NowBogotaIso() => NowBogota().ToString("o"); // ISO 8601 con offset -05:00
 }
